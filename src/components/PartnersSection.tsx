@@ -2,31 +2,46 @@
 import { Card, CardContent } from "@/components/ui/card";
 
 const PartnersSection = () => {
-  // Placeholder partner logos - you can replace these with actual partner logos
   const partners = [
     {
-      name: "Partner 1",
-      logo: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=200&h=100&fit=crop&crop=center",
+      name: "180 Degrees Consulting",
+      logo: "/lovable-uploads/7e1934b2-0701-49e5-93ad-6ab90232c310.png",
     },
     {
-      name: "Partner 2", 
-      logo: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=200&h=100&fit=crop&crop=center",
+      name: "CA Training", 
+      logo: "/lovable-uploads/b7c3f4ad-5533-4a69-83d1-4b3bc50d0a16.png",
     },
     {
-      name: "Partner 3",
-      logo: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=200&h=100&fit=crop&crop=center",
+      name: "E-Cell IIT Bombay",
+      logo: "/lovable-uploads/aa112f11-643e-4b67-9a93-974fcb1475f6.png",
     },
     {
-      name: "Partner 4",
-      logo: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=200&h=100&fit=crop&crop=center",
+      name: "E-Cell IIT Jodhpur",
+      logo: "/lovable-uploads/094264e8-61c4-48a8-a96b-6b78477b5858.png",
     },
     {
-      name: "Partner 5",
-      logo: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=200&h=100&fit=crop&crop=center",
+      name: "E-Cell IIT Madras",
+      logo: "/lovable-uploads/a4d64569-ea01-4a58-9f74-c6fbe55e2dac.png",
     },
     {
-      name: "Partner 6",
-      logo: "https://images.unsplash.com/photo-1611224923853-80b023f02d71?w=200&h=100&fit=crop&crop=center",
+      name: "E-Cell IIM Kashipur",
+      logo: "/lovable-uploads/fcc84eb8-4fef-4b4a-8292-66ffe9aab2f7.png",
+    },
+    {
+      name: "E-Cell IIMT",
+      logo: "/lovable-uploads/c1e2f504-90d9-4f49-b3dc-e1af5c89ba19.png",
+    },
+    {
+      name: "Partner 8",
+      logo: "/lovable-uploads/ea5dd580-c77b-4029-9a09-93bb9eeaec64.png",
+    },
+    {
+      name: "eDC IIT Delhi",
+      logo: "/lovable-uploads/e78494d6-eb08-4726-9304-623b36273291.png",
+    },
+    {
+      name: "SpaceCon 2025",
+      logo: "/lovable-uploads/99be4bce-11ae-41eb-85bb-166a094c8952.png",
     },
   ];
 
@@ -36,11 +51,11 @@ const PartnersSection = () => {
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold mb-4 text-gray-800">Our Partners</h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            We collaborate with industry leaders to provide you with the best learning experience and opportunities
+            We collaborate with industry leaders and prestigious institutions to provide you with the best learning experience and opportunities
           </p>
         </div>
         
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-8">
           {partners.map((partner, index) => (
             <Card key={index} className="hover:shadow-lg transition-all duration-300 hover:scale-105 bg-white/80 backdrop-blur-sm">
               <CardContent className="p-6 flex items-center justify-center">
