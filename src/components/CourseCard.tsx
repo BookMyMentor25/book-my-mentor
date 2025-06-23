@@ -18,6 +18,11 @@ interface CourseCardProps {
 }
 
 const CourseCard = ({ title, description, duration, sessions, features, plans }: CourseCardProps) => {
+  const handlePlanSelect = (plan: { name: string; price: string; duration: string; projects: string }) => {
+    const courseTitle = `${title} - ${plan.name}`;
+    window.location.href = `/checkout?course=${encodeURIComponent(courseTitle)}&price=${encodeURIComponent(plan.price)}`;
+  };
+
   return (
     <div className="space-y-6">
       <Card className="overflow-hidden hover:shadow-lg transition-shadow duration-300">
@@ -61,7 +66,10 @@ const CourseCard = ({ title, description, duration, sessions, features, plans }:
                 <div>Duration: {plan.duration}</div>
                 <div>Live Projects: {plan.projects}</div>
               </div>
-              <Button className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
+              <Button 
+                onClick={() => handlePlanSelect(plan)}
+                className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+              >
                 Choose Plan
               </Button>
             </CardContent>

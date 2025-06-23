@@ -1,5 +1,5 @@
 
-import { ArrowRight, CheckCircle, Users, Briefcase, GraduationCap } from "lucide-react";
+import { ArrowRight, CheckCircle, Users, Briefcase, GraduationCap, Star } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Header from "@/components/Header";
@@ -39,6 +39,25 @@ const Index = () => {
     "Certificate of Achievement as a Product Management Intern",
     "CV pointers approval for students"
   ];
+
+  const testimonials = [
+    {
+      text: "This mentorship program is well designed for aspirants to learn and apply those learnings by doing project. Mentors play a vital role in shaping the entire learning and guiding towards improvement.",
+      author: "Vishal Singh"
+    },
+    {
+      text: "It had been a good learning experience with book my mentor!",
+      author: "Astha Dable"
+    },
+    {
+      text: "Book My Mentor is a Great and supportive community where we can learn industry standards knowledge and process in a flexible, convenient manner. The coach Mr.Najmus is a highly skilled, Talented and people friendly person who takes good efforts and care in guiding and coaching. Great team and content in a affordable price. Hats off to their dedication, support and efforts. I will recommend this to everyone who are looking for upskilling in their career.",
+      author: "Dhilip Prasanna"
+    }
+  ];
+
+  const handleCourseSelect = (courseType: string, price: string) => {
+    window.location.href = `/checkout?course=${encodeURIComponent(courseType)}&price=${encodeURIComponent(price)}`;
+  };
 
   return (
     <div className="min-h-screen">
@@ -184,8 +203,11 @@ const Index = () => {
                 </div>
                 <div className="flex items-center justify-center">
                   <div className="text-center">
-                    <div className="text-4xl font-bold text-blue-600 mb-4">Contact for Pricing</div>
-                    <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-lg px-8 py-3">
+                    <div className="text-4xl font-bold text-blue-600 mb-4">₹8,000</div>
+                    <Button 
+                      onClick={() => handleCourseSelect("Lean Startup", "₹8,000")}
+                      className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-lg px-8 py-3"
+                    >
                       Get Started
                     </Button>
                   </div>
@@ -215,14 +237,47 @@ const Index = () => {
                 </div>
                 <div className="flex items-center justify-center">
                   <div className="text-center">
-                    <div className="text-4xl font-bold text-blue-600 mb-4">Contact for Pricing</div>
-                    <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-lg px-8 py-3">
+                    <div className="text-4xl font-bold text-blue-600 mb-4">₹10,000</div>
+                    <Button 
+                      onClick={() => handleCourseSelect("Project Management", "₹10,000")}
+                      className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-lg px-8 py-3"
+                    >
                       Get Started
                     </Button>
                   </div>
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Testimonials Section */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold mb-4 text-gray-800">What Our Students Say</h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Real experiences from students who transformed their careers with Book My Mentor
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {testimonials.map((testimonial, index) => (
+              <Card key={index} className="hover:shadow-lg transition-shadow duration-300">
+                <CardHeader>
+                  <div className="flex items-center space-x-1 mb-4">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
+                    ))}
+                  </div>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-gray-600 mb-4 italic">"{testimonial.text}"</p>
+                  <p className="font-semibold text-gray-800">- {testimonial.author}</p>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </div>
       </section>
