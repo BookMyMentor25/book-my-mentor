@@ -1,81 +1,107 @@
 
-import { useState, useEffect } from "react";
-import { Button } from "@/components/ui/button";
+import React, { useState, useEffect } from "react";
+import { useSearchParams, useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ArrowLeft, Tag, CheckCircle } from "lucide-react";
+import { Separator } from "@/components/ui/separator";
+import { ArrowLeft, CreditCard, Phone, Mail, User, MapPin } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import WhatsAppButton from "@/components/WhatsAppButton";
 
 const Checkout = () => {
-  const [courseType, setCourseType] = useState("");
-  const [originalPrice, setOriginalPrice] = useState("");
-  const [currentPrice, setCurrentPrice] = useState("");
-  const [referralCode, setReferralCode] = useState("");
-  const [discountApplied, setDiscountApplied] = useState(false);
-  const [discountAmount, setDiscountAmount] = useState(0);
-
+  const [searchParams] = useSearchParams();
+  const navigate = useNavigate();
+  const { toast } = useToast();
+  
+  const course = searchParams.get('course') || 'Product Management';
+  const price = searchParams.get('price') || '₹6,000';
+  
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    address: "",
-    city: "",
-    state: "",
-    pincode: ""
+    name: '',
+    email: '',
+    phone: '',
+    address: '',
+    city: '',
+    state: '',
+    pincode: '',
   });
 
-  useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const course = urlParams.get("course") || "";
-    const price = urlParams.get("price") || "";
-    
-    setCourseType(course);
-    setOriginalPrice(price);
-    setCurrentPrice(price);
-  }, []);
+  const [isProcessing, setIsProcessing] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
   };
 
-  const applyReferralCode = () => {
-    if (referralCode.toLowerCase() === "save20" || referralCode.toLowerCase() === "student20") {
-      const priceNumber = parseInt(originalPrice.replace(/[^\d]/g, ""));
-      const discount = Math.floor(priceNumber * 0.2);
-      const newPrice = priceNumber - discount;
-      
-      setCurrentPrice(`₹${newPrice.toLocaleString()}`);
-      setDiscountAmount(discount);
-      setDiscountApplied(true);
-    } else if (referralCode.toLowerCase() === "first10") {
-      const priceNumber = parseInt(originalPrice.replace(/[^\d]/g, ""));
-      const discount = Math.floor(priceNumber * 0.1);
-      const newPrice = priceNumber - discount;
-      
-      setCurrentPrice(`₹${newPrice.toLocaleString()}`);
-      setDiscountAmount(discount);
-      setDiscountApplied(true);
-    } else {
-      alert("Invalid referral code. Try SAVE20, STUDENT20, or FIRST10");
-    }
-  };
-
-  const removeDiscount = () => {
-    setCurrentPrice(originalPrice);
-    setDiscountApplied(false);
-    setDiscountAmount(0);
-    setReferralCode("");
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    alert("Thank you for your order! Our team will contact you shortly to complete the enrollment process.");
+    setIsProcessing(true);
+
+    // Validate form
+    if (!formData.name || !formData.email || !formData.phone) {
+      toast({
+        title: "Missing Information",
+        description: "Please fill in all required fields.",
+        variant: "destructive",
+      });
+      setIsProcessing(false);
+      return;
+    }
+
+    try {
+      // Prepare order details
+      const orderDetails = {
+        ...formData,
+        course,
+        price,
+        paymentStatus: 'Pending',
+        orderDate: new Date().toISOString(),
+        orderId: `BMM-${Date.now()}`
+      };
+
+      // Send WhatsApp notification to admin
+      if ((window as any).sendOrderNotification) {
+        (window as any).sendOrderNotification(orderDetails);
+      }
+
+      // Show success message
+      toast({
+        title: "Order Placed Successfully!",
+        description: "Our team will contact you shortly for payment and course details.",
+      });
+
+      // Reset form
+      setFormData({
+        name: '',
+        email: '',
+        phone: '',
+        address: '',
+        city: '',
+        state: '',
+        pincode: '',
+      });
+
+      // Redirect after a short delay
+      setTimeout(() => {
+        navigate('/');
+      }, 3000);
+
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Something went wrong. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsProcessing(false);
+    }
   };
 
   return (
@@ -83,95 +109,49 @@ const Checkout = () => {
       <Header />
       
       <div className="container mx-auto px-4 py-8">
-        <div className="mb-6">
-          <Button 
-            variant="ghost" 
-            onClick={() => window.history.back()}
-            className="flex items-center space-x-2"
-          >
-            <ArrowLeft size={20} />
-            <span>Back to Courses</span>
-          </Button>
-        </div>
+        <Button
+          variant="ghost"
+          onClick={() => navigate('/')}
+          className="mb-6 hover:bg-purple-50"
+        >
+          <ArrowLeft className="mr-2" size={16} />
+          Back to Courses
+        </Button>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Order Summary */}
-          <Card>
+          <Card className="h-fit">
             <CardHeader>
-              <CardTitle className="text-2xl">Order Summary</CardTitle>
+              <CardTitle className="flex items-center space-x-2">
+                <CreditCard size={20} />
+                <span>Order Summary</span>
+              </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="border-b pb-4">
-                <h3 className="text-xl font-semibold text-gray-800">{courseType}</h3>
-                <p className="text-gray-600 mt-2">
-                  {courseType === "Lean Startup" && "8-week duration • 15 hours mentorship"}
-                  {courseType === "Project Management" && "8-week duration • 15 hours mentorship"}
+            <CardContent className="space-y-4">
+              <div className="flex justify-between">
+                <span className="font-medium">Course:</span>
+                <span>{course}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="font-medium">Duration:</span>
+                <span>8-12 weeks</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="font-medium">Mentorship:</span>
+                <span>1:1 Sessions</span>
+              </div>
+              <Separator />
+              <div className="flex justify-between text-lg font-bold">
+                <span>Total Amount:</span>
+                <span className="text-purple-600">{price}</span>
+              </div>
+              <div className="bg-purple-50 p-4 rounded-lg">
+                <p className="text-sm text-purple-700">
+                  ✅ Certificate of Achievement<br />
+                  ✅ Live Project Experience<br />
+                  ✅ Mock Interview Session<br />
+                  ✅ CV Review & Approval
                 </p>
-              </div>
-
-              <div className="space-y-4">
-                <div className="flex justify-between">
-                  <span>Course Price:</span>
-                  <span className={discountApplied ? "line-through text-gray-500" : "font-semibold"}>
-                    {originalPrice}
-                  </span>
-                </div>
-                
-                {discountApplied && (
-                  <div className="flex justify-between text-green-600">
-                    <span>Discount Applied:</span>
-                    <span>-₹{discountAmount.toLocaleString()}</span>
-                  </div>
-                )}
-
-                <div className="border-t pt-4">
-                  <div className="flex justify-between text-xl font-bold">
-                    <span>Total:</span>
-                    <span className="text-blue-600">{currentPrice}</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Referral Code Section */}
-              <div className="border-t pt-6">
-                <Label htmlFor="referralCode" className="text-base font-semibold">
-                  Have a Referral Code?
-                </Label>
-                <div className="flex space-x-2 mt-2">
-                  <Input
-                    id="referralCode"
-                    value={referralCode}
-                    onChange={(e) => setReferralCode(e.target.value)}
-                    placeholder="Enter code (e.g., SAVE20)"
-                    disabled={discountApplied}
-                  />
-                  {!discountApplied ? (
-                    <Button onClick={applyReferralCode} variant="outline">
-                      <Tag size={16} className="mr-1" />
-                      Apply
-                    </Button>
-                  ) : (
-                    <Button onClick={removeDiscount} variant="outline">
-                      Remove
-                    </Button>
-                  )}
-                </div>
-                
-                {discountApplied && (
-                  <div className="flex items-center space-x-2 mt-2 text-green-600">
-                    <CheckCircle size={16} />
-                    <span className="text-sm">Referral code applied successfully!</span>
-                  </div>
-                )}
-
-                <div className="mt-3 text-sm text-gray-600">
-                  <p>Available codes:</p>
-                  <ul className="list-disc list-inside mt-1 space-y-1">
-                    <li>SAVE20 - 20% off</li>
-                    <li>STUDENT20 - 20% student discount</li>
-                    <li>FIRST10 - 10% first-time customer</li>
-                  </ul>
-                </div>
               </div>
             </CardContent>
           </Card>
@@ -179,67 +159,78 @@ const Checkout = () => {
           {/* Checkout Form */}
           <Card>
             <CardHeader>
-              <CardTitle className="text-2xl">Contact Information</CardTitle>
+              <CardTitle>Student Information</CardTitle>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSubmit} className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
-                    <Label htmlFor="firstName">First Name *</Label>
-                    <Input
-                      id="firstName"
-                      name="firstName"
-                      value={formData.firstName}
-                      onChange={handleInputChange}
-                      required
-                    />
+                    <Label htmlFor="name">Full Name *</Label>
+                    <div className="relative">
+                      <User className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                      <Input
+                        id="name"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleInputChange}
+                        placeholder="Enter your full name"
+                        className="pl-10"
+                        required
+                      />
+                    </div>
                   </div>
+                  
                   <div>
-                    <Label htmlFor="lastName">Last Name *</Label>
-                    <Input
-                      id="lastName"
-                      name="lastName"
-                      value={formData.lastName}
-                      onChange={handleInputChange}
-                      required
-                    />
+                    <Label htmlFor="email">Email Address *</Label>
+                    <div className="relative">
+                      <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                      <Input
+                        id="email"
+                        name="email"
+                        type="email"
+                        value={formData.email}
+                        onChange={handleInputChange}
+                        placeholder="Enter your email"
+                        className="pl-10"
+                        required
+                      />
+                    </div>
                   </div>
-                </div>
-
-                <div>
-                  <Label htmlFor="email">Email Address *</Label>
-                  <Input
-                    id="email"
-                    name="email"
-                    type="email"
-                    value={formData.email}
-                    onChange={handleInputChange}
-                    required
-                  />
                 </div>
 
                 <div>
                   <Label htmlFor="phone">Phone Number *</Label>
-                  <Input
-                    id="phone"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleInputChange}
-                    required
-                  />
+                  <div className="relative">
+                    <Phone className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                    <Input
+                      id="phone"
+                      name="phone"
+                      type="tel"
+                      value={formData.phone}
+                      onChange={handleInputChange}
+                      placeholder="Enter your phone number"
+                      className="pl-10"
+                      required
+                    />
+                  </div>
                 </div>
 
                 <div>
                   <Label htmlFor="address">Address</Label>
-                  <Input
-                    id="address"
-                    name="address"
-                    value={formData.address}
-                    onChange={handleInputChange}
-                  />
+                  <div className="relative">
+                    <MapPin className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                    <Input
+                      id="address"
+                      name="address"
+                      value={formData.address}
+                      onChange={handleInputChange}
+                      placeholder="Enter your address"
+                      className="pl-10"
+                    />
+                  </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div>
                     <Label htmlFor="city">City</Label>
                     <Input
@@ -247,8 +238,10 @@ const Checkout = () => {
                       name="city"
                       value={formData.city}
                       onChange={handleInputChange}
+                      placeholder="City"
                     />
                   </div>
+                  
                   <div>
                     <Label htmlFor="state">State</Label>
                     <Input
@@ -256,31 +249,36 @@ const Checkout = () => {
                       name="state"
                       value={formData.state}
                       onChange={handleInputChange}
+                      placeholder="State"
+                    />
+                  </div>
+                  
+                  <div>
+                    <Label htmlFor="pincode">Pincode</Label>
+                    <Input
+                      id="pincode"
+                      name="pincode"
+                      value={formData.pincode}
+                      onChange={handleInputChange}
+                      placeholder="Pincode"
                     />
                   </div>
                 </div>
 
-                <div>
-                  <Label htmlFor="pincode">Pincode</Label>
-                  <Input
-                    id="pincode"
-                    name="pincode"
-                    value={formData.pincode}
-                    onChange={handleInputChange}
-                  />
+                <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                  <p className="text-sm text-yellow-800">
+                    <strong>Note:</strong> After submitting this form, our team will contact you within 24 hours 
+                    to complete the payment process and provide course access details.
+                  </p>
                 </div>
 
-                <Button 
-                  type="submit" 
-                  className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-lg py-3"
+                <Button
+                  type="submit"
+                  className="w-full bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900"
+                  disabled={isProcessing}
                 >
-                  Complete Enrollment - {currentPrice}
+                  {isProcessing ? "Processing..." : "Place Order"}
                 </Button>
-
-                <p className="text-sm text-gray-600 text-center">
-                  By completing this enrollment, you agree to our terms and conditions. 
-                  Our team will contact you within 24 hours to confirm your enrollment and schedule your first session.
-                </p>
               </form>
             </CardContent>
           </Card>
@@ -288,6 +286,7 @@ const Checkout = () => {
       </div>
 
       <Footer />
+      <WhatsAppButton />
     </div>
   );
 };

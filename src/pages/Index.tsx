@@ -5,6 +5,7 @@ import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CourseCard from "@/components/CourseCard";
 import PartnersSection from "@/components/PartnersSection";
+import WhatsAppButton from "@/components/WhatsAppButton";
 
 const Index = () => {
   const productManagementPlans = [
@@ -299,6 +300,7 @@ const Index = () => {
       </section>
 
       <Footer />
+      <WhatsAppButton />
     </div>
   );
 };
