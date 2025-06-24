@@ -1,4 +1,4 @@
-import { ArrowRight, CheckCircle, Users, Briefcase, GraduationCap, Star } from "lucide-react";
+import { ArrowRight, CheckCircle, Users, Briefcase, GraduationCap, Star, Download, Book } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Header from "@/components/Header";
@@ -61,6 +61,14 @@ const Index = () => {
     window.location.href = `/checkout?course=${encodeURIComponent(courseType)}&price=${encodeURIComponent(price)}`;
   };
 
+  const handleDownloadBrochure = () => {
+    window.open('/brochure.pdf', '_blank');
+  };
+
+  const handleDownloadEbooks = () => {
+    document.getElementById('ebooks')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <div className="min-h-screen">
       <CouponBanner />
@@ -81,11 +89,20 @@ const Index = () => {
               practical experience via live projects, and comprehensive placement assistance.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900 text-lg px-8 py-4">
-                Start Your Journey <ArrowRight className="ml-2" size={20} />
+              <Button 
+                size="lg" 
+                className="bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900 text-lg px-8 py-4"
+                onClick={handleDownloadBrochure}
+              >
+                Download Brochure <Download className="ml-2" size={20} />
               </Button>
-              <Button size="lg" variant="outline" className="text-lg px-8 py-4 border-2">
-                Explore Courses
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="text-lg px-8 py-4 border-2"
+                onClick={handleDownloadEbooks}
+              >
+                Download E-books <Book className="ml-2" size={20} />
               </Button>
             </div>
           </div>
@@ -160,6 +177,71 @@ const Index = () => {
             <div className="text-2xl font-bold">LinkedIn</div>
             <div className="text-2xl font-bold">Gartner</div>
             <div className="text-2xl font-bold">Forbes</div>
+          </div>
+        </div>
+      </section>
+
+      {/* E-books Section */}
+      <section id="ebooks" className="py-20 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-bold mb-4 text-gray-800">Free E-books</h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              Download our comprehensive e-books to kickstart your learning journey
+            </p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <Card className="text-center hover:shadow-lg transition-shadow duration-300 cursor-pointer">
+              <CardHeader>
+                <div className="w-16 h-16 bg-gradient-to-r from-purple-600 to-purple-800 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Book className="text-white" size={32} />
+                </div>
+                <CardTitle>Product Management E-book</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-600 mb-4">
+                  Complete guide to product management strategies, frameworks, and best practices.
+                </p>
+                <Button className="bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900">
+                  Download Now <Download className="ml-2" size={16} />
+                </Button>
+              </CardContent>
+            </Card>
+
+            <Card className="text-center hover:shadow-lg transition-shadow duration-300 cursor-pointer">
+              <CardHeader>
+                <div className="w-16 h-16 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Book className="text-white" size={32} />
+                </div>
+                <CardTitle>Lean Startup E-book</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-600 mb-4">
+                  Master the lean startup methodology and build successful ventures from scratch.
+                </p>
+                <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
+                  Download Now <Download className="ml-2" size={16} />
+                </Button>
+              </CardContent>
+            </Card>
+
+            <Card className="text-center hover:shadow-lg transition-shadow duration-300 cursor-pointer">
+              <CardHeader>
+                <div className="w-16 h-16 bg-gradient-to-r from-green-600 to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Book className="text-white" size={32} />
+                </div>
+                <CardTitle>Project Management E-book</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <p className="text-gray-600 mb-4">
+                  Essential project management skills, tools, and methodologies for success.
+                </p>
+                <Button className="bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700">
+                  Download Now <Download className="ml-2" size={16} />
+                </Button>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>
