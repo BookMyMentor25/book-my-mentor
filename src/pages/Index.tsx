@@ -1,3 +1,4 @@
+
 import { ArrowRight, CheckCircle, Users, Briefcase, GraduationCap, Star, Download, Book } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -66,7 +67,23 @@ const Index = () => {
   };
 
   const handleDownloadEbooks = () => {
-    document.getElementById('ebooks')?.scrollIntoView({ behavior: 'smooth' });
+    // Open the Google Drive folder with all e-books
+    window.open('https://drive.google.com/drive/folders/1Vxqyp2MaqRwsW4TnSKqsScdmHGkFkGs-?usp=drive_link', '_blank');
+  };
+
+  const handleDownloadProductManagementEbook = () => {
+    // Direct link to Product Management e-book (you can replace with specific file ID)
+    window.open('https://drive.google.com/drive/folders/1Vxqyp2MaqRwsW4TnSKqsScdmHGkFkGs-?usp=drive_link', '_blank');
+  };
+
+  const handleDownloadLeanStartupEbook = () => {
+    // Direct link to Lean Startup e-book (you can replace with specific file ID)
+    window.open('https://drive.google.com/drive/folders/1Vxqyp2MaqRwsW4TnSKqsScdmHGkFkGs-?usp=drive_link', '_blank');
+  };
+
+  const handleDownloadProjectManagementEbook = () => {
+    // Direct link to Project Management e-book (you can replace with specific file ID)
+    window.open('https://drive.google.com/drive/folders/1Vxqyp2MaqRwsW4TnSKqsScdmHGkFkGs-?usp=drive_link', '_blank');
   };
 
   return (
@@ -203,7 +220,10 @@ const Index = () => {
                 <p className="text-gray-600 mb-4">
                   Complete guide to product management strategies, frameworks, and best practices.
                 </p>
-                <Button className="bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900">
+                <Button 
+                  className="bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900"
+                  onClick={handleDownloadProductManagementEbook}
+                >
                   Download Now <Download className="ml-2" size={16} />
                 </Button>
               </CardContent>
@@ -220,7 +240,10 @@ const Index = () => {
                 <p className="text-gray-600 mb-4">
                   Master the lean startup methodology and build successful ventures from scratch.
                 </p>
-                <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700">
+                <Button 
+                  className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700"
+                  onClick={handleDownloadLeanStartupEbook}
+                >
                   Download Now <Download className="ml-2" size={16} />
                 </Button>
               </CardContent>
@@ -237,7 +260,10 @@ const Index = () => {
                 <p className="text-gray-600 mb-4">
                   Essential project management skills, tools, and methodologies for success.
                 </p>
-                <Button className="bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700">
+                <Button 
+                  className="bg-gradient-to-r from-green-600 to-blue-600 hover:from-green-700 hover:to-blue-700"
+                  onClick={handleDownloadProjectManagementEbook}
+                >
                   Download Now <Download className="ml-2" size={16} />
                 </Button>
               </CardContent>
