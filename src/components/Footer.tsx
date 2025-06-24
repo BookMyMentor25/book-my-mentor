@@ -1,9 +1,11 @@
 
+import { Linkedin, Instagram, Youtube } from "lucide-react";
+
 const Footer = () => {
   return (
     <footer className="bg-gray-900 text-white py-12">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
             <div className="flex items-center space-x-2 mb-4">
               <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
@@ -28,6 +30,36 @@ const Footer = () => {
               <li>Lean Startup</li>
               <li>Project Management</li>
             </ul>
+          </div>
+
+          <div>
+            <h3 className="text-lg font-semibold mb-4">Follow Us</h3>
+            <div className="flex space-x-4">
+              <a 
+                href="https://www.linkedin.com/company/book-my-mentor-co/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-gray-400 hover:text-blue-500 transition-colors"
+              >
+                <Linkedin size={24} />
+              </a>
+              <a 
+                href="https://www.instagram.com/book_my_mentor/profilecard/?igsh=MXdhMG53anZwY3pmeg==" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-gray-400 hover:text-pink-500 transition-colors"
+              >
+                <Instagram size={24} />
+              </a>
+              <a 
+                href="https://www.youtube.com/channel/UCxcoW1rchq3a8--vd-SrS-Q" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-gray-400 hover:text-red-500 transition-colors"
+              >
+                <Youtube size={24} />
+              </a>
+            </div>
           </div>
 
           <div>

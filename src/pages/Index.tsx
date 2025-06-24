@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import CourseCard from "@/components/CourseCard";
 import PartnersSection from "@/components/PartnersSection";
 import WhatsAppButton from "@/components/WhatsAppButton";
+import CouponBanner from "@/components/CouponBanner";
 
 const Index = () => {
   const productManagementPlans = [
@@ -62,10 +63,11 @@ const Index = () => {
 
   return (
     <div className="min-h-screen">
+      <CouponBanner />
       <Header />
       
       {/* Hero Section */}
-      <section id="home" className="relative bg-gradient-to-br from-purple-50 via-purple-100 to-pink-50 py-20">
+      <section id="home" className="relative bg-gradient-to-br from-purple-50 via-purple-100 to-pink-50 py-20 mt-16">
         <div className="container mx-auto px-4 text-center">
           <div className="max-w-4xl mx-auto">
             <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-purple-600 via-purple-700 to-pink-600 bg-clip-text text-transparent">

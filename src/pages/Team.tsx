@@ -1,7 +1,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Linkedin, Mail, Twitter } from "lucide-react";
+import { Linkedin, Mail, Twitter, Instagram, Youtube } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
@@ -99,6 +99,37 @@ const Team = () => {
               Our team consists of experienced professionals from leading companies who are passionate about 
               mentoring the next generation of talent.
             </p>
+            
+            {/* Social Media Links */}
+            <div className="flex justify-center space-x-6 mb-8">
+              <a 
+                href="https://www.linkedin.com/company/book-my-mentor-co/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+              >
+                <Linkedin size={20} />
+                <span>LinkedIn</span>
+              </a>
+              <a 
+                href="https://www.instagram.com/book_my_mentor/profilecard/?igsh=MXdhMG53anZwY3pmeg==" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="flex items-center space-x-2 bg-pink-600 text-white px-4 py-2 rounded-lg hover:bg-pink-700 transition-colors"
+              >
+                <Instagram size={20} />
+                <span>Instagram</span>
+              </a>
+              <a 
+                href="https://www.youtube.com/channel/UCxcoW1rchq3a8--vd-SrS-Q" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="flex items-center space-x-2 bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors"
+              >
+                <Youtube size={20} />
+                <span>YouTube</span>
+              </a>
+            </div>
           </div>
         </div>
       </section>
