@@ -9,7 +9,164 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
-      [_ in never]: never
+      courses: {
+        Row: {
+          category: string | null
+          created_at: string | null
+          description: string | null
+          duration: string | null
+          features: string[] | null
+          id: string
+          is_active: boolean | null
+          price: number
+          title: string
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string | null
+          description?: string | null
+          duration?: string | null
+          features?: string[] | null
+          id?: string
+          is_active?: boolean | null
+          price: number
+          title: string
+        }
+        Update: {
+          category?: string | null
+          created_at?: string | null
+          description?: string | null
+          duration?: string | null
+          features?: string[] | null
+          id?: string
+          is_active?: boolean | null
+          price?: number
+          title?: string
+        }
+        Relationships: []
+      }
+      inquiries: {
+        Row: {
+          course_interest: string | null
+          created_at: string | null
+          email: string
+          id: string
+          message: string | null
+          name: string
+          phone: string | null
+          status: string | null
+        }
+        Insert: {
+          course_interest?: string | null
+          created_at?: string | null
+          email: string
+          id?: string
+          message?: string | null
+          name: string
+          phone?: string | null
+          status?: string | null
+        }
+        Update: {
+          course_interest?: string | null
+          created_at?: string | null
+          email?: string
+          id?: string
+          message?: string | null
+          name?: string
+          phone?: string | null
+          status?: string | null
+        }
+        Relationships: []
+      }
+      orders: {
+        Row: {
+          address: string | null
+          amount: number
+          city: string | null
+          course_id: string
+          created_at: string | null
+          id: string
+          order_id: string
+          pincode: string | null
+          state: string | null
+          status: string | null
+          student_email: string
+          student_name: string
+          student_phone: string
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          address?: string | null
+          amount: number
+          city?: string | null
+          course_id: string
+          created_at?: string | null
+          id?: string
+          order_id: string
+          pincode?: string | null
+          state?: string | null
+          status?: string | null
+          student_email: string
+          student_name: string
+          student_phone: string
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          address?: string | null
+          amount?: number
+          city?: string | null
+          course_id?: string
+          created_at?: string | null
+          id?: string
+          order_id?: string
+          pincode?: string | null
+          state?: string | null
+          status?: string | null
+          student_email?: string
+          student_name?: string
+          student_phone?: string
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "orders_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "courses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          created_at: string | null
+          email: string | null
+          full_name: string | null
+          id: string
+          phone: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          email?: string | null
+          full_name?: string | null
+          id: string
+          phone?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          email?: string | null
+          full_name?: string | null
+          id?: string
+          phone?: string | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

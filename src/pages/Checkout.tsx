@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { useSearchParams, useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -8,6 +7,8 @@ import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
 import { ArrowLeft, CreditCard, Phone, Mail, User, MapPin } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/hooks/useAuth";
+import { useCreateOrder } from "@/hooks/useOrders";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import WhatsAppButton from "@/components/WhatsAppButton";
@@ -16,9 +17,12 @@ const Checkout = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { user } = useAuth();
+  const createOrderMutation = useCreateOrder();
   
   const course = searchParams.get('course') || 'Product Management';
   const price = searchParams.get('price') || '₹6,000';
+  const courseId = searchParams.get('courseId') || '';
   
   const [formData, setFormData] = useState({
     name: '',
@@ -30,7 +34,19 @@ const Checkout = () => {
     pincode: '',
   });
 
-  const [isProcessing, setIsProcessing] = useState(false);
+  // Redirect to auth if not logged in
+  useEffect(() => {
+    if (!user) {
+      navigate('/auth');
+    } else {
+      // Pre-fill form with user data
+      setFormData(prev => ({
+        ...prev,
+        name: user.user_metadata?.full_name || '',
+        email: user.email || '',
+      }));
+    }
+  }, [user, navigate]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -42,7 +58,11 @@ const Checkout = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsProcessing(true);
+
+    if (!user) {
+      navigate('/auth');
+      return;
+    }
 
     // Validate form
     if (!formData.name || !formData.email || !formData.phone) {
@@ -51,58 +71,60 @@ const Checkout = () => {
         description: "Please fill in all required fields.",
         variant: "destructive",
       });
-      setIsProcessing(false);
+      return;
+    }
+
+    if (!courseId) {
+      toast({
+        title: "Invalid Course",
+        description: "Course information is missing. Please try again.",
+        variant: "destructive",
+      });
       return;
     }
 
     try {
-      // Prepare order details
-      const orderDetails = {
-        ...formData,
-        course,
-        price,
-        paymentStatus: 'Pending',
-        orderDate: new Date().toISOString(),
-        orderId: `BMM-${Date.now()}`
+      // Convert price back to paise for database storage
+      const priceNumber = parseInt(price.replace(/[₹,]/g, '')) * 100;
+      
+      const orderData = {
+        course_id: courseId,
+        order_id: `BMM-${Date.now()}`,
+        amount: priceNumber,
+        student_name: formData.name,
+        student_email: formData.email,
+        student_phone: formData.phone,
+        address: formData.address || undefined,
+        city: formData.city || undefined,
+        state: formData.state || undefined,
+        pincode: formData.pincode || undefined,
       };
 
-      // Send WhatsApp notification to admin
-      if ((window as any).sendOrderNotification) {
-        (window as any).sendOrderNotification(orderDetails);
-      }
+      await createOrderMutation.mutateAsync(orderData);
 
-      // Show success message
       toast({
         title: "Order Placed Successfully!",
         description: "Our team will contact you shortly for payment and course details.",
       });
 
-      // Reset form
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        address: '',
-        city: '',
-        state: '',
-        pincode: '',
-      });
-
-      // Redirect after a short delay
+      // Redirect to dashboard after success
       setTimeout(() => {
-        navigate('/');
-      }, 3000);
+        navigate('/dashboard');
+      }, 2000);
 
-    } catch (error) {
+    } catch (error: any) {
+      console.error('Order creation error:', error);
       toast({
         title: "Error",
-        description: "Something went wrong. Please try again.",
+        description: error.message || "Something went wrong. Please try again.",
         variant: "destructive",
       });
-    } finally {
-      setIsProcessing(false);
     }
   };
+
+  if (!user) {
+    return null; // Will redirect to auth
+  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -275,9 +297,9 @@ const Checkout = () => {
                 <Button
                   type="submit"
                   className="w-full bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900"
-                  disabled={isProcessing}
+                  disabled={createOrderMutation.isPending}
                 >
-                  {isProcessing ? "Processing..." : "Place Order"}
+                  {createOrderMutation.isPending ? "Processing..." : "Place Order"}
                 </Button>
               </form>
             </CardContent>
