@@ -22,7 +22,7 @@ const DynamicCourseCard = ({ course }: DynamicCourseCardProps) => {
     
     const courseTitle = course.title;
     const price = formatPrice(course.price);
-    window.location.href = `/checkout?course=${encodeURIComponent(courseTitle)}&price=${encodeURIComponent(price)}&courseId=${encodeURIComponent(course.id)}`;
+    navigate(`/checkout?course=${encodeURIComponent(courseTitle)}&price=${encodeURIComponent(price)}&courseId=${encodeURIComponent(course.id)}`);
   };
 
   return (

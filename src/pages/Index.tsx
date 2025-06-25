@@ -15,6 +15,10 @@ const Index = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
 
+  const handleDownloadBrochures = () => {
+    document.getElementById('downloads')?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <div className="min-h-screen bg-white">
       <Header />
@@ -43,9 +47,9 @@ const Index = () => {
                   size="lg" 
                   variant="outline" 
                   className="border-white text-white hover:bg-white hover:text-purple-700"
-                  onClick={() => document.getElementById('courses')?.scrollIntoView({ behavior: 'smooth' })}
+                  onClick={handleDownloadBrochures}
                 >
-                  Browse Courses
+                  Download Brochures
                 </Button>
               </>
             ) : (
@@ -61,9 +65,9 @@ const Index = () => {
                   size="lg" 
                   variant="outline" 
                   className="border-white text-white hover:bg-white hover:text-purple-700"
-                  onClick={() => document.getElementById('courses')?.scrollIntoView({ behavior: 'smooth' })}
+                  onClick={handleDownloadBrochures}
                 >
-                  Explore Courses
+                  Download Brochures
                 </Button>
               </>
             )}
