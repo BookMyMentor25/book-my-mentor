@@ -28,12 +28,6 @@ const DownloadSection = () => {
     }
   ];
 
-  const brochure = {
-    title: "Download Brochures",
-    description: "Detailed information about all our courses and mentorship programs",
-    url: "https://drive.google.com/file/d/1N0-course-brochure-2024/view?usp=drive_link"
-  };
-
   return (
     <section id="downloads" className="py-20 bg-white">
       <div className="container mx-auto px-4">
@@ -45,7 +39,7 @@ const DownloadSection = () => {
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {downloads.map((download, index) => (
             <div key={index} className="bg-gradient-to-br from-blue-50 to-purple-50 p-8 rounded-lg text-center hover:shadow-lg transition-shadow">
               <div className={`inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-r ${download.gradient} text-white mb-6`}>
@@ -62,31 +56,6 @@ const DownloadSection = () => {
               </Button>
             </div>
           ))}
-        </div>
-
-        {/* Single Brochure Section */}
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-gray-800 mb-4">{brochure.title}</h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            {brochure.description}
-          </p>
-        </div>
-        
-        <div className="max-w-2xl mx-auto">
-          <div className="bg-gradient-to-br from-gray-50 to-blue-50 p-8 rounded-lg text-center hover:shadow-lg transition-shadow">
-            <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-r from-gray-600 to-blue-600 text-white mb-6">
-              <FileText className="w-8 h-8" />
-            </div>
-            <h3 className="text-xl font-bold text-gray-800 mb-4">Course Brochure</h3>
-            <p className="text-gray-600 mb-6">Get detailed information about our programs and success stories</p>
-            <Button 
-              className="bg-gradient-to-r from-gray-600 to-blue-600 hover:from-gray-700 hover:to-blue-700"
-              onClick={() => window.open(brochure.url, '_blank')}
-            >
-              <Download className="w-4 h-4 mr-2" />
-              Download Brochure
-            </Button>
-          </div>
         </div>
 
         {/* File Upload Instructions */}
