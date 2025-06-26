@@ -9,21 +9,21 @@ const DownloadSection = () => {
       title: "Product Management E-book",
       description: "Complete guide to product management principles and best practices",
       icon: <BookOpen className="w-8 h-8" />,
-      url: "https://drive.google.com/file/d/1K7-product-management-ebook/view?usp=drive_link",
+      url: "https://drive.google.com/drive/folders/11juHSihiYHaecF97yo-uawNkVnAwytLm?usp=sharing",
       gradient: "from-blue-600 to-purple-600"
     },
     {
       title: "Lean Startup E-book",
       description: "Master the lean startup methodology to build successful businesses",
       icon: <FileText className="w-8 h-8" />,
-      url: "https://drive.google.com/file/d/1L8-lean-startup-ebook/view?usp=drive_link",
+      url: "https://drive.google.com/drive/folders/1ynFvQeVjcm2IzDh39JogVRv2OyH8zzMh?usp=sharing",
       gradient: "from-green-600 to-blue-600"
     },
     {
       title: "Project Management E-book",
       description: "Learn proven project management frameworks and methodologies",
       icon: <Download className="w-8 h-8" />,
-      url: "https://drive.google.com/file/d/1M9-project-management-ebook/view?usp=drive_link",
+      url: "https://drive.google.com/drive/folders/12FEayGzOKAFNZfzJtPDUx0Q3KNzsQVH_?usp=sharing",
       gradient: "from-purple-600 to-pink-600"
     }
   ];

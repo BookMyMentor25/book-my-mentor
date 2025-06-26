@@ -46,7 +46,7 @@ const Index = () => {
                 <Button 
                   size="lg" 
                   variant="outline" 
-                  className="border-white text-white hover:bg-white hover:text-purple-700"
+                  className="border-white text-white"
                   onClick={handleDownloadBrochures}
                 >
                   Download Brochures
@@ -64,7 +64,7 @@ const Index = () => {
                 <Button 
                   size="lg" 
                   variant="outline" 
-                  className="border-white text-white hover:bg-white hover:text-purple-700"
+                  className="border-white text-white"
                   onClick={handleDownloadBrochures}
                 >
                   Download Brochures

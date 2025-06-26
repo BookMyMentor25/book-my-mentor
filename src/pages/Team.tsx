@@ -75,7 +75,7 @@ const Team = () => {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {teamMembers.map((member, index) => (
             <div key={index} className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
               <img 
@@ -104,16 +104,6 @@ const Team = () => {
               </div>
             </div>
           ))}
-        </div>
-
-        <div className="bg-white rounded-lg shadow-lg p-8 text-center">
-          <h2 className="text-3xl font-bold text-gray-800 mb-4">Join Our Team</h2>
-          <p className="text-gray-600 mb-6">
-            We're always looking for talented individuals who share our passion for education and innovation.
-          </p>
-          <Button className="bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900">
-            View Open Positions
-          </Button>
         </div>
       </div>
 

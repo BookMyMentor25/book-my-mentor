@@ -8,6 +8,11 @@ const Header = () => {
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
+  const scrollToContact = () => {
+    const footer = document.querySelector('footer');
+    footer?.scrollIntoView({ behavior: 'smooth' });
+  };
+
   return (
     <header className="bg-white/95 backdrop-blur-sm border-b sticky top-0 z-50">
       <div className="container mx-auto px-4 py-4">
@@ -28,7 +33,7 @@ const Header = () => {
             <a href="/#courses" className="text-gray-700 hover:text-purple-600 transition-colors">Courses</a>
             <a href="/#partners" className="text-gray-700 hover:text-purple-600 transition-colors">Partners</a>
             <a href="/team" className="text-gray-700 hover:text-purple-600 transition-colors">Team</a>
-            <a href="#contact" className="text-gray-700 hover:text-purple-600 transition-colors">Contact</a>
+            <button onClick={scrollToContact} className="text-gray-700 hover:text-purple-600 transition-colors">Contact</button>
             <Button className="bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900">
               Get Started
             </Button>
@@ -51,7 +56,7 @@ const Header = () => {
               <a href="/#courses" className="text-gray-700 hover:text-purple-600 transition-colors">Courses</a>
               <a href="/#partners" className="text-gray-700 hover:text-purple-600 transition-colors">Partners</a>
               <a href="/team" className="text-gray-700 hover:text-purple-600 transition-colors">Team</a>
-              <a href="#contact" className="text-gray-700 hover:text-purple-600 transition-colors">Contact</a>
+              <button onClick={scrollToContact} className="text-gray-700 hover:text-purple-600 transition-colors text-left">Contact</button>
               <Button className="bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900 w-fit">
                 Get Started
               </Button>
