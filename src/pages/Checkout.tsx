@@ -14,9 +14,13 @@ const Checkout = () => {
   const navigate = useNavigate();
   const {
     course,
-    price,
+    originalPrice,
+    finalPrice,
     formData,
+    appliedCoupon,
     handleInputChange,
+    applyCoupon,
+    removeCoupon,
     handleSubmit,
     isLoading,
     user
@@ -27,27 +31,44 @@ const Checkout = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-purple-50">
       <Header />
       
       <div className="container mx-auto px-4 py-8">
         <Button
           variant="ghost"
           onClick={() => navigate('/')}
-          className="mb-6 hover:bg-purple-50"
+          className="mb-6 hover:bg-purple-100 transition-colors"
         >
           <ArrowLeft className="mr-2" size={16} />
           Back to Courses
         </Button>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          <OrderSummary course={course} price={price} />
+        <div className="text-center mb-8">
+          <h1 className="text-4xl font-bold text-gray-800 mb-2">Complete Your Enrollment</h1>
+          <p className="text-gray-600">You're one step away from transforming your career!</p>
+        </div>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
+          <OrderSummary 
+            course={course} 
+            originalPrice={originalPrice}
+            finalPrice={finalPrice}
+            appliedCoupon={appliedCoupon}
+          />
           <StudentInfoForm
             formData={formData}
             onInputChange={handleInputChange}
             onSubmit={handleSubmit}
             isLoading={isLoading}
+            appliedCoupon={appliedCoupon}
+            onApplyCoupon={applyCoupon}
+            onRemoveCoupon={removeCoupon}
           />
+        </div>
+
+        <div className="mt-8 text-center text-sm text-gray-500">
+          🔒 Secure checkout • 📧 Instant invoice generation • 🎓 Immediate course access after payment
         </div>
       </div>
 

@@ -31,7 +31,6 @@ const DownloadSection = () => {
   return (
     <section id="downloads" className="py-20 bg-white">
       <div className="container mx-auto px-4">
-        {/* E-books Section */}
         <div className="text-center mb-16">
           <h2 className="text-4xl font-bold text-gray-800 mb-4">Download E-books</h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
@@ -56,32 +55,6 @@ const DownloadSection = () => {
               </Button>
             </div>
           ))}
-        </div>
-
-        {/* File Upload Instructions */}
-        <div className="mt-16 bg-blue-50 p-8 rounded-lg">
-          <h3 className="text-2xl font-bold text-gray-800 mb-4">How to Upload PDF Files</h3>
-          <div className="text-gray-600 space-y-4">
-            <p><strong>Option 1: Google Drive (Current Setup)</strong></p>
-            <ol className="list-decimal list-inside space-y-2 ml-4">
-              <li>Upload your PDF files to Google Drive</li>
-              <li>Right-click on the file and select "Get link"</li>
-              <li>Make sure the link is set to "Anyone with the link can view"</li>
-              <li>Copy the sharing link and update the URLs in the component</li>
-            </ol>
-            
-            <p className="mt-6"><strong>Option 2: Supabase Storage (Recommended)</strong></p>
-            <ol className="list-decimal list-inside space-y-2 ml-4">
-              <li>I can help you set up Supabase Storage for better file management</li>
-              <li>Upload files directly through your admin dashboard</li>
-              <li>Better control over file access and organization</li>
-              <li>Faster loading times for your users</li>
-            </ol>
-            
-            <p className="mt-4 text-sm text-blue-600">
-              Would you like me to set up Supabase Storage for file uploads? This would give you better control over your files.
-            </p>
-          </div>
         </div>
       </div>
     </section>

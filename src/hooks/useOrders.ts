@@ -14,6 +14,8 @@ export interface OrderData {
   city?: string;
   state?: string;
   pincode?: string;
+  coupon_applied?: string;
+  discount_amount?: number;
 }
 
 export const useCreateOrder = () => {

@@ -13,7 +13,21 @@ interface FormData {
   city: string;
   state: string;
   pincode: string;
+  couponCode: string;
 }
+
+interface CouponCode {
+  code: string;
+  discount: number;
+  type: 'percentage' | 'fixed';
+}
+
+const validCoupons: CouponCode[] = [
+  { code: 'FIRST50', discount: 50, type: 'percentage' },
+  { code: 'STUDENT30', discount: 30, type: 'percentage' },
+  { code: 'EARLY20', discount: 20, type: 'percentage' },
+  { code: 'SAVE1000', discount: 1000, type: 'fixed' },
+];
 
 export const useCheckout = () => {
   const [searchParams] = useSearchParams();
@@ -23,8 +37,11 @@ export const useCheckout = () => {
   const createOrderMutation = useCreateOrder();
   
   const course = searchParams.get('course') || 'Product Management';
-  const price = searchParams.get('price') || '₹6,000';
+  const originalPrice = searchParams.get('price') || '₹6,000';
   const courseId = searchParams.get('courseId') || '';
+  
+  const [appliedCoupon, setAppliedCoupon] = useState<CouponCode | null>(null);
+  const [finalPrice, setFinalPrice] = useState(originalPrice);
   
   const [formData, setFormData] = useState<FormData>({
     name: '',
@@ -34,6 +51,7 @@ export const useCheckout = () => {
     city: '',
     state: '',
     pincode: '',
+    couponCode: '',
   });
 
   // Redirect to auth if not logged in
@@ -56,6 +74,55 @@ export const useCheckout = () => {
       ...prev,
       [name]: value
     }));
+  };
+
+  const applyCoupon = () => {
+    const coupon = validCoupons.find(c => c.code.toLowerCase() === formData.couponCode.toLowerCase());
+    
+    if (!coupon) {
+      toast({
+        title: "Invalid Coupon",
+        description: "The coupon code you entered is not valid.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (appliedCoupon?.code === coupon.code) {
+      toast({
+        title: "Coupon Already Applied",
+        description: "This coupon is already applied to your order.",
+      });
+      return;
+    }
+
+    const originalAmount = parseInt(originalPrice.replace(/[₹,]/g, ''));
+    let discountedAmount = originalAmount;
+
+    if (coupon.type === 'percentage') {
+      discountedAmount = originalAmount - (originalAmount * coupon.discount / 100);
+    } else {
+      discountedAmount = Math.max(0, originalAmount - coupon.discount);
+    }
+
+    setAppliedCoupon(coupon);
+    setFinalPrice(`₹${discountedAmount.toLocaleString('en-IN')}`);
+    
+    toast({
+      title: "Coupon Applied!",
+      description: `You saved ${coupon.type === 'percentage' ? coupon.discount + '%' : '₹' + coupon.discount}!`,
+    });
+  };
+
+  const removeCoupon = () => {
+    setAppliedCoupon(null);
+    setFinalPrice(originalPrice);
+    setFormData(prev => ({ ...prev, couponCode: '' }));
+    
+    toast({
+      title: "Coupon Removed",
+      description: "The coupon has been removed from your order.",
+    });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -86,8 +153,8 @@ export const useCheckout = () => {
     }
 
     try {
-      // Convert price back to paise for database storage
-      const priceNumber = parseInt(price.replace(/[₹,]/g, '')) * 100;
+      // Convert final price back to paise for database storage
+      const priceNumber = parseInt(finalPrice.replace(/[₹,]/g, '')) * 100;
       
       const orderData = {
         course_id: courseId,
@@ -100,6 +167,9 @@ export const useCheckout = () => {
         city: formData.city || undefined,
         state: formData.state || undefined,
         pincode: formData.pincode || undefined,
+        coupon_applied: appliedCoupon?.code || undefined,
+        discount_amount: appliedCoupon ? 
+          (parseInt(originalPrice.replace(/[₹,]/g, '')) - parseInt(finalPrice.replace(/[₹,]/g, ''))) * 100 : 0,
       };
 
       await createOrderMutation.mutateAsync(orderData);
@@ -126,10 +196,14 @@ export const useCheckout = () => {
 
   return {
     course,
-    price,
+    originalPrice,
+    finalPrice,
     courseId,
     formData,
+    appliedCoupon,
     handleInputChange,
+    applyCoupon,
+    removeCoupon,
     handleSubmit,
     isLoading: createOrderMutation.isPending,
     user
