@@ -83,8 +83,10 @@ export type Database = {
           address: string | null
           amount: number
           city: string | null
+          coupon_applied: string | null
           course_id: string
           created_at: string | null
+          discount_amount: number | null
           id: string
           order_id: string
           pincode: string | null
@@ -100,8 +102,10 @@ export type Database = {
           address?: string | null
           amount: number
           city?: string | null
+          coupon_applied?: string | null
           course_id: string
           created_at?: string | null
+          discount_amount?: number | null
           id?: string
           order_id: string
           pincode?: string | null
@@ -117,8 +121,10 @@ export type Database = {
           address?: string | null
           amount?: number
           city?: string | null
+          coupon_applied?: string | null
           course_id?: string
           created_at?: string | null
+          discount_amount?: number | null
           id?: string
           order_id?: string
           pincode?: string | null

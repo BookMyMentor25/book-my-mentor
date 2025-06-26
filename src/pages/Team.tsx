@@ -1,193 +1,121 @@
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Linkedin, Mail, Twitter, Instagram, Youtube } from "lucide-react";
+import React from "react";
+import { Button } from "@/components/ui/button";
+import { ArrowLeft, Linkedin, Mail, Phone } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
 const Team = () => {
+  const navigate = useNavigate();
+
   const teamMembers = [
     {
-      name: "Najmus Sahar",
-      role: "Founder & Lead Mentor",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=300&h=300&fit=crop&crop=face",
-      bio: "Industry expert with 10+ years in product management and startup mentorship. Passionate about helping students achieve their career goals.",
-      skills: ["Product Management", "Lean Startup", "Mentorship"],
-      social: {
-        linkedin: "#",
-        email: "najmus@bookmymentor.com",
-        twitter: "#"
-      }
+      name: "Najmus SS",
+      role: "Founder & CEO",
+      image: "/lovable-uploads/214d995d-02ae-4cd5-91b4-8fd5272fdde1.png",
+      bio: "Visionary leader with 15+ years in product management and business strategy. Former VP at tech unicorns.",
+      linkedin: "https://linkedin.com/in/najmusss",
+      email: "najmus@buildmymantra.com",
+      phone: "+91 98765 43210"
     },
     {
-      name: "Sarah Johnson",
-      role: "Senior Product Mentor",
-      image: "https://images.unsplash.com/photo-1494790108755-2616b612b47c?w=300&h=300&fit=crop&crop=face",
-      bio: "Former Product Manager at leading tech companies. Specializes in SaaS and EdTech product development.",
-      skills: ["Product Strategy", "User Research", "Agile"],
-      social: {
-        linkedin: "#",
-        email: "sarah@bookmymentor.com",
-        twitter: "#"
-      }
+      name: "Akshay Gupta",
+      role: "Head of Product",
+      image: "/lovable-uploads/7e1934b2-0701-49e5-93ad-6ab90232c310.png",
+      bio: "Product strategist with expertise in AI/ML and user experience design. Led product teams at Fortune 500 companies.",
+      linkedin: "https://linkedin.com/in/akshaygupta",
+      email: "akshay@buildmymantra.com"
     },
     {
-      name: "Rajesh Kumar",
-      role: "Project Management Lead",
-      image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=300&h=300&fit=crop&crop=face",
-      bio: "PMP certified project manager with expertise in IT and healthcare projects. Helps students master project management frameworks.",
-      skills: ["Project Management", "Scrum", "PMP"],
-      social: {
-        linkedin: "#",
-        email: "rajesh@bookmymentor.com",
-        twitter: "#"
-      }
+      name: "Gayatri S",
+      role: "Head of Engineering",
+      image: "/lovable-uploads/a4d64569-ea01-4a58-9f74-c6fbe55e2dac.png",
+      bio: "Full-stack developer and technical architect with 12+ years of experience in scalable system design.",
+      linkedin: "https://linkedin.com/in/gayatris",
+      email: "gayatri@buildmymantra.com"
     },
     {
-      name: "Priya Sharma",
-      role: "Startup Mentor",
-      image: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=300&h=300&fit=crop&crop=face",
-      bio: "Serial entrepreneur and startup advisor. Guides aspiring entrepreneurs through the lean startup methodology.",
-      skills: ["Entrepreneurship", "Business Strategy", "Fundraising"],
-      social: {
-        linkedin: "#",
-        email: "priya@bookmymentor.com",
-        twitter: "#"
-      }
+      name: "Rizwan S",
+      role: "Lead Data Scientist",
+      image: "/lovable-uploads/99be4bce-11ae-41eb-85bb-166a094c8952.png",
+      bio: "Data science expert specializing in machine learning and predictive analytics. PhD in Computer Science.",
+      linkedin: "https://linkedin.com/in/rizwans",
+      email: "rizwan@buildmymantra.com"
     },
     {
-      name: "Michael Chen",
-      role: "Career Guidance Specialist",
-      image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=300&h=300&fit=crop&crop=face",
-      bio: "HR professional and career coach helping students with placement preparation and interview skills.",
-      skills: ["Career Counseling", "Interview Prep", "Resume Building"],
-      social: {
-        linkedin: "#",
-        email: "michael@bookmymentor.com",
-        twitter: "#"
-      }
-    },
-    {
-      name: "Anita Patel",
-      role: "Learning Experience Designer",
-      image: "https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=300&h=300&fit=crop&crop=face",
-      bio: "Educational technology expert focused on creating engaging learning experiences and curriculum design.",
-      skills: ["EdTech", "Curriculum Design", "Learning Analytics"],
-      social: {
-        linkedin: "#",
-        email: "anita@bookmymentor.com",
-        twitter: "#"
-      }
+      name: "Preeti V",
+      role: "Head of Operations",
+      image: "/lovable-uploads/b7c3f4ad-5533-4a69-83d1-4b3bc50d0a16.png",
+      bio: "Operations excellence leader with expertise in process optimization and team management.",
+      linkedin: "https://linkedin.com/in/preetiv",
+      email: "preeti@buildmymantra.com"
     }
   ];
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-gradient-to-br from-gray-50 to-purple-50">
       <Header />
       
-      {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-purple-50 via-purple-100 to-pink-50 py-20">
-        <div className="container mx-auto px-4 text-center">
-          <div className="max-w-4xl mx-auto">
-            <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-purple-600 via-purple-700 to-pink-600 bg-clip-text text-transparent">
-              Meet Our Team
-            </h1>
-            <p className="text-xl md:text-2xl text-gray-700 mb-8 leading-relaxed">
-              Industry experts dedicated to your success
-            </p>
-            <p className="text-lg text-gray-600 mb-8 max-w-3xl mx-auto">
-              Our team consists of experienced professionals from leading companies who are passionate about 
-              mentoring the next generation of talent.
-            </p>
-            
-            {/* Social Media Links */}
-            <div className="flex justify-center space-x-6 mb-8">
-              <a 
-                href="https://www.linkedin.com/company/book-my-mentor-co/" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="flex items-center space-x-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
-              >
-                <Linkedin size={20} />
-                <span>LinkedIn</span>
-              </a>
-              <a 
-                href="https://www.instagram.com/book_my_mentor/profilecard/?igsh=MXdhMG53anZwY3pmeg==" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="flex items-center space-x-2 bg-pink-600 text-white px-4 py-2 rounded-lg hover:bg-pink-700 transition-colors"
-              >
-                <Instagram size={20} />
-                <span>Instagram</span>
-              </a>
-              <a 
-                href="https://www.youtube.com/channel/UCxcoW1rchq3a8--vd-SrS-Q" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="flex items-center space-x-2 bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors"
-              >
-                <Youtube size={20} />
-                <span>YouTube</span>
-              </a>
+      <div className="container mx-auto px-4 py-8">
+        <Button
+          variant="ghost"
+          onClick={() => navigate('/')}
+          className="mb-6 hover:bg-purple-100 transition-colors"
+        >
+          <ArrowLeft className="mr-2" size={16} />
+          Back to Home
+        </Button>
+
+        <div className="text-center mb-16">
+          <h1 className="text-5xl font-bold text-gray-800 mb-6">Meet Our Team</h1>
+          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+            Our diverse team of experts brings together decades of experience in product management, 
+            technology, and business strategy to help you succeed.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+          {teamMembers.map((member, index) => (
+            <div key={index} className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow">
+              <img 
+                src={member.image} 
+                alt={member.name}
+                className="w-full h-64 object-cover"
+              />
+              <div className="p-6">
+                <h3 className="text-xl font-bold text-gray-800 mb-2">{member.name}</h3>
+                <p className="text-purple-600 font-semibold mb-3">{member.role}</p>
+                <p className="text-gray-600 text-sm mb-4">{member.bio}</p>
+                
+                <div className="flex space-x-3">
+                  <a href={member.linkedin} className="text-blue-600 hover:text-blue-800">
+                    <Linkedin size={20} />
+                  </a>
+                  <a href={`mailto:${member.email}`} className="text-gray-600 hover:text-gray-800">
+                    <Mail size={20} />
+                  </a>
+                  {member.phone && (
+                    <a href={`tel:${member.phone}`} className="text-green-600 hover:text-green-800">
+                      <Phone size={20} />
+                    </a>
+                  )}
+                </div>
+              </div>
             </div>
-          </div>
+          ))}
         </div>
-      </section>
 
-      {/* Team Members */}
-      <section className="py-20 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {teamMembers.map((member, index) => (
-              <Card key={index} className="hover:shadow-lg transition-all duration-300 hover:scale-105">
-                <CardHeader className="text-center">
-                  <div className="w-32 h-32 mx-auto mb-4 rounded-full overflow-hidden">
-                    <img
-                      src={member.image}
-                      alt={member.name}
-                      className="w-full h-full object-cover"
-                    />
-                  </div>
-                  <CardTitle className="text-xl font-bold text-gray-800">{member.name}</CardTitle>
-                  <p className="text-purple-600 font-semibold">{member.role}</p>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <p className="text-gray-600 text-sm leading-relaxed">{member.bio}</p>
-                  
-                  <div className="flex flex-wrap gap-2">
-                    {member.skills.map((skill, skillIndex) => (
-                      <Badge key={skillIndex} variant="secondary" className="bg-purple-100 text-purple-700">
-                        {skill}
-                      </Badge>
-                    ))}
-                  </div>
-
-                  <div className="flex justify-center space-x-4 pt-4">
-                    <a
-                      href={member.social.linkedin}
-                      className="text-gray-400 hover:text-purple-600 transition-colors"
-                    >
-                      <Linkedin size={20} />
-                    </a>
-                    <a
-                      href={`mailto:${member.social.email}`}
-                      className="text-gray-400 hover:text-purple-600 transition-colors"
-                    >
-                      <Mail size={20} />
-                    </a>
-                    <a
-                      href={member.social.twitter}
-                      className="text-gray-400 hover:text-purple-600 transition-colors"
-                    >
-                      <Twitter size={20} />
-                    </a>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+        <div className="bg-white rounded-lg shadow-lg p-8 text-center">
+          <h2 className="text-3xl font-bold text-gray-800 mb-4">Join Our Team</h2>
+          <p className="text-gray-600 mb-6">
+            We're always looking for talented individuals who share our passion for education and innovation.
+          </p>
+          <Button className="bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900">
+            View Open Positions
+          </Button>
         </div>
-      </section>
+      </div>
 
       <Footer />
     </div>

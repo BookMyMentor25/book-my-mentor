@@ -153,7 +153,7 @@ const Dashboard = () => {
                           {order.status === 'pending' && (
                             <div className="mt-3 p-3 bg-yellow-50 border border-yellow-200 rounded">
                               <p className="text-sm text-yellow-800">
-                                <strong>Note:</strong> Your order is pending. Our team will contact you shortly 
+                                <strong>Note:</strong> Your order is pending. On the availability of slots. Our team will contact you shortly 
                                 to complete the payment and provide course access.
                               </p>
                             </div>
