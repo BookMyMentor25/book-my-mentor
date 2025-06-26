@@ -64,7 +64,7 @@ const CourseCard = ({ title, description, duration, sessions, features, plans }:
             <CardContent className="space-y-4">
               <div className="space-y-2 text-sm text-gray-600">
                 <div>Duration: {plan.duration}</div>
-                <div>Live Projects: {plan.projects}</div>
+                <div>Live Projects: {plan.projects === "Multiple Live Projects" ? "1 Live Project" : plan.projects}</div>
               </div>
               <Button 
                 onClick={() => handlePlanSelect(plan)}

@@ -134,7 +134,7 @@ const DynamicCourseCard = ({ course }: DynamicCourseCardProps) => {
           </Button>
           
           <div className="text-center text-xs text-gray-500">
-            💳 Secure Payment • 📞 24/7 Support • 🔄 30-Day Money Back
+            💳 Secure Payment • 📞 24/7 Support
           </div>
         </div>
       </CardContent>

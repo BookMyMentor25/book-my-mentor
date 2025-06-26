@@ -107,7 +107,6 @@ const OrderSummary = ({ course, originalPrice, finalPrice, appliedCoupon }: Orde
             <div>🎯 Mock Interview Session</div>
             <div>📄 CV Review & Approval</div>
             <div>📧 Automated Invoice Generation</div>
-            <div>🔄 30-Day Money-Back Guarantee</div>
           </div>
         </div>
       </CardContent>

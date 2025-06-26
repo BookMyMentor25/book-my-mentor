@@ -13,7 +13,7 @@ const Team = () => {
     {
       name: "Najmus SS",
       role: "Founder & CEO",
-      image: "/lovable-uploads/214d995d-02ae-4cd5-91b4-8fd5272fdde1.png",
+      image: "/lovable-uploads/17cc5ed3-21d0-471a-8197-f89d35fce02b.png",
       bio: "Visionary leader with 15+ years in product management and business strategy. Former VP at tech unicorns.",
       linkedin: "https://linkedin.com/in/najmusss",
       email: "najmus@buildmymantra.com",
@@ -22,7 +22,7 @@ const Team = () => {
     {
       name: "Akshay Gupta",
       role: "Head of Product",
-      image: "/lovable-uploads/7e1934b2-0701-49e5-93ad-6ab90232c310.png",
+      image: "/lovable-uploads/e667d9a3-2aa2-41a8-813a-b41f903788d0.png",
       bio: "Product strategist with expertise in AI/ML and user experience design. Led product teams at Fortune 500 companies.",
       linkedin: "https://linkedin.com/in/akshaygupta",
       email: "akshay@buildmymantra.com"
