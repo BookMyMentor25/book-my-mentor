@@ -10,7 +10,6 @@ import PartnersSection from "@/components/PartnersSection";
 import CoursesSection from "@/components/CoursesSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import DownloadSection from "@/components/DownloadSection";
-import AIToolsSection from "@/components/AIToolsSection";
 
 const Index = () => {
   const { user } = useAuth();
@@ -82,9 +81,6 @@ const Index = () => {
 
       {/* Dynamic Courses Section */}
       <CoursesSection />
-
-      {/* AI Tools Section */}
-      <AIToolsSection />
 
       {/* Testimonials Section */}
       <TestimonialsSection />

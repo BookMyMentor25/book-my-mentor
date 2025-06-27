@@ -2,11 +2,6 @@
 import React from "react";
 
 const PartnersSection = () => {
-  const scrollToContact = () => {
-    const footer = document.querySelector('footer');
-    footer?.scrollIntoView({ behavior: 'smooth' });
-  };
-
   return (
     <section id="partners" className="py-16 bg-gradient-to-r from-purple-600 to-blue-600 text-white">
       <div className="container mx-auto px-4 text-center">
@@ -46,10 +41,7 @@ const PartnersSection = () => {
         <div className="bg-white/10 backdrop-blur-sm rounded-lg p-8">
           <h3 className="text-2xl font-bold mb-4">Want to become our partner?</h3>
           <p className="text-lg mb-6">Join our network of industry leaders and help shape the future of professional development.</p>
-          <button 
-            onClick={scrollToContact}
-            className="bg-white text-purple-600 hover:bg-gray-100 px-8 py-3 rounded-lg font-semibold transition-colors duration-300"
-          >
+          <button className="bg-white text-purple-600 hover:bg-gray-100 px-8 py-3 rounded-lg font-semibold transition-colors duration-300">
             Contact us
           </button>
         </div>
