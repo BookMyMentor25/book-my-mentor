@@ -25,20 +25,20 @@ const Index = () => {
       <CouponBanner />
       
       {/* Hero Section */}
-      <section className="py-20 bg-gradient-to-r from-blue-600 to-purple-700 text-white">
+      <section className="py-12 sm:py-16 lg:py-20 bg-gradient-to-r from-blue-600 to-purple-700 text-white">
         <div className="container mx-auto px-4 text-center">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6">
             Book My Mentor
           </h1>
-          <p className="text-xl md:text-2xl mb-8 max-w-3xl mx-auto">
+          <p className="text-lg sm:text-xl lg:text-2xl mb-6 sm:mb-8 max-w-3xl mx-auto px-4">
             Level up your career with expert mentorship in Product Management, Lean Startup, and Project Management
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center px-4">
             {user ? (
               <>
                 <Button 
                   size="lg" 
-                  className="bg-white text-purple-700 hover:bg-gray-100"
+                  className="bg-white text-purple-700 hover:bg-gray-100 text-sm sm:text-base"
                   onClick={() => navigate('/dashboard')}
                 >
                   My Dashboard
@@ -46,7 +46,7 @@ const Index = () => {
                 <Button 
                   size="lg" 
                   variant="outline" 
-                  className="border-white text-white"
+                  className="border-white text-white text-sm sm:text-base"
                   onClick={handleDownloadBrochures}
                 >
                   Download Brochures
@@ -56,7 +56,7 @@ const Index = () => {
               <>
                 <Button 
                   size="lg" 
-                  className="bg-white text-purple-700 hover:bg-gray-100"
+                  className="bg-white text-purple-700 hover:bg-gray-100 text-sm sm:text-base"
                   onClick={() => navigate('/auth')}
                 >
                   Get Started
@@ -64,7 +64,7 @@ const Index = () => {
                 <Button 
                   size="lg" 
                   variant="outline" 
-                  className="border-white text-white"
+                  className="border-white text-white text-sm sm:text-base"
                   onClick={handleDownloadBrochures}
                 >
                   Download Brochures

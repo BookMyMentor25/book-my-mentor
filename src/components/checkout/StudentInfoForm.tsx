@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { User, Phone, Mail, MapPin, Tag, X } from "lucide-react";
+import { User, Phone, Mail, MapPin } from "lucide-react";
 
 interface FormData {
   name: string;
@@ -37,10 +37,7 @@ const StudentInfoForm = ({
   formData, 
   onInputChange, 
   onSubmit, 
-  isLoading, 
-  appliedCoupon,
-  onApplyCoupon,
-  onRemoveCoupon 
+  isLoading 
 }: StudentInfoFormProps) => {
   return (
     <Card>
@@ -101,56 +98,6 @@ const StudentInfoForm = ({
                 className="pl-10"
                 required
               />
-            </div>
-          </div>
-
-          {/* Coupon Code Section */}
-          <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-4 rounded-lg border border-blue-200">
-            <Label htmlFor="couponCode" className="text-blue-800 font-semibold">
-              Have a Referral/Coupon Code?
-            </Label>
-            <div className="flex space-x-2 mt-2">
-              <div className="relative flex-1">
-                <Tag className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
-                <Input
-                  id="couponCode"
-                  name="couponCode"
-                  value={formData.couponCode}
-                  onChange={onInputChange}
-                  placeholder="Enter coupon code"
-                  className="pl-10"
-                  disabled={!!appliedCoupon}
-                />
-              </div>
-              {appliedCoupon ? (
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={onRemoveCoupon}
-                  className="border-red-300 text-red-600 hover:bg-red-50"
-                >
-                  <X className="w-4 h-4 mr-1" />
-                  Remove
-                </Button>
-              ) : (
-                <Button
-                  type="button"
-                  onClick={onApplyCoupon}
-                  className="bg-blue-600 hover:bg-blue-700"
-                  disabled={!formData.couponCode.trim()}
-                >
-                  Apply
-                </Button>
-              )}
-            </div>
-            {appliedCoupon && (
-              <div className="mt-2 p-2 bg-green-100 border border-green-300 rounded text-sm text-green-800">
-                ✅ Coupon "{appliedCoupon.code}" applied! 
-                You saved {appliedCoupon.type === 'percentage' ? `${appliedCoupon.discount}%` : `₹${appliedCoupon.discount}`}
-              </div>
-            )}
-            <div className="mt-2 text-xs text-blue-600">
-              Try: FIRST50, STUDENT30, EARLY20, or SAVE1000
             </div>
           </div>
 
