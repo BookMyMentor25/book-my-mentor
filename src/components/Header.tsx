@@ -14,7 +14,7 @@ const Header = () => {
   };
 
   const handleShareFeedback = () => {
-    window.open('https://wa.me/918275513895?text=Hi%20I%20would%20like%20to%20share%20feedback%20about%20Book%20My%20Mentor', '_blank');
+    window.open('https://g.page/r/CZvakCyCA-xjEAE/review', '_blank');
   };
 
   return (

@@ -19,6 +19,10 @@ const Index = () => {
     document.getElementById('downloads')?.scrollIntoView({ behavior: 'smooth' });
   };
 
+  const handleShareFeedback = () => {
+    window.open('https://g.page/r/CZvakCyCA-xjEAE/review', '_blank');
+  };
+
   return (
     <div className="min-h-screen bg-white">
       <Header />
@@ -57,9 +61,9 @@ const Index = () => {
                 <Button 
                   size="lg" 
                   className="bg-white text-purple-700 hover:bg-gray-100 text-sm sm:text-base"
-                  onClick={() => navigate('/auth')}
+                  onClick={handleShareFeedback}
                 >
-                  Get Started
+                  Share Feedback
                 </Button>
                 <Button 
                   size="lg" 

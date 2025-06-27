@@ -9,6 +9,27 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      admin_users: {
+        Row: {
+          created_at: string
+          id: string
+          role: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       courses: {
         Row: {
           category: string | null
@@ -88,6 +109,8 @@ export type Database = {
           created_at: string | null
           discount_amount: number | null
           id: string
+          invoice_generated_at: string | null
+          invoice_number: string | null
           order_id: string
           pincode: string | null
           state: string | null
@@ -107,6 +130,8 @@ export type Database = {
           created_at?: string | null
           discount_amount?: number | null
           id?: string
+          invoice_generated_at?: string | null
+          invoice_number?: string | null
           order_id: string
           pincode?: string | null
           state?: string | null
@@ -126,6 +151,8 @@ export type Database = {
           created_at?: string | null
           discount_amount?: number | null
           id?: string
+          invoice_generated_at?: string | null
+          invoice_number?: string | null
           order_id?: string
           pincode?: string | null
           state?: string | null
@@ -178,7 +205,14 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      generate_invoice_number: {
+        Args: Record<PropertyKey, never>
+        Returns: string
+      }
+      is_admin: {
+        Args: { user_uuid: string }
+        Returns: boolean
+      }
     }
     Enums: {
       [_ in never]: never
