@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { User, Phone, Mail, MapPin } from "lucide-react";
+import { User, Phone, Mail, MapPin, Tag, X } from "lucide-react";
 
 interface FormData {
   name: string;
@@ -37,7 +37,10 @@ const StudentInfoForm = ({
   formData, 
   onInputChange, 
   onSubmit, 
-  isLoading 
+  isLoading,
+  appliedCoupon,
+  onApplyCoupon,
+  onRemoveCoupon
 }: StudentInfoFormProps) => {
   return (
     <Card>
@@ -149,6 +152,60 @@ const StudentInfoForm = ({
                 placeholder="Pincode"
               />
             </div>
+          </div>
+
+          {/* Referral/Coupon Code Section */}
+          <div className="space-y-4">
+            <Label htmlFor="couponCode">Referral/Coupon Code (Optional)</Label>
+            <div className="flex gap-2">
+              <div className="relative flex-1">
+                <Tag className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                <Input
+                  id="couponCode"
+                  name="couponCode"
+                  value={formData.couponCode}
+                  onChange={onInputChange}
+                  placeholder="Enter referral or coupon code"
+                  className="pl-10"
+                  disabled={!!appliedCoupon}
+                />
+              </div>
+              <div className="flex gap-2">
+                {!appliedCoupon ? (
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={onApplyCoupon}
+                    disabled={!formData.couponCode.trim()}
+                    className="whitespace-nowrap"
+                  >
+                    Apply Code
+                  </Button>
+                ) : (
+                  <Button
+                    type="button"
+                    variant="destructive"
+                    size="sm"
+                    onClick={onRemoveCoupon}
+                    className="whitespace-nowrap"
+                  >
+                    <X className="h-4 w-4 mr-1" />
+                    Remove
+                  </Button>
+                )}
+              </div>
+            </div>
+            
+            {appliedCoupon && (
+              <div className="bg-green-50 border border-green-200 rounded-lg p-3">
+                <p className="text-sm text-green-800 font-medium">
+                  ✅ Code "{appliedCoupon.code}" applied successfully! 
+                  You saved {appliedCoupon.type === 'percentage' 
+                    ? `${appliedCoupon.discount}%` 
+                    : `₹${appliedCoupon.discount}`}
+                </p>
+              </div>
+            )}
           </div>
 
           <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
