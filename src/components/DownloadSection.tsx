@@ -1,7 +1,7 @@
 
 import React from "react";
 import { Button } from "@/components/ui/button";
-import { Download, FileText, BookOpen } from "lucide-react";
+import { Download, FileText, BookOpen, FolderOpen } from "lucide-react";
 
 const DownloadSection = () => {
   const downloads = [
@@ -25,6 +25,13 @@ const DownloadSection = () => {
       icon: <Download className="w-6 sm:w-8 h-6 sm:h-8" />,
       url: "https://drive.google.com/drive/folders/12FEayGzOKAFNZfzJtPDUx0Q3KNzsQVH_?usp=sharing",
       gradient: "from-purple-600 to-pink-600"
+    },
+    {
+      title: "Brochures",
+      description: "Access our comprehensive course brochures and program details",
+      icon: <FolderOpen className="w-6 sm:w-8 h-6 sm:h-8" />,
+      url: "https://drive.google.com/drive/folders/1cch0XTeB7RcBQH8IhXCsoQ-qPZCQol3I?usp=sharing",
+      gradient: "from-orange-600 to-red-600"
     }
   ];
 
@@ -38,7 +45,7 @@ const DownloadSection = () => {
           </p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
           {downloads.map((download, index) => (
             <div key={index} className="bg-gradient-to-br from-blue-50 to-purple-50 p-6 sm:p-8 rounded-lg text-center hover:shadow-lg transition-shadow">
               <div className={`inline-flex items-center justify-center w-12 sm:w-16 h-12 sm:h-16 rounded-full bg-gradient-to-r ${download.gradient} text-white mb-4 sm:mb-6`}>

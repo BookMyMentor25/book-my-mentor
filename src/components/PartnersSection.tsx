@@ -43,8 +43,8 @@ const PartnersSection = () => {
           </div>
           <div className="flex items-center justify-center bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
             <img 
-              src="/lovable-uploads/ea951ada-8288-465a-b807-ce24bddb85fd.png" 
-              alt="E-Cell IIT Madras" 
+              src="/lovable-uploads/adb05625-8590-4f24-8232-15aee356e561.png" 
+              alt="180 Degrees Consulting" 
               className="h-12 w-auto opacity-70 hover:opacity-100 transition-opacity"
             />
           </div>
@@ -52,36 +52,66 @@ const PartnersSection = () => {
           {/* Second Row */}
           <div className="flex items-center justify-center bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
             <img 
-              src="/lovable-uploads/bf0525bf-37a1-48ef-be98-1823421a283a.png" 
+              src="/lovable-uploads/cc42969d-6751-4647-a629-aec7947cfad4.png" 
+              alt="CA Partnership" 
+              className="h-12 w-auto opacity-70 hover:opacity-100 transition-opacity"
+            />
+          </div>
+          <div className="flex items-center justify-center bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
+            <img 
+              src="/lovable-uploads/d590a072-502c-4a9c-8f77-badea76c7ac9.png" 
+              alt="E-Cell IIT Bombay" 
+              className="h-12 w-auto opacity-70 hover:opacity-100 transition-opacity"
+            />
+          </div>
+          <div className="flex items-center justify-center bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
+            <img 
+              src="/lovable-uploads/a01dce07-d1e4-49f4-8227-aa0dfcb5f971.png" 
               alt="E-Cell IIT Jodhpur" 
               className="h-12 w-auto opacity-70 hover:opacity-100 transition-opacity"
             />
           </div>
           <div className="flex items-center justify-center bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
             <img 
-              src="/lovable-uploads/c1e2f504-90d9-4f49-b3dc-e1af5c89ba19.png" 
-              alt="Partner 7" 
+              src="/lovable-uploads/567531a1-2b0b-47f4-bc91-c5fb8afee48a.png" 
+              alt="E-Cell IIT Madras" 
               className="h-12 w-auto opacity-70 hover:opacity-100 transition-opacity"
             />
           </div>
           <div className="flex items-center justify-center bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
             <img 
-              src="/lovable-uploads/ea5dd580-c77b-4029-9a09-93bb9eeaec64.png" 
-              alt="Partner 8" 
+              src="/lovable-uploads/0da05d60-444c-4ce8-80d7-d372fbe51610.png" 
+              alt="E-Cell IIM Kashipur" 
+              className="h-12 w-auto opacity-70 hover:opacity-100 transition-opacity"
+            />
+          </div>
+
+          {/* Third Row */}
+          <div className="flex items-center justify-center bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
+            <img 
+              src="/lovable-uploads/c5b42e34-0f16-4daa-a332-89e1b78af936.png" 
+              alt="E-Cell IIMT" 
               className="h-12 w-auto opacity-70 hover:opacity-100 transition-opacity"
             />
           </div>
           <div className="flex items-center justify-center bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
             <img 
-              src="/lovable-uploads/fcc84eb8-4fef-4b4a-8292-66ffe9aab2f7.png" 
-              alt="Partner 9" 
+              src="/lovable-uploads/92dfb824-91d0-41b5-b008-99d196bffc31.png" 
+              alt="Partner Logo" 
               className="h-12 w-auto opacity-70 hover:opacity-100 transition-opacity"
             />
           </div>
           <div className="flex items-center justify-center bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
             <img 
-              src="/lovable-uploads/e78494d6-eb08-4726-9304-623b36273291.png" 
-              alt="Partner 10" 
+              src="/lovable-uploads/0db8843f-e5bf-4fa7-a036-7d9f463ddc5d.png" 
+              alt="EDC IIT Delhi" 
+              className="h-12 w-auto opacity-70 hover:opacity-100 transition-opacity"
+            />
+          </div>
+          <div className="flex items-center justify-center bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
+            <img 
+              src="/lovable-uploads/0aa6a962-a6b0-4c98-89ba-d6dc7435d312.png" 
+              alt="SpaceCon 2025" 
               className="h-12 w-auto opacity-70 hover:opacity-100 transition-opacity"
             />
           </div>

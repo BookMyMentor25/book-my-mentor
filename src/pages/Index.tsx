@@ -1,4 +1,3 @@
-
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
@@ -10,6 +9,7 @@ import PartnersSection from "@/components/PartnersSection";
 import CoursesSection from "@/components/CoursesSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import DownloadSection from "@/components/DownloadSection";
+import AboutSection from "@/components/AboutSection";
 
 const Index = () => {
   const { user } = useAuth();
@@ -81,6 +81,9 @@ const Index = () => {
 
       {/* Dynamic Courses Section */}
       <CoursesSection />
+
+      {/* About Us Section */}
+      <AboutSection />
 
       {/* Testimonials Section */}
       <TestimonialsSection />
