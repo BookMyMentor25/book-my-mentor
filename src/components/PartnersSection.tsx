@@ -43,8 +43,8 @@ const PartnersSection = () => {
           </div>
           <div className="flex items-center justify-center bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
             <img 
-              src="/lovable-uploads/aa112f11-643e-4b67-9a93-974fcb1475f6.png" 
-              alt="Partner 5" 
+              src="/lovable-uploads/ea951ada-8288-465a-b807-ce24bddb85fd.png" 
+              alt="E-Cell IIT Madras" 
               className="h-12 w-auto opacity-70 hover:opacity-100 transition-opacity"
             />
           </div>
@@ -52,8 +52,8 @@ const PartnersSection = () => {
           {/* Second Row */}
           <div className="flex items-center justify-center bg-white rounded-lg p-6 shadow-sm hover:shadow-md transition-shadow">
             <img 
-              src="/lovable-uploads/b7c3f4ad-5533-4a69-83d1-4b3bc50d0a16.png" 
-              alt="Partner 6" 
+              src="/lovable-uploads/bf0525bf-37a1-48ef-be98-1823421a283a.png" 
+              alt="E-Cell IIT Jodhpur" 
               className="h-12 w-auto opacity-70 hover:opacity-100 transition-opacity"
             />
           </div>
