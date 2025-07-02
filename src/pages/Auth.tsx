@@ -14,10 +14,11 @@ import Footer from '@/components/Footer';
 
 const Auth = () => {
   const navigate = useNavigate();
-  const { signIn, signUp, user } = useAuth();
+  const { signIn, signUp, resetPassword, user } = useAuth();
   const { toast } = useToast();
   
   const [isLoading, setIsLoading] = useState(false);
+  const [resetEmail, setResetEmail] = useState('');
   const [loginData, setLoginData] = useState({ email: '', password: '' });
   const [signupData, setSignupData] = useState({ 
     email: '', 
@@ -85,6 +86,36 @@ const Auth = () => {
     setIsLoading(false);
   };
 
+  const handleForgotPassword = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!resetEmail) {
+      toast({
+        title: "Email Required",
+        description: "Please enter your email address.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setIsLoading(true);
+    const { error } = await resetPassword(resetEmail);
+    
+    if (error) {
+      toast({
+        title: "Reset Failed",
+        description: error.message,
+        variant: "destructive",
+      });
+    } else {
+      toast({
+        title: "Reset Email Sent",
+        description: "Check your email for password reset instructions.",
+      });
+      setResetEmail('');
+    }
+    setIsLoading(false);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
@@ -106,9 +137,10 @@ const Auth = () => {
             </CardHeader>
             <CardContent>
               <Tabs defaultValue="signin" className="w-full">
-                <TabsList className="grid w-full grid-cols-2">
+                <TabsList className="grid w-full grid-cols-3">
                   <TabsTrigger value="signin">Sign In</TabsTrigger>
                   <TabsTrigger value="signup">Sign Up</TabsTrigger>
+                  <TabsTrigger value="forgot">Reset Password</TabsTrigger>
                 </TabsList>
                 
                 <TabsContent value="signin">
@@ -227,6 +259,34 @@ const Auth = () => {
                       disabled={isLoading}
                     >
                       {isLoading ? "Creating Account..." : "Create Account"}
+                    </Button>
+                  </form>
+                </TabsContent>
+                
+                <TabsContent value="forgot">
+                  <form onSubmit={handleForgotPassword} className="space-y-4">
+                    <div>
+                      <Label htmlFor="reset-email">Email</Label>
+                      <div className="relative">
+                        <Mail className="absolute left-3 top-3 h-4 w-4 text-gray-400" />
+                        <Input
+                          id="reset-email"
+                          type="email"
+                          value={resetEmail}
+                          onChange={(e) => setResetEmail(e.target.value)}
+                          placeholder="Enter your email"
+                          className="pl-10"
+                          required
+                        />
+                      </div>
+                    </div>
+                    
+                    <Button 
+                      type="submit" 
+                      className="w-full bg-gradient-to-r from-purple-600 to-purple-800"
+                      disabled={isLoading}
+                    >
+                      {isLoading ? "Sending Reset Email..." : "Send Reset Email"}
                     </Button>
                   </form>
                 </TabsContent>
