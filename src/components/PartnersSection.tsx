@@ -15,20 +15,6 @@ const PartnersSection = () => {
           {/* First Row */}
           <div className="flex items-center justify-center bg-white rounded-lg p-4 sm:p-6 shadow-sm hover:shadow-md transition-all duration-300 hover:scale-105">
             <img 
-              src="/lovable-uploads/17cc5ed3-21d0-471a-8197-f89d35fce02b.png" 
-              alt="LinkedIn Partner" 
-              className="h-8 sm:h-12 w-auto opacity-70 hover:opacity-100 transition-opacity"
-            />
-          </div>
-          <div className="flex items-center justify-center bg-white rounded-lg p-4 sm:p-6 shadow-sm hover:shadow-md transition-all duration-300 hover:scale-105">
-            <img 
-              src="/lovable-uploads/7e1934b2-0701-49e5-93ad-6ab90232c310.png" 
-              alt="Gartner Partner" 
-              className="h-8 sm:h-12 w-auto opacity-70 hover:opacity-100 transition-opacity"
-            />
-          </div>
-          <div className="flex items-center justify-center bg-white rounded-lg p-4 sm:p-6 shadow-sm hover:shadow-md transition-all duration-300 hover:scale-105">
-            <img 
               src="/lovable-uploads/99be4bce-11ae-41eb-85bb-166a094c8952.png" 
               alt="Forbes Partner" 
               className="h-8 sm:h-12 w-auto opacity-70 hover:opacity-100 transition-opacity"
