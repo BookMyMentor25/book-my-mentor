@@ -1,6 +1,7 @@
+
 import React from 'react';
 import { useAuth } from "@/hooks/useAuth";
-import { useAdminOrders } from "@/hooks/useAdminOrders";
+import { useAdminOrders, useUpdateOrderStatus } from "@/hooks/useAdminOrders";
 import { useInquiries } from "@/hooks/useInquiries";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -11,10 +12,14 @@ import { format } from "date-fns";
 
 const AdminDashboard = () => {
   const { user, signOut } = useAuth();
-  const { orders, isLoading: isLoadingOrders, updateOrderStatus, isUpdating: isUpdatingOrder } = useAdminOrders();
+  const { data: orders, isLoading: isLoadingOrders } = useAdminOrders();
+  const updateOrderStatusMutation = useUpdateOrderStatus();
   const { inquiries, isLoading: isLoadingInquiries, updateInquiryStatus, isUpdating: isUpdatingInquiry } = useInquiries();
 
-  if (!user?.isAdmin) {
+  // Check if user is admin by checking if they exist in admin_users table
+  const isAdmin = user?.email === 'admin@bookmymentor.com'; // You can implement proper admin check
+
+  if (!isAdmin) {
     return (
       <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
         <Card className="w-full max-w-md p-8 rounded-lg shadow-md">
@@ -31,6 +36,40 @@ const AdminDashboard = () => {
       </div>
     );
   }
+
+  const handleUpdateOrderStatus = (orderId: string, status: string) => {
+    updateOrderStatusMutation.mutate({ orderId, status });
+  };
+
+  const getStatusVariant = (status: string) => {
+    switch (status) {
+      case 'pending':
+        return 'secondary';
+      case 'processing':
+        return 'outline';
+      case 'shipped':
+        return 'default';
+      case 'cancelled':
+        return 'destructive';
+      default:
+        return 'secondary';
+    }
+  };
+
+  const getInquiryStatusVariant = (status: string) => {
+    switch (status) {
+      case 'new':
+        return 'secondary';
+      case 'pending':
+        return 'outline';
+      case 'resolved':
+        return 'default';
+      case 'rejected':
+        return 'destructive';
+      default:
+        return 'secondary';
+    }
+  };
 
   return (
     <div className="container mx-auto py-10">
@@ -80,17 +119,7 @@ const AdminDashboard = () => {
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{order.user_id}</td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${order.amount}</td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            <Badge
-                              variant={
-                                order.status === 'pending'
-                                  ? 'secondary'
-                                  : order.status === 'processing'
-                                    ? 'warning'
-                                    : order.status === 'shipped'
-                                      ? 'success'
-                                      : 'destructive'
-                              }
-                            >
+                            <Badge variant={getStatusVariant(order.status || 'pending')}>
                               {order.status}
                             </Badge>
                           </td>
@@ -99,9 +128,9 @@ const AdminDashboard = () => {
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                             <Select
-                              defaultValue={order.status}
-                              onValueChange={(status) => updateOrderStatus({ id: order.id, status })}
-                              disabled={isUpdatingOrder}
+                              defaultValue={order.status || 'pending'}
+                              onValueChange={(status) => handleUpdateOrderStatus(order.id, status)}
+                              disabled={updateOrderStatusMutation.isPending}
                             >
                               <SelectTrigger>
                                 <SelectValue placeholder={order.status} />
@@ -164,20 +193,10 @@ const AdminDashboard = () => {
                         <tr key={inquiry.id}>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{inquiry.name}</td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{inquiry.email}</td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{inquiry.message.substring(0, 50)}...</td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{inquiry.message?.substring(0, 50)}...</td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{inquiry.course_interest || 'N/A'}</td>
                           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                            <Badge
-                              variant={
-                                inquiry.status === 'new'
-                                  ? 'secondary'
-                                  : inquiry.status === 'pending'
-                                    ? 'warning'
-                                    : inquiry.status === 'resolved'
-                                      ? 'success'
-                                      : 'destructive'
-                              }
-                            >
+                            <Badge variant={getInquiryStatusVariant(inquiry.status || 'new')}>
                               {inquiry.status}
                             </Badge>
                           </td>
@@ -186,7 +205,7 @@ const AdminDashboard = () => {
                           </td>
                           <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                             <Select
-                              defaultValue={inquiry.status}
+                              defaultValue={inquiry.status || 'new'}
                               onValueChange={(status) => updateInquiryStatus({ id: inquiry.id, status })}
                               disabled={isUpdatingInquiry}
                             >
