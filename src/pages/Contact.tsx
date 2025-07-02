@@ -169,9 +169,8 @@ const Contact = () => {
                   <div>
                     <h3 className="font-semibold text-sm sm:text-base text-gray-900">Address</h3>
                     <p className="text-sm sm:text-base text-gray-600 leading-relaxed">
-                      123 Business Street<br />
-                      Suite 100<br />
-                      Business City, BC 12345
+                      Near MGM Hospital, N-5 Cidco<br />
+                      Aurangabad, Maharashtra -431001
                     </p>
                   </div>
                 </div>
@@ -180,7 +179,7 @@ const Contact = () => {
                   <Phone className="h-5 w-5 sm:h-6 sm:w-6 text-purple-600 mt-1 flex-shrink-0" />
                   <div>
                     <h3 className="font-semibold text-sm sm:text-base text-gray-900">Phone</h3>
-                    <p className="text-sm sm:text-base text-gray-600">+1 (555) 123-4567</p>
+                    <p className="text-sm sm:text-base text-gray-600">+91 8275513895</p>
                   </div>
                 </div>
 
@@ -188,7 +187,10 @@ const Contact = () => {
                   <Mail className="h-5 w-5 sm:h-6 sm:w-6 text-purple-600 mt-1 flex-shrink-0" />
                   <div>
                     <h3 className="font-semibold text-sm sm:text-base text-gray-900">Email</h3>
-                    <p className="text-sm sm:text-base text-gray-600">info@bookmymentor.com</p>
+                    <p className="text-sm sm:text-base text-gray-600">
+                      info@bookmymentor.com<br />
+                      bookmymentor.co@gmail.com
+                    </p>
                   </div>
                 </div>
 
