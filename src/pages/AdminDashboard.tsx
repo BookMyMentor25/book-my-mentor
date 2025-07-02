@@ -1,304 +1,216 @@
-import { useAdmin } from "@/hooks/useAdmin";
-import { useAdminOrders, useUpdateOrderStatus, useGenerateInvoice } from "@/hooks/useAdminOrders";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Skeleton } from "@/components/ui/skeleton";
-import { useNavigate } from "react-router-dom";
-import { ArrowLeft, Users, CreditCard, FileText, Download } from "lucide-react";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import { formatPrice } from "@/hooks/useCourses";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import React from 'react';
+import { useAuth } from "@/hooks/useAuth";
+import { useAdminOrders } from "@/hooks/useAdminOrders";
 import { useInquiries } from "@/hooks/useInquiries";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { format } from "date-fns";
 
 const AdminDashboard = () => {
-  const { isAdmin, loading: adminLoading } = useAdmin();
-  const { data: orders, isLoading } = useAdminOrders();
-  const updateOrderStatus = useUpdateOrderStatus();
-  const generateInvoice = useGenerateInvoice();
-  const navigate = useNavigate();
-  const { inquiries, isLoading: inquiriesLoading, updateInquiryStatus } = useInquiries();
+  const { user, signOut } = useAuth();
+  const { orders, isLoading: isLoadingOrders, updateOrderStatus, isUpdating: isUpdatingOrder } = useAdminOrders();
+  const { inquiries, isLoading: isLoadingInquiries, updateInquiryStatus, isUpdating: isUpdatingInquiry } = useInquiries();
 
-  if (adminLoading) {
+  if (!user?.isAdmin) {
     return (
-      <div className="min-h-screen bg-gray-50">
-        <Header />
-        <div className="container mx-auto px-4 py-8">
-          <div className="flex items-center justify-center">
-            <Skeleton className="h-8 w-48" />
-          </div>
-        </div>
-        <Footer />
+      <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
+        <Card className="w-full max-w-md p-8 rounded-lg shadow-md">
+          <CardHeader>
+            <CardTitle className="text-2xl font-bold text-center">Access Denied</CardTitle>
+            <CardDescription className="text-gray-600 text-center">
+              You do not have permission to view this page.
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="flex justify-center">
+            <Button variant="destructive" onClick={() => signOut()}>Sign Out</Button>
+          </CardContent>
+        </Card>
       </div>
     );
   }
-
-  if (!isAdmin) {
-    return (
-      <div className="min-h-screen bg-gray-50">
-        <Header />
-        <div className="container mx-auto px-4 py-8">
-          <div className="text-center">
-            <h1 className="text-2xl font-bold text-red-600 mb-4">Access Denied</h1>
-            <p className="text-gray-600 mb-4">You don't have admin privileges to access this page.</p>
-            <Button onClick={() => navigate('/')}>Go to Home</Button>
-          </div>
-        </div>
-        <Footer />
-      </div>
-    );
-  }
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'confirmed': return 'bg-green-100 text-green-800';
-      case 'completed': return 'bg-blue-100 text-blue-800';
-      case 'cancelled': return 'bg-red-100 text-red-800';
-      default: return 'bg-yellow-100 text-yellow-800';
-    }
-  };
-
-  const handleStatusChange = (orderId: string, newStatus: string) => {
-    updateOrderStatus.mutate({ orderId, status: newStatus });
-  };
-
-  const handleGenerateInvoice = (orderId: string) => {
-    generateInvoice.mutate(orderId);
-  };
-
-  const stats = {
-    totalOrders: orders?.length || 0,
-    pendingOrders: orders?.filter(order => order.status === 'pending').length || 0,
-    confirmedOrders: orders?.filter(order => order.status === 'confirmed').length || 0,
-    totalRevenue: orders?.reduce((sum, order) => sum + order.amount, 0) || 0,
-  };
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Header />
-      
-      <div className="container mx-auto px-4 py-8">
-        <div className="flex justify-between items-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
-          <Button onClick={() => navigate('/auth')}>
-            Logout
-          </Button>
-        </div>
+    <div className="container mx-auto py-10">
+      <h1 className="text-3xl font-bold mb-5">Admin Dashboard</h1>
 
-        <Tabs defaultValue="orders" className="space-y-6">
-          <TabsList className="grid w-full grid-cols-3">
-            <TabsTrigger value="orders">Orders</TabsTrigger>
-            <TabsTrigger value="inquiries">Inquiries</TabsTrigger>
-            <TabsTrigger value="courses">Courses</TabsTrigger>
-          </TabsList>
+      <Tabs defaultValue="orders" className="w-full">
+        <TabsList className="mb-4">
+          <TabsTrigger value="orders">Orders</TabsTrigger>
+          <TabsTrigger value="inquiries">Inquiries</TabsTrigger>
+        </TabsList>
+        <TabsContent value="orders" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Recent Orders</CardTitle>
+              <CardDescription>Manage and update order statuses.</CardDescription>
+            </CardHeader>
+            <CardContent>
+              {isLoadingOrders ? (
+                <p>Loading orders...</p>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="min-w-full divide-y divide-gray-200">
+                    <thead>
+                      <tr>
+                        <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                          Order ID
+                        </th>
+                        <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                          User ID
+                        </th>
+                        <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                          Amount
+                        </th>
+                        <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                          Status
+                        </th>
+                        <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                          Date
+                        </th>
+                        <th className="px-6 py-3 bg-gray-50"></th>
+                      </tr>
+                    </thead>
+                    <tbody className="bg-white divide-y divide-gray-200">
+                      {orders?.map((order) => (
+                        <tr key={order.id}>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{order.id}</td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{order.user_id}</td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${order.amount}</td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            <Badge
+                              variant={
+                                order.status === 'pending'
+                                  ? 'secondary'
+                                  : order.status === 'processing'
+                                    ? 'warning'
+                                    : order.status === 'shipped'
+                                      ? 'success'
+                                      : 'destructive'
+                              }
+                            >
+                              {order.status}
+                            </Badge>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            {format(new Date(order.created_at), 'MMM dd, yyyy')}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                            <Select
+                              defaultValue={order.status}
+                              onValueChange={(status) => updateOrderStatus({ id: order.id, status })}
+                              disabled={isUpdatingOrder}
+                            >
+                              <SelectTrigger>
+                                <SelectValue placeholder={order.status} />
+                              </SelectTrigger>
+                              <SelectContent>
+                                <SelectItem value="pending">Pending</SelectItem>
+                                <SelectItem value="processing">Processing</SelectItem>
+                                <SelectItem value="shipped">Shipped</SelectItem>
+                                <SelectItem value="cancelled">Cancelled</SelectItem>
+                              </SelectContent>
+                            </Select>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </TabsContent>
 
-          {/* Orders Tab */}
-          <TabsContent value="orders">
-            <Card>
-              <CardHeader>
-                <CardTitle>All Orders</CardTitle>
-              </CardHeader>
-              <CardContent>
-                {isLoading ? (
-                  <div className="space-y-4">
-                    {[1, 2, 3].map((i) => (
-                      <Skeleton key={i} className="h-16 w-full" />
-                    ))}
-                  </div>
-                ) : !orders || orders.length === 0 ? (
-                  <div className="text-center py-8">
-                    <p className="text-gray-500">No orders found</p>
-                  </div>
-                ) : (
-                  <div className="overflow-x-auto">
-                    <Table>
-                      <TableHeader>
-                        <TableRow>
-                          <TableHead>Order ID</TableHead>
-                          <TableHead>Student</TableHead>
-                          <TableHead>Course</TableHead>
-                          <TableHead>Amount</TableHead>
-                          <TableHead>Status</TableHead>
-                          <TableHead>Invoice</TableHead>
-                          <TableHead>Date</TableHead>
-                          <TableHead>Actions</TableHead>
-                        </TableRow>
-                      </TableHeader>
-                      <TableBody>
-                        {orders.map((order) => (
-                          <TableRow key={order.id}>
-                            <TableCell className="font-mono text-xs">
-                              {order.order_id}
-                            </TableCell>
-                            <TableCell>
-                              <div>
-                                <div className="font-medium">{order.student_name}</div>
-                                <div className="text-sm text-gray-500">{order.student_email}</div>
-                                <div className="text-sm text-gray-500">{order.student_phone}</div>
-                              </div>
-                            </TableCell>
-                            <TableCell>{order.courses?.title || 'Course'}</TableCell>
-                            <TableCell className="font-medium">
-                              {formatPrice(order.amount)}
-                            </TableCell>
-                            <TableCell>
-                              <Badge className={getStatusColor(order.status)}>
-                                {order.status.charAt(0).toUpperCase() + order.status.slice(1)}
-                              </Badge>
-                            </TableCell>
-                            <TableCell>
-                              {order.invoice_number ? (
-                                <div className="text-sm">
-                                  <div className="font-mono">{order.invoice_number}</div>
-                                  <div className="text-gray-500">
-                                    {new Date(order.invoice_generated_at).toLocaleDateString()}
-                                  </div>
-                                </div>
-                              ) : (
-                                <Button
-                                  size="sm"
-                                  variant="outline"
-                                  onClick={() => handleGenerateInvoice(order.id)}
-                                  disabled={generateInvoice.isPending}
-                                >
-                                  Generate
-                                </Button>
-                              )}
-                            </TableCell>
-                            <TableCell>
-                              {new Date(order.created_at).toLocaleDateString()}
-                            </TableCell>
-                            <TableCell>
-                              <Select
-                                value={order.status}
-                                onValueChange={(value) => handleStatusChange(order.id, value)}
-                              >
-                                <SelectTrigger className="w-32">
-                                  <SelectValue />
-                                </SelectTrigger>
-                                <SelectContent>
-                                  <SelectItem value="pending">Pending</SelectItem>
-                                  <SelectItem value="confirmed">Confirmed</SelectItem>
-                                  <SelectItem value="completed">Completed</SelectItem>
-                                  <SelectItem value="cancelled">Cancelled</SelectItem>
-                                </SelectContent>
-                              </Select>
-                            </TableCell>
-                          </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          {/* Inquiries Tab */}
-          <TabsContent value="inquiries">
-            <Card>
-              <CardHeader>
-                <CardTitle>Customer Inquiries</CardTitle>
-                <CardDescription>
-                  Manage customer inquiries and messages
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                {inquiriesLoading ? (
-                  <div className="text-center py-4">Loading inquiries...</div>
-                ) : (
-                  <div className="space-y-4">
-                    {inquiries?.map((inquiry) => (
-                      <Card key={inquiry.id} className="p-4">
-                        <div className="flex justify-between items-start mb-2">
-                          <div>
-                            <h3 className="font-semibold">{inquiry.name}</h3>
-                            <p className="text-sm text-gray-600">{inquiry.email}</p>
-                            {inquiry.phone && (
-                              <p className="text-sm text-gray-600">{inquiry.phone}</p>
-                            )}
-                          </div>
-                          <div className="flex items-center space-x-2">
-                            <Badge variant={inquiry.status === 'new' ? 'default' : 'secondary'}>
+        <TabsContent value="inquiries" className="space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Customer Inquiries</CardTitle>
+              <CardDescription>Respond to customer inquiries and update their status.</CardDescription>
+            </CardHeader>
+            <CardContent>
+              {isLoadingInquiries ? (
+                <p>Loading inquiries...</p>
+              ) : (
+                <div className="overflow-x-auto">
+                  <table className="min-w-full divide-y divide-gray-200">
+                    <thead>
+                      <tr>
+                        <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                          Name
+                        </th>
+                        <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                          Email
+                        </th>
+                        <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                          Message
+                        </th>
+                        <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                          Course Interest
+                        </th>
+                        <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                          Status
+                        </th>
+                        <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                          Date
+                        </th>
+                        <th className="px-6 py-3 bg-gray-50"></th>
+                      </tr>
+                    </thead>
+                    <tbody className="bg-white divide-y divide-gray-200">
+                      {inquiries?.map((inquiry) => (
+                        <tr key={inquiry.id}>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{inquiry.name}</td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{inquiry.email}</td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{inquiry.message.substring(0, 50)}...</td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{inquiry.course_interest || 'N/A'}</td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            <Badge
+                              variant={
+                                inquiry.status === 'new'
+                                  ? 'secondary'
+                                  : inquiry.status === 'pending'
+                                    ? 'warning'
+                                    : inquiry.status === 'resolved'
+                                      ? 'success'
+                                      : 'destructive'
+                              }
+                            >
                               {inquiry.status}
                             </Badge>
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                            {format(new Date(inquiry.created_at), 'MMM dd, yyyy')}
+                          </td>
+                          <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                             <Select
-                              value={inquiry.status}
-                              onValueChange={(value) => updateInquiryStatus({ id: inquiry.id, status: value })}
+                              defaultValue={inquiry.status}
+                              onValueChange={(status) => updateInquiryStatus({ id: inquiry.id, status })}
+                              disabled={isUpdatingInquiry}
                             >
-                              <SelectTrigger className="w-32">
-                                <SelectValue />
+                              <SelectTrigger>
+                                <SelectValue placeholder={inquiry.status} />
                               </SelectTrigger>
                               <SelectContent>
                                 <SelectItem value="new">New</SelectItem>
-                                <SelectItem value="in_progress">In Progress</SelectItem>
+                                <SelectItem value="pending">Pending</SelectItem>
                                 <SelectItem value="resolved">Resolved</SelectItem>
+                                <SelectItem value="rejected">Rejected</SelectItem>
                               </SelectContent>
                             </Select>
-                          </div>
-                        </div>
-                        
-                        {inquiry.course_interest && (
-                          <p className="text-sm text-blue-600 mb-2">
-                            Interest: {inquiry.course_interest}
-                          </p>
-                        )}
-                        
-                        <p className="text-gray-700 mb-2">{inquiry.message}</p>
-                        
-                        <p className="text-xs text-gray-500">
-                          {new Date(inquiry.created_at).toLocaleString()}
-                        </p>
-                      </Card>
-                    ))}
-                    
-                    {inquiries?.length === 0 && (
-                      <div className="text-center py-8 text-gray-500">
-                        No inquiries found
-                      </div>
-                    )}
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          {/* Courses Tab */}
-          <TabsContent value="courses">
-            <Card>
-              <CardHeader>
-                <CardTitle>Courses</CardTitle>
-                <CardDescription>
-                  Manage courses and their details
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {/* Add your courses management UI here */}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-        </Tabs>
-      </div>
-
-      <Footer />
+              )}
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
     </div>
   );
 };
