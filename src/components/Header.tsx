@@ -37,7 +37,7 @@ const Header = () => {
             <a href="/#courses" className="text-gray-700 hover:text-purple-600 transition-colors text-sm xl:text-base">Courses</a>
             <a href="/#partners" className="text-gray-700 hover:text-purple-600 transition-colors text-sm xl:text-base">Partners</a>
             <a href="/team" className="text-gray-700 hover:text-purple-600 transition-colors text-sm xl:text-base">Team</a>
-            <button onClick={scrollToContact} className="text-gray-700 hover:text-purple-600 transition-colors text-sm xl:text-base">Contact</button>
+            <a href="/contact" className="text-gray-700 hover:text-purple-600 transition-colors text-sm xl:text-base">Contact</a>
             <Button 
               className="bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900 text-xs xl:text-sm px-3 xl:px-4 py-2"
               onClick={handleShareFeedback}
@@ -64,7 +64,7 @@ const Header = () => {
               <a href="/#courses" className="text-gray-700 hover:text-purple-600 transition-colors py-2 px-2 rounded hover:bg-gray-50">Courses</a>
               <a href="/#partners" className="text-gray-700 hover:text-purple-600 transition-colors py-2 px-2 rounded hover:bg-gray-50">Partners</a>
               <a href="/team" className="text-gray-700 hover:text-purple-600 transition-colors py-2 px-2 rounded hover:bg-gray-50">Team</a>
-              <button onClick={scrollToContact} className="text-gray-700 hover:text-purple-600 transition-colors text-left py-2 px-2 rounded hover:bg-gray-50">Contact</button>
+              <a href="/contact" className="text-gray-700 hover:text-purple-600 transition-colors py-2 px-2 rounded hover:bg-gray-50">Contact</a>
               <Button 
                 className="bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900 w-fit mt-2"
                 onClick={handleShareFeedback}

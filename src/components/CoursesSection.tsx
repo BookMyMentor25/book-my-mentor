@@ -6,6 +6,13 @@ import { Skeleton } from "@/components/ui/skeleton";
 const CoursesSection = () => {
   const { data: courses, isLoading, error } = useCourses();
 
+  console.log('CoursesSection Debug:', {
+    courses: courses?.length || 0,
+    isLoading,
+    error: error?.message || 'none',
+    coursesData: courses
+  });
+
   if (isLoading) {
     return (
       <section className="py-20 bg-gray-50" id="courses">
@@ -52,10 +59,16 @@ const CoursesSection = () => {
             Choose from our expertly designed courses to accelerate your career growth
           </p>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {courses?.map((course) => (
-            <DynamicCourseCard key={course.id} course={course} />
-          ))}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
+          {courses && courses.length > 0 ? (
+            courses.map((course) => (
+              <DynamicCourseCard key={course.id} course={course} />
+            ))
+          ) : (
+            <div className="col-span-full text-center py-8">
+              <p className="text-gray-600">No courses available at the moment.</p>
+            </div>
+          )}
         </div>
       </div>
     </section>
