@@ -24,9 +24,16 @@ export const useCourses = () => {
         .eq('is_active', true)
         .order('created_at', { ascending: true });
 
-      if (error) throw error;
+      if (error) {
+        console.error('Courses query error:', error);
+        throw error;
+      }
+      
+      console.log('Courses fetched:', data);
       return data as Course[];
     },
+    retry: 3,
+    staleTime: 5 * 60 * 1000, // 5 minutes
   });
 };
 

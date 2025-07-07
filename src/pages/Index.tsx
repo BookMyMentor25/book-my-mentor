@@ -62,9 +62,9 @@ const Index = () => {
                 <Button 
                   size="lg" 
                   className="bg-white text-purple-700 hover:bg-gray-100 text-sm sm:text-base w-full sm:w-auto min-w-[160px]"
-                  onClick={handleShareFeedback}
+                  onClick={() => navigate('/auth')}
                 >
-                  Share Feedback
+                  My Dashboard
                 </Button>
                 <Button 
                   size="lg" 
