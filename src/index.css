@@ -3,6 +3,70 @@
 @tailwind components;
 @tailwind utilities;
 
+/* UX Design Principles Implementation */
+
+/* F-Pattern Layout - Eye tracking patterns */
+.f-pattern-layout {
+  display: grid;
+  grid-template-areas: 
+    "header header header"
+    "main main sidebar"
+    "content content sidebar";
+  grid-template-columns: 2fr 1fr 1fr;
+}
+
+/* Golden Ratio Proportions - 1.618:1 */
+.golden-section {
+  aspect-ratio: 1.618 / 1;
+}
+
+.golden-grid {
+  display: grid;
+  grid-template-columns: 1.618fr 1fr;
+  gap: 1.618rem;
+}
+
+/* 30-60-90 Design Rule - Visual hierarchy */
+.hierarchy-primary { font-size: 100%; font-weight: 600; } /* 90% attention */
+.hierarchy-secondary { font-size: 85%; font-weight: 500; } /* 60% attention */
+.hierarchy-tertiary { font-size: 70%; font-weight: 400; } /* 30% attention */
+
+/* 80/20 Rule - Content prioritization */
+.content-primary { 
+  width: 80%; 
+  flex: 4;
+}
+.content-secondary { 
+  width: 20%; 
+  flex: 1;
+}
+
+/* Responsive Web Design (RWD) utilities */
+.rwd-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+@media (min-width: 640px) {
+  .rwd-container { padding: 0 1.5rem; }
+}
+
+@media (min-width: 1024px) {
+  .rwd-container { padding: 0 2rem; }
+}
+
+/* Enhanced responsive typography scale */
+.responsive-text-xs { font-size: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem); }
+.responsive-text-sm { font-size: clamp(0.875rem, 0.8rem + 0.375vw, 1rem); }
+.responsive-text-base { font-size: clamp(1rem, 0.9rem + 0.5vw, 1.125rem); }
+.responsive-text-lg { font-size: clamp(1.125rem, 1rem + 0.625vw, 1.25rem); }
+.responsive-text-xl { font-size: clamp(1.25rem, 1.1rem + 0.75vw, 1.5rem); }
+.responsive-text-2xl { font-size: clamp(1.5rem, 1.3rem + 1vw, 2rem); }
+.responsive-text-3xl { font-size: clamp(1.875rem, 1.6rem + 1.375vw, 3rem); }
+.responsive-text-4xl { font-size: clamp(2.25rem, 1.9rem + 1.75vw, 4rem); }
+
 /* Definition of the design system. All colors, gradients, fonts, etc should be defined here. */
 
 @layer base {

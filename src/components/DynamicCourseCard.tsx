@@ -27,7 +27,7 @@ const DynamicCourseCard = ({ course }: DynamicCourseCardProps) => {
   };
 
   return (
-    <Card className="overflow-hidden hover:shadow-2xl transition-all duration-500 hover:scale-105 h-full group relative w-full max-w-md mx-auto">
+    <Card className="overflow-hidden hover:shadow-2xl transition-all duration-500 hover:scale-105 h-full group relative w-full">
       {/* Golden ratio card proportions */}
       <div className="absolute top-4 right-4 z-10">
         <Badge className="bg-gradient-to-r from-amber-500 to-orange-500 text-white font-bold">
