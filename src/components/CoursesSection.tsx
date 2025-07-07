@@ -46,7 +46,7 @@ const CoursesSection = () => {
   return (
     <section className="py-20 bg-gray-50 f-pattern-layout" id="courses">
       <div className="rwd-container">
-        <div className="text-center mb-16 golden-section">
+        <div className="text-center mb-16">
           <h2 className="responsive-text-3xl font-bold text-gray-800 mb-4 hierarchy-primary">Our Courses</h2>
           <p className="responsive-text-xl text-gray-600 max-w-3xl mx-auto hierarchy-secondary">
             Choose from our expertly designed courses to accelerate your career growth
@@ -55,7 +55,7 @@ const CoursesSection = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 lg:gap-10 xl:gap-12 content-primary">
           {courses && courses.length > 0 ? (
             courses.map((course) => (
-              <div key={course.id} className="w-full golden-section">
+              <div key={course.id} className="w-full h-full">
                 <DynamicCourseCard course={course} />
               </div>
             ))

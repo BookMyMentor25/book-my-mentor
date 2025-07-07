@@ -30,8 +30,8 @@ const Index = () => {
       <CouponBanner />
       
       {/* Hero Section */}
-      <section className="py-8 sm:py-12 md:py-16 lg:py-20 bg-gradient-to-r from-blue-600 to-purple-700 text-white f-pattern-layout">
-        <div className="rwd-container text-center golden-section">
+      <section className="py-8 sm:py-12 md:py-16 lg:py-20 bg-gradient-to-r from-blue-600 to-purple-700 text-white">
+        <div className="rwd-container text-center flex flex-col justify-center items-center min-h-[60vh]">
           <h1 className="responsive-text-4xl font-bold mb-4 sm:mb-6 leading-tight hierarchy-primary">
             Book My Mentor
           </h1>
