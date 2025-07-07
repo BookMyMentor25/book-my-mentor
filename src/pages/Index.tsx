@@ -31,19 +31,19 @@ const Index = () => {
       
       {/* Hero Section */}
       <section className="py-8 sm:py-12 md:py-16 lg:py-20 bg-gradient-to-r from-blue-600 to-purple-700 text-white">
-        <div className="rwd-container text-center flex flex-col justify-center items-center min-h-[60vh]">
-          <h1 className="responsive-text-4xl font-bold mb-4 sm:mb-6 leading-tight hierarchy-primary">
+        <div className="container mx-auto px-4 text-center">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6 leading-tight">
             Book My Mentor
           </h1>
-          <p className="responsive-text-xl mb-6 sm:mb-8 max-w-4xl mx-auto leading-relaxed px-2 hierarchy-secondary">
+          <p className="text-base sm:text-lg md:text-xl lg:text-2xl mb-6 sm:mb-8 max-w-4xl mx-auto leading-relaxed px-2">
             Level up your career with expert mentorship in Product Management, Lean Startup, and Project Management
           </p>
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center px-4 max-w-2xl mx-auto content-primary">
+          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center px-4 max-w-2xl mx-auto">
             {user ? (
               <>
                 <Button 
                   size="lg" 
-                  className="bg-white text-purple-700 hover:bg-gray-100 responsive-text-base w-full sm:w-auto min-w-[160px] font-semibold shadow-lg"
+                  className="bg-white text-purple-700 hover:bg-gray-100 text-sm sm:text-base w-full sm:w-auto min-w-[160px]"
                   onClick={() => navigate('/dashboard')}
                 >
                   My Dashboard
@@ -51,7 +51,7 @@ const Index = () => {
                 <Button 
                   size="lg" 
                   variant="outline" 
-                  className="border-white text-white hover:bg-white hover:text-purple-700 responsive-text-base w-full sm:w-auto min-w-[160px] font-semibold"
+                  className="border-white text-white hover:bg-white hover:text-purple-700 text-sm sm:text-base w-full sm:w-auto min-w-[160px]"
                   onClick={handleDownloadBrochures}
                 >
                   Download Brochures
@@ -61,15 +61,15 @@ const Index = () => {
               <>
                 <Button 
                   size="lg" 
-                  className="bg-white text-purple-700 hover:bg-gray-100 responsive-text-base w-full sm:w-auto min-w-[160px] font-semibold shadow-lg"
-                  onClick={() => navigate('/dashboard')}
+                  className="bg-white text-purple-700 hover:bg-gray-100 text-sm sm:text-base w-full sm:w-auto min-w-[160px]"
+                  onClick={handleShareFeedback}
                 >
-                  My Dashboard
+                  Share Feedback
                 </Button>
                 <Button 
                   size="lg" 
                   variant="outline" 
-                  className="border-white text-white hover:bg-white hover:text-purple-700 responsive-text-base w-full sm:w-auto min-w-[160px] font-semibold"
+                  className="border-white text-white hover:bg-white hover:text-purple-700 text-sm sm:text-base w-full sm:w-auto min-w-[160px]"
                   onClick={handleDownloadBrochures}
                 >
                   Download Brochures
