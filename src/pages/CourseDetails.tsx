@@ -29,53 +29,274 @@ const CourseDetails = () => {
     }
   };
 
-  // Product Management course weekly details
-  const productManagementWeeks = [
-    {
-      week: 1,
-      topics: [
-        "Why does the Product fail?",
-        "Force Fitting process",
-        "Lean Management",
-        "Experimentation Board",
-        "Business Model and BMC",
-        "Project Orientation 1"
-      ]
-    },
-    {
-      week: 2,
-      topics: [
-        "Product Design",
-        "Market Type for the Product",
-        "Market Size for the Product",
-        "Value Proposition",
-        "Users' Pain Map Journey",
-        "Project Orientation 2"
-      ]
-    },
-    {
-      week: 3,
-      topics: [
-        "Customer Archetypes",
-        "Strategies",
-        "Competitor Analysis",
-        "Competitive Advantages and Landscape",
-        "Project Orientation 3"
-      ]
-    },
-    {
-      week: 4,
-      topics: [
-        "Core and non-core skills required for a Product Manager",
-        "UI / UX Design",
-        "Project Management Basics",
-        "Risk Management",
-        "Agile Methodology and Framework",
-        "Project Orientation 4",
-        "Live Project: (SaaS)/ (Ecommerce) / (Edtech) / (Healthcare)"
-      ]
-    }
-  ];
+  // Course weekly details
+  const courseDetails = {
+    // Product Management - Regular Plan
+    regular: [
+      {
+        week: 1,
+        topics: [
+          "Why does the Product fail?",
+          "Force Fitting process",
+          "Lean Management",
+          "Experimentation Board",
+          "Business Model and BMC",
+          "Project Orientation 1"
+        ]
+      },
+      {
+        week: 2,
+        topics: [
+          "Product Design",
+          "Market Type for the Product",
+          "Market Size for the Product",
+          "Value Proposition",
+          "Users' Pain Map Journey",
+          "Project Orientation 2"
+        ]
+      },
+      {
+        week: 3,
+        topics: [
+          "Customer Archetypes",
+          "Strategies",
+          "Competitor Analysis",
+          "Competitive Advantages and Landscape",
+          "Project Orientation 3"
+        ]
+      },
+      {
+        week: 4,
+        topics: [
+          "Core and non-core skills required for a Product Manager",
+          "UI / UX Design",
+          "Project Management Basics",
+          "Risk Management",
+          "Agile Methodology and Framework",
+          "Project Orientation 4",
+          "Live Project: (SaaS)/ (Ecommerce) / (Edtech) / (Healthcare)"
+        ]
+      }
+    ],
+    // Product Management - Advance Plan
+    advance: [
+      {
+        week: 1,
+        topics: [
+          "Why does the Product fail?",
+          "Force Fitting process",
+          "Lean Management",
+          "Experimentation Board",
+          "Business Model and BMC",
+          "Project Orientation 1"
+        ]
+      },
+      {
+        week: 2,
+        topics: [
+          "Product Design",
+          "Market Type for the Product",
+          "Market Size for the Product",
+          "Value Proposition",
+          "Users' Pain Map Journey",
+          "Project Orientation 2"
+        ]
+      },
+      {
+        week: 3,
+        topics: [
+          "Customer Archetypes",
+          "Strategies",
+          "Competitor Analysis",
+          "Competitive Advantages and Landscape",
+          "Project Orientation 3"
+        ]
+      },
+      {
+        week: 4,
+        topics: [
+          "Core and non-core skills required for a Product Manager",
+          "UI / UX Design",
+          "Project Management Basics",
+          "Risk Management",
+          "Agile Methodology and Framework",
+          "Project Orientation 4"
+        ]
+      },
+      {
+        week: "5-8",
+        topics: [
+          "2 Live Projects from (SaaS)/ (Ecommerce) / (Edtech) / (Healthcare)",
+          "Case Studies",
+          "Placement Assistance",
+          "Mock Interviews"
+        ]
+      }
+    ],
+    // Product Management - Premium Plan
+    premium: [
+      {
+        week: 1,
+        topics: [
+          "Why does the Product fail?",
+          "Force Fitting process",
+          "Lean Management",
+          "Experimentation Board",
+          "Business Model and BMC",
+          "Project Orientation 1"
+        ]
+      },
+      {
+        week: 2,
+        topics: [
+          "Product Design",
+          "Market Type for the Product",
+          "Market Size for the Product",
+          "Value Proposition",
+          "Users' Pain Map Journey",
+          "Project Orientation 2"
+        ]
+      },
+      {
+        week: 3,
+        topics: [
+          "Customer Archetypes",
+          "Strategies",
+          "Competitor Analysis",
+          "Competitive Advantages and Landscape",
+          "Project Orientation 3"
+        ]
+      },
+      {
+        week: 4,
+        topics: [
+          "Core and non-core skills required for a Product Manager",
+          "UI / UX Design",
+          "Project Management Basics",
+          "Risk Management",
+          "Agile Methodology and Framework",
+          "Project Orientation 4"
+        ]
+      },
+      {
+        week: "5-12",
+        topics: [
+          "3 Live Projects from (SaaS)/ (Ecommerce) / (Edtech) / (Healthcare)",
+          "Case Studies",
+          "Placement Assistance",
+          "Mock Interviews"
+        ]
+      }
+    ],
+    // Lean Startup
+    leanStartup: [
+      {
+        week: 1,
+        title: "Introduction to Lean Thinking",
+        topics: [
+          "Why Do Startups Fail?",
+          "Problem-Solution Fit vs Force-Fitting Ideas",
+          "Lean Startup Principles & Mindset",
+          "Experimentation Board: Designing Lean Experiments",
+          "Introduction to Business Model Canvas (BMC)",
+          "Project Orientation 1"
+        ]
+      },
+      {
+        week: 2,
+        title: "Validating the Idea",
+        topics: [
+          "Product Design for Rapid Validation",
+          "Identifying the Right Market Type",
+          "Estimating Market Size (TAM, SAM, SOM)",
+          "Crafting a Strong Value Proposition",
+          "Mapping the User Pain Journey",
+          "Project Orientation 2"
+        ]
+      },
+      {
+        week: 3,
+        title: "Customer Discovery & Market Fit",
+        topics: [
+          "Defining Customer Archetypes & Segmentation",
+          "Go-to-Market Strategies",
+          "Competitor Benchmarking & Market Analysis",
+          "Identifying Sustainable Competitive Advantage",
+          "Project Orientation 3"
+        ]
+      },
+      {
+        week: 4,
+        title: "Execution with Agility",
+        topics: [
+          "Key Skills for Founders and Startup Teams",
+          "MVP Design and UI/UX Fundamentals",
+          "Project Planning & Resource Management",
+          "Identifying and Managing Startup Risks",
+          "Agile Methodology & Lean Feedback Loops (Build-Measure-Learn)",
+          "Project Orientation 4",
+          "Experience working on 2 Live projects from (SaaS, Edtech, E-Commerce, Healthcare domain)"
+        ]
+      }
+    ],
+    // Project Management
+    projectManagement: [
+      {
+        phase: "Phase 1: Mentorship & Training",
+        weeks: "Week 1-4",
+        description: "Learn core concepts through live mentorship sessions, assignments, case studies and Live Project",
+        details: [
+          {
+            week: 1,
+            title: "Introduction to Project Management & Initiation",
+            topics: ["Project Life Cycle", "Stakeholder Engagement", "Scope Definition"]
+          },
+          {
+            week: 2,
+            title: "Project Planning & Scheduling",
+            topics: ["Work Breakdown Structure", "Gantt Charts", "Budgeting", "Risk Management"]
+          },
+          {
+            week: 3,
+            title: "Execution, Monitoring & Control",
+            topics: ["Agile vs Waterfall", "Change Management", "Performance Metrics", "Reporting"]
+          },
+          {
+            week: 4,
+            title: "Project Closure & Best Practices",
+            topics: ["Project Review", "Documentation", "Stakeholder Feedback", "Career Paths"]
+          }
+        ]
+      },
+      {
+        phase: "Phase 2: Live Project",
+        weeks: "Week 5-8",
+        description: "Apply knowledge to a real-world project under mentorship",
+        details: [
+          {
+            week: 5,
+            title: "Project Kickoff & Team Formation",
+            topics: ["Define Scope", "Assign Roles"]
+          },
+          {
+            week: 6,
+            title: "Planning & Execution",
+            topics: ["Develop WBS", "Timeline", "Budget", "Risk Plan"]
+          },
+          {
+            week: 7,
+            title: "Monitoring & Mid-Project Review",
+            topics: ["Track Progress", "Implement Feedback"]
+          },
+          {
+            week: 8,
+            title: "Final Submission & Presentation",
+            topics: ["Project Report", "Lessons Learned", "Career Guidance", "2 live Projects from (SaaS, Edtech, E-commerce, Healthcare domains)"]
+          }
+        ]
+      }
+    ]
+  };
 
   if (isLoading) {
     return (
@@ -111,7 +332,35 @@ const CourseDetails = () => {
     );
   }
 
-  const isProductManagement = course.title.toLowerCase().includes('product management');
+  // Determine course type and get appropriate details
+  const courseTitle = course.title.toLowerCase();
+  let currentCourseDetails = null;
+  let courseType = '';
+  
+  if (courseTitle.includes('product management')) {
+    if (courseTitle.includes('regular')) {
+      currentCourseDetails = courseDetails.regular;
+      courseType = 'Product Management - Regular Plan';
+    } else if (courseTitle.includes('advance')) {
+      currentCourseDetails = courseDetails.advance;
+      courseType = 'Product Management - Advance Plan';
+    } else if (courseTitle.includes('premium')) {
+      currentCourseDetails = courseDetails.premium;
+      courseType = 'Product Management - Premium Plan';
+    } else {
+      // Default to regular if no specific plan mentioned
+      currentCourseDetails = courseDetails.regular;
+      courseType = 'Product Management';
+    }
+  } else if (courseTitle.includes('lean startup')) {
+    currentCourseDetails = courseDetails.leanStartup;
+    courseType = 'Lean Startup';
+  } else if (courseTitle.includes('project management')) {
+    currentCourseDetails = courseDetails.projectManagement;
+    courseType = 'Project Management';
+  }
+  
+  const hasWeeklyBreakdown = currentCourseDetails !== null;
 
   return (
     <div className="min-h-screen bg-white">
@@ -218,34 +467,81 @@ const CourseDetails = () => {
                 </CardContent>
               </Card>
 
-              {/* Weekly Breakdown for Product Management */}
-              {isProductManagement && (
+              {/* Course Breakdown */}
+              {hasWeeklyBreakdown && (
                 <Card>
                   <CardHeader>
                     <CardTitle className="text-2xl font-bold text-gray-800">
-                      Weekly Course Breakdown
+                      Course Breakdown
                     </CardTitle>
                     <p className="text-gray-600">
-                      Comprehensive 4-week program covering all aspects of Product Management
+                      {courseType === 'Project Management' 
+                        ? 'This program provides strong foundation in project management concepts followed by hands-on experience'
+                        : courseType === 'Lean Startup'
+                        ? 'Tentative schedule blending theory with hands-on learning through live projects'
+                        : `Comprehensive program covering all aspects of ${courseType}`
+                      }
                     </p>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-6">
-                      {productManagementWeeks.map((weekData) => (
-                        <div key={weekData.week} className="border-l-4 border-blue-500 pl-6">
-                          <h3 className="text-xl font-bold text-gray-800 mb-3">
-                            Week {weekData.week}
-                          </h3>
-                          <div className="grid gap-3">
-                            {weekData.topics.map((topic, index) => (
-                              <div key={index} className="flex items-start space-x-3">
-                                <div className="w-2 h-2 bg-blue-500 rounded-full flex-shrink-0 mt-2"></div>
-                                <span className="text-gray-700 leading-relaxed">{topic}</span>
-                              </div>
-                            ))}
+                      {courseType === 'Project Management' ? (
+                        // Project Management specific layout
+                        currentCourseDetails.map((phase, phaseIndex) => (
+                          <div key={phaseIndex} className="border-l-4 border-purple-500 pl-6">
+                            <div className="mb-4">
+                              <h3 className="text-xl font-bold text-gray-800 mb-2">
+                                📌 {phase.phase}
+                              </h3>
+                              <p className="text-gray-600 mb-2">
+                                <strong>{phase.weeks}</strong>
+                              </p>
+                              <p className="text-gray-700 mb-4">
+                                <strong>Objective:</strong> {phase.description}
+                              </p>
+                            </div>
+                            <div className="space-y-4">
+                              {phase.details.map((weekData, weekIndex) => (
+                                <div key={weekIndex} className="bg-gray-50 p-4 rounded-lg">
+                                  <h4 className="text-lg font-semibold text-gray-800 mb-2">
+                                    Week {weekData.week}: {weekData.title}
+                                  </h4>
+                                  <div className="grid gap-2">
+                                    {weekData.topics.map((topic, index) => (
+                                      <div key={index} className="flex items-start space-x-3">
+                                        <div className="w-2 h-2 bg-purple-500 rounded-full flex-shrink-0 mt-2"></div>
+                                        <span className="text-gray-700 leading-relaxed">{topic}</span>
+                                      </div>
+                                    ))}
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
                           </div>
-                        </div>
-                      ))}
+                        ))
+                      ) : (
+                        // Standard weekly layout for other courses
+                        currentCourseDetails.map((weekData, index) => (
+                          <div key={index} className="border-l-4 border-blue-500 pl-6">
+                            <h3 className="text-xl font-bold text-gray-800 mb-3">
+                              Week {weekData.week}
+                              {weekData.title && (
+                                <span className="text-lg font-medium text-gray-600 block mt-1">
+                                  {weekData.title}
+                                </span>
+                              )}
+                            </h3>
+                            <div className="grid gap-3">
+                              {weekData.topics.map((topic, topicIndex) => (
+                                <div key={topicIndex} className="flex items-start space-x-3">
+                                  <div className="w-2 h-2 bg-blue-500 rounded-full flex-shrink-0 mt-2"></div>
+                                  <span className="text-gray-700 leading-relaxed">{topic}</span>
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        ))
+                      )}
                     </div>
                   </CardContent>
                 </Card>
