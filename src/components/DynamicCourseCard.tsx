@@ -126,12 +126,22 @@ const DynamicCourseCard = ({ course }: DynamicCourseCardProps) => {
             </div>
           </div>
           
-          <Button 
-            onClick={handleEnrollNow}
-            className="w-full h-14 text-lg font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 hover:from-blue-700 hover:via-purple-700 hover:to-indigo-700 transform transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl"
-          >
-            {user ? 'Enroll Now - Secure Your Spot!' : 'Sign In to Enroll'}
-          </Button>
+          <div className="space-y-3">
+            <Button 
+              onClick={() => navigate(`/course/${course.id}`)}
+              variant="outline"
+              className="w-full h-12 text-base font-semibold border-2 border-blue-600 text-blue-600 hover:bg-blue-50"
+            >
+              View Course Details
+            </Button>
+            
+            <Button 
+              onClick={handleEnrollNow}
+              className="w-full h-14 text-lg font-bold bg-gradient-to-r from-blue-600 via-purple-600 to-indigo-600 hover:from-blue-700 hover:via-purple-700 hover:to-indigo-700 transform transition-all duration-300 hover:scale-105 shadow-lg hover:shadow-xl"
+            >
+              {user ? 'Enroll Now - Secure Your Spot!' : 'Sign In to Enroll'}
+            </Button>
+          </div>
           
           <div className="text-center text-xs text-gray-500">
             💳 Secure Payment • 📞 24/7 Support
