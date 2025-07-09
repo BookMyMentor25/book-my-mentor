@@ -24,7 +24,12 @@ export const useCreateOrder = () => {
 
   return useMutation({
     mutationFn: async (orderData: OrderData) => {
-      if (!user) throw new Error('User not authenticated');
+      if (!user) {
+        console.error('No user found for order creation');
+        throw new Error('User not authenticated');
+      }
+
+      console.log('Creating order in database:', { ...orderData, user_id: user.id });
 
       const { data, error } = await supabase
         .from('orders')
@@ -35,12 +40,21 @@ export const useCreateOrder = () => {
         .select()
         .single();
 
-      if (error) throw error;
+      if (error) {
+        console.error('Database error creating order:', error);
+        throw error;
+      }
+
+      console.log('Order created successfully:', data);
       return data;
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
+      console.log('Order mutation successful:', data);
       queryClient.invalidateQueries({ queryKey: ['orders'] });
     },
+    onError: (error) => {
+      console.error('Order mutation failed:', error);
+    }
   });
 };
 
@@ -50,7 +64,12 @@ export const useUserOrders = () => {
   return useQuery({
     queryKey: ['orders', user?.id],
     queryFn: async () => {
-      if (!user) throw new Error('User not authenticated');
+      if (!user) {
+        console.error('No user found for orders query');
+        throw new Error('User not authenticated');
+      }
+
+      console.log('Fetching orders for user:', user.id);
 
       const { data, error } = await supabase
         .from('orders')
@@ -65,7 +84,12 @@ export const useUserOrders = () => {
         .eq('user_id', user.id)
         .order('created_at', { ascending: false });
 
-      if (error) throw error;
+      if (error) {
+        console.error('Error fetching orders:', error);
+        throw error;
+      }
+
+      console.log('Orders fetched:', data);
       return data;
     },
     enabled: !!user,

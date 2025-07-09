@@ -33,7 +33,7 @@ export const useCheckout = () => {
   const [searchParams] = useSearchParams();
   const navigate = useNavigate();
   const { toast } = useToast();
-  const { user } = useAuth();
+  const { user, loading } = useAuth();
   const createOrderMutation = useCreateOrder();
   
   const course = searchParams.get('course') || 'Product Management';
@@ -54,11 +54,13 @@ export const useCheckout = () => {
     couponCode: '',
   });
 
-  // Redirect to auth if not logged in
+  // Wait for auth loading to complete before redirecting
   useEffect(() => {
-    if (!user) {
+    if (!loading && !user) {
+      console.log('No user found, redirecting to auth');
       navigate('/auth');
-    } else {
+    } else if (user) {
+      console.log('User found, pre-filling form:', user.email);
       // Pre-fill form with user data
       setFormData(prev => ({
         ...prev,
@@ -66,7 +68,7 @@ export const useCheckout = () => {
         email: user.email || '',
       }));
     }
-  }, [user, navigate]);
+  }, [user, loading, navigate]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -127,8 +129,10 @@ export const useCheckout = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    console.log('Form submission started');
 
     if (!user) {
+      console.log('No user, redirecting to auth');
       navigate('/auth');
       return;
     }
@@ -153,6 +157,13 @@ export const useCheckout = () => {
     }
 
     try {
+      console.log('Creating order with data:', {
+        courseId,
+        user: user.id,
+        formData,
+        finalPrice
+      });
+
       // Convert final price back to paise for database storage
       const priceNumber = parseInt(finalPrice.replace(/[₹,]/g, '')) * 100;
       
@@ -172,7 +183,9 @@ export const useCheckout = () => {
           (parseInt(originalPrice.replace(/[₹,]/g, '')) - parseInt(finalPrice.replace(/[₹,]/g, ''))) * 100 : 0,
       };
 
-      await createOrderMutation.mutateAsync(orderData);
+      console.log('Order data prepared:', orderData);
+      const result = await createOrderMutation.mutateAsync(orderData);
+      console.log('Order creation result:', result);
 
       toast({
         title: "Order Placed Successfully!",
