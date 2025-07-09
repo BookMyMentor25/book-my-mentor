@@ -467,6 +467,32 @@ const CourseDetails = () => {
                 </CardContent>
               </Card>
 
+              {/* Learning Outcomes */}
+              {(courseType === 'Lean Startup' || courseType === 'Product Management - Advance Plan' || courseType === 'Product Management - Premium Plan') && (
+                <Card className="mb-8">
+                  <CardHeader>
+                    <CardTitle className="text-2xl font-bold text-gray-800">
+                      Learning Outcomes
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="bg-gradient-to-r from-blue-50 to-purple-50 p-6 rounded-xl border border-blue-200">
+                      <p className="text-gray-700 leading-relaxed">
+                        {courseType === 'Lean Startup' && 
+                          "This Lean Startup course teaches you how to build and validate business ideas through rapid experimentation and customer feedback. You'll learn to apply tools like the Lean Canvas, MVP development, and the Build-Measure-Learn loop. Live projects help you test real hypotheses in dynamic markets. By the end, you'll be equipped to launch and scale ideas with minimal risk and maximum impact."
+                        }
+                        {courseType === 'Product Management - Advance Plan' && 
+                          "This Product Management course provides you with hands-on skills in lean thinking, user-centric design, market analysis, and strategic product positioning. You'll learn to identify real user problems, craft impactful solutions, and drive product development using Agile frameworks. Through live projects in domains like SaaS, Ecommerce, and Edtech, you'll apply concepts in real-world settings. By the end, you'll be well-prepared to take on industry roles with confidence and practical experience."
+                        }
+                        {courseType === 'Product Management - Premium Plan' && 
+                          "This Product Management course equips you with practical skills in lean thinking, product design, market sizing, and strategic positioning. You'll learn to identify user pain points, build value-driven solutions, and manage product development using Agile methodologies. Real-world live projects across domains like SaaS, Ecommerce, and Edtech help apply your learning. By the end, you'll gain hands-on experience and be industry-ready for product roles."
+                        }
+                      </p>
+                    </div>
+                  </CardContent>
+                </Card>
+              )}
+
               {/* Course Breakdown */}
               {hasWeeklyBreakdown && (
                 <Card>
