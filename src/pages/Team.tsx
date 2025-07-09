@@ -30,7 +30,7 @@ const Team = () => {
     {
       name: "Gayatri S",
       role: "Head of Engineering",
-      image: "/lovable-uploads/a4d64569-ea01-4a58-9f74-c6fbe55e2dac.png",
+      image: "/lovable-uploads/4ec15346-1b4c-47ef-a15c-107c30fbfb87.png",
       bio: "Full-stack developer and technical architect with 12+ years of experience in scalable system design.",
       linkedin: "https://linkedin.com/in/gayatris",
       email: "gayatri@buildmymantra.com"
