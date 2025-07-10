@@ -14,8 +14,7 @@ const Team = () => {
       name: "Najmus SS",
       role: "Founder & CEO",
       image: "/lovable-uploads/17cc5ed3-21d0-471a-8197-f89d35fce02b.png",
-      bio: "Entrepreneur | Researcher | Product Management Leader - Visionary Leader with 10+ years in entrepreneurship, product management and business strategy.",
-      phone: "+91 98765 43210"
+      bio: "Entrepreneur | Researcher | Product Management Leader - Visionary Leader with 10+ years in entrepreneurship, product management and business strategy."
     },
     {
       name: "Akshay Gupta",
@@ -32,7 +31,7 @@ const Team = () => {
     {
       name: "Rizwan S",
       role: "Lead Data Scientist",
-      image: "/lovable-uploads/99be4bce-11ae-41eb-85bb-166a094c8952.png",
+      image: "/lovable-uploads/42b0341b-80b0-43f8-87d1-0d9a29f59242.png",
       bio: "Data science expert specializing in machine learning and predictive analytics."
     },
     {
@@ -78,9 +77,9 @@ const Team = () => {
                 <p className="text-purple-600 font-semibold mb-3">{member.role}</p>
                 <p className="text-gray-600 text-sm mb-4">{member.bio}</p>
                 
-                {member.phone && (
+                {(member as any).phone && (
                   <div className="flex space-x-3">
-                    <a href={`tel:${member.phone}`} className="text-green-600 hover:text-green-800">
+                    <a href={`tel:${(member as any).phone}`} className="text-green-600 hover:text-green-800">
                       <Phone size={20} />
                     </a>
                   </div>
