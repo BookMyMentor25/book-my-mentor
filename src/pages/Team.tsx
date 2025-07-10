@@ -22,7 +22,7 @@ const Team = () => {
     {
       name: "Akshay Gupta",
       role: "Head of Product",
-      image: "/lovable-uploads/e667d9a3-2aa2-41a8-813a-b41f903788d0.png",
+      image: "/lovable-uploads/05229b88-fb60-457c-a09f-105a72185c57.png",
       bio: "Product strategist with expertise in AI/ML and user experience design. Led product teams at Fortune 500 companies.",
       linkedin: "https://linkedin.com/in/akshaygupta",
       email: "akshay@buildmymantra.com"
