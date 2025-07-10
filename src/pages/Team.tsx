@@ -14,42 +14,32 @@ const Team = () => {
       name: "Najmus SS",
       role: "Founder & CEO",
       image: "/lovable-uploads/17cc5ed3-21d0-471a-8197-f89d35fce02b.png",
-      bio: "Visionary leader with 15+ years in product management and business strategy. Former VP at tech unicorns.",
-      linkedin: "https://linkedin.com/in/najmusss",
-      email: "najmus@buildmymantra.com",
+      bio: "Entrepreneur | Researcher | Product Management Leader - Visionary Leader with 10+ years in entrepreneurship, product management and business strategy.",
       phone: "+91 98765 43210"
     },
     {
       name: "Akshay Gupta",
-      role: "Head of Product",
+      role: "Head of Digital Marketing",
       image: "/lovable-uploads/05229b88-fb60-457c-a09f-105a72185c57.png",
-      bio: "Product strategist with expertise in AI/ML and user experience design. Led product teams at Fortune 500 companies.",
-      linkedin: "https://linkedin.com/in/akshaygupta",
-      email: "akshay@buildmymantra.com"
+      bio: "Product strategist with vast digital marketing UI/UX experience. Led teams at Fortune 500 companies."
     },
     {
       name: "Gayatri S",
-      role: "Head of Engineering",
+      role: "Head of Engineering and Project Management",
       image: "/lovable-uploads/4ec15346-1b4c-47ef-a15c-107c30fbfb87.png",
-      bio: "Full-stack developer and technical architect with 12+ years of experience in scalable system design.",
-      linkedin: "https://linkedin.com/in/gayatris",
-      email: "gayatri@buildmymantra.com"
+      bio: "Full-stack developer and Author with 10+ years of experience in scalable system design and Project Management."
     },
     {
       name: "Rizwan S",
       role: "Lead Data Scientist",
       image: "/lovable-uploads/99be4bce-11ae-41eb-85bb-166a094c8952.png",
-      bio: "Data science expert specializing in machine learning and predictive analytics. PhD in Computer Science.",
-      linkedin: "https://linkedin.com/in/rizwans",
-      email: "rizwan@buildmymantra.com"
+      bio: "Data science expert specializing in machine learning and predictive analytics."
     },
     {
-      name: "Preeti V",
+      name: "Preeti N",
       role: "Head of Operations",
       image: "/lovable-uploads/b7c3f4ad-5533-4a69-83d1-4b3bc50d0a16.png",
-      bio: "Operations excellence leader with expertise in process optimization and team management.",
-      linkedin: "https://linkedin.com/in/preetiv",
-      email: "preeti@buildmymantra.com"
+      bio: "Operations excellence leader with expertise in process optimization and team management."
     }
   ];
 
@@ -88,19 +78,13 @@ const Team = () => {
                 <p className="text-purple-600 font-semibold mb-3">{member.role}</p>
                 <p className="text-gray-600 text-sm mb-4">{member.bio}</p>
                 
-                <div className="flex space-x-3">
-                  <a href={member.linkedin} className="text-blue-600 hover:text-blue-800">
-                    <Linkedin size={20} />
-                  </a>
-                  <a href={`mailto:${member.email}`} className="text-gray-600 hover:text-gray-800">
-                    <Mail size={20} />
-                  </a>
-                  {member.phone && (
+                {member.phone && (
+                  <div className="flex space-x-3">
                     <a href={`tel:${member.phone}`} className="text-green-600 hover:text-green-800">
                       <Phone size={20} />
                     </a>
-                  )}
-                </div>
+                  </div>
+                )}
               </div>
             </div>
           ))}
