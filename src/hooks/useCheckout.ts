@@ -23,6 +23,7 @@ interface CouponCode {
 }
 
 const validCoupons: CouponCode[] = [
+  { code: 'NEWUSER10', discount: 10, type: 'percentage' },
   { code: 'FIRST50', discount: 50, type: 'percentage' },
   { code: 'STUDENT30', discount: 30, type: 'percentage' },
   { code: 'EARLY20', discount: 20, type: 'percentage' },
