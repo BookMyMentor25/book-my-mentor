@@ -35,6 +35,66 @@ export type Database = {
         }
         Relationships: []
       }
+      coupons: {
+        Row: {
+          applies_to: string | null
+          coupon_code: string
+          created_at: string | null
+          current_uses: number | null
+          description: string | null
+          discount_amount: number | null
+          discount_percent: number
+          discount_type: string | null
+          discount_value: number | null
+          id: number
+          is_active: boolean | null
+          is_reusable: boolean | null
+          max_uses: number | null
+          minimum_purchase_amount: number | null
+          updated_at: string | null
+          valid_from: string | null
+          valid_until: string | null
+        }
+        Insert: {
+          applies_to?: string | null
+          coupon_code: string
+          created_at?: string | null
+          current_uses?: number | null
+          description?: string | null
+          discount_amount?: number | null
+          discount_percent: number
+          discount_type?: string | null
+          discount_value?: number | null
+          id?: never
+          is_active?: boolean | null
+          is_reusable?: boolean | null
+          max_uses?: number | null
+          minimum_purchase_amount?: number | null
+          updated_at?: string | null
+          valid_from?: string | null
+          valid_until?: string | null
+        }
+        Update: {
+          applies_to?: string | null
+          coupon_code?: string
+          created_at?: string | null
+          current_uses?: number | null
+          description?: string | null
+          discount_amount?: number | null
+          discount_percent?: number
+          discount_type?: string | null
+          discount_value?: number | null
+          id?: never
+          is_active?: boolean | null
+          is_reusable?: boolean | null
+          max_uses?: number | null
+          minimum_purchase_amount?: number | null
+          updated_at?: string | null
+          valid_from?: string | null
+          valid_until?: string | null
+        }
+        Relationships: []
+      }
       courses: {
         Row: {
           category: string | null
@@ -71,6 +131,33 @@ export type Database = {
         }
         Relationships: []
       }
+      customers: {
+        Row: {
+          company_name: string | null
+          created_at: string | null
+          email: string
+          id: number
+          name: string
+          updated_at: string | null
+        }
+        Insert: {
+          company_name?: string | null
+          created_at?: string | null
+          email: string
+          id?: never
+          name: string
+          updated_at?: string | null
+        }
+        Update: {
+          company_name?: string | null
+          created_at?: string | null
+          email?: string
+          id?: never
+          name?: string
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       inquiries: {
         Row: {
           course_interest: string | null
@@ -104,11 +191,98 @@ export type Database = {
         }
         Relationships: []
       }
+      invoice_line_items: {
+        Row: {
+          description: string
+          id: number
+          invoice_id: number | null
+          quantity: number
+          total_price: number
+          unit_price: number
+        }
+        Insert: {
+          description: string
+          id?: never
+          invoice_id?: number | null
+          quantity: number
+          total_price: number
+          unit_price: number
+        }
+        Update: {
+          description?: string
+          id?: never
+          invoice_id?: number | null
+          quantity?: number
+          total_price?: number
+          unit_price?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "invoice_line_items_invoice_id_fkey"
+            columns: ["invoice_id"]
+            isOneToOne: false
+            referencedRelation: "invoices"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      invoices: {
+        Row: {
+          coupon_id: number | null
+          created_at: string | null
+          customer_id: number | null
+          due_date: string | null
+          email_sent_at: string | null
+          id: number
+          invoice_number: string
+          status: string | null
+          total_amount: number
+        }
+        Insert: {
+          coupon_id?: number | null
+          created_at?: string | null
+          customer_id?: number | null
+          due_date?: string | null
+          email_sent_at?: string | null
+          id?: never
+          invoice_number: string
+          status?: string | null
+          total_amount: number
+        }
+        Update: {
+          coupon_id?: number | null
+          created_at?: string | null
+          customer_id?: number | null
+          due_date?: string | null
+          email_sent_at?: string | null
+          id?: never
+          invoice_number?: string
+          status?: string | null
+          total_amount?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "invoices_coupon_id_fkey"
+            columns: ["coupon_id"]
+            isOneToOne: false
+            referencedRelation: "coupons"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "invoices_customer_id_fkey"
+            columns: ["customer_id"]
+            isOneToOne: false
+            referencedRelation: "customers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       orders: {
         Row: {
           address: string | null
           amount: number
           city: string | null
+          completed_at: string | null
           coupon_applied: string | null
           course_id: string
           created_at: string | null
@@ -130,6 +304,7 @@ export type Database = {
           address?: string | null
           amount: number
           city?: string | null
+          completed_at?: string | null
           coupon_applied?: string | null
           course_id: string
           created_at?: string | null
@@ -151,6 +326,7 @@ export type Database = {
           address?: string | null
           amount?: number
           city?: string | null
+          completed_at?: string | null
           coupon_applied?: string | null
           course_id?: string
           created_at?: string | null
@@ -205,6 +381,33 @@ export type Database = {
         }
         Relationships: []
       }
+      Referral: {
+        Row: {
+          created_at: string
+          discount_amount: number
+          id: number
+          Referral_code: string
+          valid_from: string | null
+          valid_until: string | null
+        }
+        Insert: {
+          created_at?: string
+          discount_amount: number
+          id?: number
+          Referral_code?: string
+          valid_from?: string | null
+          valid_until?: string | null
+        }
+        Update: {
+          created_at?: string
+          discount_amount?: number
+          id?: number
+          Referral_code?: string
+          valid_from?: string | null
+          valid_until?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -217,6 +420,14 @@ export type Database = {
       is_admin: {
         Args: { user_uuid: string }
         Returns: boolean
+      }
+      validate_coupon: {
+        Args: { input_code: string }
+        Returns: {
+          is_valid: boolean
+          discount_percent: number
+          error_message: string
+        }[]
       }
     }
     Enums: {
