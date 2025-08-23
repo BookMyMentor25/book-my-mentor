@@ -144,7 +144,7 @@ const handler = async (req: Request): Promise<Response> => {
     // Send email to admin
     const adminEmailResponse = await resend.emails.send({
       from: "BMM Academy <noreply@resend.dev>", // Replace with your domain
-      to: ["admin@bmmacademy.com"], // Replace with actual admin email
+      to: ["support@bookmymentor.com"],
       subject: `🎯 New Order: ${courseName} - ${customerName} (${orderId})`,
       html: adminEmailHtml,
     });
