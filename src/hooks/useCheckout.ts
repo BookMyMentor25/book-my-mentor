@@ -4,6 +4,7 @@ import { useSearchParams, useNavigate } from "react-router-dom";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
 import { useCreateOrder } from "@/hooks/useOrders";
+import { supabase } from "@/integrations/supabase/client";
 
 interface FormData {
   name: string;
@@ -189,6 +190,30 @@ export const useCheckout = () => {
       console.log('Order data prepared:', orderData);
       const result = await createOrderMutation.mutateAsync(orderData);
       console.log('Order creation result:', result);
+
+      // Send order confirmation emails
+      try {
+        const emailResponse = await supabase.functions.invoke('send-order-confirmation', {
+          body: {
+            orderId: orderData.order_id,
+            customerEmail: formData.email,
+            customerName: formData.name,
+            courseName: course,
+            orderAmount: parseInt(originalPrice.replace(/[₹,]/g, '')) * 100,
+            discountAmount: orderData.discount_amount,
+            couponApplied: appliedCoupon?.code
+          }
+        });
+        
+        if (emailResponse.error) {
+          console.error('Email sending failed:', emailResponse.error);
+        } else {
+          console.log('Order confirmation emails sent successfully');
+        }
+      } catch (emailError) {
+        console.error('Error sending confirmation emails:', emailError);
+        // Don't fail the order if email fails
+      }
 
       toast({
         title: "Order Placed Successfully!",
