@@ -7,7 +7,7 @@ export type Json =
   | Json[]
 
 export type Database = {
-  // Allows to automatically instanciate createClient with right options
+  // Allows to automatically instantiate createClient with right options
   // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
   __InternalSupabase: {
     PostgrestVersion: "12.2.3 (519615d)"
@@ -424,9 +424,9 @@ export type Database = {
       validate_coupon: {
         Args: { input_code: string }
         Returns: {
-          is_valid: boolean
           discount_percent: number
           error_message: string
+          is_valid: boolean
         }[]
       }
     }
