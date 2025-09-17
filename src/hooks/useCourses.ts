@@ -12,6 +12,8 @@ export interface Course {
   category: string | null;
   is_active: boolean | null;
   created_at: string | null;
+  student_count: number | null;
+  rating: number | null;
 }
 
 export const useCourses = () => {

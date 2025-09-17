@@ -46,11 +46,11 @@ const DynamicCourseCard = ({ course }: DynamicCourseCardProps) => {
               {[...Array(5)].map((_, i) => (
                 <Star key={i} className="w-4 h-4 fill-yellow-400 text-yellow-400" />
               ))}
-              <span className="text-white/90 text-sm ml-2">(4.9)</span>
+              <span className="text-white/90 text-sm ml-2">({course.rating || 4.9})</span>
             </div>
             <div className="flex items-center space-x-1 text-white/80">
               <Users className="w-4 h-4" />
-              <span className="text-sm">2,500+ students</span>
+              <span className="text-sm">{course.student_count || 0}+ students</span>
             </div>
           </div>
           
