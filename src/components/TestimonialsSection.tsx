@@ -2,6 +2,9 @@
 import React from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Star } from "lucide-react";
+import priyaSharmaProfile from "@/assets/priya-sharma-profile.jpg";
+import rahulGuptaProfile from "@/assets/rahul-gupta-profile.jpg";
+import snehaPatelProfile from "@/assets/sneha-patel-profile.jpg";
 
 const TestimonialsSection = () => {
   const testimonials = [
@@ -10,21 +13,21 @@ const TestimonialsSection = () => {
       role: "Product Manager at TechCorp",
       content: "The Product Management course transformed my career. The mentorship was exceptional and the live projects gave me real-world experience.",
       rating: 5,
-      image: "/lovable-uploads/aa112f11-643e-4b67-9a93-974fcb1475f6.png"
+      image: priyaSharmaProfile
     },
     {
       name: "Rahul Gupta",
       role: "Startup Founder",
       content: "The Lean Startup program helped me validate my business idea and achieve product-market fit. Highly recommended!",
       rating: 5,
-      image: "/lovable-uploads/b7c3f4ad-5533-4a69-83d1-4b3bc50d0a16.png"
+      image: rahulGuptaProfile
     },
     {
       name: "Sneha Patel",
       role: "Project Manager at FinTech Solutions",
       content: "Excellent Project Management course with practical insights. The mock interviews prepared me perfectly for my current role.",
       rating: 5,
-      image: "/lovable-uploads/c1e2f504-90d9-4f49-b3dc-e1af5c89ba19.png"
+      image: snehaPatelProfile
     },
     {
       name: "Himanshu Raj",
