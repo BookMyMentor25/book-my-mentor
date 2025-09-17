@@ -51,7 +51,7 @@ const Index = () => {
                 <Button 
                   size="lg" 
                   variant="outline" 
-                  className="border-white text-white hover:bg-white hover:text-purple-700 text-sm sm:text-base w-full sm:w-auto min-w-[160px]"
+                  className="border-white text-white text-sm sm:text-base w-full sm:w-auto min-w-[160px]"
                   onClick={handleDownloadBrochures}
                 >
                   Download Brochures
@@ -69,7 +69,7 @@ const Index = () => {
                 <Button 
                   size="lg" 
                   variant="outline" 
-                  className="border-white text-white hover:bg-white hover:text-purple-700 text-sm sm:text-base w-full sm:w-auto min-w-[160px]"
+                  className="border-white text-white text-sm sm:text-base w-full sm:w-auto min-w-[160px]"
                   onClick={handleDownloadBrochures}
                 >
                   Download Brochures
