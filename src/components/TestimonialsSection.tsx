@@ -31,21 +31,21 @@ const TestimonialsSection = () => {
       role: "IIT Guwahati",
       content: "Best and Knowledgeable mentor for one to one guidance and learning. Weekly Live classes are very insightful. Enjoying the course and the live project. Course is helpful and fully recommended.",
       rating: 5,
-      image: "/lovable-uploads/556dfda0-749a-4206-9ce7-faf227d42f3b.png"
+      image: "/lovable-uploads/himanshu-raj-profile.jpg"
     },
     {
       name: "Dhilip Prasanna",
       role: "EY",
       content: "BookMyMentor is a Great and supportive community where we can learn industry standards knowledge and process in a flexible, convenient manner. The coach Mr.Najmus is a highly skilled, Talented and people friendly person who takes good efforts and care in guiding and coaching. Great team and content in a affordable price. Hats off to their dedication, support and efforts. I will recommend this to everyone who are looking for upskilling in their career.",
       rating: 5,
-      image: "/lovable-uploads/567531a1-2b0b-47f4-bc91-c5fb8afee48a.png"
+      image: "/lovable-uploads/dhilip-prasanna-profile.jpg"
     },
     {
       name: "Vishal Singh",
       role: "T.A. Pai Management Institute, Manipal",
       content: "This mentorship program is well designed for aspirants to learn and apply those learnings by doing project. Mentors play a vital role in shaping the entire learning and guiding towards improvement.",
       rating: 5,
-      image: "/lovable-uploads/5be9b869-5cb5-43dc-9e65-26f22222b991.png"
+      image: "/lovable-uploads/vishal-singh-profile.jpg"
     }
   ];
 
