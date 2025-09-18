@@ -19,6 +19,7 @@ const Checkout = () => {
     formData,
     appliedCoupon,
     handleInputChange,
+    handleCheckboxChange,
     applyCoupon,
     removeCoupon,
     handleSubmit,
@@ -64,6 +65,7 @@ const Checkout = () => {
             appliedCoupon={appliedCoupon}
             onApplyCoupon={applyCoupon}
             onRemoveCoupon={removeCoupon}
+            onCheckboxChange={handleCheckboxChange}
           />
         </div>
 

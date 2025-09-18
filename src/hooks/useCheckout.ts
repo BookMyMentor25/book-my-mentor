@@ -15,6 +15,7 @@ interface FormData {
   state: string;
   pincode: string;
   couponCode: string;
+  whatsappNotification: boolean;
 }
 
 interface CouponCode {
@@ -87,6 +88,7 @@ export const useCheckout = () => {
     state: '',
     pincode: '',
     couponCode: '',
+    whatsappNotification: false,
   });
 
   // Wait for auth loading to complete before redirecting
@@ -101,6 +103,7 @@ export const useCheckout = () => {
         ...prev,
         name: user.user_metadata?.full_name || '',
         email: user.email || '',
+        whatsappNotification: false,
       }));
     }
   }, [user, loading, navigate]);
@@ -110,6 +113,13 @@ export const useCheckout = () => {
     setFormData(prev => ({
       ...prev,
       [name]: value
+    }));
+  };
+
+  const handleCheckboxChange = (field: string, checked: boolean) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: checked
     }));
   };
 
@@ -251,6 +261,18 @@ export const useCheckout = () => {
         description: "Our team will contact you shortly for payment and course details.",
       });
 
+      // Send order notification via WhatsApp if opted in
+      if (formData.whatsappNotification && (window as any).sendOrderNotification) {
+        (window as any).sendOrderNotification({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          course: course || 'Unknown Course',
+          price: finalPrice,
+          paymentStatus: 'Pending'
+        });
+      }
+
       // Redirect to dashboard after success
       setTimeout(() => {
         navigate('/dashboard');
@@ -274,6 +296,7 @@ export const useCheckout = () => {
     formData,
     appliedCoupon,
     handleInputChange,
+    handleCheckboxChange,
     applyCoupon,
     removeCoupon,
     handleSubmit,

@@ -4,7 +4,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { User, Phone, Mail, MapPin, Tag, X } from "lucide-react";
+import { User, Phone, Mail, MapPin, Tag, X, MessageCircle } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
 
 interface FormData {
   name: string;
@@ -15,6 +16,7 @@ interface FormData {
   state: string;
   pincode: string;
   couponCode: string;
+  whatsappNotification: boolean;
 }
 
 interface CouponCode {
@@ -31,6 +33,7 @@ interface StudentInfoFormProps {
   appliedCoupon?: CouponCode | null;
   onApplyCoupon?: () => void;
   onRemoveCoupon?: () => void;
+  onCheckboxChange?: (field: string, checked: boolean) => void;
 }
 
 const StudentInfoForm = ({ 
@@ -40,7 +43,8 @@ const StudentInfoForm = ({
   isLoading,
   appliedCoupon,
   onApplyCoupon,
-  onRemoveCoupon
+  onRemoveCoupon,
+  onCheckboxChange
 }: StudentInfoFormProps) => {
   return (
     <Card>
@@ -206,6 +210,24 @@ const StudentInfoForm = ({
                 </p>
               </div>
             )}
+          </div>
+
+          {/* WhatsApp Notification Option */}
+          <div className="flex items-start space-x-3 p-4 bg-green-50 border border-green-200 rounded-lg">
+            <Checkbox 
+              id="whatsappNotification"
+              checked={formData.whatsappNotification}
+              onCheckedChange={(checked) => onCheckboxChange?.('whatsappNotification', checked as boolean)}
+            />
+            <div className="space-y-1">
+              <Label htmlFor="whatsappNotification" className="text-sm font-medium cursor-pointer flex items-center space-x-2">
+                <MessageCircle className="w-4 h-4 text-green-600" />
+                <span>Send order confirmation via WhatsApp</span>
+              </Label>
+              <p className="text-xs text-gray-600">
+                Get instant order updates and quick support via WhatsApp
+              </p>
+            </div>
           </div>
 
           <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">

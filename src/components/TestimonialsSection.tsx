@@ -9,27 +9,6 @@ import snehaPatelProfile from "@/assets/sneha-patel-profile.jpg";
 const TestimonialsSection = () => {
   const testimonials = [
     {
-      name: "Priya Sharma",
-      role: "Product Manager at TechCorp",
-      content: "The Product Management course transformed my career. The mentorship was exceptional and the live projects gave me real-world experience.",
-      rating: 5,
-      image: priyaSharmaProfile
-    },
-    {
-      name: "Rahul Gupta",
-      role: "Startup Founder",
-      content: "The Lean Startup program helped me validate my business idea and achieve product-market fit. Highly recommended!",
-      rating: 5,
-      image: rahulGuptaProfile
-    },
-    {
-      name: "Sneha Patel",
-      role: "Project Manager at FinTech Solutions",
-      content: "Excellent Project Management course with practical insights. The mock interviews prepared me perfectly for my current role.",
-      rating: 5,
-      image: snehaPatelProfile
-    },
-    {
       name: "Himanshu Raj",
       role: "IIT Guwahati",
       content: "Best and Knowledgeable mentor for one to one guidance and learning. Weekly Live classes are very insightful. Enjoying the course and the live project. Course is helpful and fully recommended.",
@@ -49,6 +28,27 @@ const TestimonialsSection = () => {
       content: "This mentorship program is well designed for aspirants to learn and apply those learnings by doing project. Mentors play a vital role in shaping the entire learning and guiding towards improvement.",
       rating: 5,
       image: "/lovable-uploads/vishal-singh-profile.jpg"
+    },
+    {
+      name: "Priya Sharma",
+      role: "Product Manager at TechCorp",
+      content: "The Product Management course transformed my career. The mentorship was exceptional and the live projects gave me real-world experience.",
+      rating: 5,
+      image: priyaSharmaProfile
+    },
+    {
+      name: "Rahul Gupta",
+      role: "Startup Founder",
+      content: "The Lean Startup program helped me validate my business idea and achieve product-market fit. Highly recommended!",
+      rating: 5,
+      image: rahulGuptaProfile
+    },
+    {
+      name: "Sneha Patel",
+      role: "Project Manager at FinTech Solutions",
+      content: "Excellent Project Management course with practical insights. The mock interviews prepared me perfectly for my current role.",
+      rating: 5,
+      image: snehaPatelProfile
     }
   ];
 
