@@ -11,96 +11,138 @@ const PartnersSection = () => {
           the best learning experience and opportunities
         </p>
         
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 sm:gap-6 lg:gap-8 mb-8 sm:mb-12">
-          {/* First Row */}
-          <div className="flex items-center justify-center bg-white rounded-lg p-4 sm:p-6 shadow-sm hover:shadow-md transition-all duration-300 hover:scale-105">
-            <img 
-              src="/lovable-uploads/5be9b869-5cb5-43dc-9e65-26f22222b991.png" 
-              alt="180 Degrees Consulting" 
-              className="h-8 sm:h-12 w-auto opacity-70 hover:opacity-100 transition-opacity"
-            />
-          </div>
-          <div className="flex items-center justify-center bg-white rounded-lg p-4 sm:p-6 shadow-sm hover:shadow-md transition-all duration-300 hover:scale-105">
-            <img 
-              src="/lovable-uploads/ee025f9b-fedc-4cda-8e5c-1fd2da42c844.png" 
-              alt="CA Partnership" 
-              className="h-8 sm:h-12 w-auto opacity-70 hover:opacity-100 transition-opacity"
-            />
-          </div>
-          
-          {/* Second Row */}
-          <div className="flex items-center justify-center bg-white rounded-lg p-4 sm:p-6 shadow-sm hover:shadow-md transition-all duration-300 hover:scale-105">
-            <img 
-              src="/lovable-uploads/9de85f32-0a43-4fd7-bd15-a4dfbea335ff.png" 
-              alt="E-Cell IIT Bombay" 
-              className="h-8 sm:h-12 w-auto opacity-70 hover:opacity-100 transition-opacity"
-            />
-          </div>
-          <div className="flex items-center justify-center bg-white rounded-lg p-4 sm:p-6 shadow-sm hover:shadow-md transition-all duration-300 hover:scale-105">
-            <img 
-              src="/lovable-uploads/29a68c85-e513-4aed-b23f-545f0936cf9d.png" 
-              alt="E-Cell IIT Jodhpur" 
-              className="h-8 sm:h-12 w-auto opacity-70 hover:opacity-100 transition-opacity"
-            />
-          </div>
-          <div className="flex items-center justify-center bg-white rounded-lg p-4 sm:p-6 shadow-sm hover:shadow-md transition-all duration-300 hover:scale-105">
-            <img 
-              src="/lovable-uploads/acbf9d29-96f1-4786-a715-0bf59f9da686.png" 
-              alt="E-Cell IIT Madras" 
-              className="h-8 sm:h-12 w-auto opacity-70 hover:opacity-100 transition-opacity"
-            />
-          </div>
-          <div className="flex items-center justify-center bg-white rounded-lg p-4 sm:p-6 shadow-sm hover:shadow-md transition-all duration-300 hover:scale-105">
-            <img 
-              src="/lovable-uploads/c74b1c9b-d2c0-4c37-b826-062c7b89d4a4.png" 
-              alt="E-Cell IIM Kashipur" 
-              className="h-8 sm:h-12 w-auto opacity-70 hover:opacity-100 transition-opacity"
-            />
-          </div>
-          <div className="flex items-center justify-center bg-white rounded-lg p-4 sm:p-6 shadow-sm hover:shadow-md transition-all duration-300 hover:scale-105">
-            <img 
-              src="/lovable-uploads/81ce6b1a-aecd-4333-9e17-39be2b91e824.png" 
-              alt="E-Cell IIMT" 
-              className="h-8 sm:h-12 w-auto opacity-70 hover:opacity-100 transition-opacity"
-            />
-          </div>
-          <div className="flex items-center justify-center bg-white rounded-lg p-4 sm:p-6 shadow-sm hover:shadow-md transition-all duration-300 hover:scale-105">
-            <img 
-              src="/lovable-uploads/6ffae0ae-c0d6-488c-bc10-8edabfa06926.png" 
-              alt="Partner Logo" 
-              className="h-8 sm:h-12 w-auto opacity-70 hover:opacity-100 transition-opacity"
-            />
+        {/* Golden Ratio Grid Layout - 1.618:1 proportions */}
+        <div className="max-w-7xl mx-auto">
+          {/* First Tier - Premium Partners */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mb-12">
+            <div className="group relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 hover:scale-105 overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-purple-50 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div className="relative z-10 flex items-center justify-center h-20">
+                <img 
+                  src="/lovable-uploads/5be9b869-5cb5-43dc-9e65-26f22222b991.png" 
+                  alt="180 Degrees Consulting" 
+                  className="max-h-16 w-auto filter brightness-0 saturate-100 group-hover:filter-none transition-all duration-500"
+                />
+              </div>
+            </div>
+            <div className="group relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 hover:scale-105 overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-purple-50 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div className="relative z-10 flex items-center justify-center h-20">
+                <img 
+                  src="/lovable-uploads/ee025f9b-fedc-4cda-8e5c-1fd2da42c844.png" 
+                  alt="CA Partnership" 
+                  className="max-h-16 w-auto filter brightness-0 saturate-100 group-hover:filter-none transition-all duration-500"
+                />
+              </div>
+            </div>
+            <div className="group relative bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 hover:scale-105 overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-50 to-purple-50 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+              <div className="relative z-10 flex items-center justify-center h-20">
+                <img 
+                  src="/lovable-uploads/9de85f32-0a43-4fd7-bd15-a4dfbea335ff.png" 
+                  alt="E-Cell IIT Bombay" 
+                  className="max-h-16 w-auto filter brightness-0 saturate-100 group-hover:filter-none transition-all duration-500"
+                />
+              </div>
+            </div>
           </div>
 
-          {/* Third Row */}
-          <div className="flex items-center justify-center bg-white rounded-lg p-4 sm:p-6 shadow-sm hover:shadow-md transition-all duration-300 hover:scale-105">
-            <img 
-              src="/lovable-uploads/fe9e1950-57f4-4404-b57e-c16cab36946c.png" 
-              alt="EDC IIT Delhi" 
-              className="h-8 sm:h-12 w-auto opacity-70 hover:opacity-100 transition-opacity"
-            />
+          {/* Second Tier - Core Partners */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 mb-10">
+            <div className="group relative bg-white rounded-xl p-6 shadow-md hover:shadow-xl transition-all duration-400 hover:scale-105 overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-purple-50 to-blue-50 opacity-0 group-hover:opacity-100 transition-opacity duration-400"></div>
+              <div className="relative z-10 flex items-center justify-center h-16">
+                <img 
+                  src="/lovable-uploads/29a68c85-e513-4aed-b23f-545f0936cf9d.png" 
+                  alt="E-Cell IIT Jodhpur" 
+                  className="max-h-12 w-auto filter brightness-20 saturate-100 group-hover:filter-none transition-all duration-400"
+                />
+              </div>
+            </div>
+            <div className="group relative bg-white rounded-xl p-6 shadow-md hover:shadow-xl transition-all duration-400 hover:scale-105 overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-purple-50 to-blue-50 opacity-0 group-hover:opacity-100 transition-opacity duration-400"></div>
+              <div className="relative z-10 flex items-center justify-center h-16">
+                <img 
+                  src="/lovable-uploads/acbf9d29-96f1-4786-a715-0bf59f9da686.png" 
+                  alt="E-Cell IIT Madras" 
+                  className="max-h-12 w-auto filter brightness-20 saturate-100 group-hover:filter-none transition-all duration-400"
+                />
+              </div>
+            </div>
+            <div className="group relative bg-white rounded-xl p-6 shadow-md hover:shadow-xl transition-all duration-400 hover:scale-105 overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-purple-50 to-blue-50 opacity-0 group-hover:opacity-100 transition-opacity duration-400"></div>
+              <div className="relative z-10 flex items-center justify-center h-16">
+                <img 
+                  src="/lovable-uploads/c74b1c9b-d2c0-4c37-b826-062c7b89d4a4.png" 
+                  alt="E-Cell IIM Kashipur" 
+                  className="max-h-12 w-auto filter brightness-20 saturate-100 group-hover:filter-none transition-all duration-400"
+                />
+              </div>
+            </div>
+            <div className="group relative bg-white rounded-xl p-6 shadow-md hover:shadow-xl transition-all duration-400 hover:scale-105 overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-purple-50 to-blue-50 opacity-0 group-hover:opacity-100 transition-opacity duration-400"></div>
+              <div className="relative z-10 flex items-center justify-center h-16">
+                <img 
+                  src="/lovable-uploads/81ce6b1a-aecd-4333-9e17-39be2b91e824.png" 
+                  alt="E-Cell IIMT" 
+                  className="max-h-12 w-auto filter brightness-20 saturate-100 group-hover:filter-none transition-all duration-400"
+                />
+              </div>
+            </div>
+            <div className="group relative bg-white rounded-xl p-6 shadow-md hover:shadow-xl transition-all duration-400 hover:scale-105 overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-purple-50 to-blue-50 opacity-0 group-hover:opacity-100 transition-opacity duration-400"></div>
+              <div className="relative z-10 flex items-center justify-center h-16">
+                <img 
+                  src="/lovable-uploads/6ffae0ae-c0d6-488c-bc10-8edabfa06926.png" 
+                  alt="Partner Logo" 
+                  className="max-h-12 w-auto filter brightness-20 saturate-100 group-hover:filter-none transition-all duration-400"
+                />
+              </div>
+            </div>
           </div>
-          <div className="flex items-center justify-center bg-white rounded-lg p-4 sm:p-6 shadow-sm hover:shadow-md transition-all duration-300 hover:scale-105">
-            <img 
-              src="/lovable-uploads/82c68210-4775-4851-b6f2-eba6d367725c.png" 
-              alt="SpaceCon 2025" 
-              className="h-8 sm:h-12 w-auto opacity-70 hover:opacity-100 transition-opacity"
-            />
-          </div>
-          {/* New Logos */}
-          <div className="flex items-center justify-center bg-white rounded-lg p-4 sm:p-6 shadow-sm hover:shadow-md transition-all duration-300 hover:scale-105">
-            <img 
-              src="/lovable-uploads/556dfda0-749a-4206-9ce7-faf227d42f3b.png" 
-              alt="Club of Finance" 
-              className="h-8 sm:h-12 w-auto opacity-70 hover:opacity-100 transition-opacity"
-            />
-          </div>
-          <div className="flex items-center justify-center bg-white rounded-lg p-4 sm:p-6 shadow-sm hover:shadow-md transition-all duration-300 hover:scale-105">
-            <img 
-              src="/lovable-uploads/0d1c5006-3de6-4584-a5ee-48fee16f4b82.png" 
-              alt="BITS Pilani KK Birla Goa Campus" 
-              className="h-8 sm:h-12 w-auto opacity-70 hover:opacity-100 transition-opacity"
-            />
+
+          {/* Third Tier - Supporting Partners */}
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+            <div className="group relative bg-white rounded-lg p-4 shadow-sm hover:shadow-lg transition-all duration-300 hover:scale-105 overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-gray-50 to-blue-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div className="relative z-10 flex items-center justify-center h-12">
+                <img 
+                  src="/lovable-uploads/fe9e1950-57f4-4404-b57e-c16cab36946c.png" 
+                  alt="EDC IIT Delhi" 
+                  className="max-h-10 w-auto filter brightness-40 saturate-100 group-hover:filter-none transition-all duration-300"
+                />
+              </div>
+            </div>
+            <div className="group relative bg-white rounded-lg p-4 shadow-sm hover:shadow-lg transition-all duration-300 hover:scale-105 overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-gray-50 to-blue-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div className="relative z-10 flex items-center justify-center h-12">
+                <img 
+                  src="/lovable-uploads/82c68210-4775-4851-b6f2-eba6d367725c.png" 
+                  alt="SpaceCon 2025" 
+                  className="max-h-10 w-auto filter brightness-40 saturate-100 group-hover:filter-none transition-all duration-300"
+                />
+              </div>
+            </div>
+            <div className="group relative bg-white rounded-lg p-4 shadow-sm hover:shadow-lg transition-all duration-300 hover:scale-105 overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-gray-50 to-blue-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div className="relative z-10 flex items-center justify-center h-12">
+                <img 
+                  src="/lovable-uploads/556dfda0-749a-4206-9ce7-faf227d42f3b.png" 
+                  alt="Club of Finance" 
+                  className="max-h-10 w-auto filter brightness-40 saturate-100 group-hover:filter-none transition-all duration-300"
+                />
+              </div>
+            </div>
+            <div className="group relative bg-white rounded-lg p-4 shadow-sm hover:shadow-lg transition-all duration-300 hover:scale-105 overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-gray-50 to-blue-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <div className="relative z-10 flex items-center justify-center h-12">
+                <img 
+                  src="/lovable-uploads/0d1c5006-3de6-4584-a5ee-48fee16f4b82.png" 
+                  alt="BITS Pilani KK Birla Goa Campus" 
+                  className="max-h-10 w-auto filter brightness-40 saturate-100 group-hover:filter-none transition-all duration-300"
+                />
+              </div>
+            </div>
           </div>
         </div>
 
