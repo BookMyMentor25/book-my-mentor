@@ -15,7 +15,7 @@ const PartnersSection = () => {
           {/* E-Cell IIT Kharagpur - First */}
           <div className="flex items-center justify-center bg-white rounded-lg p-4 sm:p-6 shadow-sm hover:shadow-md transition-all duration-300 hover:scale-105">
             <img 
-              src="/lovable-uploads/e-cell-iit-kgp.png" 
+              src="/lovable-uploads/ecell-iitkgp.jpg" 
               alt="E-Cell IIT Kharagpur" 
               className="h-8 sm:h-12 w-auto opacity-70 hover:opacity-100 transition-opacity"
             />
