@@ -12,7 +12,15 @@ const PartnersSection = () => {
         </p>
         
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-4 sm:gap-6 lg:gap-8 mb-8 sm:mb-12">
-          {/* First Row */}
+          {/* E-Cell IIT Kharagpur - First */}
+          <div className="flex items-center justify-center bg-white rounded-lg p-4 sm:p-6 shadow-sm hover:shadow-md transition-all duration-300 hover:scale-105">
+            <img 
+              src="/lovable-uploads/e-cell-iit-kgp.png" 
+              alt="E-Cell IIT Kharagpur" 
+              className="h-8 sm:h-12 w-auto opacity-70 hover:opacity-100 transition-opacity"
+            />
+          </div>
+          {/* Other Partners */}
           <div className="flex items-center justify-center bg-white rounded-lg p-4 sm:p-6 shadow-sm hover:shadow-md transition-all duration-300 hover:scale-105">
             <img 
               src="/lovable-uploads/5be9b869-5cb5-43dc-9e65-26f22222b991.png" 
