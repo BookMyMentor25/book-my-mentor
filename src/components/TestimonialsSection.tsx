@@ -63,7 +63,7 @@ const TestimonialsSection = () => {
   ];
 
   const stats = [
-    { icon: Users, value: "5000+", label: "Happy Students" },
+    { icon: Users, value: "2000+", label: "Happy Students" },
     { icon: Award, value: "98%", label: "Success Rate" },
     { icon: TrendingUp, value: "150%", label: "Avg Salary Increase" }
   ];
