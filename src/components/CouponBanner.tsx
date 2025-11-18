@@ -27,22 +27,27 @@ const CouponBanner = () => {
   if (!isVisible) return null;
 
   return (
-    <div className="fixed top-0 left-0 right-0 bg-gradient-to-r from-green-500 to-green-600 text-white p-4 z-50 shadow-lg">
-      <div className="container mx-auto flex items-center justify-between">
-        <div className="flex items-center space-x-3">
-          <Gift size={24} />
-          <div>
-            <span className="font-semibold text-lg">Welcome! Get 10% OFF</span>
-            <span className="ml-2">Use code: </span>
-            <span className="bg-white text-green-600 px-2 py-1 rounded font-bold">NEWUSER10</span>
+    <div className="fixed top-0 left-0 right-0 bg-gradient-to-r from-accent to-accent-light text-white py-3 px-4 z-50 shadow-lg border-b-2 border-accent-light">
+      <div className="container mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
+        <div className="flex items-center gap-3 text-center sm:text-left">
+          <div className="bg-white/20 p-2 rounded-lg backdrop-blur-sm">
+            <Gift size={20} className="text-white" />
+          </div>
+          <div className="space-y-1">
+            <div className="font-bold text-base sm:text-lg">🎉 New User Offer: 10% OFF</div>
+            <div className="text-sm">
+              <span className="opacity-90">Use code: </span>
+              <span className="bg-white text-accent px-3 py-1 rounded-full font-bold shadow-md">
+                NEWUSER10
+              </span>
+            </div>
           </div>
         </div>
-        <div className="flex items-center space-x-3">
+        <div className="flex items-center gap-2">
           <Button
             onClick={handleCopyCoupon}
-            variant="outline"
             size="sm"
-            className="bg-white text-green-600 hover:bg-gray-100"
+            className="bg-white text-accent hover:bg-white/90 font-semibold shadow-md hover:shadow-lg transition-all"
           >
             Copy Code
           </Button>
@@ -50,9 +55,10 @@ const CouponBanner = () => {
             onClick={handleClose}
             variant="ghost"
             size="sm"
-            className="text-white hover:bg-green-700"
+            className="text-white hover:bg-white/20 p-2"
+            aria-label="Close banner"
           >
-            <X size={20} />
+            <X size={18} />
           </Button>
         </div>
       </div>

@@ -3,80 +3,110 @@ import { Linkedin, Instagram, Youtube } from "lucide-react";
 
 const Footer = () => {
   return (
-    <footer className="bg-gray-900 text-white py-12">
+    <footer className="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white py-12 md:py-16">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
           <div className="lg:col-span-1">
-            <div className="flex items-center space-x-2 mb-4">
-              <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-lg">BM</span>
+            <div className="flex items-center gap-2 mb-4">
+              <div className="w-12 h-12 bg-gradient-to-br from-primary to-accent rounded-xl flex items-center justify-center shadow-lg">
+                <span className="text-white font-bold text-xl">BM</span>
               </div>
               <span className="text-xl font-bold">Book My Mentor</span>
             </div>
-            <p className="text-gray-400 mb-4 text-sm lg:text-base">
+            <p className="text-gray-300 mb-6 text-sm leading-relaxed">
               Where Skills Recommended by LinkedIn, Gartner, and Forbes Become Yours.
             </p>
-            <div className="space-y-2 text-sm text-gray-400">
-              <div>Email: info@bookmymentor.com</div>
-              <div>Email: bookmymentor.org@gmail.com</div>
-              <div>Phone: +91 8275513895</div>
+            <div className="space-y-2 text-sm text-gray-300">
+              <div className="flex items-center gap-2">
+                <span className="text-primary">✉</span>
+                <a href="mailto:info@bookmymentor.com" className="hover:text-primary transition-colors">
+                  info@bookmymentor.com
+                </a>
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="text-primary">📞</span>
+                <a href="tel:+918275513895" className="hover:text-primary transition-colors">
+                  +91 8275513895
+                </a>
+              </div>
             </div>
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold mb-4">Our Courses</h3>
-            <ul className="space-y-2 text-gray-400 text-sm lg:text-base">
-              <li>Product Management</li>
-              <li>Lean Startup</li>
-              <li>Project Management</li>
+            <h3 className="text-lg font-bold mb-4 text-white">Our Courses</h3>
+            <ul className="space-y-3 text-gray-300">
+              <li>
+                <a href="/#courses" className="hover:text-primary transition-colors hover:translate-x-1 inline-block">
+                  → Product Management
+                </a>
+              </li>
+              <li>
+                <a href="/#courses" className="hover:text-primary transition-colors hover:translate-x-1 inline-block">
+                  → Lean Startup
+                </a>
+              </li>
+              <li>
+                <a href="/#courses" className="hover:text-primary transition-colors hover:translate-x-1 inline-block">
+                  → Project Management
+                </a>
+              </li>
             </ul>
-            <div className="mt-4">
-              <p className="text-purple-300 text-sm font-medium">
-                🤖 Use AI Tools to understand, access, learn and practice these courses conveniently and efficiently.
+            <div className="mt-6 p-4 bg-primary/10 rounded-lg border border-primary/20">
+              <p className="text-primary text-sm font-medium">
+                🤖 AI-Powered Learning Tools Available
               </p>
             </div>
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold mb-4">Follow Us</h3>
-            <div className="flex space-x-4">
+            <h3 className="text-lg font-bold mb-4 text-white">Connect With Us</h3>
+            <div className="flex gap-4 mb-6">
               <a 
                 href="https://www.linkedin.com/company/book-my-mentor-co/" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="text-gray-400 hover:text-blue-500 transition-colors"
+                className="w-10 h-10 bg-white/10 hover:bg-primary rounded-lg flex items-center justify-center transition-all hover:scale-110"
+                aria-label="Follow us on LinkedIn"
               >
-                <Linkedin size={24} />
+                <Linkedin size={20} />
               </a>
               <a 
                 href="https://www.instagram.com/book_my_mentor/profilecard/?igsh=MXdhMG53anZwY3pmeg==" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="text-gray-400 hover:text-pink-500 transition-colors"
+                className="w-10 h-10 bg-white/10 hover:bg-accent rounded-lg flex items-center justify-center transition-all hover:scale-110"
+                aria-label="Follow us on Instagram"
               >
-                <Instagram size={24} />
+                <Instagram size={20} />
               </a>
               <a 
                 href="https://www.youtube.com/channel/UCxcoW1rchq3a8--vd-SrS-Q" 
                 target="_blank" 
                 rel="noopener noreferrer"
-                className="text-gray-400 hover:text-red-500 transition-colors"
+                className="w-10 h-10 bg-white/10 hover:bg-red-500 rounded-lg flex items-center justify-center transition-all hover:scale-110"
+                aria-label="Subscribe to our YouTube channel"
               >
-                <Youtube size={24} />
+                <Youtube size={20} />
               </a>
             </div>
+            <a 
+              href="/contact"
+              className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:text-accent transition-colors"
+            >
+              Want to partner with us? →
+            </a>
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold mb-4">Our Locations</h3>
-            <div className="space-y-4 text-gray-400 text-sm">
-              <div>
-                <strong>Mumbai Office:</strong><br />
+            <h3 className="text-lg font-bold mb-4 text-white">Our Locations</h3>
+            <div className="space-y-4 text-gray-300 text-sm">
+              <div className="p-3 bg-white/5 rounded-lg">
+                <strong className="text-white">Mumbai Office</strong><br />
                 Near IIT Bombay<br />
-                Powai, Mumbai- 400076
+                Powai, Mumbai - 400076
               </div>
-              <div>
-                <strong>Aurangabad Office:</strong><br />
+              <div className="p-3 bg-white/5 rounded-lg">
+                <strong className="text-white">Aurangabad Office</strong><br />
                 Near MGM Hospital, N-5 Cidco<br />
                 Aurangabad, Maharashtra 431001
               </div>
@@ -84,9 +114,13 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
-          <p className="mb-2">Book My Mentor is the brand of Ahad Tech Labs Pvt Ltd</p>
-          <p>&copy; 2025 Book My Mentor. All rights reserved.</p>
+        <div className="border-t border-white/10 mt-12 pt-8 text-center">
+          <p className="text-gray-400 text-sm mb-2">
+            Book My Mentor is the brand of Ahad Tech Labs Pvt Ltd
+          </p>
+          <p className="text-gray-500 text-sm">
+            &copy; 2025 Book My Mentor. All rights reserved.
+          </p>
         </div>
       </div>
     </footer>

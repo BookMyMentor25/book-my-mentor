@@ -29,55 +29,86 @@ const Index = () => {
       <Header />
       <CouponBanner />
       
-      {/* Hero Section */}
-      <section className="py-8 sm:py-12 md:py-16 lg:py-20 bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-800 text-white relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-tr from-blue-600/30 via-transparent to-purple-600/30"></div>
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-indigo-600/20 via-transparent to-transparent"></div>
-        <div className="container mx-auto px-4 text-center relative z-10">
-          <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-bold mb-4 sm:mb-6 leading-tight">
-            Book My Mentor
-          </h1>
-          <p className="text-base sm:text-lg md:text-xl lg:text-2xl mb-6 sm:mb-8 max-w-4xl mx-auto leading-relaxed px-2">
-            Level up your career with expert mentorship in Product Management, Lean Startup, and Project Management
-          </p>
-          <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center px-4 max-w-2xl mx-auto">
-            {user ? (
-              <>
-                <Button 
-                  size="lg" 
-                  className="bg-white text-purple-700 hover:bg-gray-100 text-sm sm:text-base w-full sm:w-auto min-w-[160px]"
-                  onClick={() => navigate('/dashboard')}
-                >
-                  My Dashboard
-                </Button>
-                <Button 
-                  size="lg" 
-                  variant="outline" 
-                  className="border-white text-white text-sm sm:text-base w-full sm:w-auto min-w-[160px]"
-                  onClick={handleDownloadBrochures}
-                >
-                  Download Brochures
-                </Button>
-              </>
-            ) : (
-              <>
-                <Button 
-                  size="lg" 
-                  className="bg-white text-purple-700 hover:bg-gray-100 text-sm sm:text-base w-full sm:w-auto min-w-[160px]"
-                  onClick={() => navigate('/auth')}
-                >
-                  My Dashboard
-                </Button>
-                <Button 
-                  size="lg" 
-                  variant="outline" 
-                  className="border-white text-white text-sm sm:text-base w-full sm:w-auto min-w-[160px]"
-                  onClick={handleDownloadBrochures}
-                >
-                  Download Brochures
-                </Button>
-              </>
-            )}
+      {/* Hero Section - Optimized for 5 Second Test */}
+      <section className="relative overflow-hidden bg-gradient-to-br from-primary via-[hsl(var(--primary-dark))] to-primary min-h-[85vh] md:min-h-[75vh] flex items-center">
+        {/* Animated background */}
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(255,255,255,0.1),transparent_50%)]"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_50%,rgba(255,255,255,0.08),transparent_50%)]"></div>
+        
+        <div className="container mx-auto px-4 py-12 md:py-16 relative z-10">
+          <div className="max-w-5xl mx-auto text-center">
+            {/* Trust Badge - Social Proof */}
+            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm text-white px-4 py-2 rounded-full mb-6 border border-white/20">
+              <span className="text-yellow-300">⭐⭐⭐⭐⭐</span>
+              <span className="text-sm font-medium">Trusted by 2000+ Students</span>
+            </div>
+
+            {/* Clear Value Proposition (5 Second Test) */}
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold mb-6 text-white leading-[1.1] tracking-tight">
+              Master In-Demand Skills<br />
+              <span className="bg-gradient-to-r from-accent-light via-accent to-accent bg-clip-text text-transparent">
+                Accelerate Your Career
+              </span>
+            </h1>
+            
+            <p className="text-lg sm:text-xl md:text-2xl mb-8 text-white/95 max-w-3xl mx-auto leading-relaxed font-medium">
+              Learn Product Management, Lean Startup & Project Management from industry experts. Skills recommended by LinkedIn, Gartner & Forbes.
+            </p>
+
+            {/* CTA Buttons with Clear Hierarchy */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
+              {user ? (
+                <>
+                  <Button 
+                    size="lg" 
+                    className="cta-primary text-base sm:text-lg px-8 py-6 w-full sm:w-auto min-w-[200px] rounded-full"
+                    onClick={() => navigate('/dashboard')}
+                  >
+                    Go to Dashboard →
+                  </Button>
+                  <Button 
+                    size="lg" 
+                    className="cta-secondary text-base sm:text-lg px-8 py-6 w-full sm:w-auto min-w-[200px] rounded-full"
+                    onClick={handleDownloadBrochures}
+                  >
+                    Download E-Books
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button 
+                    size="lg" 
+                    className="cta-primary text-base sm:text-lg px-8 py-6 w-full sm:w-auto min-w-[200px] rounded-full"
+                    onClick={() => navigate('/auth')}
+                  >
+                    Start Learning Now →
+                  </Button>
+                  <Button 
+                    size="lg" 
+                    className="cta-secondary text-base sm:text-lg px-8 py-6 w-full sm:w-auto min-w-[200px] rounded-full"
+                    onClick={handleDownloadBrochures}
+                  >
+                    Free E-Books
+                  </Button>
+                </>
+              )}
+            </div>
+
+            {/* Quick Stats - Social Proof */}
+            <div className="grid grid-cols-3 gap-4 sm:gap-8 max-w-2xl mx-auto pt-8 border-t border-white/20">
+              <div className="text-center">
+                <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-1">2000+</div>
+                <div className="text-xs sm:text-sm text-white/80">Students Trained</div>
+              </div>
+              <div className="text-center">
+                <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-1">4.9/5</div>
+                <div className="text-xs sm:text-sm text-white/80">Student Rating</div>
+              </div>
+              <div className="text-center">
+                <div className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-1">100%</div>
+                <div className="text-xs sm:text-sm text-white/80">Placement Support</div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
