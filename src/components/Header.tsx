@@ -18,28 +18,26 @@ const Header = () => {
   };
 
   return (
-    <header className="bg-white/95 backdrop-blur-sm border-b sticky top-0 z-50">
+    <header className="bg-white/95 backdrop-blur-md border-b border-border sticky top-0 z-50 shadow-sm">
       <div className="container mx-auto px-4 py-3 lg:py-4">
         <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <a href="/">
+          <div className="flex items-center">
+            <a href="/" className="flex items-center gap-2">
               <img 
                 src="/lovable-uploads/214d995d-02ae-4cd5-91b4-8fd5272fdde1.png" 
-                alt="Book My Mentor Logo" 
-                className="h-8 sm:h-10 lg:h-12 w-auto"
+                alt="Book My Mentor - Master In-Demand Skills" 
+                className="h-10 sm:h-12 w-auto"
               />
             </a>
           </div>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center space-x-6 xl:space-x-8">
-            <a href="/" className="text-gray-700 hover:text-purple-600 transition-colors text-sm xl:text-base">Home</a>
-            <a href="/#courses" className="text-gray-700 hover:text-purple-600 transition-colors text-sm xl:text-base">Courses</a>
-            <a href="/#partners" className="text-gray-700 hover:text-purple-600 transition-colors text-sm xl:text-base">Partners</a>
-            <a href="/team" className="text-gray-700 hover:text-purple-600 transition-colors text-sm xl:text-base">Team</a>
-            <a href="/contact" className="text-gray-700 hover:text-purple-600 transition-colors text-sm xl:text-base">Contact</a>
+          {/* Desktop Navigation - Simplified (3 Click Rule) */}
+          <nav className="hidden lg:flex items-center gap-8">
+            <a href="/#courses" className="text-foreground/80 hover:text-primary transition-colors font-medium">Courses</a>
+            <a href="/team" className="text-foreground/80 hover:text-primary transition-colors font-medium">Our Team</a>
+            <a href="/contact" className="text-foreground/80 hover:text-primary transition-colors font-medium">Contact</a>
             <Button 
-              className="bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900 text-xs xl:text-sm px-3 xl:px-4 py-2"
+              className="cta-primary px-6 rounded-full"
               onClick={handleShareFeedback}
             >
               Share Feedback
@@ -48,25 +46,29 @@ const Header = () => {
 
           {/* Mobile Menu Button */}
           <button 
-            className="lg:hidden p-2 hover:bg-gray-100 rounded-md transition-colors" 
+            className="lg:hidden p-2 hover:bg-secondary rounded-lg transition-colors" 
             onClick={toggleMenu}
-            aria-label="Toggle menu"
+            aria-label="Toggle navigation menu"
           >
-            {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
+            {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
 
         {/* Mobile Navigation */}
         {isMenuOpen && (
-          <nav className="lg:hidden mt-4 pb-4 border-t animate-in slide-in-from-top-2 duration-200">
-            <div className="flex flex-col space-y-3 pt-4">
-              <a href="/" className="text-gray-700 hover:text-purple-600 transition-colors py-2 px-2 rounded hover:bg-gray-50">Home</a>
-              <a href="/#courses" className="text-gray-700 hover:text-purple-600 transition-colors py-2 px-2 rounded hover:bg-gray-50">Courses</a>
-              <a href="/#partners" className="text-gray-700 hover:text-purple-600 transition-colors py-2 px-2 rounded hover:bg-gray-50">Partners</a>
-              <a href="/team" className="text-gray-700 hover:text-purple-600 transition-colors py-2 px-2 rounded hover:bg-gray-50">Team</a>
-              <a href="/contact" className="text-gray-700 hover:text-purple-600 transition-colors py-2 px-2 rounded hover:bg-gray-50">Contact</a>
+          <nav className="lg:hidden mt-4 pb-4 border-t border-border animate-in slide-in-from-top-2 duration-200">
+            <div className="flex flex-col gap-2 pt-4">
+              <a href="/#courses" className="text-foreground hover:text-primary transition-colors py-3 px-4 rounded-lg hover:bg-secondary font-medium">
+                Courses
+              </a>
+              <a href="/team" className="text-foreground hover:text-primary transition-colors py-3 px-4 rounded-lg hover:bg-secondary font-medium">
+                Our Team
+              </a>
+              <a href="/contact" className="text-foreground hover:text-primary transition-colors py-3 px-4 rounded-lg hover:bg-secondary font-medium">
+                Contact Us
+              </a>
               <Button 
-                className="bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900 w-fit mt-2"
+                className="cta-primary mt-2 w-full rounded-full"
                 onClick={handleShareFeedback}
               >
                 Share Feedback
