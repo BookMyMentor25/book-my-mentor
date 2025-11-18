@@ -17,7 +17,13 @@ const PartnersSection = () => {
     { src: "/lovable-uploads/fe9e1950-57f4-4404-b57e-c16cab36946c.png", alt: "EDC IIT Delhi" },
     { src: "/lovable-uploads/82c68210-4775-4851-b6f2-eba6d367725c.png", alt: "SpaceCon 2025" },
     { src: "/lovable-uploads/556dfda0-749a-4206-9ce7-faf227d42f3b.png", alt: "Club of Finance" },
-    { src: "/lovable-uploads/0d1c5006-3de6-4584-a5ee-48fee16f4b82.png", alt: "BITS Pilani KK Birla Goa Campus" }
+    { src: "/lovable-uploads/0d1c5006-3de6-4584-a5ee-48fee16f4b82.png", alt: "BITS Pilani KK Birla Goa Campus" },
+    { src: "/lovable-uploads/prometheus.jpeg", alt: "Prometheus Product Tech & UI" },
+    { src: "/lovable-uploads/KMC_CDC.jpg", alt: "Kirori Mal College CDC" },
+    { src: "/lovable-uploads/Marque_IIM_Rohtak.jpeg", alt: "Marque IIM Rohtak" },
+    { src: "/lovable-uploads/PIE_IIMU.jpeg", alt: "PIE IIMU" },
+    { src: "/lovable-uploads/Logo_atharv_ranbhoomi.jpg", alt: "Atharv Ranbhoomi" },
+    { src: "/lovable-uploads/optumiz_NMIMS.jpeg", alt: "Optumiz NMIMS" }
   ];
 
   return (

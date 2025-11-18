@@ -419,14 +419,8 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      generate_invoice_number: {
-        Args: Record<PropertyKey, never>
-        Returns: string
-      }
-      is_admin: {
-        Args: { user_uuid: string }
-        Returns: boolean
-      }
+      generate_invoice_number: { Args: never; Returns: string }
+      is_admin: { Args: { user_uuid: string }; Returns: boolean }
       validate_coupon: {
         Args: { input_code: string }
         Returns: {
