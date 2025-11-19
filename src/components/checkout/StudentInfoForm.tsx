@@ -23,6 +23,7 @@ interface CouponCode {
   code: string;
   discount: number;
   type: 'percentage' | 'fixed';
+  additionalDiscount?: number;
 }
 
 interface StudentInfoFormProps {

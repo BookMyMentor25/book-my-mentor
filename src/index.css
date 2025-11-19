@@ -18,10 +18,10 @@
     --popover-foreground: 240 10% 15%;
 
     /* Primary Color (60% usage) - Blue matching logo */
-    --primary: 210 100% 50%;
-    --primary-light: 210 100% 60%;
-    --primary-dark: 210 100% 40%;
-    --primary-foreground: 0 0% 100%;
+  --primary: 185 70% 45%;
+  --primary-light: 185 70% 55%;
+  --primary-dark: 185 70% 35%;
+  --primary-foreground: 0 0% 100%;
 
     /* Secondary/Neutral (30% usage) - Grays */
     --secondary: 240 5% 96%;
@@ -85,9 +85,9 @@
     --neutral: 240 5% 60%;
     --neutral-light: 240 10% 18%;
 
-    --accent: 25 95% 60%;
-    --accent-light: 25 95% 70%;
-    --accent-foreground: 0 0% 100%;
+  --accent: 35 100% 55%;
+  --accent-light: 35 100% 65%;
+  --accent-foreground: 0 0% 100%;
 
     --muted: 240 10% 18%;
     --muted-foreground: 240 5% 65%;
