@@ -35,6 +35,26 @@ const Index = () => {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_50%,rgba(255,255,255,0.1),transparent_50%)]"></div>
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_50%,rgba(255,255,255,0.08),transparent_50%)]"></div>
         
+        {/* Animated floating shapes */}
+        <div className="absolute inset-0 pointer-events-none">
+          {/* Large circle - top left */}
+          <div className="absolute top-20 left-10 w-64 h-64 bg-accent/20 rounded-full blur-3xl animate-float"></div>
+          
+          {/* Medium circle - top right */}
+          <div className="absolute top-40 right-20 w-48 h-48 bg-accent-light/15 rounded-full blur-2xl animate-float-reverse"></div>
+          
+          {/* Small circle - bottom left */}
+          <div className="absolute bottom-32 left-1/4 w-32 h-32 bg-white/10 rounded-full blur-xl animate-pulse-glow"></div>
+          
+          {/* Geometric shapes */}
+          <div className="absolute top-1/3 right-1/3 w-20 h-20 border-2 border-white/20 rotate-45 animate-float"></div>
+          <div className="absolute bottom-1/4 right-1/4 w-16 h-16 border-2 border-accent/30 rounded-full animate-float-reverse"></div>
+          
+          {/* Additional accent shapes */}
+          <div className="absolute top-1/2 left-1/3 w-24 h-24 bg-gradient-to-br from-accent/20 to-transparent rounded-lg rotate-12 animate-float"></div>
+          <div className="absolute bottom-1/3 right-1/2 w-28 h-28 bg-gradient-to-tl from-primary-light/20 to-transparent rounded-full animate-pulse-glow"></div>
+        </div>
+        
         <div className="container mx-auto px-4 py-12 md:py-16 relative z-10">
           <div className="max-w-5xl mx-auto text-center">
             {/* Trust Badge - Social Proof */}
