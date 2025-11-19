@@ -7,6 +7,7 @@ interface CouponCode {
   code: string;
   discount: number;
   type: 'percentage' | 'fixed';
+  additionalDiscount?: number;
 }
 
 interface OrderSummaryProps {
@@ -71,6 +72,7 @@ const OrderSummary = ({ course, originalPrice, finalPrice, appliedCoupon }: Orde
                   -{appliedCoupon.type === 'percentage' 
                     ? `${appliedCoupon.discount}%` 
                     : `₹${appliedCoupon.discount.toLocaleString('en-IN')}`}
+                  {appliedCoupon.additionalDiscount && ` + ₹${appliedCoupon.additionalDiscount.toLocaleString('en-IN')}`}
                 </span>
               </div>
               <div className="flex justify-between text-green-600">

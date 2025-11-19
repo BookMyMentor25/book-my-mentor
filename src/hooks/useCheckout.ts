@@ -22,6 +22,7 @@ interface CouponCode {
   code: string;
   discount: number;
   type: 'percentage' | 'fixed';
+  additionalDiscount?: number;
 }
 
 const validCoupons: CouponCode[] = [
@@ -63,6 +64,19 @@ const validCoupons: CouponCode[] = [
   { code: 'IITKGP526', discount: 50, type: 'percentage' },
   // 30% discount coupon
   { code: 'Elite30', discount: 30, type: 'percentage' },
+  // New 50% discount coupons (unlimited time)
+  { code: 'MAVEN30', discount: 50, type: 'percentage' },
+  { code: 'Wonder30', discount: 50, type: 'percentage' },
+  { code: 'Triump20', discount: 50, type: 'percentage' },
+  { code: 'Bliss40', discount: 50, type: 'percentage' },
+  { code: 'Marvel90', discount: 50, type: 'percentage' },
+  { code: 'Wizard26', discount: 50, type: 'percentage' },
+  { code: 'Nayak', discount: 50, type: 'percentage' },
+  { code: 'Talisman', discount: 50, type: 'percentage' },
+  // 50% discount + Rs 2000 additional discount
+  { code: 'WINNER30', discount: 50, type: 'percentage', additionalDiscount: 2000 },
+  { code: 'FIESTA40', discount: 50, type: 'percentage', additionalDiscount: 2000 },
+  { code: 'TRIBBER20', discount: 50, type: 'percentage', additionalDiscount: 2000 },
 ];
 
 export const useCheckout = () => {
@@ -152,12 +166,17 @@ export const useCheckout = () => {
       discountedAmount = Math.max(0, originalAmount - coupon.discount);
     }
 
+    // Apply additional discount if present
+    if (coupon.additionalDiscount) {
+      discountedAmount = Math.max(0, discountedAmount - coupon.additionalDiscount);
+    }
+
     setAppliedCoupon(coupon);
     setFinalPrice(`₹${discountedAmount.toLocaleString('en-IN')}`);
     
     toast({
       title: "Coupon Applied!",
-      description: `You saved ${coupon.type === 'percentage' ? coupon.discount + '%' : '₹' + coupon.discount}!`,
+      description: `You saved ${coupon.type === 'percentage' ? coupon.discount + '%' : '₹' + coupon.discount}${coupon.additionalDiscount ? ' + ₹' + coupon.additionalDiscount : ''}!`,
     });
   };
 
