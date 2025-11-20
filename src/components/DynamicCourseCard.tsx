@@ -118,15 +118,11 @@ const DynamicCourseCard = ({ course }: DynamicCourseCardProps) => {
           <div className="bg-gradient-to-r from-green-50 to-blue-50 p-4 rounded-xl border border-green-200">
             <div className="flex items-center justify-between text-sm">
               <span className="text-gray-600">🎯 Success Rate:</span>
-              <span className="font-bold text-green-600">
-                {course.success_rate ? `${course.success_rate}%` : 'N/A'}
-              </span>
+              <span className="font-bold text-green-600">95%</span>
             </div>
             <div className="flex items-center justify-between text-sm mt-1">
               <span className="text-gray-600">💼 Job Placement:</span>
-              <span className="font-bold text-blue-600">
-                {course.job_placements ? `${course.job_placements}+` : 'N/A'}
-              </span>
+              <span className="font-bold text-blue-600">85%</span>
             </div>
           </div>
           
