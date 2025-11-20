@@ -14,6 +14,8 @@ export interface Course {
   created_at: string | null;
   student_count: number | null;
   rating: number | null;
+  success_rate?: number;
+  job_placement?: number;
 }
 
 export const useCourses = () => {

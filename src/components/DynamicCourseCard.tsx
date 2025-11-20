@@ -15,6 +15,22 @@ const DynamicCourseCard = ({ course }: DynamicCourseCardProps) => {
   const { user } = useAuth();
   const navigate = useNavigate();
 
+  // Generate deterministic success and job placement rates based on course ID
+  const getMetrics = () => {
+    const successRates = [95, 96, 97, 96];
+    const jobPlacements = [85, 87, 88, 86];
+    
+    // Use course ID to deterministically select metrics
+    const index = parseInt(course.id.slice(0, 8), 16) % 4;
+    
+    return {
+      successRate: course.success_rate || successRates[index],
+      jobPlacement: course.job_placement || jobPlacements[index]
+    };
+  };
+
+  const { successRate, jobPlacement } = getMetrics();
+
   const handleEnrollNow = () => {
     if (!user) {
       navigate('/auth');
@@ -118,11 +134,11 @@ const DynamicCourseCard = ({ course }: DynamicCourseCardProps) => {
           <div className="bg-gradient-to-r from-green-50 to-blue-50 p-4 rounded-xl border border-green-200">
             <div className="flex items-center justify-between text-sm">
               <span className="text-gray-600">🎯 Success Rate:</span>
-              <span className="font-bold text-green-600">95%</span>
+              <span className="font-bold text-green-600">{successRate}%</span>
             </div>
             <div className="flex items-center justify-between text-sm mt-1">
               <span className="text-gray-600">💼 Job Placement:</span>
-              <span className="font-bold text-blue-600">85%</span>
+              <span className="font-bold text-blue-600">{jobPlacement}%</span>
             </div>
           </div>
           
