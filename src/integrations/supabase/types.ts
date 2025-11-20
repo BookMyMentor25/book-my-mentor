@@ -104,9 +104,11 @@ export type Database = {
           features: string[] | null
           id: string
           is_active: boolean | null
+          job_placement: number | null
           price: number
           rating: number | null
           student_count: number | null
+          success_rate: number | null
           title: string
         }
         Insert: {
@@ -117,9 +119,11 @@ export type Database = {
           features?: string[] | null
           id?: string
           is_active?: boolean | null
+          job_placement?: number | null
           price: number
           rating?: number | null
           student_count?: number | null
+          success_rate?: number | null
           title: string
         }
         Update: {
@@ -130,9 +134,11 @@ export type Database = {
           features?: string[] | null
           id?: string
           is_active?: boolean | null
+          job_placement?: number | null
           price?: number
           rating?: number | null
           student_count?: number | null
+          success_rate?: number | null
           title?: string
         }
         Relationships: []
