@@ -17,10 +17,10 @@
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 15%;
 
-    /* Primary Color (60% usage) - Blue matching logo */
-  --primary: 185 70% 45%;
-  --primary-light: 185 70% 55%;
-  --primary-dark: 185 70% 35%;
+    /* Primary Color (60% usage) - Purple to Magenta gradient */
+  --primary: 270 75% 60%;
+  --primary-light: 280 80% 65%;
+  --primary-dark: 330 85% 55%;
   --primary-foreground: 0 0% 100%;
 
     /* Secondary/Neutral (30% usage) - Grays */
@@ -76,9 +76,9 @@
     --popover: 240 10% 12%;
     --popover-foreground: 0 0% 98%;
 
-    --primary: 210 100% 55%;
-    --primary-light: 210 100% 65%;
-    --primary-dark: 210 100% 45%;
+    --primary: 270 75% 60%;
+    --primary-light: 280 80% 65%;
+    --primary-dark: 330 85% 55%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 240 10% 18%;
