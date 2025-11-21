@@ -17,10 +17,10 @@
     --popover: 0 0% 100%;
     --popover-foreground: 240 10% 15%;
 
-    /* Primary Color (60% usage) - Purple to Magenta gradient */
-  --primary: 270 75% 60%;
-  --primary-light: 280 80% 65%;
-  --primary-dark: 330 85% 55%;
+    /* Primary Color (60% usage) - Deep Purple to Magenta gradient */
+  --primary: 265 65% 50%;
+  --primary-light: 275 60% 55%;
+  --primary-dark: 320 70% 50%;
   --primary-foreground: 0 0% 100%;
 
     /* Secondary/Neutral (30% usage) - Grays */
@@ -76,9 +76,9 @@
     --popover: 240 10% 12%;
     --popover-foreground: 0 0% 98%;
 
-    --primary: 270 75% 60%;
-    --primary-light: 280 80% 65%;
-    --primary-dark: 330 85% 55%;
+    --primary: 265 65% 55%;
+    --primary-light: 275 60% 60%;
+    --primary-dark: 320 70% 55%;
     --primary-foreground: 0 0% 100%;
 
     --secondary: 240 10% 18%;
