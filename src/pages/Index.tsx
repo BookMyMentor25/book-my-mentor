@@ -82,14 +82,14 @@ const Index = () => {
                     className="cta-primary text-lg px-10 py-7 rounded-xl shadow-2xl hover:shadow-accent/50 transform hover:scale-105 transition-all duration-300 font-bold w-full sm:w-auto"
                     onClick={() => navigate('/dashboard')}
                   >
-                    🚀 Go to Dashboard
+                    Go to Dashboard
                   </Button>
                   <Button 
                     size="lg" 
                     className="bg-white/20 backdrop-blur-md text-white border-2 border-white/40 hover:bg-white/30 hover:border-white/60 text-lg px-10 py-7 rounded-xl shadow-xl font-bold w-full sm:w-auto transition-all duration-300"
                     onClick={handleDownloadBrochures}
                   >
-                    📚 Download E-Books
+                    Download E-Books
                   </Button>
                 </>
               ) : (
@@ -99,14 +99,14 @@ const Index = () => {
                     className="cta-primary text-lg px-10 py-7 rounded-xl shadow-2xl hover:shadow-accent/50 transform hover:scale-105 transition-all duration-300 font-bold w-full sm:w-auto"
                     onClick={() => navigate('/auth')}
                   >
-                    🎯 Start Learning Now →
+                    Start Learning Now →
                   </Button>
                   <Button 
                     size="lg" 
                     className="bg-white/20 backdrop-blur-md text-white border-2 border-white/40 hover:bg-white/30 hover:border-white/60 text-lg px-10 py-7 rounded-xl shadow-xl font-bold w-full sm:w-auto transition-all duration-300"
                     onClick={handleDownloadBrochures}
                   >
-                    📚 Free E-Books
+                    Free E-Books
                   </Button>
                 </>
               )}
