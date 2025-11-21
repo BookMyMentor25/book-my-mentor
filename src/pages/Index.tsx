@@ -38,10 +38,10 @@ const Index = () => {
             alt="Professional online mentorship and education" 
             className="w-full h-full object-cover"
           />
-          {/* Gradient overlay for text readability - 60% primary overlay */}
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/90 via-primary/85 to-primary-dark/90"></div>
+          {/* Gradient overlay for text readability - 60% primary overlay with purple-magenta gradient */}
+          <div className="absolute inset-0 bg-gradient-to-r from-primary/90 via-primary-light/85 to-primary-dark/90"></div>
           {/* Additional subtle gradient - 30% accent touches */}
-          <div className="absolute inset-0 bg-gradient-to-t from-accent/20 via-transparent to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-t from-accent/15 via-transparent to-transparent"></div>
         </div>
         
         {/* Animated floating shapes - 10% accent elements */}
