@@ -142,45 +142,47 @@
   .space-golden-xl { @apply space-y-[2.618rem]; }
   .space-golden-2xl { @apply space-y-[4.236rem]; }
   
-  /* Conversion-focused utilities */
+  /* 60-30-10 Conversion-focused utilities */
   .cta-primary {
-    @apply bg-gradient-to-r from-[hsl(var(--accent))] to-[hsl(var(--accent-light))] 
-           text-accent-foreground font-semibold
-           hover:scale-105 active:scale-95 
-           transition-all duration-200 shadow-lg hover:shadow-xl;
+    @apply bg-gradient-to-r from-accent to-accent-light 
+           text-accent-foreground font-bold
+           hover:scale-[1.03] active:scale-[0.98] 
+           transition-all duration-200 shadow-lg hover:shadow-xl
+           focus:ring-2 focus:ring-accent/50 focus:outline-none;
   }
   
   .cta-secondary {
-    @apply bg-primary text-primary-foreground
-           hover:bg-[hsl(var(--primary-dark))]
-           transition-all duration-200 shadow-md hover:shadow-lg;
+    @apply bg-primary text-primary-foreground font-semibold
+           hover:bg-primary-dark
+           transition-all duration-200 shadow-md hover:shadow-lg
+           focus:ring-2 focus:ring-primary/50 focus:outline-none;
   }
   
   /* Hero animated shapes */
   @keyframes float {
-    0%, 100% { transform: translateY(0px) rotate(0deg); }
-    50% { transform: translateY(-20px) rotate(5deg); }
-  }
-  
-  @keyframes float-reverse {
-    0%, 100% { transform: translateY(0px) rotate(0deg); }
-    50% { transform: translateY(20px) rotate(-5deg); }
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-15px); }
   }
   
   @keyframes pulse-glow {
-    0%, 100% { opacity: 0.3; transform: scale(1); }
-    50% { opacity: 0.6; transform: scale(1.1); }
+    0%, 100% { opacity: 0.4; transform: scale(1); }
+    50% { opacity: 0.7; transform: scale(1.05); }
   }
   
   .animate-float {
-    animation: float 6s ease-in-out infinite;
-  }
-  
-  .animate-float-reverse {
-    animation: float-reverse 8s ease-in-out infinite;
+    animation: float 5s ease-in-out infinite;
   }
   
   .animate-pulse-glow {
-    animation: pulse-glow 4s ease-in-out infinite;
+    animation: pulse-glow 3s ease-in-out infinite;
+  }
+  
+  .animate-fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
   }
 }

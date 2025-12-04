@@ -11,6 +11,7 @@ import TestimonialsSection from "@/components/TestimonialsSection";
 import DownloadSection from "@/components/DownloadSection";
 import AboutSection from "@/components/AboutSection";
 import heroImage from "@/assets/hero-mentorship.jpg";
+import { CheckCircle, Users, Award, Briefcase } from "lucide-react";
 
 const Index = () => {
   const { user } = useAuth();
@@ -20,134 +21,142 @@ const Index = () => {
     document.getElementById('downloads')?.scrollIntoView({ behavior: 'smooth' });
   };
 
-  const handleShareFeedback = () => {
-    window.open('https://g.page/r/CZvakCyCA-xjEAE/review', '_blank');
-  };
-
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-background">
       <Header />
       <CouponBanner />
       
-      {/* Hero Section - Optimized for 5 Second Test with Image Background */}
-      <section className="relative overflow-hidden min-h-[85vh] md:min-h-[75vh] flex items-center">
-        {/* Hero Image Background with Overlay - 60-30-10 Color System */}
+      {/* Hero Section - 5-Second Clarity + Golden Ratio + 60-30-10 Color System */}
+      <section 
+        className="relative overflow-hidden min-h-[90vh] md:min-h-[85vh] flex items-center"
+        aria-label="Hero section - Master in-demand skills"
+      >
+        {/* 60% Primary - Background with gradient overlay */}
         <div className="absolute inset-0">
           <img 
             src={heroImage} 
-            alt="Professional online mentorship and education" 
+            alt="Professional online mentorship - Learn Product Management, Lean Startup and Project Management" 
             className="w-full h-full object-cover"
+            loading="eager"
           />
-          {/* Gradient overlay for text readability - 60% primary overlay with purple-magenta gradient */}
-          <div className="absolute inset-0 bg-gradient-to-r from-primary/90 via-primary-light/85 to-primary-dark/90"></div>
-          {/* Additional subtle gradient - 30% accent touches */}
-          <div className="absolute inset-0 bg-gradient-to-t from-accent/15 via-transparent to-transparent"></div>
+          <div className="absolute inset-0 bg-gradient-to-br from-primary/95 via-primary-light/90 to-primary-dark/95"></div>
         </div>
         
-        {/* Animated floating shapes - 10% accent elements */}
-        <div className="absolute inset-0 pointer-events-none">
-          {/* Subtle accent shapes for visual interest */}
-          <div className="absolute top-20 right-10 w-40 h-40 bg-accent/10 rounded-full blur-3xl animate-float"></div>
-          <div className="absolute bottom-32 left-20 w-32 h-32 bg-accent-light/15 rounded-full blur-2xl animate-pulse-glow"></div>
-          <div className="absolute top-1/2 right-1/3 w-24 h-24 border border-accent/20 rounded-lg rotate-12 animate-float-reverse"></div>
+        {/* 10% Accent - Floating elements */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+          <div className="absolute top-[10%] right-[5%] w-32 h-32 md:w-48 md:h-48 bg-accent/20 rounded-full blur-3xl animate-float"></div>
+          <div className="absolute bottom-[15%] left-[8%] w-24 h-24 md:w-36 md:h-36 bg-accent-light/25 rounded-full blur-2xl animate-pulse-glow"></div>
         </div>
         
-        <div className="container mx-auto px-4 py-12 md:py-16 relative z-10">
-          {/* Golden Ratio Layout - Content width follows 1:1.618 ratio */}
-          <div className="max-w-5xl mx-auto text-center space-golden-lg">
-            {/* Trust Badge - Social Proof - Above the fold for instant credibility */}
-            <div className="inline-flex items-center gap-2 bg-white/15 backdrop-blur-md text-white px-6 py-3 rounded-full mb-space-golden-md border border-white/30 shadow-xl">
-              <span className="text-yellow-300 text-lg">⭐⭐⭐⭐⭐</span>
-              <span className="text-sm md:text-base font-semibold">Trusted by 2000+ Students</span>
+        <div className="container mx-auto px-4 py-16 md:py-20 relative z-10">
+          {/* Golden Ratio Container - 61.8% max width */}
+          <div className="max-w-4xl mx-auto text-center">
+            
+            {/* Trust Badge - Immediate credibility (5-second rule) */}
+            <div className="inline-flex items-center gap-2 bg-white/15 backdrop-blur-md text-white px-5 py-2.5 rounded-full mb-6 border border-white/25 shadow-lg animate-fade-in">
+              <span className="text-amber-300 text-base">★★★★★</span>
+              <span className="text-sm font-semibold">Rated 4.9/5 by 2000+ Students</span>
             </div>
 
-            {/* Clear Value Proposition (5 Second Test) - Golden Ratio Typography */}
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold mb-space-golden-md text-white leading-[1.1] tracking-tight drop-shadow-lg">
-              Master In-Demand Skills<br />
-              <span className="bg-gradient-to-r from-accent-light via-accent to-accent-dark bg-clip-text text-transparent drop-shadow-2xl">
-                Accelerate Your Career
+            {/* H1 - Primary keyword + Clear value proposition */}
+            <h1 className="text-[2rem] sm:text-[2.5rem] md:text-[3.25rem] lg:text-[4rem] font-extrabold mb-5 text-white leading-[1.15] tracking-tight">
+              Master Product Management<br className="hidden sm:block" />
+              <span className="bg-gradient-to-r from-accent via-accent-light to-accent bg-clip-text text-transparent">
+                & Accelerate Your Career
               </span>
             </h1>
             
-            <p className="text-lg sm:text-xl md:text-2xl mb-space-golden-lg text-white/95 max-w-3xl mx-auto leading-relaxed font-medium drop-shadow-md">
-              Learn Product Management, Lean Startup & Project Management from industry experts. Skills recommended by LinkedIn, Gartner & Forbes.
+            {/* Subheadline - Secondary keywords + Benefits */}
+            <p className="text-base sm:text-lg md:text-xl mb-8 text-white/90 max-w-2xl mx-auto leading-relaxed font-medium">
+              Learn <strong>Lean Startup</strong> & <strong>Project Management</strong> from industry experts. 
+              Get certified with courses recommended by <em>LinkedIn, Gartner & Forbes</em>.
             </p>
 
-            {/* CTA Buttons with Clear Hierarchy - Conversion Optimized */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-space-golden-lg">
+            {/* 3-Click Navigation - Primary CTA (most prominent) */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-10">
               {user ? (
                 <>
                   <Button 
                     size="lg" 
-                    className="cta-primary text-lg px-10 py-7 rounded-xl shadow-2xl hover:shadow-accent/50 transform hover:scale-105 transition-all duration-300 font-bold w-full sm:w-auto"
+                    className="cta-primary text-base md:text-lg px-8 py-6 rounded-xl shadow-2xl font-bold w-full sm:w-auto"
                     onClick={() => navigate('/dashboard')}
+                    aria-label="Go to your learning dashboard"
                   >
                     Go to Dashboard
                   </Button>
                   <Button 
                     size="lg" 
-                    className="bg-white/20 backdrop-blur-md text-white border-2 border-white/40 hover:bg-white/30 hover:border-white/60 text-lg px-10 py-7 rounded-xl shadow-xl font-bold w-full sm:w-auto transition-all duration-300"
+                    variant="outline"
+                    className="bg-white/10 backdrop-blur-md text-white border-2 border-white/30 hover:bg-white/20 text-base md:text-lg px-8 py-6 rounded-xl font-semibold w-full sm:w-auto"
                     onClick={handleDownloadBrochures}
+                    aria-label="Download free e-books and course brochures"
                   >
-                    Download E-Books
+                    Free E-Books
                   </Button>
                 </>
               ) : (
                 <>
                   <Button 
                     size="lg" 
-                    className="cta-primary text-lg px-10 py-7 rounded-xl shadow-2xl hover:shadow-accent/50 transform hover:scale-105 transition-all duration-300 font-bold w-full sm:w-auto"
+                    className="cta-primary text-base md:text-lg px-10 py-6 rounded-xl shadow-2xl font-bold w-full sm:w-auto"
                     onClick={() => navigate('/auth')}
+                    aria-label="Start learning product management today"
                   >
-                    Start Learning Now →
+                    Start Learning Free →
                   </Button>
                   <Button 
                     size="lg" 
-                    className="bg-white/20 backdrop-blur-md text-white border-2 border-white/40 hover:bg-white/30 hover:border-white/60 text-lg px-10 py-7 rounded-xl shadow-xl font-bold w-full sm:w-auto transition-all duration-300"
+                    variant="outline"
+                    className="bg-white/10 backdrop-blur-md text-white border-2 border-white/30 hover:bg-white/20 text-base md:text-lg px-8 py-6 rounded-xl font-semibold w-full sm:w-auto"
                     onClick={handleDownloadBrochures}
+                    aria-label="Download free e-books"
                   >
-                    Free E-Books
+                    Download Free E-Books
                   </Button>
                 </>
               )}
             </div>
 
-            {/* Quick Stats - Social Proof - Golden Ratio Spacing */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto mt-space-golden-lg">
-              <div className="bg-white/15 backdrop-blur-md rounded-2xl p-6 border border-white/30 shadow-xl transform hover:scale-105 transition-all">
-                <div className="text-3xl md:text-4xl font-bold text-accent mb-2">2000+</div>
-                <div className="text-sm text-white/90 font-medium">Students Enrolled</div>
-              </div>
-              <div className="bg-white/15 backdrop-blur-md rounded-2xl p-6 border border-white/30 shadow-xl transform hover:scale-105 transition-all">
-                <div className="text-3xl md:text-4xl font-bold text-accent mb-2">4.9★</div>
-                <div className="text-sm text-white/90 font-medium">Average Rating</div>
-              </div>
-              <div className="bg-white/15 backdrop-blur-md rounded-2xl p-6 border border-white/30 shadow-xl transform hover:scale-105 transition-all">
-                <div className="text-3xl md:text-4xl font-bold text-accent mb-2">95%</div>
-                <div className="text-sm text-white/90 font-medium">Success Rate</div>
-              </div>
-              <div className="bg-white/15 backdrop-blur-md rounded-2xl p-6 border border-white/30 shadow-xl transform hover:scale-105 transition-all">
-                <div className="text-3xl md:text-4xl font-bold text-accent mb-2">100%</div>
-                <div className="text-sm text-white/90 font-medium">Placement Support</div>
-              </div>
+            {/* Social Proof Stats - Golden ratio grid (4 items) */}
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
+              {[
+                { icon: Users, value: "2000+", label: "Students Enrolled" },
+                { icon: Award, value: "4.9★", label: "Average Rating" },
+                { icon: CheckCircle, value: "95%", label: "Success Rate" },
+                { icon: Briefcase, value: "100%", label: "Placement Support" },
+              ].map((stat, index) => (
+                <div 
+                  key={index}
+                  className="bg-white/10 backdrop-blur-md rounded-xl p-4 md:p-5 border border-white/20 hover:bg-white/15 transition-all duration-300"
+                >
+                  <stat.icon className="w-5 h-5 md:w-6 md:h-6 text-accent mx-auto mb-2" aria-hidden="true" />
+                  <div className="text-xl md:text-2xl font-bold text-white mb-1">{stat.value}</div>
+                  <div className="text-xs md:text-sm text-white/80 font-medium">{stat.label}</div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
-      {/* Dynamic Courses Section */}
-      <CoursesSection />
+      {/* Main Content - Semantic HTML for SEO */}
+      <main>
+        {/* Courses Section - Primary conversion point */}
+        <CoursesSection />
 
-      {/* About Us Section */}
-      <AboutSection />
+        {/* About Section - Trust building */}
+        <AboutSection />
 
-      {/* Testimonials Section */}
-      <TestimonialsSection />
+        {/* Testimonials - Social proof */}
+        <TestimonialsSection />
 
-      {/* Download Section (E-books and Brochures) */}
-      <DownloadSection />
+        {/* Downloads - Lead generation */}
+        <DownloadSection />
 
-      <PartnersSection />
+        {/* Partners - Authority building */}
+        <PartnersSection />
+      </main>
+
       <Footer />
       <WhatsAppButton />
     </div>
