@@ -19,11 +19,11 @@ interface FormData {
   whatsappNotification: boolean;
 }
 
-interface CouponCode {
+interface AppliedCoupon {
   code: string;
-  discount: number;
-  type: 'percentage' | 'fixed';
-  additionalDiscount?: number;
+  discountPercent: number;
+  discountAmount: number;
+  discountType: string;
 }
 
 interface StudentInfoFormProps {
@@ -31,7 +31,7 @@ interface StudentInfoFormProps {
   onInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onSubmit: (e: React.FormEvent) => void;
   isLoading: boolean;
-  appliedCoupon?: CouponCode | null;
+  appliedCoupon?: AppliedCoupon | null;
   onApplyCoupon?: () => void;
   onRemoveCoupon?: () => void;
   onCheckboxChange?: (field: string, checked: boolean) => void;
@@ -205,9 +205,11 @@ const StudentInfoForm = ({
               <div className="bg-green-50 border border-green-200 rounded-lg p-3">
                 <p className="text-sm text-green-800 font-medium">
                   ✅ Code "{appliedCoupon.code}" applied successfully! 
-                  You saved {appliedCoupon.type === 'percentage' 
-                    ? `${appliedCoupon.discount}%` 
-                    : `₹${appliedCoupon.discount}`}
+                  You saved {appliedCoupon.discountPercent > 0 
+                    ? `${appliedCoupon.discountPercent}%` 
+                    : ''}
+                  {appliedCoupon.discountPercent > 0 && appliedCoupon.discountAmount > 0 && ' + '}
+                  {appliedCoupon.discountAmount > 0 && `₹${appliedCoupon.discountAmount}`}
                 </p>
               </div>
             )}

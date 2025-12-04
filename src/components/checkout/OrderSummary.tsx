@@ -3,18 +3,18 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { CreditCard, Percent, Tag } from "lucide-react";
 
-interface CouponCode {
+interface AppliedCoupon {
   code: string;
-  discount: number;
-  type: 'percentage' | 'fixed';
-  additionalDiscount?: number;
+  discountPercent: number;
+  discountAmount: number;
+  discountType: string;
 }
 
 interface OrderSummaryProps {
   course: string;
   originalPrice: string;
   finalPrice: string;
-  appliedCoupon?: CouponCode | null;
+  appliedCoupon?: AppliedCoupon | null;
 }
 
 const OrderSummary = ({ course, originalPrice, finalPrice, appliedCoupon }: OrderSummaryProps) => {
@@ -69,10 +69,11 @@ const OrderSummary = ({ course, originalPrice, finalPrice, appliedCoupon }: Orde
                   <span>Discount ({appliedCoupon.code}):</span>
                 </span>
                 <span className="font-semibold">
-                  -{appliedCoupon.type === 'percentage' 
-                    ? `${appliedCoupon.discount}%` 
-                    : `₹${appliedCoupon.discount.toLocaleString('en-IN')}`}
-                  {appliedCoupon.additionalDiscount && ` + ₹${appliedCoupon.additionalDiscount.toLocaleString('en-IN')}`}
+                  -{appliedCoupon.discountPercent > 0 
+                    ? `${appliedCoupon.discountPercent}%` 
+                    : ''}
+                  {appliedCoupon.discountPercent > 0 && appliedCoupon.discountAmount > 0 && ' + '}
+                  {appliedCoupon.discountAmount > 0 && `₹${appliedCoupon.discountAmount.toLocaleString('en-IN')}`}
                 </span>
               </div>
               <div className="flex justify-between text-green-600">

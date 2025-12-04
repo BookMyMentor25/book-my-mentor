@@ -430,7 +430,9 @@ export type Database = {
       validate_coupon: {
         Args: { input_code: string }
         Returns: {
+          discount_amount: number
           discount_percent: number
+          discount_type: string
           error_message: string
           is_valid: boolean
         }[]

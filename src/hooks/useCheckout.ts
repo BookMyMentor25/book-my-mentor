@@ -18,66 +18,12 @@ interface FormData {
   whatsappNotification: boolean;
 }
 
-interface CouponCode {
+interface AppliedCoupon {
   code: string;
-  discount: number;
-  type: 'percentage' | 'fixed';
-  additionalDiscount?: number;
+  discountPercent: number;
+  discountAmount: number;
+  discountType: string;
 }
-
-const validCoupons: CouponCode[] = [
-  { code: 'NEWUSER10', discount: 10, type: 'percentage' },
-  { code: 'FIRST50', discount: 50, type: 'percentage' },
-  { code: 'First30', discount: 3000, type: 'fixed' },
-  { code: 'STUDENT30', discount: 30, type: 'percentage' },
-  { code: 'EARLY20', discount: 20, type: 'percentage' },
-  { code: 'SAVE1000', discount: 1000, type: 'fixed' },
-  { code: 'Unstop30', discount: 3000, type: 'fixed' },
-  // 50% discount coupons
-  { code: 'Educate50', discount: 50, type: 'percentage' },
-  { code: 'Emerald50', discount: 50, type: 'percentage' },
-  { code: 'Ruby15', discount: 50, type: 'percentage' },
-  { code: 'Topaz10', discount: 50, type: 'percentage' },
-  { code: 'Sapphire2', discount: 50, type: 'percentage' },
-  { code: 'Flint55', discount: 50, type: 'percentage' },
-  { code: 'Eureka', discount: 50, type: 'percentage' },
-  { code: 'Quark', discount: 50, type: 'percentage' },
-  { code: 'IIMT25', discount: 50, type: 'percentage' },
-  { code: 'IITB325', discount: 50, type: 'percentage' },
-  { code: 'IITD725', discount: 50, type: 'percentage' },
-  { code: 'IITJ525', discount: 50, type: 'percentage' },
-  { code: 'IITG925', discount: 50, type: 'percentage' },
-  { code: 'IITK225', discount: 50, type: 'percentage' },
-  { code: 'IIMK42', discount: 50, type: 'percentage' },
-  { code: 'VJTI625', discount: 50, type: 'percentage' },
-  { code: 'BITS464', discount: 50, type: 'percentage' },
-  { code: 'NSUT33', discount: 50, type: 'percentage' },
-  { code: 'SRCC22', discount: 50, type: 'percentage' },
-  { code: 'MDI26', discount: 50, type: 'percentage' },
-  { code: 'SIBM26', discount: 50, type: 'percentage' },
-  { code: 'IIMV26', discount: 50, type: 'percentage' },
-  { code: 'IIMKZ36', discount: 50, type: 'percentage' },
-  { code: 'IIMAT26', discount: 50, type: 'percentage' },
-  { code: 'IITM226', discount: 50, type: 'percentage' },
-  { code: 'GECA326', discount: 50, type: 'percentage' },
-  { code: 'IIMU26', discount: 50, type: 'percentage' },
-  { code: 'IITKGP526', discount: 50, type: 'percentage' },
-  // 30% discount coupon
-  { code: 'Elite30', discount: 30, type: 'percentage' },
-  // New 50% discount coupons (unlimited time)
-  { code: 'MAVEN30', discount: 50, type: 'percentage' },
-  { code: 'Wonder30', discount: 50, type: 'percentage' },
-  { code: 'Triump20', discount: 50, type: 'percentage' },
-  { code: 'Bliss40', discount: 50, type: 'percentage' },
-  { code: 'Marvel90', discount: 50, type: 'percentage' },
-  { code: 'Wizard26', discount: 50, type: 'percentage' },
-  { code: 'Nayak', discount: 50, type: 'percentage' },
-  { code: 'Talisman', discount: 50, type: 'percentage' },
-  // 50% discount + Rs 2000 additional discount
-  { code: 'WINNER30', discount: 50, type: 'percentage', additionalDiscount: 2000 },
-  { code: 'FIESTA40', discount: 50, type: 'percentage', additionalDiscount: 2000 },
-  { code: 'TRIBBER20', discount: 50, type: 'percentage', additionalDiscount: 2000 },
-];
 
 export const useCheckout = () => {
   const [searchParams] = useSearchParams();
@@ -90,8 +36,9 @@ export const useCheckout = () => {
   const originalPrice = searchParams.get('price') || '₹6,000';
   const courseId = searchParams.get('courseId') || '';
   
-  const [appliedCoupon, setAppliedCoupon] = useState<CouponCode | null>(null);
+  const [appliedCoupon, setAppliedCoupon] = useState<AppliedCoupon | null>(null);
   const [finalPrice, setFinalPrice] = useState(originalPrice);
+  const [isValidatingCoupon, setIsValidatingCoupon] = useState(false);
   
   const [formData, setFormData] = useState<FormData>({
     name: '',
@@ -137,47 +84,98 @@ export const useCheckout = () => {
     }));
   };
 
-  const applyCoupon = () => {
-    const coupon = validCoupons.find(c => c.code.toLowerCase() === formData.couponCode.toLowerCase());
-    
-    if (!coupon) {
+  const applyCoupon = async () => {
+    if (!formData.couponCode.trim()) {
       toast({
-        title: "Invalid Coupon",
-        description: "The coupon code you entered is not valid.",
+        title: "Enter Coupon Code",
+        description: "Please enter a coupon code to apply.",
         variant: "destructive",
       });
       return;
     }
 
-    if (appliedCoupon?.code === coupon.code) {
-      toast({
-        title: "Coupon Already Applied",
-        description: "This coupon is already applied to your order.",
-      });
-      return;
-    }
-
-    const originalAmount = parseInt(originalPrice.replace(/[₹,]/g, ''));
-    let discountedAmount = originalAmount;
-
-    if (coupon.type === 'percentage') {
-      discountedAmount = originalAmount - (originalAmount * coupon.discount / 100);
-    } else {
-      discountedAmount = Math.max(0, originalAmount - coupon.discount);
-    }
-
-    // Apply additional discount if present
-    if (coupon.additionalDiscount) {
-      discountedAmount = Math.max(0, discountedAmount - coupon.additionalDiscount);
-    }
-
-    setAppliedCoupon(coupon);
-    setFinalPrice(`₹${discountedAmount.toLocaleString('en-IN')}`);
+    setIsValidatingCoupon(true);
     
-    toast({
-      title: "Coupon Applied!",
-      description: `You saved ${coupon.type === 'percentage' ? coupon.discount + '%' : '₹' + coupon.discount}${coupon.additionalDiscount ? ' + ₹' + coupon.additionalDiscount : ''}!`,
-    });
+    try {
+      // Validate coupon using the database function
+      const { data, error } = await supabase
+        .rpc('validate_coupon', { input_code: formData.couponCode.trim() });
+
+      if (error) {
+        console.error('Coupon validation error:', error);
+        toast({
+          title: "Validation Error",
+          description: "Unable to validate coupon. Please try again.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      const result = data?.[0];
+      
+      if (!result || !result.is_valid) {
+        toast({
+          title: "Invalid Coupon",
+          description: result?.error_message || "The coupon code you entered is not valid.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      if (appliedCoupon?.code.toLowerCase() === formData.couponCode.toLowerCase()) {
+        toast({
+          title: "Coupon Already Applied",
+          description: "This coupon is already applied to your order.",
+        });
+        return;
+      }
+
+      const originalAmount = parseInt(originalPrice.replace(/[₹,]/g, ''));
+      let discountedAmount = originalAmount;
+
+      // Apply percentage discount
+      if (result.discount_percent > 0) {
+        discountedAmount = originalAmount - (originalAmount * result.discount_percent / 100);
+      }
+      
+      // Apply fixed discount
+      if (result.discount_amount > 0) {
+        discountedAmount = Math.max(0, discountedAmount - result.discount_amount);
+      }
+
+      const newCoupon: AppliedCoupon = {
+        code: formData.couponCode.trim(),
+        discountPercent: result.discount_percent,
+        discountAmount: result.discount_amount,
+        discountType: result.discount_type || 'percentage'
+      };
+
+      setAppliedCoupon(newCoupon);
+      setFinalPrice(`₹${discountedAmount.toLocaleString('en-IN')}`);
+      
+      // Build discount description
+      let discountDesc = '';
+      if (result.discount_percent > 0) {
+        discountDesc = `${result.discount_percent}%`;
+      }
+      if (result.discount_amount > 0) {
+        discountDesc += discountDesc ? ` + ₹${result.discount_amount}` : `₹${result.discount_amount}`;
+      }
+      
+      toast({
+        title: "Coupon Applied!",
+        description: `You saved ${discountDesc}!`,
+      });
+    } catch (err) {
+      console.error('Coupon application error:', err);
+      toast({
+        title: "Error",
+        description: "Something went wrong. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsValidatingCoupon(false);
+    }
   };
 
   const removeCoupon = () => {
@@ -320,6 +318,7 @@ export const useCheckout = () => {
     removeCoupon,
     handleSubmit,
     isLoading: createOrderMutation.isPending,
+    isValidatingCoupon,
     user
   };
 };
