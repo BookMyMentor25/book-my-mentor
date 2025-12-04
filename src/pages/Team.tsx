@@ -13,7 +13,7 @@ const Team = () => {
     {
       name: "Najmus SS",
       role: "Founder & CEO",
-      image: "/lovable-uploads/17cc5ed3-21d0-471a-8197-f89d35fce02b.png",
+      image: "/lovable-uploads/Lndn_najmus.jpeg",
       bio: "Entrepreneur | Researcher | Product Management Leader - Visionary Leader with 10+ years in entrepreneurship, product management and business strategy."
     },
     {
