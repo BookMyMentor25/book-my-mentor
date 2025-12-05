@@ -1,0 +1,337 @@
+import { useState, useRef, useEffect } from 'react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Wand2, Download, Trash2, MousePointer, Move, Sparkles, Loader2 } from 'lucide-react';
+import { toast } from 'sonner';
+import { supabase } from '@/integrations/supabase/client';
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+
+interface WireframeComponent {
+  type: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  label: string;
+  style?: string;
+}
+
+interface Wireframe {
+  title: string;
+  components: WireframeComponent[];
+  colors: {
+    primary: string;
+    secondary: string;
+    background: string;
+    text: string;
+  };
+}
+
+const WireframeTool = () => {
+  const [prompt, setPrompt] = useState('');
+  const [style, setStyle] = useState('modern');
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [wireframe, setWireframe] = useState<Wireframe | null>(null);
+  const [selectedComponent, setSelectedComponent] = useState<number | null>(null);
+  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+  const [isDragging, setIsDragging] = useState(false);
+  const canvasRef = useRef<HTMLDivElement>(null);
+
+  const generateWireframe = async () => {
+    if (!prompt.trim()) {
+      toast.error('Please enter a description');
+      return;
+    }
+
+    setIsGenerating(true);
+    try {
+      const { data, error } = await supabase.functions.invoke('generate-wireframe', {
+        body: { prompt, style }
+      });
+
+      if (error) throw error;
+      
+      if (data.error) {
+        toast.error(data.error);
+        return;
+      }
+
+      setWireframe(data.wireframe);
+      toast.success('Wireframe generated!');
+    } catch (error: any) {
+      console.error('Error generating wireframe:', error);
+      toast.error('Failed to generate wireframe');
+    } finally {
+      setIsGenerating(false);
+    }
+  };
+
+  const handleMouseDown = (index: number, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setSelectedComponent(index);
+    setIsDragging(true);
+    const comp = wireframe?.components[index];
+    if (comp) {
+      setDragOffset({
+        x: e.clientX - comp.x,
+        y: e.clientY - comp.y
+      });
+    }
+  };
+
+  const handleMouseMove = (e: React.MouseEvent) => {
+    if (!isDragging || selectedComponent === null || !wireframe) return;
+    
+    const canvasRect = canvasRef.current?.getBoundingClientRect();
+    if (!canvasRect) return;
+
+    const newX = Math.max(0, Math.min(e.clientX - canvasRect.left - dragOffset.x + canvasRect.left, 800 - wireframe.components[selectedComponent].width));
+    const newY = Math.max(0, e.clientY - canvasRect.top - dragOffset.y + canvasRect.top);
+
+    setWireframe(prev => {
+      if (!prev) return prev;
+      const newComponents = [...prev.components];
+      newComponents[selectedComponent] = {
+        ...newComponents[selectedComponent],
+        x: newX,
+        y: newY
+      };
+      return { ...prev, components: newComponents };
+    });
+  };
+
+  const handleMouseUp = () => {
+    setIsDragging(false);
+  };
+
+  const deleteComponent = (index: number) => {
+    setWireframe(prev => {
+      if (!prev) return prev;
+      return {
+        ...prev,
+        components: prev.components.filter((_, i) => i !== index)
+      };
+    });
+    setSelectedComponent(null);
+  };
+
+  const exportWireframe = () => {
+    if (!wireframe) return;
+    
+    const dataStr = JSON.stringify(wireframe, null, 2);
+    const dataBlob = new Blob([dataStr], { type: 'application/json' });
+    const url = URL.createObjectURL(dataBlob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = `wireframe-${Date.now()}.json`;
+    link.click();
+    URL.revokeObjectURL(url);
+    toast.success('Wireframe exported!');
+  };
+
+  const getComponentStyle = (comp: WireframeComponent) => {
+    const baseStyle = {
+      position: 'absolute' as const,
+      left: comp.x,
+      top: comp.y,
+      width: comp.width,
+      height: comp.height,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      cursor: 'move',
+      transition: isDragging ? 'none' : 'all 0.1s ease',
+    };
+
+    const typeStyles: Record<string, React.CSSProperties> = {
+      navbar: { backgroundColor: '#1f2937', color: 'white', borderRadius: 0 },
+      header: { backgroundColor: '#374151', color: 'white', borderRadius: '8px' },
+      hero: { backgroundColor: '#6366f1', color: 'white', borderRadius: '8px' },
+      section: { backgroundColor: '#f3f4f6', border: '2px dashed #d1d5db', borderRadius: '8px' },
+      card: { backgroundColor: 'white', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)', borderRadius: '12px' },
+      form: { backgroundColor: '#fef3c7', border: '2px solid #f59e0b', borderRadius: '8px' },
+      button: { backgroundColor: '#6366f1', color: 'white', borderRadius: '6px', fontWeight: 'bold' },
+      input: { backgroundColor: 'white', border: '2px solid #e5e7eb', borderRadius: '6px' },
+      text: { backgroundColor: 'transparent', color: '#374151' },
+      image: { backgroundColor: '#e5e7eb', borderRadius: '8px', border: '2px dashed #9ca3af' },
+      footer: { backgroundColor: '#1f2937', color: 'white', borderRadius: 0 },
+      sidebar: { backgroundColor: '#f9fafb', borderRight: '2px solid #e5e7eb' },
+      modal: { backgroundColor: 'white', boxShadow: '0 25px 50px -12px rgb(0 0 0 / 0.25)', borderRadius: '16px' },
+      list: { backgroundColor: '#f9fafb', border: '1px solid #e5e7eb', borderRadius: '8px' },
+    };
+
+    return { ...baseStyle, ...typeStyles[comp.type] || typeStyles.section };
+  };
+
+  return (
+    <div className="min-h-screen flex flex-col bg-background">
+      <Header />
+      
+      <main className="flex-1 container mx-auto px-4 py-8">
+        <div className="text-center mb-8">
+          <Badge variant="secondary" className="mb-4">FREE AI TOOL</Badge>
+          <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+            AI Wireframe Generator
+          </h1>
+          <p className="text-muted-foreground max-w-2xl mx-auto">
+            Describe your app or website idea and let AI create interactive wireframe mockups for you. 
+            Drag components to customize the layout.
+          </p>
+        </div>
+
+        <div className="grid lg:grid-cols-3 gap-6">
+          {/* Controls */}
+          <Card className="lg:col-span-1">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Sparkles className="h-5 w-5 text-primary" />
+                Generate Wireframe
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div>
+                <label className="text-sm font-medium mb-2 block">Describe your idea</label>
+                <textarea
+                  value={prompt}
+                  onChange={(e) => setPrompt(e.target.value)}
+                  placeholder="E.g., A landing page for a fitness app with hero section, features grid, pricing cards, and testimonials..."
+                  className="w-full h-32 p-3 border rounded-lg resize-none focus:ring-2 focus:ring-primary focus:border-transparent"
+                />
+              </div>
+
+              <div>
+                <label className="text-sm font-medium mb-2 block">Style</label>
+                <Select value={style} onValueChange={setStyle}>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="modern">Modern & Clean</SelectItem>
+                    <SelectItem value="minimal">Minimal</SelectItem>
+                    <SelectItem value="corporate">Corporate</SelectItem>
+                    <SelectItem value="playful">Playful</SelectItem>
+                    <SelectItem value="dashboard">Dashboard</SelectItem>
+                    <SelectItem value="ecommerce">E-commerce</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <Button 
+                onClick={generateWireframe} 
+                disabled={isGenerating} 
+                className="w-full"
+              >
+                {isGenerating ? (
+                  <>
+                    <Loader2 className="h-4 w-4 mr-2 animate-spin" />
+                    Generating...
+                  </>
+                ) : (
+                  <>
+                    <Wand2 className="h-4 w-4 mr-2" />
+                    Generate Wireframe
+                  </>
+                )}
+              </Button>
+
+              {wireframe && (
+                <div className="pt-4 border-t space-y-3">
+                  <h3 className="font-semibold">Actions</h3>
+                  <Button variant="outline" onClick={exportWireframe} className="w-full">
+                    <Download className="h-4 w-4 mr-2" />
+                    Export JSON
+                  </Button>
+                  {selectedComponent !== null && (
+                    <Button 
+                      variant="destructive" 
+                      onClick={() => deleteComponent(selectedComponent)}
+                      className="w-full"
+                    >
+                      <Trash2 className="h-4 w-4 mr-2" />
+                      Delete Selected
+                    </Button>
+                  )}
+                </div>
+              )}
+
+              <div className="pt-4 border-t">
+                <h3 className="font-semibold mb-2">Tips</h3>
+                <ul className="text-sm text-muted-foreground space-y-1">
+                  <li>• Click components to select them</li>
+                  <li>• Drag to reposition</li>
+                  <li>• Be specific in your description</li>
+                  <li>• Export to save your design</li>
+                </ul>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Canvas */}
+          <Card className="lg:col-span-2">
+            <CardHeader className="flex flex-row items-center justify-between">
+              <CardTitle className="flex items-center gap-2">
+                <MousePointer className="h-5 w-5" />
+                {wireframe?.title || 'Wireframe Canvas'}
+              </CardTitle>
+              {wireframe && (
+                <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                  <Move className="h-4 w-4" />
+                  Drag to move
+                </div>
+              )}
+            </CardHeader>
+            <CardContent>
+              <div
+                ref={canvasRef}
+                onMouseMove={handleMouseMove}
+                onMouseUp={handleMouseUp}
+                onMouseLeave={handleMouseUp}
+                onClick={() => setSelectedComponent(null)}
+                className="relative w-full bg-gray-100 rounded-lg overflow-auto"
+                style={{ height: '600px', minWidth: '800px' }}
+              >
+                {!wireframe ? (
+                  <div className="absolute inset-0 flex items-center justify-center text-muted-foreground">
+                    <div className="text-center">
+                      <Wand2 className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                      <p>Enter a description and click "Generate Wireframe"</p>
+                    </div>
+                  </div>
+                ) : (
+                  wireframe.components.map((comp, index) => (
+                    <div
+                      key={index}
+                      onMouseDown={(e) => handleMouseDown(index, e)}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setSelectedComponent(index);
+                      }}
+                      style={{
+                        ...getComponentStyle(comp),
+                        outline: selectedComponent === index ? '3px solid #6366f1' : 'none',
+                        outlineOffset: '2px',
+                        zIndex: selectedComponent === index ? 100 : index,
+                      }}
+                    >
+                      <span className="text-sm font-medium px-2 text-center truncate">
+                        {comp.label}
+                      </span>
+                    </div>
+                  ))
+                )}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </main>
+
+      <Footer />
+    </div>
+  );
+};
+
+export default WireframeTool;

@@ -393,6 +393,132 @@ export type Database = {
         }
         Relationships: []
       }
+      quiz_attempts: {
+        Row: {
+          answers: Json | null
+          completed_at: string | null
+          id: string
+          passed: boolean | null
+          quiz_id: string
+          score: number | null
+          started_at: string | null
+          total_points: number | null
+          user_id: string
+        }
+        Insert: {
+          answers?: Json | null
+          completed_at?: string | null
+          id?: string
+          passed?: boolean | null
+          quiz_id: string
+          score?: number | null
+          started_at?: string | null
+          total_points?: number | null
+          user_id: string
+        }
+        Update: {
+          answers?: Json | null
+          completed_at?: string | null
+          id?: string
+          passed?: boolean | null
+          quiz_id?: string
+          score?: number | null
+          started_at?: string | null
+          total_points?: number | null
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quiz_attempts_quiz_id_fkey"
+            columns: ["quiz_id"]
+            isOneToOne: false
+            referencedRelation: "quizzes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      quiz_questions: {
+        Row: {
+          correct_option_id: string
+          created_at: string | null
+          id: string
+          options: Json
+          order_index: number | null
+          points: number | null
+          question_text: string
+          quiz_id: string
+        }
+        Insert: {
+          correct_option_id: string
+          created_at?: string | null
+          id?: string
+          options: Json
+          order_index?: number | null
+          points?: number | null
+          question_text: string
+          quiz_id: string
+        }
+        Update: {
+          correct_option_id?: string
+          created_at?: string | null
+          id?: string
+          options?: Json
+          order_index?: number | null
+          points?: number | null
+          question_text?: string
+          quiz_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quiz_questions_quiz_id_fkey"
+            columns: ["quiz_id"]
+            isOneToOne: false
+            referencedRelation: "quizzes"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      quizzes: {
+        Row: {
+          course_id: string | null
+          created_at: string | null
+          description: string | null
+          id: string
+          is_active: boolean | null
+          passing_score: number
+          time_limit_minutes: number
+          title: string
+        }
+        Insert: {
+          course_id?: string | null
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          is_active?: boolean | null
+          passing_score?: number
+          time_limit_minutes?: number
+          title: string
+        }
+        Update: {
+          course_id?: string | null
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          is_active?: boolean | null
+          passing_score?: number
+          time_limit_minutes?: number
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "quizzes_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "courses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       Referral: {
         Row: {
           created_at: string

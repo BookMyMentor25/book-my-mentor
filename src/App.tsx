@@ -13,6 +13,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import NotFound from "./pages/NotFound";
 import Contact from "./pages/Contact";
 import CourseDetails from "./pages/CourseDetails";
+import WireframeTool from "./pages/WireframeTool";
 
 const queryClient = new QueryClient();
 
@@ -32,6 +33,7 @@ const App = () => (
             <Route path="/team" element={<Team />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/course/:courseId" element={<CourseDetails />} />
+            <Route path="/wireframe-tool" element={<WireframeTool />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
