@@ -2,3 +2,6 @@ project_id = "bratailqcgyaitflrdfq"
 
 [functions.send-order-confirmation]
 verify_jwt = false
+
+[functions.generate-wireframe]
+verify_jwt = false

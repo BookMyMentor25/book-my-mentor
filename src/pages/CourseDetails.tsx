@@ -1,4 +1,5 @@
 import { useParams, useNavigate } from "react-router-dom";
+import { useState } from "react";
 import { useCourses, formatPrice } from "@/hooks/useCourses";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -7,14 +8,36 @@ import { useAuth } from "@/hooks/useAuth";
 import { ArrowLeft, Clock, Award, Users, Star, CheckCircle } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { useQuizByCourse, useQuizQuestions, useUserQuizAttempts, useStartQuiz } from "@/hooks/useQuiz";
+import QuizCard from "@/components/quiz/QuizCard";
+import QuizModal from "@/components/quiz/QuizModal";
 
 const CourseDetails = () => {
   const { courseId } = useParams();
   const navigate = useNavigate();
   const { user } = useAuth();
   const { data: courses, isLoading } = useCourses();
+  const [showQuizModal, setShowQuizModal] = useState(false);
+  const [currentAttempt, setCurrentAttempt] = useState<any>(null);
   
   const course = courses?.find(c => c.id === courseId);
+  
+  // Quiz hooks
+  const { data: quiz } = useQuizByCourse(courseId);
+  const { data: quizQuestions = [] } = useQuizQuestions(quiz?.id);
+  const { data: quizAttempts = [] } = useUserQuizAttempts(quiz?.id);
+  const startQuiz = useStartQuiz();
+
+  const handleStartQuiz = async () => {
+    if (!quiz) return;
+    try {
+      const attempt = await startQuiz.mutateAsync(quiz.id);
+      setCurrentAttempt(attempt);
+      setShowQuizModal(true);
+    } catch (error) {
+      console.error('Failed to start quiz:', error);
+    }
+  };
 
   const handleEnrollNow = () => {
     if (!user) {
@@ -467,6 +490,17 @@ const CourseDetails = () => {
                 </CardContent>
               </Card>
 
+              {/* Quiz Section */}
+              {quiz && quizQuestions.length > 0 && (
+                <div className="mb-8">
+                  <QuizCard 
+                    quiz={quiz} 
+                    attempts={quizAttempts} 
+                    onStartQuiz={handleStartQuiz} 
+                  />
+                </div>
+              )}
+
               {/* Learning Outcomes */}
               {(courseType === 'Lean Startup' || courseType === 'Product Management - Advance Plan' || courseType === 'Product Management - Premium Plan') && (
                 <Card className="mb-8">
@@ -625,6 +659,17 @@ const CourseDetails = () => {
           </div>
         </div>
       </section>
+
+      {/* Quiz Modal */}
+      {quiz && currentAttempt && quizQuestions.length > 0 && (
+        <QuizModal
+          open={showQuizModal}
+          onOpenChange={setShowQuizModal}
+          quiz={quiz}
+          questions={quizQuestions}
+          attempt={currentAttempt}
+        />
+      )}
 
       <Footer />
     </div>
