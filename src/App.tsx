@@ -14,6 +14,8 @@ import NotFound from "./pages/NotFound";
 import Contact from "./pages/Contact";
 import CourseDetails from "./pages/CourseDetails";
 import WireframeTool from "./pages/WireframeTool";
+import AITools from "./pages/AITools";
+import AIToolPage from "./pages/AIToolPage";
 
 const queryClient = new QueryClient();
 
@@ -33,6 +35,8 @@ const App = () => (
             <Route path="/team" element={<Team />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/course/:courseId" element={<CourseDetails />} />
+            <Route path="/ai-tools" element={<AITools />} />
+            <Route path="/ai-tool/:toolId" element={<AIToolPage />} />
             <Route path="/wireframe-tool" element={<WireframeTool />} />
             <Route path="*" element={<NotFound />} />
           </Routes>

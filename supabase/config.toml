@@ -5,3 +5,6 @@ verify_jwt = false
 
 [functions.generate-wireframe]
 verify_jwt = false
+
+[functions.ai-business-tools]
+verify_jwt = false

@@ -1,4 +1,4 @@
-import { Menu, X, GraduationCap, Users, Mail, MessageSquare, Wand2 } from "lucide-react";
+import { Menu, X, GraduationCap, Users, Mail, MessageSquare, Sparkles } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
@@ -18,7 +18,7 @@ const Header = () => {
   // 3-Click Navigation Structure
   const navItems = [
     { label: "Courses", href: "/#courses", icon: GraduationCap },
-    { label: "AI Wireframe", href: "/wireframe-tool", icon: Wand2 },
+    { label: "AI Tools", href: "/ai-tools", icon: Sparkles },
     { label: "Our Team", href: "/team", icon: Users },
     { label: "Contact", href: "/contact", icon: Mail },
   ];
