@@ -23,7 +23,13 @@ import {
   RefreshCcw,
   Rocket,
   Search,
-  Users
+  Users,
+  ListOrdered,
+  Kanban,
+  RotateCcw,
+  ShieldAlert,
+  Target,
+  Landmark
 } from 'lucide-react';
 import jsPDF from 'jspdf';
 
@@ -82,6 +88,62 @@ const toolConfig: Record<string, {
     icon: Users,
     placeholder: 'Describe your product and known competitors (e.g., "A food delivery app competing with Swiggy and Zomato")',
     color: 'from-red-500 to-orange-600'
+  },
+  'rice-framework': {
+    title: 'RICE Framework Prioritizer',
+    description: 'Prioritize initiatives based on Reach, Impact, Confidence, and Effort',
+    icon: ListOrdered,
+    placeholder: 'List the initiatives/features you want to prioritize (e.g., "Feature A: Add payment integration, Feature B: Mobile app redesign, Feature C: Customer support chatbot")',
+    color: 'from-indigo-500 to-purple-600'
+  },
+  'scrum-sprint': {
+    title: 'SCRUM & SPRINT Manager',
+    description: 'Plan and manage projects using Scrum methodology',
+    icon: RotateCcw,
+    placeholder: 'Describe your project and team (e.g., "E-commerce platform development with a 5-member development team")',
+    color: 'from-cyan-500 to-blue-600'
+  },
+  'kanban': {
+    title: 'Kanban Board Framework',
+    description: 'Visualize and optimize workflow using Kanban',
+    icon: Kanban,
+    placeholder: 'Describe your workflow or process (e.g., "Software development workflow from requirements to deployment")',
+    color: 'from-emerald-500 to-teal-600'
+  },
+  'scrumban': {
+    title: 'SCRUMBAN Framework',
+    description: 'Combine Scrum and Kanban for flexible management',
+    icon: RefreshCcw,
+    placeholder: 'Describe your team and current process (e.g., "Support team handling both planned features and urgent bug fixes")',
+    color: 'from-fuchsia-500 to-pink-600'
+  },
+  'pdca-cycle': {
+    title: 'PDCA Cycle Implementer',
+    description: 'Systematic improvement using Plan-Do-Check-Act',
+    icon: RotateCcw,
+    placeholder: 'Describe the problem or process you want to improve (e.g., "Customer onboarding process with 40% drop-off rate")',
+    color: 'from-amber-500 to-yellow-600'
+  },
+  'risk-management': {
+    title: 'Risk Assessment & Management',
+    description: 'Identify and mitigate business risks',
+    icon: ShieldAlert,
+    placeholder: 'Describe your project or business for risk assessment (e.g., "Launching a new fintech product in emerging markets")',
+    color: 'from-rose-500 to-red-600'
+  },
+  'kpi-tracking': {
+    title: 'KPI Tracker & Dashboard',
+    description: 'Define and track Key Performance Indicators',
+    icon: Target,
+    placeholder: 'Describe your business/product for KPI recommendations (e.g., "B2B SaaS platform for HR management with 500 enterprise clients")',
+    color: 'from-lime-500 to-green-600'
+  },
+  'ipo-guide': {
+    title: 'IPO Readiness Guide',
+    description: 'Guidance for Initial Public Offering preparation',
+    icon: Landmark,
+    placeholder: 'Describe your company for IPO readiness assessment (e.g., "Tech startup with $50M ARR, 200 employees, operating for 5 years")',
+    color: 'from-slate-500 to-gray-600'
   }
 };
 
