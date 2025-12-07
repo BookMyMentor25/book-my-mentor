@@ -10,6 +10,7 @@ import CoursesSection from "@/components/CoursesSection";
 import TestimonialsSection from "@/components/TestimonialsSection";
 import DownloadSection from "@/components/DownloadSection";
 import AboutSection from "@/components/AboutSection";
+import MobileToolkitBanner from "@/components/MobileToolkitBanner";
 import heroImage from "@/assets/hero-mentorship.jpg";
 import { CheckCircle, Users, Award, Briefcase } from "lucide-react";
 
@@ -159,6 +160,7 @@ const Index = () => {
 
       <Footer />
       <WhatsAppButton />
+      <MobileToolkitBanner />
     </div>
   );
 };
