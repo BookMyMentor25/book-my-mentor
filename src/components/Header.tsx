@@ -15,10 +15,10 @@ const Header = () => {
     window.open('https://g.page/r/CZvakCyCA-xjEAE/review', '_blank');
   };
 
-  // 3-Click Navigation Structure
+  // 3-Click Navigation Structure - Strategic ordering for conversion
   const navItems = [
     { label: "Courses", href: "/#courses", icon: GraduationCap },
-    { label: "AI Tools", href: "/ai-tools", icon: Sparkles },
+    { label: "Business Toolkit", href: "/ai-tools", icon: Sparkles, isHighlighted: true },
     { label: "Our Team", href: "/team", icon: Users },
     { label: "Contact", href: "/contact", icon: Mail },
   ];
@@ -51,9 +51,15 @@ const Header = () => {
               <a 
                 key={item.label}
                 href={item.href} 
-                className="text-foreground/80 hover:text-primary transition-colors font-medium px-2 py-1 rounded focus:outline-none focus:ring-2 focus:ring-primary/50"
+                className={`transition-all font-medium px-3 py-1.5 rounded-full focus:outline-none focus:ring-2 focus:ring-primary/50 ${
+                  item.isHighlighted 
+                    ? "bg-gradient-to-r from-primary to-accent text-primary-foreground shadow-md hover:shadow-lg hover:scale-105 flex items-center gap-1.5" 
+                    : "text-foreground/80 hover:text-primary"
+                }`}
               >
+                {item.isHighlighted && <Sparkles className="w-4 h-4" aria-hidden="true" />}
                 {item.label}
+                {item.isHighlighted && <span className="text-[10px] bg-white/20 px-1.5 py-0.5 rounded-full ml-1">FREE</span>}
               </a>
             ))}
             
@@ -108,11 +114,16 @@ const Header = () => {
                 <a 
                   key={item.label}
                   href={item.href} 
-                  className="flex items-center gap-3 text-foreground hover:text-primary transition-colors py-3 px-4 rounded-lg hover:bg-secondary font-medium"
+                  className={`flex items-center gap-3 transition-all py-3 px-4 rounded-lg font-medium ${
+                    item.isHighlighted 
+                      ? "bg-gradient-to-r from-primary to-accent text-primary-foreground shadow-md" 
+                      : "text-foreground hover:text-primary hover:bg-secondary"
+                  }`}
                   onClick={() => setIsMenuOpen(false)}
                 >
                   <item.icon className="w-5 h-5" aria-hidden="true" />
                   {item.label}
+                  {item.isHighlighted && <span className="text-[10px] bg-white/20 px-2 py-0.5 rounded-full ml-auto">FREE</span>}
                 </a>
               ))}
               
