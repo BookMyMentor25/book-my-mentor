@@ -91,16 +91,27 @@ const Header = () => {
             </Button>
           </div>
 
-          {/* Mobile Menu Button */}
-          <button 
-            className="lg:hidden p-2 hover:bg-secondary rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-primary/50" 
-            onClick={toggleMenu}
-            aria-expanded={isMenuOpen}
-            aria-controls="mobile-menu"
-            aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-          >
-            {isMenuOpen ? <X size={24} aria-hidden="true" /> : <Menu size={24} aria-hidden="true" />}
-          </button>
+          {/* Mobile: Visible Business Toolkit CTA + Menu Button */}
+          <div className="lg:hidden flex items-center gap-2">
+            <a 
+              href="/ai-tools"
+              className="flex items-center gap-1.5 bg-gradient-to-r from-primary to-accent text-primary-foreground px-3 py-1.5 rounded-full text-sm font-medium shadow-md hover:shadow-lg transition-all"
+            >
+              <Sparkles className="w-3.5 h-3.5" aria-hidden="true" />
+              <span className="hidden sm:inline">Business Toolkit</span>
+              <span className="sm:hidden">Toolkit</span>
+              <span className="text-[9px] bg-white/20 px-1 py-0.5 rounded-full">FREE</span>
+            </a>
+            <button 
+              className="p-2 hover:bg-secondary rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-primary/50" 
+              onClick={toggleMenu}
+              aria-expanded={isMenuOpen}
+              aria-controls="mobile-menu"
+              aria-label={isMenuOpen ? "Close menu" : "Open menu"}
+            >
+              {isMenuOpen ? <X size={24} aria-hidden="true" /> : <Menu size={24} aria-hidden="true" />}
+            </button>
+          </div>
         </div>
 
         {/* Mobile Navigation - 3-Click accessible */}
