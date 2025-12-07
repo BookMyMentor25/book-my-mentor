@@ -17,7 +17,14 @@ import {
   Users,
   ArrowRight,
   Lock,
-  Sparkles
+  Sparkles,
+  ListOrdered,
+  Kanban,
+  RotateCcw,
+  ShieldAlert,
+  Target,
+  LineChart,
+  Landmark
 } from 'lucide-react';
 
 const aiTools = [
@@ -92,6 +99,78 @@ const aiTools = [
     color: 'from-red-500 to-orange-600',
     route: '/ai-tool/competitor-analysis',
     features: ['Competitor profiling', 'Feature comparison', 'Gap analysis']
+  },
+  {
+    id: 'rice-framework',
+    title: 'RICE Framework Prioritizer',
+    description: 'Prioritize work based on Reach, Impact, Confidence, and Effort for high ROI initiatives.',
+    icon: ListOrdered,
+    color: 'from-indigo-500 to-purple-600',
+    route: '/ai-tool/rice-framework',
+    features: ['RICE score calculation', 'Priority ranking', 'ROI analysis']
+  },
+  {
+    id: 'scrum-sprint',
+    title: 'SCRUM & SPRINT Manager',
+    description: 'Plan and manage projects using Scrum methodology with sprint planning and tracking.',
+    icon: RotateCcw,
+    color: 'from-cyan-500 to-blue-600',
+    route: '/ai-tool/scrum-sprint',
+    features: ['Sprint planning', 'User stories', 'Velocity tracking']
+  },
+  {
+    id: 'kanban',
+    title: 'Kanban Board Framework',
+    description: 'Visualize workflow and optimize processes using Kanban methodology.',
+    icon: Kanban,
+    color: 'from-emerald-500 to-teal-600',
+    route: '/ai-tool/kanban',
+    features: ['WIP limits', 'Flow optimization', 'Cycle time tracking']
+  },
+  {
+    id: 'scrumban',
+    title: 'SCRUMBAN Framework',
+    description: 'Combine Scrum and Kanban for flexible, continuous project management.',
+    icon: RefreshCcw,
+    color: 'from-fuchsia-500 to-pink-600',
+    route: '/ai-tool/scrumban',
+    features: ['Hybrid methodology', 'Flexible sprints', 'Pull-based planning']
+  },
+  {
+    id: 'pdca-cycle',
+    title: 'PDCA Cycle Implementer',
+    description: 'Systematic improvement using Plan-Do-Check-Act cycle for minimal risk testing.',
+    icon: RotateCcw,
+    color: 'from-amber-500 to-yellow-600',
+    route: '/ai-tool/pdca-cycle',
+    features: ['Deming cycle', 'Root cause analysis', 'Continuous improvement']
+  },
+  {
+    id: 'risk-management',
+    title: 'Risk Assessment & Management',
+    description: 'Identify, assess, and mitigate risks with comprehensive risk management frameworks.',
+    icon: ShieldAlert,
+    color: 'from-rose-500 to-red-600',
+    route: '/ai-tool/risk-management',
+    features: ['Risk matrix', 'Mitigation plans', 'Contingency planning']
+  },
+  {
+    id: 'kpi-tracking',
+    title: 'KPI Tracker & Dashboard',
+    description: 'Define, track, and optimize Key Performance Indicators for your business.',
+    icon: Target,
+    color: 'from-lime-500 to-green-600',
+    route: '/ai-tool/kpi-tracking',
+    features: ['SMART KPIs', 'Dashboard design', 'Performance thresholds']
+  },
+  {
+    id: 'ipo-guide',
+    title: 'IPO Readiness Guide',
+    description: 'Comprehensive guidance for Initial Public Offering preparation and execution.',
+    icon: Landmark,
+    color: 'from-slate-500 to-gray-600',
+    route: '/ai-tool/ipo-guide',
+    features: ['IPO timeline', 'Valuation methods', 'Regulatory compliance']
   }
 ];
 
