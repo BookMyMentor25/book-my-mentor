@@ -8,3 +8,6 @@ verify_jwt = false
 
 [functions.ai-business-tools]
 verify_jwt = false
+
+[functions.notify-toolkit-usage]
+verify_jwt = false
