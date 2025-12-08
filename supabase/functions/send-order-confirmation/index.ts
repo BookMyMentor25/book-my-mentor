@@ -68,14 +68,14 @@ const handler = async (req: Request): Promise<Response> => {
       <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Order Invoice - BMM Academy</title>
+        <title>Order Invoice - Book My Mentor</title>
       </head>
       <body style="font-family: 'Segoe UI', Arial, sans-serif; max-width: 650px; margin: 0 auto; padding: 20px; background-color: #f5f5f5;">
         <div style="background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,0.1);">
           <!-- Header -->
           <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 35px 30px; text-align: center;">
             <h1 style="color: white; margin: 0; font-size: 26px; font-weight: 600;">📄 Order Invoice</h1>
-            <p style="color: rgba(255,255,255,0.9); margin: 10px 0 0 0; font-size: 14px;">Thank you for enrolling with BMM Academy!</p>
+            <p style="color: rgba(255,255,255,0.9); margin: 10px 0 0 0; font-size: 14px;">Thank you for enrolling with Book My Mentor!</p>
           </div>
           
           <!-- Content -->
@@ -157,7 +157,7 @@ const handler = async (req: Request): Promise<Response> => {
           <!-- Footer -->
           <div style="background: #f8f9fa; padding: 20px; text-align: center; border-top: 1px solid #e9ecef;">
             <p style="color: #667eea; font-weight: 600; margin: 0 0 5px 0; font-size: 14px;">🚀 Get ready to transform your career!</p>
-            <p style="color: #888; font-size: 12px; margin: 0;">BMM Academy - Your Career Growth Partner</p>
+            <p style="color: #888; font-size: 12px; margin: 0;">Book My Mentor - Your Career Growth Partner</p>
           </div>
         </div>
       </body>
@@ -260,7 +260,7 @@ const handler = async (req: Request): Promise<Response> => {
           
           <!-- Footer -->
           <div style="background: #f8f9fa; padding: 15px; text-align: center; border-top: 1px solid #e9ecef;">
-            <p style="color: #888; font-size: 12px; margin: 0;">This is an automated notification from BMM Academy Order System</p>
+            <p style="color: #888; font-size: 12px; margin: 0;">This is an automated notification from Book My Mentor Order System</p>
           </div>
         </div>
       </body>
@@ -269,7 +269,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Send email to customer from support@bookmymentor.com
     const customerEmailResponse = await resend.emails.send({
-      from: "BMM Academy <support@bookmymentor.com>",
+      from: "Book My Mentor <support@bookmymentor.com>",
       to: [customerEmail],
       subject: `🎉 Order Invoice - ${courseName} (${orderId})`,
       html: customerEmailHtml,
@@ -279,7 +279,7 @@ const handler = async (req: Request): Promise<Response> => {
 
     // Send email to admin - both info@bookmymentor.com and bookmymentor.org@gmail.com
     const adminEmailResponse = await resend.emails.send({
-      from: "BMM Academy <support@bookmymentor.com>",
+      from: "Book My Mentor <support@bookmymentor.com>",
       to: ["info@bookmymentor.com", "bookmymentor.org@gmail.com"],
       subject: `🎯 New Order: ${courseName} - ${customerName} (₹${finalAmount.toLocaleString('en-IN')})`,
       html: adminEmailHtml,
