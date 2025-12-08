@@ -249,27 +249,32 @@ export const useCheckout = () => {
       const result = await createOrderMutation.mutateAsync(orderData);
       console.log('Order creation result:', result);
 
-      // Send order confirmation emails
+      // Send order confirmation emails with invoice
       try {
         const emailResponse = await supabase.functions.invoke('send-order-confirmation', {
           body: {
             orderId: orderData.order_id,
             customerEmail: formData.email,
             customerName: formData.name,
+            customerPhone: formData.phone,
             courseName: course,
             orderAmount: parseInt(originalPrice.replace(/[₹,]/g, '')) * 100,
             discountAmount: orderData.discount_amount,
-            couponApplied: appliedCoupon?.code
+            couponApplied: appliedCoupon?.code,
+            address: formData.address || undefined,
+            city: formData.city || undefined,
+            state: formData.state || undefined,
+            pincode: formData.pincode || undefined
           }
         });
         
         if (emailResponse.error) {
-          console.error('Email sending failed:', emailResponse.error);
+          console.error('Invoice email sending failed:', emailResponse.error);
         } else {
-          console.log('Order confirmation emails sent successfully');
+          console.log('Invoice emails sent to customer and admins successfully');
         }
       } catch (emailError) {
-        console.error('Error sending confirmation emails:', emailError);
+        console.error('Error sending invoice emails:', emailError);
         // Don't fail the order if email fails
       }
 
