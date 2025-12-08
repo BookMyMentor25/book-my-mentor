@@ -191,6 +191,31 @@ const AIToolPage = () => {
 
     setIsLoading(true);
     try {
+      // Track usage in database
+      const { error: usageError } = await supabase.from('toolkit_usage').insert({
+        user_id: user.id,
+        user_email: user.email || '',
+        user_name: user.user_metadata?.full_name || user.email?.split('@')[0] || '',
+        tool_name: tool.title,
+        tool_id: toolId || '',
+        prompt: prompt.trim()
+      });
+
+      if (usageError) {
+        console.error('Failed to track usage:', usageError);
+      }
+
+      // Send admin notification (fire and forget)
+      supabase.functions.invoke('notify-toolkit-usage', {
+        body: {
+          userName: user.user_metadata?.full_name || user.email?.split('@')[0] || '',
+          userEmail: user.email || '',
+          toolName: tool.title,
+          toolId: toolId || '',
+          prompt: prompt.trim()
+        }
+      }).catch(err => console.error('Failed to send notification:', err));
+
       const { data, error } = await supabase.functions.invoke('ai-business-tools', {
         body: { 
           tool: toolId, 

@@ -546,6 +546,39 @@ export type Database = {
         }
         Relationships: []
       }
+      toolkit_usage: {
+        Row: {
+          created_at: string
+          id: string
+          prompt: string | null
+          tool_id: string
+          tool_name: string
+          user_email: string
+          user_id: string
+          user_name: string | null
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          prompt?: string | null
+          tool_id: string
+          tool_name: string
+          user_email: string
+          user_id: string
+          user_name?: string | null
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          prompt?: string | null
+          tool_id?: string
+          tool_name?: string
+          user_email?: string
+          user_id?: string
+          user_name?: string | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
