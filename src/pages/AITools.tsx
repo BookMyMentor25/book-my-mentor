@@ -32,6 +32,33 @@ import {
 
 const aiTools = [
   {
+    id: 'prd-generator',
+    title: 'PRD Document Creator',
+    description: 'Generate comprehensive Product Requirement Documents with proper format and structure.',
+    icon: FileText,
+    color: 'from-sky-500 to-blue-600',
+    route: '/ai-tool/prd-generator',
+    features: ['PRD template', 'User stories', 'Acceptance criteria']
+  },
+  {
+    id: 'scope-statement',
+    title: 'Scope Statement Builder',
+    description: 'Create detailed Project Scope Statements defining boundaries, deliverables, and constraints.',
+    icon: ClipboardList,
+    color: 'from-violet-500 to-indigo-600',
+    route: '/ai-tool/scope-statement',
+    features: ['Scope definition', 'Deliverables list', 'Exclusions & assumptions']
+  },
+  {
+    id: 'project-charter',
+    title: 'Project Charter Generator',
+    description: 'Build professional Project Charters with objectives, stakeholders, and success criteria.',
+    icon: FileCheck,
+    color: 'from-emerald-500 to-green-600',
+    route: '/ai-tool/project-charter',
+    features: ['Charter template', 'RACI matrix', 'Milestone planning']
+  },
+  {
     id: 'wireframe',
     title: 'Quick App & Website Layout Maker',
     description: 'Create interactive wireframe mockups from natural language descriptions. Drag, drop, and export your designs.',
@@ -60,7 +87,7 @@ const aiTools = [
   },
   {
     id: 'marketing-strategy',
-    title: 'Marketing Game Plan Maker',
+    title: 'Marketing Strategy Planner',
     description: 'Develop a complete marketing strategy with digital and traditional marketing recommendations.',
     icon: Megaphone,
     color: 'from-orange-500 to-amber-600',
@@ -174,33 +201,6 @@ const aiTools = [
     color: 'from-slate-500 to-gray-600',
     route: '/ai-tool/ipo-guide',
     features: ['IPO timeline', 'Valuation methods', 'Regulatory compliance']
-  },
-  {
-    id: 'prd-generator',
-    title: 'PRD Document Creator',
-    description: 'Generate comprehensive Product Requirement Documents with proper format and structure.',
-    icon: FileText,
-    color: 'from-sky-500 to-blue-600',
-    route: '/ai-tool/prd-generator',
-    features: ['PRD template', 'User stories', 'Acceptance criteria']
-  },
-  {
-    id: 'scope-statement',
-    title: 'Scope Statement Builder',
-    description: 'Create detailed Project Scope Statements defining boundaries, deliverables, and constraints.',
-    icon: ClipboardList,
-    color: 'from-violet-500 to-indigo-600',
-    route: '/ai-tool/scope-statement',
-    features: ['Scope definition', 'Deliverables list', 'Exclusions & assumptions']
-  },
-  {
-    id: 'project-charter',
-    title: 'Project Charter Generator',
-    description: 'Build professional Project Charters with objectives, stakeholders, and success criteria.',
-    icon: FileCheck,
-    color: 'from-emerald-500 to-green-600',
-    route: '/ai-tool/project-charter',
-    features: ['Charter template', 'RACI matrix', 'Milestone planning']
   }
 ];
 
