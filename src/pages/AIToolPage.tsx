@@ -29,7 +29,10 @@ import {
   RotateCcw,
   ShieldAlert,
   Target,
-  Landmark
+  Landmark,
+  FileText,
+  ClipboardList,
+  FileCheck
 } from 'lucide-react';
 import jsPDF from 'jspdf';
 
@@ -144,6 +147,27 @@ const toolConfig: Record<string, {
     icon: Landmark,
     placeholder: 'Describe your company for IPO readiness assessment (e.g., "Tech startup with $50M ARR, 200 employees, operating for 5 years")',
     color: 'from-slate-500 to-gray-600'
+  },
+  'prd-generator': {
+    title: 'PRD Document Creator',
+    description: 'Generate comprehensive Product Requirement Documents',
+    icon: FileText,
+    placeholder: 'Describe your product or feature (e.g., "A mobile banking app with biometric authentication and peer-to-peer payment features")',
+    color: 'from-sky-500 to-blue-600'
+  },
+  'scope-statement': {
+    title: 'Scope Statement Builder',
+    description: 'Create detailed Project Scope Statements',
+    icon: ClipboardList,
+    placeholder: 'Describe your project (e.g., "Website redesign project for an e-commerce company with 500K monthly visitors")',
+    color: 'from-violet-500 to-indigo-600'
+  },
+  'project-charter': {
+    title: 'Project Charter Generator',
+    description: 'Build professional Project Charters',
+    icon: FileCheck,
+    placeholder: 'Describe your project (e.g., "ERP implementation project for a manufacturing company with 3 plants and 500 employees")',
+    color: 'from-emerald-500 to-green-600'
   }
 };
 
