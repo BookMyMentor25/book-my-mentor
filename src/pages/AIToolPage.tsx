@@ -41,105 +41,105 @@ const toolConfig: Record<string, {
   color: string;
 }> = {
   'market-size': {
-    title: 'Market Size Estimator',
+    title: 'Market Demand Calculator',
     description: 'Calculate TAM, SAM, and SOM for your product or service',
     icon: TrendingUp,
     placeholder: 'Describe your product or service (e.g., "A mobile app for personal finance management targeting millennials in India")',
     color: 'from-green-500 to-emerald-600'
   },
   'business-model': {
-    title: 'Business Model Builder',
+    title: 'Easy Business Plan Creator',
     description: 'Generate a comprehensive Business Model Canvas',
     icon: Building2,
     placeholder: 'Describe your business idea (e.g., "An AI-powered recruitment platform for tech startups")',
     color: 'from-blue-500 to-cyan-600'
   },
   'marketing-strategy': {
-    title: 'Marketing Strategy Planner',
+    title: 'Marketing Game Plan Maker',
     description: 'Develop a complete marketing strategy',
     icon: Megaphone,
     placeholder: 'Describe your product and target audience (e.g., "A SaaS tool for project management targeting remote teams")',
     color: 'from-orange-500 to-amber-600'
   },
   'product-lifecycle': {
-    title: 'Product Life Cycle Analyzer',
+    title: 'Product Journey Tracker',
     description: 'Understand your product\'s lifecycle stage',
     icon: RefreshCcw,
     placeholder: 'Describe your product and its current market situation (e.g., "An e-commerce platform launched 2 years ago with growing user base")',
     color: 'from-pink-500 to-rose-600'
   },
   'gtm-strategy': {
-    title: 'Go-To-Market Strategy',
+    title: 'Launch Your Product Plan',
     description: 'Create a comprehensive GTM plan',
     icon: Rocket,
     placeholder: 'Describe your product and target market (e.g., "A B2B cybersecurity solution for mid-size enterprises")',
     color: 'from-violet-500 to-purple-600'
   },
   'market-research': {
-    title: 'Market Research Assistant',
+    title: 'Smart Market Insights Helper',
     description: 'Get guidance on market research methodologies',
     icon: Search,
     placeholder: 'Describe what market you want to research (e.g., "The electric vehicle charging infrastructure market in Southeast Asia")',
     color: 'from-teal-500 to-cyan-600'
   },
   'competitor-analysis': {
-    title: 'Competitor Analysis Tool',
+    title: 'Know Your Competition Tool',
     description: 'Analyze competitors and find opportunities',
     icon: Users,
     placeholder: 'Describe your product and known competitors (e.g., "A food delivery app competing with Swiggy and Zomato")',
     color: 'from-red-500 to-orange-600'
   },
   'rice-framework': {
-    title: 'RICE Framework Prioritizer',
+    title: 'Task Priority Score Tool',
     description: 'Prioritize initiatives based on Reach, Impact, Confidence, and Effort',
     icon: ListOrdered,
     placeholder: 'List the initiatives/features you want to prioritize (e.g., "Feature A: Add payment integration, Feature B: Mobile app redesign, Feature C: Customer support chatbot")',
     color: 'from-indigo-500 to-purple-600'
   },
   'scrum-sprint': {
-    title: 'SCRUM & SPRINT Manager',
+    title: 'Team Task & Sprint Organizer',
     description: 'Plan and manage projects using Scrum methodology',
     icon: RotateCcw,
     placeholder: 'Describe your project and team (e.g., "E-commerce platform development with a 5-member development team")',
     color: 'from-cyan-500 to-blue-600'
   },
   'kanban': {
-    title: 'Kanban Board Framework',
+    title: 'Simple Task Board Manager',
     description: 'Visualize and optimize workflow using Kanban',
     icon: Kanban,
     placeholder: 'Describe your workflow or process (e.g., "Software development workflow from requirements to deployment")',
     color: 'from-emerald-500 to-teal-600'
   },
   'scrumban': {
-    title: 'SCRUMBAN Framework',
+    title: 'Flexible Team Workflow Manager',
     description: 'Combine Scrum and Kanban for flexible management',
     icon: RefreshCcw,
     placeholder: 'Describe your team and current process (e.g., "Support team handling both planned features and urgent bug fixes")',
     color: 'from-fuchsia-500 to-pink-600'
   },
   'pdca-cycle': {
-    title: 'PDCA Cycle Implementer',
+    title: 'Continuous Improvement Planner',
     description: 'Systematic improvement using Plan-Do-Check-Act',
     icon: RotateCcw,
     placeholder: 'Describe the problem or process you want to improve (e.g., "Customer onboarding process with 40% drop-off rate")',
     color: 'from-amber-500 to-yellow-600'
   },
   'risk-management': {
-    title: 'Risk Assessment & Management',
+    title: 'Business Risk Checker',
     description: 'Identify and mitigate business risks',
     icon: ShieldAlert,
     placeholder: 'Describe your project or business for risk assessment (e.g., "Launching a new fintech product in emerging markets")',
     color: 'from-rose-500 to-red-600'
   },
   'kpi-tracking': {
-    title: 'KPI Tracker & Dashboard',
+    title: 'Performance Goals Tracker',
     description: 'Define and track Key Performance Indicators',
     icon: Target,
     placeholder: 'Describe your business/product for KPI recommendations (e.g., "B2B SaaS platform for HR management with 500 enterprise clients")',
     color: 'from-lime-500 to-green-600'
   },
   'ipo-guide': {
-    title: 'IPO Readiness Guide',
+    title: 'Easy IPO Preparation Guide',
     description: 'Guidance for Initial Public Offering preparation',
     icon: Landmark,
     placeholder: 'Describe your company for IPO readiness assessment (e.g., "Tech startup with $50M ARR, 200 employees, operating for 5 years")',
