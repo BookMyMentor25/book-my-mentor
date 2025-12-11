@@ -30,7 +30,7 @@ import {
 const aiTools = [
   {
     id: 'wireframe',
-    title: 'AI Wireframe Generator',
+    title: 'Quick App & Website Layout Maker',
     description: 'Create interactive wireframe mockups from natural language descriptions. Drag, drop, and export your designs.',
     icon: Wand2,
     color: 'from-purple-500 to-indigo-600',
@@ -39,7 +39,7 @@ const aiTools = [
   },
   {
     id: 'market-size',
-    title: 'Market Size Estimator',
+    title: 'Market Demand Calculator',
     description: 'Calculate TAM, SAM, and SOM for your product or service with AI-powered market analysis.',
     icon: TrendingUp,
     color: 'from-green-500 to-emerald-600',
@@ -48,7 +48,7 @@ const aiTools = [
   },
   {
     id: 'business-model',
-    title: 'Business Model Builder',
+    title: 'Easy Business Plan Creator',
     description: 'Generate comprehensive Business Model Canvas with AI assistance for your startup or product.',
     icon: Building2,
     color: 'from-blue-500 to-cyan-600',
@@ -57,7 +57,7 @@ const aiTools = [
   },
   {
     id: 'marketing-strategy',
-    title: 'Marketing Strategy Planner',
+    title: 'Marketing Game Plan Maker',
     description: 'Develop a complete marketing strategy with digital and traditional marketing recommendations.',
     icon: Megaphone,
     color: 'from-orange-500 to-amber-600',
@@ -66,7 +66,7 @@ const aiTools = [
   },
   {
     id: 'product-lifecycle',
-    title: 'Product Life Cycle Analyzer',
+    title: 'Product Journey Tracker',
     description: 'Understand your product\'s lifecycle stage and get recommendations for each phase.',
     icon: RefreshCcw,
     color: 'from-pink-500 to-rose-600',
@@ -75,7 +75,7 @@ const aiTools = [
   },
   {
     id: 'gtm-strategy',
-    title: 'Go-To-Market Strategy',
+    title: 'Launch Your Product Plan',
     description: 'Create a comprehensive GTM plan with pricing, distribution, and launch timeline.',
     icon: Rocket,
     color: 'from-violet-500 to-purple-600',
@@ -84,7 +84,7 @@ const aiTools = [
   },
   {
     id: 'market-research',
-    title: 'Market Research Assistant',
+    title: 'Smart Market Insights Helper',
     description: 'Get guidance on primary and secondary market research methodologies and frameworks.',
     icon: Search,
     color: 'from-teal-500 to-cyan-600',
@@ -93,7 +93,7 @@ const aiTools = [
   },
   {
     id: 'competitor-analysis',
-    title: 'Competitor Analysis Tool',
+    title: 'Know Your Competition Tool',
     description: 'Analyze competitors, identify competitive advantages, and find market opportunities.',
     icon: Users,
     color: 'from-red-500 to-orange-600',
@@ -102,7 +102,7 @@ const aiTools = [
   },
   {
     id: 'rice-framework',
-    title: 'RICE Framework Prioritizer',
+    title: 'Task Priority Score Tool',
     description: 'Prioritize work based on Reach, Impact, Confidence, and Effort for high ROI initiatives.',
     icon: ListOrdered,
     color: 'from-indigo-500 to-purple-600',
@@ -111,7 +111,7 @@ const aiTools = [
   },
   {
     id: 'scrum-sprint',
-    title: 'SCRUM & SPRINT Manager',
+    title: 'Team Task & Sprint Organizer',
     description: 'Plan and manage projects using Scrum methodology with sprint planning and tracking.',
     icon: RotateCcw,
     color: 'from-cyan-500 to-blue-600',
@@ -120,7 +120,7 @@ const aiTools = [
   },
   {
     id: 'kanban',
-    title: 'Kanban Board Framework',
+    title: 'Simple Task Board Manager',
     description: 'Visualize workflow and optimize processes using Kanban methodology.',
     icon: Kanban,
     color: 'from-emerald-500 to-teal-600',
@@ -129,7 +129,7 @@ const aiTools = [
   },
   {
     id: 'scrumban',
-    title: 'SCRUMBAN Framework',
+    title: 'Flexible Team Workflow Manager',
     description: 'Combine Scrum and Kanban for flexible, continuous project management.',
     icon: RefreshCcw,
     color: 'from-fuchsia-500 to-pink-600',
@@ -138,7 +138,7 @@ const aiTools = [
   },
   {
     id: 'pdca-cycle',
-    title: 'PDCA Cycle Implementer',
+    title: 'Continuous Improvement Planner',
     description: 'Systematic improvement using Plan-Do-Check-Act cycle for minimal risk testing.',
     icon: RotateCcw,
     color: 'from-amber-500 to-yellow-600',
@@ -147,7 +147,7 @@ const aiTools = [
   },
   {
     id: 'risk-management',
-    title: 'Risk Assessment & Management',
+    title: 'Business Risk Checker',
     description: 'Identify, assess, and mitigate risks with comprehensive risk management frameworks.',
     icon: ShieldAlert,
     color: 'from-rose-500 to-red-600',
@@ -156,7 +156,7 @@ const aiTools = [
   },
   {
     id: 'kpi-tracking',
-    title: 'KPI Tracker & Dashboard',
+    title: 'Performance Goals Tracker',
     description: 'Define, track, and optimize Key Performance Indicators for your business.',
     icon: Target,
     color: 'from-lime-500 to-green-600',
@@ -165,7 +165,7 @@ const aiTools = [
   },
   {
     id: 'ipo-guide',
-    title: 'IPO Readiness Guide',
+    title: 'Easy IPO Preparation Guide',
     description: 'Comprehensive guidance for Initial Public Offering preparation and execution.',
     icon: Landmark,
     color: 'from-slate-500 to-gray-600',

@@ -286,7 +286,7 @@ const WireframeTool = () => {
         <div className="text-center mb-8">
           <Badge variant="secondary" className="mb-4">FREE AI TOOL</Badge>
           <h1 className="text-4xl font-bold mb-4 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-            AI Wireframe Generator
+            Quick App & Website Layout Maker
           </h1>
           <p className="text-muted-foreground max-w-2xl mx-auto">
             Describe your app or website idea and let AI create interactive wireframe mockups for you. 
