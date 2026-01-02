@@ -469,7 +469,7 @@ const AITools = () => {
                   <Rocket className="h-8 w-8 text-green-500" />
                 </div>
                 <h3 className="text-xl font-semibold mb-2">Launch Faster</h3>
-                <p className="text-muted-foreground">From idea to IPO—use our complete product lifecycle toolkit to accelerate every stage of your journey.</p>
+                <p className="text-muted-foreground">From idea to IPO, use our complete product lifecycle toolkit to accelerate every stage of your journey.</p>
               </div>
             </div>
           </div>
