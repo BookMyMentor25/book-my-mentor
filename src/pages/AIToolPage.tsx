@@ -58,7 +58,7 @@ const toolConfig: Record<string, {
     color: 'from-blue-500 to-cyan-600'
   },
   'marketing-strategy': {
-    title: 'Marketing Game Plan Maker',
+    title: 'Marketing Strategy Planner',
     description: 'Develop a complete marketing strategy',
     icon: Megaphone,
     placeholder: 'Describe your product and target audience (e.g., "A SaaS tool for project management targeting remote teams")',
