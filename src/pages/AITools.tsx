@@ -30,7 +30,17 @@ import {
   FileCheck,
   Lightbulb,
   Layers,
-  CheckCircle2
+  CheckCircle2,
+  UserCircle,
+  Gem,
+  UserPlus,
+  AlertTriangle,
+  BookOpen,
+  Calendar,
+  PenTool,
+  ClipboardCheck,
+  MessageSquare,
+  BarChart3
 } from 'lucide-react';
 
 // Tools organized chronologically by Product Lifecycle stages
@@ -114,6 +124,26 @@ const aiTools = [
     features: ['Full BMC framework', 'Revenue stream ideas', 'Partnership strategies'],
     stage: 'ideation'
   },
+  {
+    id: 'user-persona',
+    title: 'User Persona Generator',
+    description: 'Create detailed customer personas with demographics, pain points, behaviors, and goals.',
+    icon: UserCircle,
+    color: 'from-pink-500 to-rose-600',
+    route: '/ai-tool/user-persona',
+    features: ['Demographics profiling', 'Pain points & goals', 'Behavioral patterns'],
+    stage: 'ideation'
+  },
+  {
+    id: 'value-proposition',
+    title: 'Value Proposition Canvas',
+    description: 'Define customer jobs-to-be-done, pains, gains, and map product-market fit.',
+    icon: Gem,
+    color: 'from-amber-500 to-orange-600',
+    route: '/ai-tool/value-proposition',
+    features: ['Customer jobs analysis', 'Pain & gain mapping', 'Value fit alignment'],
+    stage: 'ideation'
+  },
   
   // Stage 2: Planning & Documentation
   {
@@ -166,6 +196,26 @@ const aiTools = [
     features: ['Risk matrix', 'Mitigation plans', 'Contingency planning'],
     stage: 'planning'
   },
+  {
+    id: 'stakeholder-analysis',
+    title: 'Stakeholder Analysis Matrix',
+    description: 'Identify and prioritize stakeholders by influence, interest, and engagement strategy.',
+    icon: UserPlus,
+    color: 'from-cyan-500 to-teal-600',
+    route: '/ai-tool/stakeholder-analysis',
+    features: ['Power/Interest grid', 'Engagement strategies', 'Communication plans'],
+    stage: 'planning'
+  },
+  {
+    id: 'risk-register',
+    title: 'Risk Register Builder',
+    description: 'Document project risks with severity scoring and mitigation strategies.',
+    icon: AlertTriangle,
+    color: 'from-red-500 to-rose-600',
+    route: '/ai-tool/risk-register',
+    features: ['Risk identification', 'Severity scoring', 'Mitigation strategies'],
+    stage: 'planning'
+  },
   
   // Stage 3: Development & Execution
   {
@@ -208,6 +258,36 @@ const aiTools = [
     features: ['Hybrid methodology', 'Flexible sprints', 'Pull-based planning'],
     stage: 'development'
   },
+  {
+    id: 'user-story',
+    title: 'User Story Generator',
+    description: 'Create well-formatted user stories with acceptance criteria following Agile best practices.',
+    icon: BookOpen,
+    color: 'from-blue-500 to-indigo-600',
+    route: '/ai-tool/user-story',
+    features: ['Story templates', 'Acceptance criteria', 'Story points estimation'],
+    stage: 'development'
+  },
+  {
+    id: 'sprint-planning',
+    title: 'Sprint Planning Assistant',
+    description: 'Plan sprints effectively with effort estimation and resource allocation.',
+    icon: Calendar,
+    color: 'from-green-500 to-teal-600',
+    route: '/ai-tool/sprint-planning',
+    features: ['Sprint goals', 'Effort estimation', 'Resource planning'],
+    stage: 'development'
+  },
+  {
+    id: 'wireframe-requirements',
+    title: 'Wireframe Requirements Spec',
+    description: 'Define UI/UX requirements and comprehensive wireframe documentation.',
+    icon: PenTool,
+    color: 'from-violet-500 to-purple-600',
+    route: '/ai-tool/wireframe-requirements',
+    features: ['UI specifications', 'UX flows', 'Design documentation'],
+    stage: 'development'
+  },
   
   // Stage 4: Launch & Growth
   {
@@ -228,6 +308,16 @@ const aiTools = [
     color: 'from-orange-500 to-amber-600',
     route: '/ai-tool/marketing-strategy',
     features: ['4P marketing mix', 'Digital strategy', 'Budget allocation'],
+    stage: 'launch'
+  },
+  {
+    id: 'launch-checklist',
+    title: 'Launch Checklist Generator',
+    description: 'Comprehensive go-live checklists for successful product releases.',
+    icon: ClipboardCheck,
+    color: 'from-emerald-500 to-green-600',
+    route: '/ai-tool/launch-checklist',
+    features: ['Pre-launch tasks', 'Launch day plan', 'Post-launch monitoring'],
     stage: 'launch'
   },
   
@@ -270,6 +360,26 @@ const aiTools = [
     color: 'from-slate-500 to-gray-600',
     route: '/ai-tool/ipo-guide',
     features: ['IPO timeline', 'Valuation methods', 'Regulatory compliance'],
+    stage: 'optimization'
+  },
+  {
+    id: 'retrospective',
+    title: 'Retrospective Facilitator',
+    description: 'Guide sprint and project retrospectives with structured templates.',
+    icon: MessageSquare,
+    color: 'from-indigo-500 to-blue-600',
+    route: '/ai-tool/retrospective',
+    features: ['Retro templates', 'Action items', 'Team insights'],
+    stage: 'optimization'
+  },
+  {
+    id: 'feedback-analyzer',
+    title: 'Customer Feedback Analyzer',
+    description: 'Categorize and prioritize customer feedback themes for product improvement.',
+    icon: BarChart3,
+    color: 'from-teal-500 to-cyan-600',
+    route: '/ai-tool/feedback-analyzer',
+    features: ['Theme categorization', 'Sentiment analysis', 'Priority ranking'],
     stage: 'optimization'
   }
 ];
