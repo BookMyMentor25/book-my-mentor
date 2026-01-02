@@ -32,7 +32,17 @@ import {
   Landmark,
   FileText,
   ClipboardList,
-  FileCheck
+  FileCheck,
+  UserCircle,
+  Gem,
+  UserPlus,
+  AlertTriangle,
+  BookOpen,
+  Calendar,
+  PenTool,
+  ClipboardCheck,
+  MessageSquare,
+  BarChart3
 } from 'lucide-react';
 import jsPDF from 'jspdf';
 
@@ -168,6 +178,76 @@ const toolConfig: Record<string, {
     icon: FileCheck,
     placeholder: 'Describe your project (e.g., "ERP implementation project for a manufacturing company with 3 plants and 500 employees")',
     color: 'from-emerald-500 to-green-600'
+  },
+  'user-persona': {
+    title: 'User Persona Generator',
+    description: 'Create detailed customer personas with demographics, pain points, and behaviors',
+    icon: UserCircle,
+    placeholder: 'Describe your target audience (e.g., "Young professionals aged 25-35 in urban India looking for investment apps")',
+    color: 'from-pink-500 to-rose-600'
+  },
+  'value-proposition': {
+    title: 'Value Proposition Canvas',
+    description: 'Define customer jobs-to-be-done, pains, gains, and product-market fit',
+    icon: Gem,
+    placeholder: 'Describe your product and target customer (e.g., "A meal planning app for busy working parents who struggle with healthy eating")',
+    color: 'from-amber-500 to-orange-600'
+  },
+  'stakeholder-analysis': {
+    title: 'Stakeholder Analysis Matrix',
+    description: 'Identify and prioritize stakeholders by influence and interest',
+    icon: UserPlus,
+    placeholder: 'Describe your project and key parties involved (e.g., "Digital transformation project for a hospital with doctors, nurses, admin staff, and IT team")',
+    color: 'from-cyan-500 to-teal-600'
+  },
+  'risk-register': {
+    title: 'Risk Register Builder',
+    description: 'Document project risks with severity scoring and mitigation strategies',
+    icon: AlertTriangle,
+    placeholder: 'Describe your project for risk identification (e.g., "Cloud migration project for a financial services company with 50 legacy applications")',
+    color: 'from-red-500 to-rose-600'
+  },
+  'user-story': {
+    title: 'User Story Generator',
+    description: 'Create well-formatted user stories with acceptance criteria',
+    icon: BookOpen,
+    placeholder: 'Describe the feature or functionality (e.g., "User authentication system with social login and two-factor authentication")',
+    color: 'from-blue-500 to-indigo-600'
+  },
+  'sprint-planning': {
+    title: 'Sprint Planning Assistant',
+    description: 'Plan sprints with effort estimation and resource allocation',
+    icon: Calendar,
+    placeholder: 'Describe your team and upcoming work (e.g., "5-person development team with 10 user stories to deliver in a 2-week sprint")',
+    color: 'from-green-500 to-teal-600'
+  },
+  'wireframe-requirements': {
+    title: 'Wireframe Requirements Spec',
+    description: 'Define UI/UX requirements and wireframe documentation',
+    icon: PenTool,
+    placeholder: 'Describe the screen or feature (e.g., "Dashboard for an analytics platform showing key metrics, charts, and user activity")',
+    color: 'from-violet-500 to-purple-600'
+  },
+  'launch-checklist': {
+    title: 'Launch Checklist Generator',
+    description: 'Comprehensive go-live checklists for product releases',
+    icon: ClipboardCheck,
+    placeholder: 'Describe your product launch (e.g., "SaaS product launch for B2B HR software with 100 beta customers")',
+    color: 'from-emerald-500 to-green-600'
+  },
+  'retrospective': {
+    title: 'Retrospective Facilitator',
+    description: 'Guide sprint and project retrospectives with structured templates',
+    icon: MessageSquare,
+    placeholder: 'Describe your team and sprint context (e.g., "Development team of 6 completing a 2-week sprint with some missed deadlines")',
+    color: 'from-indigo-500 to-blue-600'
+  },
+  'feedback-analyzer': {
+    title: 'Customer Feedback Analyzer',
+    description: 'Categorize and prioritize customer feedback themes',
+    icon: BarChart3,
+    placeholder: 'Paste or describe customer feedback (e.g., "Collection of 50 customer reviews mentioning app performance, pricing, and feature requests")',
+    color: 'from-teal-500 to-cyan-600'
   }
 };
 
