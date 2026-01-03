@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import { SEOHead, generateFAQSchema } from '@/components/SEOHead';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -403,8 +404,23 @@ const AITools = () => {
 
   const getToolsByStage = (stageId: string) => aiTools.filter(tool => tool.stage === stageId);
 
+  // FAQ Schema for AI Tools page
+  const toolsFAQs = [
+    { question: "What are free AI tools for Product Managers?", answer: "BookMyMentor offers 29 free AI-powered tools including Business Model Canvas Generator, PRD Generator, SWOT Analysis, Competitor Analysis, Roadmap Builder, and more—all designed specifically for Product Managers, Entrepreneurs, and Project Managers." },
+    { question: "How do I use the AI Business Toolkit?", answer: "Simply sign up for a free account, choose any tool from our product lifecycle stages (Ideation, Planning, Development, Launch, Optimization), enter your business details, and get AI-generated professional documents and insights in seconds." },
+    { question: "Is the AI Business Toolkit really free?", answer: "Yes! All 29 tools in our Business Toolkit are completely free for registered users. No credit card required, no hidden fees—just instant access to professional-grade AI tools." },
+    { question: "What types of documents can I generate?", answer: "You can generate Business Model Canvas, Lean Canvas, PRDs, User Stories, Roadmaps, SWOT Analysis, Competitor Analysis, Pitch Decks, Go-to-Market Strategies, OKRs, KPI Dashboards, and much more." }
+  ];
+
   return (
     <div className="min-h-screen flex flex-col bg-background">
+      <SEOHead 
+        title="Free AI Business Toolkit | 29 Product Management Tools | BookMyMentor"
+        description="Access 29 free AI-powered tools for Product Managers & Entrepreneurs. Generate Business Model Canvas, PRDs, SWOT Analysis, Roadmaps, Pitch Decks & more. No credit card required."
+        keywords="free AI tools, product management tools, business model canvas generator, lean canvas maker, PRD generator, SWOT analysis tool, competitor analysis, roadmap builder, pitch deck creator, startup tools, entrepreneur toolkit, free business tools, agile tools, sprint planning"
+        canonicalUrl="https://bookmymentor.com/ai-tools"
+        structuredData={generateFAQSchema(toolsFAQs)}
+      />
       <Header />
       
       <main className="flex-1">

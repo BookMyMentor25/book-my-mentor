@@ -8,6 +8,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { ArrowLeft, Clock, Award, Users, Star, CheckCircle } from "lucide-react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import { SEOHead, generateCourseSchema, generateBreadcrumbSchema } from "@/components/SEOHead";
 import { useQuizByCourse, useQuizQuestions, useUserQuizAttempts, useStartQuiz } from "@/hooks/useQuiz";
 import QuizCard from "@/components/quiz/QuizCard";
 import QuizModal from "@/components/quiz/QuizModal";
@@ -385,8 +386,38 @@ const CourseDetails = () => {
   
   const hasWeeklyBreakdown = currentCourseDetails !== null;
 
+  // Generate SEO data for this course
+  const courseSchema = generateCourseSchema({
+    name: course.title,
+    description: course.description || '',
+    price: course.price,
+    currency: 'INR',
+    rating: course.rating || 4.9,
+    reviewCount: course.student_count || 500,
+    duration: course.duration || '4 weeks',
+    url: `https://bookmymentor.com/course/${courseId}`
+  });
+
+  const breadcrumbData = generateBreadcrumbSchema([
+    { name: 'Home', url: 'https://bookmymentor.com/' },
+    { name: 'Courses', url: 'https://bookmymentor.com/#courses' },
+    { name: course.title, url: `https://bookmymentor.com/course/${courseId}` }
+  ]);
+
+  const combinedSchema = {
+    "@context": "https://schema.org",
+    "@graph": [courseSchema, breadcrumbData]
+  };
+
   return (
     <div className="min-h-screen bg-white">
+      <SEOHead 
+        title={`${course.title} - Online Certification Course | BookMyMentor`}
+        description={`${course.description || 'Master ' + course.title + ' with expert mentors'}. ${course.rating}★ rating, ${course.student_count}+ students enrolled. Get certified with 100% placement support.`}
+        keywords={`${course.title.toLowerCase()}, ${course.title.toLowerCase()} course, ${course.title.toLowerCase()} certification, online ${course.title.toLowerCase()} training, ${course.title.toLowerCase()} bootcamp`}
+        canonicalUrl={`https://bookmymentor.com/course/${courseId}`}
+        structuredData={combinedSchema}
+      />
       <Header />
       
       {/* Hero Section */}
