@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '@/hooks/useAuth';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
+import { SEOHead, generateBreadcrumbSchema } from '@/components/SEOHead';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -399,8 +400,22 @@ const AIToolPage = () => {
 
   const IconComponent = tool.icon;
 
+  // Generate breadcrumb schema for this tool
+  const breadcrumbData = generateBreadcrumbSchema([
+    { name: 'Home', url: 'https://bookmymentor.com/' },
+    { name: 'AI Business Toolkit', url: 'https://bookmymentor.com/ai-tools' },
+    { name: tool.title, url: `https://bookmymentor.com/ai-tool/${toolId}` }
+  ]);
+
   return (
     <div className="min-h-screen flex flex-col bg-background">
+      <SEOHead 
+        title={`${tool.title} - Free AI Tool | BookMyMentor Business Toolkit`}
+        description={`${tool.description}. Free AI-powered ${tool.title} for Product Managers, Entrepreneurs & Startups. Generate professional insights in seconds.`}
+        keywords={`${tool.title.toLowerCase()}, free ${tool.title.toLowerCase()} tool, AI ${tool.title.toLowerCase()}, product management tools, business toolkit, startup tools, entrepreneur tools`}
+        canonicalUrl={`https://bookmymentor.com/ai-tool/${toolId}`}
+        structuredData={breadcrumbData}
+      />
       <Header />
       
       <main className="flex-1 container mx-auto px-4 py-8">
