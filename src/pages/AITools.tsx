@@ -442,7 +442,7 @@ const AITools = () => {
                 Business Toolkit: AI-Powered Product Management Tools
               </h1>
               <p className="text-base sm:text-lg md:text-xl text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed">
-                From idea validation to IPO readiness—19 free AI tools to help you build, launch, and scale your product. 
+                From idea validation to IPO readiness, 29 free AI tools to help you build, launch, and scale your product. 
                 Get professional documents, strategic insights, and actionable frameworks in seconds.
               </p>
               {!user && (
