@@ -43,7 +43,9 @@ import {
   PenTool,
   ClipboardCheck,
   MessageSquare,
-  BarChart3
+  BarChart3,
+  Bot,
+  Wand2
 } from 'lucide-react';
 import jsPDF from 'jspdf';
 
@@ -249,6 +251,20 @@ const toolConfig: Record<string, {
     icon: BarChart3,
     placeholder: 'Paste or describe customer feedback (e.g., "Collection of 50 customer reviews mentioning app performance, pricing, and feature requests")',
     color: 'from-teal-500 to-cyan-600'
+  },
+  'agentic-ai': {
+    title: 'Agentic AI Implementation Guide',
+    description: 'Learn how to build AI assistants that can take actions, make decisions, and complete tasks autonomously',
+    icon: Bot,
+    placeholder: 'Describe what you want your AI agent to do (e.g., "An AI assistant that automatically responds to customer support tickets and escalates complex issues")',
+    color: 'from-indigo-500 to-blue-600'
+  },
+  'generative-ai': {
+    title: 'Generative AI Use Case Finder',
+    description: 'Discover practical ways to use AI for creating content, code, images, and more in your business',
+    icon: Wand2,
+    placeholder: 'Describe your business or task (e.g., "E-commerce company wanting to automate product descriptions and marketing emails")',
+    color: 'from-purple-500 to-pink-600'
   }
 };
 

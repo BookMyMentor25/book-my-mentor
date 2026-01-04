@@ -41,11 +41,19 @@ import {
   PenTool,
   ClipboardCheck,
   MessageSquare,
-  BarChart3
+  BarChart3,
+  Bot
 } from 'lucide-react';
 
 // Tools organized chronologically by Product Lifecycle stages
 const lifecycleStages = [
+  {
+    id: 'ai-technology',
+    name: 'AI & Technology',
+    description: 'Understand and implement AI in your business',
+    icon: Bot,
+    color: 'from-purple-500 to-pink-500'
+  },
   {
     id: 'ideation',
     name: 'Ideation & Research',
@@ -84,6 +92,28 @@ const lifecycleStages = [
 ];
 
 const aiTools = [
+  // Stage 0: AI & Technology
+  {
+    id: 'agentic-ai',
+    title: 'Agentic AI Implementation Guide',
+    description: 'Learn how to build AI assistants that take actions, make decisions, and complete tasks automatically.',
+    icon: Bot,
+    color: 'from-indigo-500 to-blue-600',
+    route: '/ai-tool/agentic-ai',
+    features: ['What is Agentic AI', 'Use cases & examples', 'Step-by-step implementation'],
+    stage: 'ai-technology'
+  },
+  {
+    id: 'generative-ai',
+    title: 'Generative AI Use Case Finder',
+    description: 'Discover practical ways to use AI for creating content, code, images, and more for your business.',
+    icon: Wand2,
+    color: 'from-purple-500 to-pink-600',
+    route: '/ai-tool/generative-ai',
+    features: ['Content & copy generation', 'Image & design ideas', 'ROI calculator'],
+    stage: 'ai-technology'
+  },
+  
   // Stage 1: Ideation & Research
   {
     id: 'market-research',
@@ -406,18 +436,20 @@ const AITools = () => {
 
   // FAQ Schema for AI Tools page
   const toolsFAQs = [
-    { question: "What are free AI tools for Product Managers?", answer: "BookMyMentor offers 29 free AI-powered tools including Business Model Canvas Generator, PRD Generator, SWOT Analysis, Competitor Analysis, Roadmap Builder, and more—all designed specifically for Product Managers, Entrepreneurs, and Project Managers." },
-    { question: "How do I use the AI Business Toolkit?", answer: "Simply sign up for a free account, choose any tool from our product lifecycle stages (Ideation, Planning, Development, Launch, Optimization), enter your business details, and get AI-generated professional documents and insights in seconds." },
-    { question: "Is the AI Business Toolkit really free?", answer: "Yes! All 29 tools in our Business Toolkit are completely free for registered users. No credit card required, no hidden fees—just instant access to professional-grade AI tools." },
-    { question: "What types of documents can I generate?", answer: "You can generate Business Model Canvas, Lean Canvas, PRDs, User Stories, Roadmaps, SWOT Analysis, Competitor Analysis, Pitch Decks, Go-to-Market Strategies, OKRs, KPI Dashboards, and much more." }
+    { question: "What are free AI tools for Product Managers?", answer: "BookMyMentor offers 31 free AI-powered tools including Agentic AI Guide, Generative AI Use Case Finder, Business Model Canvas Generator, PRD Generator, SWOT Analysis, Competitor Analysis, Roadmap Builder, and more—all designed specifically for Product Managers, Entrepreneurs, and Project Managers." },
+    { question: "What is Agentic AI and how can I use it?", answer: "Agentic AI refers to AI systems that can independently take actions, make decisions, and complete tasks with minimal human supervision. Our Agentic AI Guide helps you understand use cases like automated customer support, workflow automation, and intelligent assistants for your business." },
+    { question: "How can Generative AI help my business?", answer: "Generative AI can create content, code, images, and more. Our Generative AI Use Case Finder helps you identify practical applications like automated product descriptions, marketing copy, email responses, and design ideas tailored to your specific business needs." },
+    { question: "How do I use the AI Business Toolkit?", answer: "Simply sign up for a free account, choose any tool from our product lifecycle stages (AI & Technology, Ideation, Planning, Development, Launch, Optimization), enter your business details, and get AI-generated professional documents and insights in seconds." },
+    { question: "Is the AI Business Toolkit really free?", answer: "Yes! All 31 tools in our Business Toolkit are completely free for registered users. No credit card required, no hidden fees—just instant access to professional-grade AI tools." },
+    { question: "What types of documents can I generate?", answer: "You can generate Business Model Canvas, Lean Canvas, PRDs, User Stories, Roadmaps, SWOT Analysis, Competitor Analysis, Pitch Decks, Go-to-Market Strategies, OKRs, KPI Dashboards, Agentic AI implementation plans, and much more." }
   ];
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <SEOHead 
-        title="Free AI Business Toolkit | 29 Product Management Tools | BookMyMentor"
-        description="Access 29 free AI-powered tools for Product Managers & Entrepreneurs. Generate Business Model Canvas, PRDs, SWOT Analysis, Roadmaps, Pitch Decks & more. No credit card required."
-        keywords="free AI tools, product management tools, business model canvas generator, lean canvas maker, PRD generator, SWOT analysis tool, competitor analysis, roadmap builder, pitch deck creator, startup tools, entrepreneur toolkit, free business tools, agile tools, sprint planning"
+        title="Free AI Business Toolkit | 31 Product Management Tools | BookMyMentor"
+        description="Access 31 free AI-powered tools for Product Managers & Entrepreneurs. Includes Agentic AI, Generative AI guides, Business Model Canvas, PRDs, SWOT Analysis & more. No credit card required."
+        keywords="free AI tools, agentic AI, generative AI, product management tools, business model canvas generator, lean canvas maker, PRD generator, SWOT analysis tool, competitor analysis, roadmap builder, pitch deck creator, startup tools, entrepreneur toolkit, free business tools, agile tools, sprint planning"
         canonicalUrl="https://bookmymentor.com/ai-tools"
         structuredData={generateFAQSchema(toolsFAQs)}
       />
@@ -442,7 +474,7 @@ const AITools = () => {
                 Business Toolkit: AI-Powered Product Management Tools
               </h1>
               <p className="text-base sm:text-lg md:text-xl text-muted-foreground mb-8 max-w-3xl mx-auto leading-relaxed">
-                From idea validation to IPO readiness, 29 free AI tools to help you build, launch, and scale your product. 
+                From idea validation to IPO readiness, 31 free AI tools to help you build, launch, and scale your product. 
                 Get professional documents, strategic insights, and actionable frameworks in seconds.
               </p>
               {!user && (
