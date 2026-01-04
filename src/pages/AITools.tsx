@@ -113,6 +113,16 @@ const aiTools = [
     features: ['Content & copy generation', 'Image & design ideas', 'ROI calculator'],
     stage: 'ai-technology'
   },
+  {
+    id: 'app-prototype',
+    title: 'App Prototype Generator',
+    description: 'Turn your idea into a complete app/website prototype with screens, features, user flows, and tech stack.',
+    icon: Rocket,
+    color: 'from-cyan-500 to-blue-600',
+    route: '/ai-tool/app-prototype',
+    features: ['Screen-by-screen breakdown', 'User flow diagrams', 'Tech stack recommendations'],
+    stage: 'ai-technology'
+  },
   
   // Stage 1: Ideation & Research
   {
@@ -436,7 +446,7 @@ const AITools = () => {
 
   // FAQ Schema for AI Tools page
   const toolsFAQs = [
-    { question: "What are free AI tools for Product Managers?", answer: "BookMyMentor offers 31 free AI-powered tools including Agentic AI Guide, Generative AI Use Case Finder, Business Model Canvas Generator, PRD Generator, SWOT Analysis, Competitor Analysis, Roadmap Builder, and more—all designed specifically for Product Managers, Entrepreneurs, and Project Managers." },
+    { question: "What are free AI tools for Product Managers?", answer: "BookMyMentor offers 32 free AI-powered tools including App Prototype Generator, Agentic AI Guide, Generative AI Use Case Finder, Business Model Canvas Generator, PRD Generator, SWOT Analysis, Competitor Analysis, Roadmap Builder, and more—all designed specifically for Product Managers, Entrepreneurs, and Project Managers." },
     { question: "What is Agentic AI and how can I use it?", answer: "Agentic AI refers to AI systems that can independently take actions, make decisions, and complete tasks with minimal human supervision. Our Agentic AI Guide helps you understand use cases like automated customer support, workflow automation, and intelligent assistants for your business." },
     { question: "How can Generative AI help my business?", answer: "Generative AI can create content, code, images, and more. Our Generative AI Use Case Finder helps you identify practical applications like automated product descriptions, marketing copy, email responses, and design ideas tailored to your specific business needs." },
     { question: "How do I use the AI Business Toolkit?", answer: "Simply sign up for a free account, choose any tool from our product lifecycle stages (AI & Technology, Ideation, Planning, Development, Launch, Optimization), enter your business details, and get AI-generated professional documents and insights in seconds." },
@@ -447,8 +457,8 @@ const AITools = () => {
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <SEOHead 
-        title="Free AI Business Toolkit | 31 Product Management Tools | BookMyMentor"
-        description="Access 31 free AI-powered tools for Product Managers & Entrepreneurs. Includes Agentic AI, Generative AI guides, Business Model Canvas, PRDs, SWOT Analysis & more. No credit card required."
+        title="Free AI Business Toolkit | 32 Product Management Tools | BookMyMentor"
+        description="Access 32 free AI-powered tools for Product Managers & Entrepreneurs. Includes App Prototype Generator, Agentic AI, Generative AI guides, Business Model Canvas, PRDs, SWOT Analysis & more. No credit card required."
         keywords="free AI tools, agentic AI, generative AI, product management tools, business model canvas generator, lean canvas maker, PRD generator, SWOT analysis tool, competitor analysis, roadmap builder, pitch deck creator, startup tools, entrepreneur toolkit, free business tools, agile tools, sprint planning"
         canonicalUrl="https://bookmymentor.com/ai-tools"
         structuredData={generateFAQSchema(toolsFAQs)}

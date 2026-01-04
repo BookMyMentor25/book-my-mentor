@@ -265,6 +265,13 @@ const toolConfig: Record<string, {
     icon: Wand2,
     placeholder: 'Describe your business or task (e.g., "E-commerce company wanting to automate product descriptions and marketing emails")',
     color: 'from-purple-500 to-pink-600'
+  },
+  'app-prototype': {
+    title: 'App Prototype Generator',
+    description: 'Turn your app or website idea into a detailed prototype specification with screens, features, and user flows',
+    icon: Rocket,
+    placeholder: 'Describe your app or website idea (e.g., "A mobile app for booking fitness classes with trainers, including scheduling, payments, and reviews")',
+    color: 'from-cyan-500 to-blue-600'
   }
 };
 
