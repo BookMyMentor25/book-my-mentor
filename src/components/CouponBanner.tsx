@@ -24,7 +24,8 @@ const CouponBanner = () => {
     // Could add a toast here if needed
   };
 
-  if (!isVisible) return null;
+  // Banner is currently hidden
+  return null;
 
   return (
     <div className="fixed top-0 left-0 right-0 bg-gradient-to-r from-accent to-accent-light text-white py-3 px-4 z-50 shadow-lg border-b-2 border-accent-light">
