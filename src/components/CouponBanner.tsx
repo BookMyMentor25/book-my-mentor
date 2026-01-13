@@ -20,7 +20,7 @@ const CouponBanner = () => {
   };
 
   const handleCopyCoupon = () => {
-    navigator.clipboard.writeText('NEWUSER10');
+    navigator.clipboard.writeText('Unstop30');
     // Could add a toast here if needed
   };
 
@@ -34,11 +34,11 @@ const CouponBanner = () => {
             <Gift size={20} className="text-white" />
           </div>
           <div className="space-y-1">
-            <div className="font-bold text-base sm:text-lg">🎉 New User Offer: 10% OFF</div>
+            <div className="font-bold text-base sm:text-lg">🎉 Special Offer: ₹3000 OFF</div>
             <div className="text-sm">
               <span className="opacity-90">Use code: </span>
               <span className="bg-white text-accent px-3 py-1 rounded-full font-bold shadow-md">
-                NEWUSER10
+                Unstop30
               </span>
             </div>
           </div>
