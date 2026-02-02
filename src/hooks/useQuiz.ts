@@ -37,7 +37,30 @@ export interface QuizAttempt {
   total_points: number | null;
   passed: boolean | null;
   answers: { question_id: string; selected_option_id: string; is_correct: boolean }[] | null;
+  isGuest?: boolean; // Flag for guest attempts stored locally
 }
+
+// Local storage key for guest quiz attempts
+const GUEST_QUIZ_ATTEMPTS_KEY = 'guest_quiz_attempts';
+
+// Helper to get guest attempts from localStorage
+const getGuestAttempts = (): QuizAttempt[] => {
+  try {
+    const stored = localStorage.getItem(GUEST_QUIZ_ATTEMPTS_KEY);
+    return stored ? JSON.parse(stored) : [];
+  } catch {
+    return [];
+  }
+};
+
+// Helper to save guest attempts to localStorage
+const saveGuestAttempts = (attempts: QuizAttempt[]) => {
+  try {
+    localStorage.setItem(GUEST_QUIZ_ATTEMPTS_KEY, JSON.stringify(attempts));
+  } catch {
+    console.error('Failed to save guest quiz attempts');
+  }
+};
 
 export const useQuizByCourse = (courseId: string | undefined) => {
   return useQuery({
@@ -85,18 +108,26 @@ export const useUserQuizAttempts = (quizId: string | undefined) => {
   return useQuery({
     queryKey: ['quiz-attempts', quizId, user?.id],
     queryFn: async () => {
-      if (!quizId || !user?.id) return [];
-      const { data, error } = await supabase
-        .from('quiz_attempts')
-        .select('*')
-        .eq('quiz_id', quizId)
-        .eq('user_id', user.id)
-        .order('started_at', { ascending: false });
+      if (!quizId) return [];
+      
+      // For authenticated users, fetch from database
+      if (user?.id) {
+        const { data, error } = await supabase
+          .from('quiz_attempts')
+          .select('*')
+          .eq('quiz_id', quizId)
+          .eq('user_id', user.id)
+          .order('started_at', { ascending: false });
 
-      if (error) throw error;
-      return data as QuizAttempt[];
+        if (error) throw error;
+        return data as QuizAttempt[];
+      }
+      
+      // For guest users, get from localStorage
+      const guestAttempts = getGuestAttempts();
+      return guestAttempts.filter(a => a.quiz_id === quizId);
     },
-    enabled: !!quizId && !!user?.id,
+    enabled: !!quizId,
   });
 };
 
@@ -106,19 +137,40 @@ export const useStartQuiz = () => {
 
   return useMutation({
     mutationFn: async (quizId: string) => {
-      if (!user?.id) throw new Error('User not authenticated');
-      
-      const { data, error } = await supabase
-        .from('quiz_attempts')
-        .insert({
-          quiz_id: quizId,
-          user_id: user.id,
-        })
-        .select()
-        .single();
+      // For authenticated users, create attempt in database
+      if (user?.id) {
+        const { data, error } = await supabase
+          .from('quiz_attempts')
+          .insert({
+            quiz_id: quizId,
+            user_id: user.id,
+          })
+          .select()
+          .single();
 
-      if (error) throw error;
-      return data as QuizAttempt;
+        if (error) throw error;
+        return data as QuizAttempt;
+      }
+      
+      // For guest users, create local attempt
+      const guestAttempt: QuizAttempt = {
+        id: `guest_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+        quiz_id: quizId,
+        user_id: 'guest',
+        started_at: new Date().toISOString(),
+        completed_at: null,
+        score: null,
+        total_points: null,
+        passed: null,
+        answers: null,
+        isGuest: true,
+      };
+      
+      const guestAttempts = getGuestAttempts();
+      guestAttempts.unshift(guestAttempt);
+      saveGuestAttempts(guestAttempts);
+      
+      return guestAttempt;
     },
     onSuccess: (_, quizId) => {
       queryClient.invalidateQueries({ queryKey: ['quiz-attempts', quizId] });
@@ -127,6 +179,7 @@ export const useStartQuiz = () => {
 };
 
 export const useSubmitQuiz = () => {
+  const { user } = useAuth();
   const queryClient = useQueryClient();
 
   return useMutation({
@@ -143,6 +196,42 @@ export const useSubmitQuiz = () => {
       totalPoints: number;
       passed: boolean;
     }) => {
+      // Check if this is a guest attempt
+      if (attemptId.startsWith('guest_') || !user?.id) {
+        // Update local storage for guest
+        const guestAttempts = getGuestAttempts();
+        const attemptIndex = guestAttempts.findIndex(a => a.id === attemptId);
+        
+        if (attemptIndex !== -1) {
+          guestAttempts[attemptIndex] = {
+            ...guestAttempts[attemptIndex],
+            completed_at: new Date().toISOString(),
+            answers,
+            score,
+            total_points: totalPoints,
+            passed,
+          };
+          saveGuestAttempts(guestAttempts);
+          return guestAttempts[attemptIndex];
+        }
+        
+        // If not found in localStorage, create new completed attempt
+        const newAttempt: QuizAttempt = {
+          id: attemptId,
+          quiz_id: '',
+          user_id: 'guest',
+          started_at: new Date().toISOString(),
+          completed_at: new Date().toISOString(),
+          answers,
+          score,
+          total_points: totalPoints,
+          passed,
+          isGuest: true,
+        };
+        return newAttempt;
+      }
+      
+      // For authenticated users, update database
       const { data, error } = await supabase
         .from('quiz_attempts')
         .update({
