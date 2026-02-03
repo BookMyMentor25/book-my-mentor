@@ -119,10 +119,11 @@ const Contact = () => {
                     <SelectTrigger className="w-full">
                       <SelectValue placeholder="Select a course (optional)" />
                     </SelectTrigger>
-                    <SelectContent>
+                    <SelectContent className="bg-background z-50">
                       <SelectItem value="product-management">Product Management</SelectItem>
                       <SelectItem value="lean-startup">Lean Startup</SelectItem>
                       <SelectItem value="project-management">Project Management</SelectItem>
+                      <SelectItem value="internship-job">Internship & Job</SelectItem>
                       <SelectItem value="general-inquiry">General Inquiry</SelectItem>
                     </SelectContent>
                   </Select>

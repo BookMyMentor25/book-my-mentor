@@ -18,7 +18,7 @@ const Header = () => {
   // 3-Click Navigation Structure - Strategic ordering for conversion
   const navItems = [
     { label: "Courses", href: "/#courses", icon: GraduationCap },
-    { label: "Business Toolkit", href: "/ai-tools", icon: Sparkles, isHighlighted: true },
+    { label: "Business & Product Toolkit", href: "/ai-tools", icon: Sparkles, isHighlighted: true },
     { label: "Our Team", href: "/team", icon: Users },
     { label: "Contact", href: "/contact", icon: Mail },
   ];
@@ -58,8 +58,8 @@ const Header = () => {
                 }`}
               >
                 {item.isHighlighted && <Sparkles className="w-4 h-4" aria-hidden="true" />}
-                {item.label}
-                {item.isHighlighted && <span className="text-[10px] bg-white/20 px-1.5 py-0.5 rounded-full ml-1">FREE</span>}
+                {item.isHighlighted ? "Business & Product Toolkit" : item.label}
+                {item.isHighlighted && <span className="text-[10px] bg-white/20 px-1.5 py-0.5 rounded-full ml-1">Free</span>}
               </a>
             ))}
             
@@ -98,9 +98,9 @@ const Header = () => {
               className="flex items-center gap-1.5 bg-gradient-to-r from-primary to-accent text-primary-foreground px-3 py-1.5 rounded-full text-sm font-medium shadow-md hover:shadow-lg transition-all"
             >
               <Sparkles className="w-3.5 h-3.5" aria-hidden="true" />
-              <span className="hidden sm:inline">Business Toolkit</span>
+              <span className="hidden sm:inline">Product Toolkit</span>
               <span className="sm:hidden">Toolkit</span>
-              <span className="text-[9px] bg-white/20 px-1 py-0.5 rounded-full">FREE</span>
+              <span className="text-[9px] bg-white/20 px-1 py-0.5 rounded-full">Free</span>
             </a>
             <button 
               className="p-2 hover:bg-secondary rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-primary/50" 
@@ -134,7 +134,7 @@ const Header = () => {
                 >
                   <item.icon className="w-5 h-5" aria-hidden="true" />
                   {item.label}
-                  {item.isHighlighted && <span className="text-[10px] bg-white/20 px-2 py-0.5 rounded-full ml-auto">FREE</span>}
+                  {item.isHighlighted && <span className="text-[10px] bg-white/20 px-2 py-0.5 rounded-full ml-auto">Free</span>}
                 </a>
               ))}
               
