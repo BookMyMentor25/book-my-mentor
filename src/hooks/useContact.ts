@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { useToast } from '@/hooks/use-toast';
@@ -19,6 +18,7 @@ export const useContact = () => {
     setIsSubmitting(true);
     
     try {
+      // Insert inquiry into database
       const { error } = await supabase
         .from('inquiries')
         .insert({
@@ -32,9 +32,30 @@ export const useContact = () => {
 
       if (error) throw error;
 
+      // Send email notifications to customer and admin
+      try {
+        const { error: notificationError } = await supabase.functions.invoke('send-inquiry-notification', {
+          body: {
+            name: formData.name,
+            email: formData.email,
+            phone: formData.phone,
+            message: formData.message,
+            course_interest: formData.course_interest
+          }
+        });
+
+        if (notificationError) {
+          console.error('Error sending notification emails:', notificationError);
+          // Don't fail the whole operation if email fails
+        }
+      } catch (emailError) {
+        console.error('Error invoking notification function:', emailError);
+        // Don't fail the whole operation if email fails
+      }
+
       toast({
         title: "Message sent successfully!",
-        description: "We'll get back to you soon.",
+        description: "We'll get back to you within 24 hours. Check your email for confirmation.",
       });
 
       return { success: true };
@@ -56,3 +77,4 @@ export const useContact = () => {
     isSubmitting
   };
 };
+

@@ -525,12 +525,11 @@ const CourseDetails = () => {
                   onClick={handleEnrollNow}
                   className="w-full h-14 text-lg font-bold cta-primary rounded-xl mb-[var(--space-md)]"
                 >
-                  {user ? '🚀 Enroll Now - Secure Your Spot!' : '🔐 Sign In to Enroll'}
+                  {user ? 'Enroll Now - Secure Your Spot' : 'Sign In to Enroll'}
                 </Button>
                 
-                <div className="text-center text-primary-foreground/70 text-sm space-y-1">
-                  <p>💳 Secure Payment • 📞 24/7 Support</p>
-                  <p>✅ 100% Satisfaction Guarantee</p>
+                <div className="text-center text-primary-foreground/70 text-sm">
+                  <p>Secure Payment • 24/7 Support</p>
                 </div>
               </div>
             </div>
@@ -759,12 +758,8 @@ const CourseDetails = () => {
                     onClick={handleEnrollNow}
                     className="w-full h-14 text-lg font-bold cta-primary rounded-xl"
                   >
-                    {user ? '🚀 Enroll Now' : '🔐 Sign In to Enroll'}
+                    {user ? 'Enroll Now' : 'Sign In to Enroll'}
                   </Button>
-                  
-                  <p className="text-center text-xs text-muted-foreground">
-                    ✅ 30-Day Money Back Guarantee
-                  </p>
                 </CardContent>
               </Card>
             </div>
