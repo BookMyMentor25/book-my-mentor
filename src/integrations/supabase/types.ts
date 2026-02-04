@@ -289,6 +289,130 @@ export type Database = {
           },
         ]
       }
+      job_applications: {
+        Row: {
+          applicant_email: string
+          applicant_name: string
+          applicant_phone: string | null
+          cover_letter: string | null
+          created_at: string
+          id: string
+          job_id: string
+          resume_url: string | null
+          status: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          applicant_email: string
+          applicant_name: string
+          applicant_phone?: string | null
+          cover_letter?: string | null
+          created_at?: string
+          id?: string
+          job_id: string
+          resume_url?: string | null
+          status?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          applicant_email?: string
+          applicant_name?: string
+          applicant_phone?: string | null
+          cover_letter?: string | null
+          created_at?: string
+          id?: string
+          job_id?: string
+          resume_url?: string | null
+          status?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "job_applications_job_id_fkey"
+            columns: ["job_id"]
+            isOneToOne: false
+            referencedRelation: "job_postings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      job_postings: {
+        Row: {
+          application_deadline: string | null
+          applications_count: number | null
+          benefits: string[] | null
+          created_at: string
+          currency: string | null
+          description: string
+          experience_level: string | null
+          id: string
+          is_active: boolean | null
+          job_type: string
+          location: string
+          recruiter_id: string
+          requirements: string[] | null
+          salary_max: number | null
+          salary_min: number | null
+          skills: string[] | null
+          title: string
+          updated_at: string
+          views_count: number | null
+        }
+        Insert: {
+          application_deadline?: string | null
+          applications_count?: number | null
+          benefits?: string[] | null
+          created_at?: string
+          currency?: string | null
+          description: string
+          experience_level?: string | null
+          id?: string
+          is_active?: boolean | null
+          job_type: string
+          location: string
+          recruiter_id: string
+          requirements?: string[] | null
+          salary_max?: number | null
+          salary_min?: number | null
+          skills?: string[] | null
+          title: string
+          updated_at?: string
+          views_count?: number | null
+        }
+        Update: {
+          application_deadline?: string | null
+          applications_count?: number | null
+          benefits?: string[] | null
+          created_at?: string
+          currency?: string | null
+          description?: string
+          experience_level?: string | null
+          id?: string
+          is_active?: boolean | null
+          job_type?: string
+          location?: string
+          recruiter_id?: string
+          requirements?: string[] | null
+          salary_max?: number | null
+          salary_min?: number | null
+          skills?: string[] | null
+          title?: string
+          updated_at?: string
+          views_count?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "job_postings_recruiter_id_fkey"
+            columns: ["recruiter_id"]
+            isOneToOne: false
+            referencedRelation: "recruiters"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       orders: {
         Row: {
           address: string | null
@@ -518,6 +642,60 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      recruiters: {
+        Row: {
+          company_description: string | null
+          company_name: string
+          company_size: string | null
+          contact_person: string
+          created_at: string
+          email: string
+          id: string
+          industry: string | null
+          is_verified: boolean | null
+          location: string | null
+          logo_url: string | null
+          phone: string | null
+          updated_at: string
+          user_id: string
+          website: string | null
+        }
+        Insert: {
+          company_description?: string | null
+          company_name: string
+          company_size?: string | null
+          contact_person: string
+          created_at?: string
+          email: string
+          id?: string
+          industry?: string | null
+          is_verified?: boolean | null
+          location?: string | null
+          logo_url?: string | null
+          phone?: string | null
+          updated_at?: string
+          user_id: string
+          website?: string | null
+        }
+        Update: {
+          company_description?: string | null
+          company_name?: string
+          company_size?: string | null
+          contact_person?: string
+          created_at?: string
+          email?: string
+          id?: string
+          industry?: string | null
+          is_verified?: boolean | null
+          location?: string | null
+          logo_url?: string | null
+          phone?: string | null
+          updated_at?: string
+          user_id?: string
+          website?: string | null
+        }
+        Relationships: []
       }
       Referral: {
         Row: {
