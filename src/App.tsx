@@ -16,6 +16,10 @@ import CourseDetails from "./pages/CourseDetails";
 import WireframeTool from "./pages/WireframeTool";
 import AITools from "./pages/AITools";
 import AIToolPage from "./pages/AIToolPage";
+import Jobs from "./pages/Jobs";
+import JobDetails from "./pages/JobDetails";
+import RecruiterRegister from "./pages/RecruiterRegister";
+import RecruiterDashboard from "./pages/RecruiterDashboard";
 
 const queryClient = new QueryClient();
 
@@ -38,6 +42,10 @@ const App = () => (
             <Route path="/ai-tools" element={<AITools />} />
             <Route path="/ai-tool/:toolId" element={<AIToolPage />} />
             <Route path="/wireframe-tool" element={<WireframeTool />} />
+            <Route path="/jobs" element={<Jobs />} />
+            <Route path="/job/:jobId" element={<JobDetails />} />
+            <Route path="/recruiter/register" element={<RecruiterRegister />} />
+            <Route path="/recruiter/dashboard" element={<RecruiterDashboard />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

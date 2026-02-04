@@ -1,4 +1,4 @@
-import { Menu, X, GraduationCap, Users, Mail, MessageSquare, Sparkles } from "lucide-react";
+import { Menu, X, GraduationCap, Users, Mail, MessageSquare, Sparkles, Briefcase } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
@@ -18,6 +18,7 @@ const Header = () => {
   // 3-Click Navigation Structure - Strategic ordering for conversion
   const navItems = [
     { label: "Courses", href: "/#courses", icon: GraduationCap },
+    { label: "Jobs & Internships", href: "/jobs", icon: Briefcase, isNew: true },
     { label: "Business & Product Toolkit", href: "/ai-tools", icon: Sparkles, isHighlighted: true },
     { label: "Our Team", href: "/team", icon: Users },
     { label: "Contact", href: "/contact", icon: Mail },
@@ -54,12 +55,15 @@ const Header = () => {
                 className={`transition-all font-medium px-3 py-1.5 rounded-full focus:outline-none focus:ring-2 focus:ring-primary/50 ${
                   item.isHighlighted 
                     ? "bg-gradient-to-r from-primary to-accent text-primary-foreground shadow-md hover:shadow-lg hover:scale-105 flex items-center gap-1.5" 
+                    : item.isNew
+                    ? "text-foreground/80 hover:text-primary flex items-center gap-1.5"
                     : "text-foreground/80 hover:text-primary"
                 }`}
               >
                 {item.isHighlighted && <Sparkles className="w-4 h-4" aria-hidden="true" />}
                 {item.isHighlighted ? "Business & Product Toolkit" : item.label}
                 {item.isHighlighted && <span className="text-[10px] bg-white/20 px-1.5 py-0.5 rounded-full ml-1">Free</span>}
+                {item.isNew && <span className="text-[10px] bg-primary text-primary-foreground px-1.5 py-0.5 rounded-full">New</span>}
               </a>
             ))}
             
@@ -135,6 +139,7 @@ const Header = () => {
                   <item.icon className="w-5 h-5" aria-hidden="true" />
                   {item.label}
                   {item.isHighlighted && <span className="text-[10px] bg-white/20 px-2 py-0.5 rounded-full ml-auto">Free</span>}
+                  {item.isNew && <span className="text-[10px] bg-primary text-primary-foreground px-2 py-0.5 rounded-full ml-auto">New</span>}
                 </a>
               ))}
               
