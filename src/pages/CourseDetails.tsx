@@ -499,11 +499,6 @@ const CourseDetails = () => {
                   <span className="font-medium">Certificate Included</span>
                 </div>
               </div>
-
-              {/* Short Description */}
-              <p className="text-lg text-primary-foreground/90 leading-relaxed animate-fade-in animate-delay-400">
-                {metadata?.shortDescription || course.description}
-              </p>
             </div>
             
             {/* Price Card - 38.2% */}
