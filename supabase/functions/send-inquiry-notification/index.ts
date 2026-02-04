@@ -98,14 +98,6 @@ const handler = async (req: Request): Promise<Response> => {
               </ul>
             </div>
             
-            <!-- CTA -->
-            <div style="text-align: center; margin-bottom: 25px;">
-              <a href="https://book-my-mentor.lovable.app/#courses" 
-                 style="display: inline-block; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; text-decoration: none; padding: 14px 35px; border-radius: 8px; font-weight: 600; font-size: 14px;">
-                Explore Our Courses
-              </a>
-            </div>
-            
             <!-- Support -->
             <div style="text-align: center; padding: 20px 0; border-top: 1px solid #e9ecef;">
               <p style="color: #666; font-size: 13px; margin: 0 0 10px 0;">Need immediate assistance?</p>
