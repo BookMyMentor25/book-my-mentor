@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -315,12 +315,23 @@ const JobDetails = () => {
                           <Button 
                             size="lg" 
                             className="w-full cta-primary text-lg gap-2"
-                            onClick={handleApply}
+                            onClick={(e) => {
+                              if (!user) {
+                                e.preventDefault();
+                                navigate('/auth?redirect=' + encodeURIComponent(`/job/${jobId}`));
+                              }
+                            }}
+                            disabled={!user}
                           >
                             <Send className="w-5 h-5" />
-                            Apply Now
+                            {user ? 'Apply Now' : 'Login to Apply'}
                           </Button>
                         </DialogTrigger>
+                        {!user && (
+                          <p className="text-xs text-center text-muted-foreground mt-2">
+                            You need to <Link to={`/auth?redirect=${encodeURIComponent(`/job/${jobId}`)}`} className="text-primary hover:underline">create an account</Link> to apply
+                          </p>
+                        )}
                         <DialogContent className="sm:max-w-lg">
                           <DialogHeader>
                             <DialogTitle>Apply for {job.title}</DialogTitle>

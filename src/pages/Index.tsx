@@ -81,17 +81,16 @@ const Index = () => {
             {/* H1 - Primary keyword + staggered reveal animation */}
             <h1 className="text-[2rem] sm:text-[2.5rem] md:text-[3.25rem] lg:text-[4rem] font-extrabold mb-5 text-white leading-[1.15] tracking-tight">
               <span className="animate-hidden animate-slide-up block animate-delay-100">
-                Master Product Management
+                From Learning to Hiring
               </span>
               <span className="animate-hidden animate-slide-up animate-delay-300 bg-gradient-to-r from-accent via-accent-light to-accent bg-clip-text text-transparent inline-block">
-                & Accelerate Your Career
+                Faster
               </span>
             </h1>
             
             {/* Subheadline - Fade in with delay */}
             <p className="animate-hidden animate-slide-up animate-delay-500 text-base sm:text-lg md:text-xl mb-8 text-white/90 max-w-2xl mx-auto leading-relaxed font-medium">
-              Learn <strong>Lean Startup</strong> & <strong>Project Management</strong> from industry experts. 
-              Get certified with courses recommended by <em>LinkedIn, Gartner & Forbes</em>.
+              Real projects. Real mentors. Real opportunities.
             </p>
 
             {/* 3-Click Navigation - CTAs with scale animation */}

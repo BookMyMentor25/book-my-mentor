@@ -33,6 +33,24 @@ export interface RecruiterInput {
   company_size?: string;
   location?: string;
 }
+ 
+ // Helper function to send recruiter notification
+ const sendRecruiterNotification = async (data: {
+   type: 'recruiter_registered' | 'job_posted';
+   recruiter_email: string;
+   recruiter_name: string;
+   company_name: string;
+   job_title?: string;
+   job_location?: string;
+ }) => {
+   try {
+     await supabase.functions.invoke('send-recruiter-notification', {
+       body: data
+     });
+   } catch (error) {
+     console.error('Failed to send recruiter notification:', error);
+   }
+ };
 
 export const useRecruiters = () => {
   const { user } = useAuth();
@@ -73,11 +91,20 @@ export const useRecruiters = () => {
       if (error) throw error;
       return data as Recruiter;
     },
-    onSuccess: () => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['recruiter-profile'] });
+      
+      // Send notification email
+      sendRecruiterNotification({
+        type: 'recruiter_registered',
+        recruiter_email: data.email,
+        recruiter_name: data.contact_person,
+        company_name: data.company_name,
+      });
+      
       toast({
         title: "Registration Successful!",
-        description: "Your recruiter profile has been created. You can now post job openings.",
+        description: "Your recruiter profile has been created. It will be verified by admin shortly.",
       });
     },
     onError: (error: Error) => {
