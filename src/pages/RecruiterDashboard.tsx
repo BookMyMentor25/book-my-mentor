@@ -120,6 +120,10 @@ const RecruiterDashboard = () => {
       requirements: requirementsText.split('\n').filter(r => r.trim()),
       skills: skillsText.split(',').map(s => s.trim()).filter(s => s),
       benefits: benefitsText.split('\n').filter(b => b.trim()),
+      // Include recruiter info for email notification
+      recruiter_email: recruiterProfile.email,
+      recruiter_name: recruiterProfile.contact_person,
+      company_name: recruiterProfile.company_name,
     };
 
     if (editingJob) {

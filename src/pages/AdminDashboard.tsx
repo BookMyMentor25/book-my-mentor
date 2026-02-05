@@ -3,21 +3,31 @@ import React from 'react';
 import { useAuth } from "@/hooks/useAuth";
 import { useAdminOrders, useUpdateOrderStatus } from "@/hooks/useAdminOrders";
 import { useInquiries } from "@/hooks/useInquiries";
+ import { useAdmin } from "@/hooks/useAdmin";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { format } from "date-fns";
+ import RecruiterManagement from "@/components/admin/RecruiterManagement";
+ import JobManagement from "@/components/admin/JobManagement";
+ import BulkEmailTool from "@/components/admin/BulkEmailTool";
 
 const AdminDashboard = () => {
-  const { user, signOut } = useAuth();
+  const { signOut } = useAuth();
+  const { isAdmin, loading: isLoadingAdmin } = useAdmin();
   const { data: orders, isLoading: isLoadingOrders } = useAdminOrders();
   const updateOrderStatusMutation = useUpdateOrderStatus();
   const { inquiries, isLoading: isLoadingInquiries, updateInquiryStatus, isUpdating: isUpdatingInquiry } = useInquiries();
 
-  // Check if user is admin by checking if they exist in admin_users table
-  const isAdmin = user?.email === 'admin@bookmymentor.com'; // You can implement proper admin check
+  if (isLoadingAdmin) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <p>Loading...</p>
+      </div>
+    );
+  }
 
   if (!isAdmin) {
     return (
@@ -79,6 +89,9 @@ const AdminDashboard = () => {
         <TabsList className="mb-4">
           <TabsTrigger value="orders">Orders</TabsTrigger>
           <TabsTrigger value="inquiries">Inquiries</TabsTrigger>
+          <TabsTrigger value="recruiters">Recruiters</TabsTrigger>
+          <TabsTrigger value="jobs">Job Listings</TabsTrigger>
+          <TabsTrigger value="bulk-email">Bulk Email</TabsTrigger>
         </TabsList>
         <TabsContent value="orders" className="space-y-4">
           <Card>
@@ -228,6 +241,18 @@ const AdminDashboard = () => {
               )}
             </CardContent>
           </Card>
+        </TabsContent>
+
+        <TabsContent value="recruiters" className="space-y-4">
+          <RecruiterManagement />
+        </TabsContent>
+
+        <TabsContent value="jobs" className="space-y-4">
+          <JobManagement />
+        </TabsContent>
+
+        <TabsContent value="bulk-email" className="space-y-4">
+          <BulkEmailTool />
         </TabsContent>
       </Tabs>
     </div>

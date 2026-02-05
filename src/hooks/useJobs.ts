@@ -3,6 +3,26 @@ import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/hooks/useAuth';
 import { toast } from '@/hooks/use-toast';
 import { Recruiter } from './useRecruiters';
+ 
+ // Helper function to send job notification
+ const sendJobNotification = async (data: {
+   recruiter_email: string;
+   recruiter_name: string;
+   company_name: string;
+   job_title: string;
+   job_location: string;
+ }) => {
+   try {
+     await supabase.functions.invoke('send-recruiter-notification', {
+       body: {
+         type: 'job_posted',
+         ...data
+       }
+     });
+   } catch (error) {
+     console.error('Failed to send job notification:', error);
+   }
+ };
 
 export interface JobPosting {
   id: string;
@@ -70,6 +90,9 @@ export const useJobs = (filters?: JobFilters) => {
         `)
         .eq('is_active', true)
         .order('created_at', { ascending: false });
+      
+      // Filter to only show jobs from verified recruiters
+      query = query.eq('recruiters.is_verified', true);
 
       if (filters?.job_type && filters.job_type !== 'all') {
         query = query.eq('job_type', filters.job_type);
@@ -150,22 +173,39 @@ export const useRecruiterJobs = (recruiterId?: string) => {
 
   // Create job posting
   const createJobMutation = useMutation({
-    mutationFn: async (input: JobInput & { recruiter_id: string }) => {
+    mutationFn: async (input: JobInput & { recruiter_id: string; recruiter_email?: string; recruiter_name?: string; company_name?: string }) => {
+      const { recruiter_email, recruiter_name, company_name, ...jobInput } = input;
+      
       const { data, error } = await supabase
         .from('job_postings')
-        .insert(input)
+        .insert({
+          ...jobInput,
+          is_active: false, // Jobs start as inactive until admin verifies
+        })
         .select()
         .single();
 
       if (error) throw error;
+      
+      // Send notification if recruiter info provided
+      if (recruiter_email && recruiter_name && company_name) {
+        sendJobNotification({
+          recruiter_email,
+          recruiter_name,
+          company_name,
+          job_title: jobInput.title,
+          job_location: jobInput.location,
+        });
+      }
+      
       return data as JobPosting;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['recruiter-jobs'] });
       queryClient.invalidateQueries({ queryKey: ['jobs'] });
       toast({
-        title: "Job Posted!",
-        description: "Your job posting is now live and visible to candidates.",
+        title: "Job Submitted!",
+        description: "Your job posting has been submitted and is pending admin verification.",
       });
     },
     onError: (error: Error) => {

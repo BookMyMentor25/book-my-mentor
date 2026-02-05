@@ -11,3 +11,9 @@ verify_jwt = false
 
 [functions.notify-toolkit-usage]
 verify_jwt = false
+ 
+ [functions.send-recruiter-notification]
+ verify_jwt = false
+ 
+ [functions.send-bulk-email]
+ verify_jwt = false
