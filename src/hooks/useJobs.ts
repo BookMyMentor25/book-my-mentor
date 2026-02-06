@@ -80,7 +80,7 @@ export const useJobs = (filters?: JobFilters) => {
         .from('job_postings')
         .select(`
           *,
-          recruiters (
+          recruiters!inner (
             id,
             company_name,
             logo_url,
@@ -89,10 +89,8 @@ export const useJobs = (filters?: JobFilters) => {
           )
         `)
         .eq('is_active', true)
+        .eq('recruiters.is_verified', true)
         .order('created_at', { ascending: false });
-      
-      // Filter to only show jobs from verified recruiters
-      query = query.eq('recruiters.is_verified', true);
 
       if (filters?.job_type && filters.job_type !== 'all') {
         query = query.eq('job_type', filters.job_type);
