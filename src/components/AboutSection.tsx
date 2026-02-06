@@ -46,10 +46,13 @@ const AboutSection = () => {
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 mb-6">
             About Book My Mentor
           </h2>
-          <p className="text-lg sm:text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
+          <p className="text-lg sm:text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed mb-4">
             Book My Mentor is designed to bridge the gap between academic learning and industry requirements 
             by offering a comprehensive suite of services, including live project work, internship opportunities, 
             1:1 mentorship sessions, certificates, and placement assistance.
+          </p>
+          <p className="text-lg sm:text-xl font-semibold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent max-w-4xl mx-auto">
+            Get certified with courses recommended by LinkedIn, Gartner & Forbes.
           </p>
         </div>
 
