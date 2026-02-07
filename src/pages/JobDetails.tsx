@@ -371,12 +371,12 @@ const JobDetails = () => {
                               />
                             </div>
                             <div className="space-y-2">
-                              <Label htmlFor="cover">Cover Letter</Label>
+                              <Label htmlFor="cover">Cover Letter and share the Resume link</Label>
                               <Textarea
                                 id="cover"
                                 value={applicationForm.cover_letter}
                                 onChange={(e) => setApplicationForm(prev => ({ ...prev, cover_letter: e.target.value }))}
-                                placeholder="Tell the recruiter why you're a great fit..."
+                                placeholder="Tell the recruiter why you're a great fit and include your resume link (e.g., Google Drive, LinkedIn)..."
                                 rows={4}
                               />
                             </div>
@@ -391,9 +391,6 @@ const JobDetails = () => {
                         </DialogContent>
                       </Dialog>
 
-                      <p className="text-sm text-center text-muted-foreground">
-                        {job.applications_count || 0} applications received
-                      </p>
                     </CardContent>
                   </Card>
 

@@ -55,6 +55,7 @@ export interface JobInput {
   experience_level?: string;
   salary_min?: number;
   salary_max?: number;
+  salary_period?: string;
   currency?: string;
   requirements?: string[];
   skills?: string[];

@@ -71,6 +71,7 @@ const RecruiterDashboard = () => {
     experience_level: 'entry',
     salary_min: undefined,
     salary_max: undefined,
+    salary_period: 'per_annum',
     requirements: [],
     skills: [],
     benefits: [],
@@ -100,6 +101,7 @@ const RecruiterDashboard = () => {
       experience_level: 'entry',
       salary_min: undefined,
       salary_max: undefined,
+      salary_period: 'per_annum',
       requirements: [],
       skills: [],
       benefits: [],
@@ -152,6 +154,7 @@ const RecruiterDashboard = () => {
       experience_level: job.experience_level || 'entry',
       salary_min: job.salary_min,
       salary_max: job.salary_max,
+      salary_period: job.salary_period || 'per_annum',
       application_deadline: job.application_deadline || '',
     });
     setRequirementsText(job.requirements?.join('\n') || '');
@@ -279,7 +282,7 @@ const RecruiterDashboard = () => {
                         />
                       </div>
 
-                      <div className="grid sm:grid-cols-2 gap-4">
+                      <div className="grid sm:grid-cols-3 gap-4">
                         <div className="space-y-2">
                           <Label htmlFor="salary_min">Minimum Salary (₹)</Label>
                           <Input
@@ -299,6 +302,18 @@ const RecruiterDashboard = () => {
                             onChange={(e) => setJobForm(prev => ({ ...prev, salary_max: e.target.value ? parseInt(e.target.value) : undefined }))}
                             placeholder="e.g., 800000"
                           />
+                        </div>
+                        <div className="space-y-2">
+                          <Label>Salary Period</Label>
+                          <Select value={jobForm.salary_period || 'per_annum'} onValueChange={(v) => setJobForm(prev => ({ ...prev, salary_period: v }))}>
+                            <SelectTrigger>
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="per_annum">Per Annum</SelectItem>
+                              <SelectItem value="per_month">Per Month</SelectItem>
+                            </SelectContent>
+                          </Select>
                         </div>
                       </div>
 
