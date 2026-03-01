@@ -343,6 +343,8 @@ export type Database = {
         Row: {
           application_deadline: string | null
           applications_count: number | null
+          apply_url: string | null
+          attachment_url: string | null
           benefits: string[] | null
           created_at: string
           currency: string | null
@@ -367,6 +369,8 @@ export type Database = {
         Insert: {
           application_deadline?: string | null
           applications_count?: number | null
+          apply_url?: string | null
+          attachment_url?: string | null
           benefits?: string[] | null
           created_at?: string
           currency?: string | null
@@ -391,6 +395,8 @@ export type Database = {
         Update: {
           application_deadline?: string | null
           applications_count?: number | null
+          apply_url?: string | null
+          attachment_url?: string | null
           benefits?: string[] | null
           created_at?: string
           currency?: string | null

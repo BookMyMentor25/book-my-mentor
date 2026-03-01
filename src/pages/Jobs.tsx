@@ -44,13 +44,14 @@ const Jobs = () => {
     internships: jobs?.filter(j => j.job_type === 'internship').length || 0,
   }), [jobs]);
 
-  const formatSalary = (min?: number, max?: number, currency = 'INR') => {
+  const formatSalary = (min?: number, max?: number, currency = 'INR', salaryPeriod?: string) => {
     if (!min && !max) return null;
     const formatter = new Intl.NumberFormat('en-IN', { maximumFractionDigits: 0 });
+    const periodLabel = salaryPeriod === 'per_month' ? '/month' : salaryPeriod === 'per_annum' ? '/year' : salaryPeriod ? `/${salaryPeriod}` : '';
     if (min && max) {
-      return `${currency === 'INR' ? '₹' : '$'}${formatter.format(min)} - ${formatter.format(max)}`;
+      return `${currency === 'INR' ? '₹' : '$'}${formatter.format(min)} - ${formatter.format(max)}${periodLabel}`;
     }
-    return `${currency === 'INR' ? '₹' : '$'}${formatter.format(min || max || 0)}`;
+    return `${currency === 'INR' ? '₹' : '$'}${formatter.format(min || max || 0)}${periodLabel}`;
   };
 
   const getJobTypeColor = (type: string) => {
@@ -75,9 +76,9 @@ const Jobs = () => {
   return (
     <>
       <SEOHead 
-        title="Jobs & Internships | Product Management, MBA, & Tech Careers | BookMyMentor"
-        description="Find top Product Management jobs, MBA internships, tech careers, and startup opportunities. Apply to verified companies hiring for PM roles, business analyst, and management positions in India."
-        keywords="product management jobs, MBA internships, tech jobs India, startup careers, PM jobs, business analyst jobs, management trainee, product manager hiring, fresher jobs, campus placements"
+        title="Jobs & Internships 2025 | Product Management, MBA, Tech & Startup Careers India | BookMyMentor"
+        description="Browse 100+ verified Product Management jobs, MBA internships, tech careers & startup opportunities in India. Apply to top companies hiring for PM, Business Analyst, Data Analyst, and Management Trainee roles. Updated daily."
+        keywords="product management jobs India 2025, MBA internships, tech jobs India, startup careers, PM jobs, business analyst jobs, management trainee, product manager hiring, fresher jobs, campus placements, data analyst jobs, remote jobs India, IIT IIM jobs, entry level product manager, internship opportunities"
       />
       
       <div className="min-h-screen bg-background flex flex-col">
@@ -272,10 +273,10 @@ const Jobs = () => {
                             <span className="truncate">{job.location}</span>
                           </div>
                           
-                          {formatSalary(job.salary_min, job.salary_max, job.currency) && (
+                          {formatSalary(job.salary_min, job.salary_max, job.currency, job.salary_period) && (
                             <div className="flex items-center gap-2">
                               <IndianRupee className="w-4 h-4 flex-shrink-0" />
-                              <span>{formatSalary(job.salary_min, job.salary_max, job.currency)}</span>
+                              <span>{formatSalary(job.salary_min, job.salary_max, job.currency, job.salary_period)}</span>
                             </div>
                           )}
                           

@@ -95,16 +95,24 @@ const Header = () => {
             </Button>
           </div>
 
-          {/* Mobile: Visible Business Toolkit CTA + Menu Button */}
-          <div className="lg:hidden flex items-center gap-2">
+          {/* Mobile: Visible Jobs CTA + Business Toolkit CTA + Menu Button */}
+          <div className="lg:hidden flex items-center gap-1.5">
+            <a 
+              href="/jobs"
+              className="flex items-center gap-1 bg-primary text-primary-foreground px-2.5 py-1.5 rounded-full text-xs font-semibold shadow-md hover:shadow-lg transition-all animate-pulse-subtle"
+            >
+              <Briefcase className="w-3 h-3" aria-hidden="true" />
+              <span>Jobs</span>
+              <span className="text-[8px] bg-white/25 px-1 py-0.5 rounded-full">New</span>
+            </a>
             <a 
               href="/ai-tools"
-              className="flex items-center gap-1.5 bg-gradient-to-r from-primary to-accent text-primary-foreground px-3 py-1.5 rounded-full text-sm font-medium shadow-md hover:shadow-lg transition-all"
+              className="flex items-center gap-1 bg-gradient-to-r from-primary to-accent text-primary-foreground px-2.5 py-1.5 rounded-full text-xs font-medium shadow-md hover:shadow-lg transition-all"
             >
-              <Sparkles className="w-3.5 h-3.5" aria-hidden="true" />
-              <span className="hidden sm:inline">Product Toolkit</span>
-              <span className="sm:hidden">Toolkit</span>
-              <span className="text-[9px] bg-white/20 px-1 py-0.5 rounded-full">Free</span>
+              <Sparkles className="w-3 h-3" aria-hidden="true" />
+              <span className="hidden sm:inline">Toolkit</span>
+              <span className="sm:hidden">AI</span>
+              <span className="text-[8px] bg-white/20 px-1 py-0.5 rounded-full">Free</span>
             </a>
             <button 
               className="p-2 hover:bg-secondary rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-primary/50" 
@@ -132,6 +140,8 @@ const Header = () => {
                   className={`flex items-center gap-3 transition-all py-3 px-4 rounded-lg font-medium ${
                     item.isHighlighted 
                       ? "bg-gradient-to-r from-primary to-accent text-primary-foreground shadow-md" 
+                      : item.isNew
+                      ? "bg-primary/10 text-primary border border-primary/20"
                       : "text-foreground hover:text-primary hover:bg-secondary"
                   }`}
                   onClick={() => setIsMenuOpen(false)}
