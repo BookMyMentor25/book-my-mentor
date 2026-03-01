@@ -356,6 +356,9 @@ export type Database = {
           requirements: string[] | null
           salary_max: number | null
           salary_min: number | null
+          salary_period:
+            | Database["public"]["Enums"]["salary_period_enum"]
+            | null
           skills: string[] | null
           title: string
           updated_at: string
@@ -377,6 +380,9 @@ export type Database = {
           requirements?: string[] | null
           salary_max?: number | null
           salary_min?: number | null
+          salary_period?:
+            | Database["public"]["Enums"]["salary_period_enum"]
+            | null
           skills?: string[] | null
           title: string
           updated_at?: string
@@ -398,6 +404,9 @@ export type Database = {
           requirements?: string[] | null
           salary_max?: number | null
           salary_min?: number | null
+          salary_period?:
+            | Database["public"]["Enums"]["salary_period_enum"]
+            | null
           skills?: string[] | null
           title?: string
           updated_at?: string
@@ -776,7 +785,15 @@ export type Database = {
       }
     }
     Enums: {
-      [_ in never]: never
+      salary_period_enum:
+        | "hourly"
+        | "daily"
+        | "weekly"
+        | "monthly"
+        | "yearly"
+        | "contract"
+        | "per_month"
+        | "per_annum"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -903,6 +920,17 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      salary_period_enum: [
+        "hourly",
+        "daily",
+        "weekly",
+        "monthly",
+        "yearly",
+        "contract",
+        "per_month",
+        "per_annum",
+      ],
+    },
   },
 } as const
