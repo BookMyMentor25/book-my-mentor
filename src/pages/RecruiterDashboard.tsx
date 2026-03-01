@@ -76,6 +76,8 @@ const RecruiterDashboard = () => {
     skills: [],
     benefits: [],
     application_deadline: '',
+    apply_url: '',
+    attachment_url: '',
   });
   const [requirementsText, setRequirementsText] = useState('');
   const [skillsText, setSkillsText] = useState('');
@@ -106,6 +108,8 @@ const RecruiterDashboard = () => {
       skills: [],
       benefits: [],
       application_deadline: '',
+      apply_url: '',
+      attachment_url: '',
     });
     setRequirementsText('');
     setSkillsText('');
@@ -156,6 +160,8 @@ const RecruiterDashboard = () => {
       salary_max: job.salary_max,
       salary_period: job.salary_period || 'per_annum',
       application_deadline: job.application_deadline || '',
+      apply_url: job.apply_url || '',
+      attachment_url: job.attachment_url || '',
     });
     setRequirementsText(job.requirements?.join('\n') || '');
     setSkillsText(job.skills?.join(', ') || '');
@@ -369,6 +375,28 @@ const RecruiterDashboard = () => {
                           placeholder="Health insurance&#10;Flexible work hours&#10;Stock options"
                           rows={3}
                         />
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="apply_url">External Apply Link (optional)</Label>
+                        <Input
+                          id="apply_url"
+                          value={jobForm.apply_url || ''}
+                          onChange={(e) => setJobForm(prev => ({ ...prev, apply_url: e.target.value }))}
+                          placeholder="https://company.com/careers/apply"
+                        />
+                        <p className="text-xs text-muted-foreground">If provided, candidates will be redirected to this link to apply.</p>
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="attachment_url">Attachment URL (optional, max 1MB)</Label>
+                        <Input
+                          id="attachment_url"
+                          value={jobForm.attachment_url || ''}
+                          onChange={(e) => setJobForm(prev => ({ ...prev, attachment_url: e.target.value }))}
+                          placeholder="https://drive.google.com/file/d/... or any link to PDF/document"
+                        />
+                        <p className="text-xs text-muted-foreground">Share a link to a job description document, brochure, or any supporting file (Google Drive, Dropbox, etc.)</p>
                       </div>
 
                       <Button 

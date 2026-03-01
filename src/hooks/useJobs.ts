@@ -34,11 +34,14 @@ export interface JobPosting {
   experience_level?: string;
   salary_min?: number;
   salary_max?: number;
+  salary_period?: string;
   currency: string;
   requirements?: string[];
   skills?: string[];
   benefits?: string[];
   application_deadline?: string;
+  apply_url?: string;
+  attachment_url?: string;
   is_active: boolean;
   views_count: number;
   applications_count: number;
@@ -61,6 +64,8 @@ export interface JobInput {
   skills?: string[];
   benefits?: string[];
   application_deadline?: string;
+  apply_url?: string;
+  attachment_url?: string;
 }
 
 export interface JobFilters {
@@ -179,8 +184,8 @@ export const useRecruiterJobs = (recruiterId?: string) => {
         .from('job_postings')
         .insert({
           ...jobInput,
-          is_active: false, // Jobs start as inactive until admin verifies
-        })
+          is_active: false as const, // Jobs start as inactive until admin verifies
+        } as any)
         .select()
         .single();
 
@@ -221,7 +226,7 @@ export const useRecruiterJobs = (recruiterId?: string) => {
     mutationFn: async ({ id, ...input }: Partial<JobInput> & { id: string }) => {
       const { data, error } = await supabase
         .from('job_postings')
-        .update(input)
+        .update(input as any)
         .eq('id', id)
         .select()
         .single();

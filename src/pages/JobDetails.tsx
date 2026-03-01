@@ -68,14 +68,15 @@ const JobDetails = () => {
     }
   }, [user]);
 
-  const formatSalary = (min?: number, max?: number, currency = 'INR') => {
+  const formatSalary = (min?: number, max?: number, currency = 'INR', salaryPeriod?: string) => {
     if (!min && !max) return null;
     const formatter = new Intl.NumberFormat('en-IN', { maximumFractionDigits: 0 });
     const symbol = currency === 'INR' ? '₹' : '$';
+    const periodLabel = salaryPeriod === 'per_month' ? ' per month' : salaryPeriod === 'per_annum' ? ' per annum' : salaryPeriod ? ` ${salaryPeriod}` : '';
     if (min && max) {
-      return `${symbol}${formatter.format(min)} - ${symbol}${formatter.format(max)} per annum`;
+      return `${symbol}${formatter.format(min)} - ${symbol}${formatter.format(max)}${periodLabel}`;
     }
-    return `${symbol}${formatter.format(min || max || 0)} per annum`;
+    return `${symbol}${formatter.format(min || max || 0)}${periodLabel}`;
   };
 
   const getExperienceLabel = (level?: string) => {
@@ -213,10 +214,10 @@ const JobDetails = () => {
                           <MapPin className="w-4 h-4 text-muted-foreground" />
                           <span>{job.location}</span>
                         </div>
-                        {formatSalary(job.salary_min, job.salary_max, job.currency) && (
+                        {formatSalary(job.salary_min, job.salary_max, job.currency, job.salary_period) && (
                           <div className="flex items-center gap-2 text-sm">
                             <IndianRupee className="w-4 h-4 text-muted-foreground" />
-                            <span>{formatSalary(job.salary_min, job.salary_max, job.currency)}</span>
+                            <span>{formatSalary(job.salary_min, job.salary_max, job.currency, job.salary_period)}</span>
                           </div>
                         )}
                         {job.application_deadline && (
@@ -310,87 +311,113 @@ const JobDetails = () => {
                   {/* Apply Card */}
                   <Card className="sticky top-24 border-primary/20 shadow-lg">
                     <CardContent className="p-6 space-y-4">
-                      <Dialog open={isApplyDialogOpen} onOpenChange={setIsApplyDialogOpen}>
-                        <DialogTrigger asChild>
-                          <Button 
-                            size="lg" 
-                            className="w-full cta-primary text-lg gap-2"
-                            onClick={(e) => {
-                              if (!user) {
-                                e.preventDefault();
-                                navigate('/auth?redirect=' + encodeURIComponent(`/job/${jobId}`));
-                              }
-                            }}
-                            disabled={!user}
-                          >
-                            <Send className="w-5 h-5" />
-                            {user ? 'Apply Now' : 'Login to Apply'}
+                      {/* External apply link */}
+                      {job.apply_url ? (
+                        <a
+                          href={job.apply_url.startsWith('http') ? job.apply_url : `https://${job.apply_url}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <Button size="lg" className="w-full cta-primary text-lg gap-2">
+                            <ExternalLink className="w-5 h-5" />
+                            Apply on Company Portal
                           </Button>
-                        </DialogTrigger>
-                        {!user && (
-                          <p className="text-xs text-center text-muted-foreground mt-2">
-                            You need to <Link to={`/auth?redirect=${encodeURIComponent(`/job/${jobId}`)}`} className="text-primary hover:underline">create an account</Link> to apply
-                          </p>
-                        )}
-                        <DialogContent className="sm:max-w-lg">
-                          <DialogHeader>
-                            <DialogTitle>Apply for {job.title}</DialogTitle>
-                            <DialogDescription>
-                              Submit your application to {recruiter?.company_name}
-                            </DialogDescription>
-                          </DialogHeader>
-                          <div className="space-y-4 pt-4">
-                            <div className="space-y-2">
-                              <Label htmlFor="name">Full Name *</Label>
-                              <Input
-                                id="name"
-                                value={applicationForm.applicant_name}
-                                onChange={(e) => setApplicationForm(prev => ({ ...prev, applicant_name: e.target.value }))}
-                                placeholder="Your full name"
-                                required
-                              />
-                            </div>
-                            <div className="space-y-2">
-                              <Label htmlFor="email">Email *</Label>
-                              <Input
-                                id="email"
-                                type="email"
-                                value={applicationForm.applicant_email}
-                                onChange={(e) => setApplicationForm(prev => ({ ...prev, applicant_email: e.target.value }))}
-                                placeholder="your.email@example.com"
-                                required
-                              />
-                            </div>
-                            <div className="space-y-2">
-                              <Label htmlFor="phone">Phone Number</Label>
-                              <Input
-                                id="phone"
-                                value={applicationForm.applicant_phone}
-                                onChange={(e) => setApplicationForm(prev => ({ ...prev, applicant_phone: e.target.value }))}
-                                placeholder="+91 98765 43210"
-                              />
-                            </div>
-                            <div className="space-y-2">
-                              <Label htmlFor="cover">Cover Letter and share the Resume link</Label>
-                              <Textarea
-                                id="cover"
-                                value={applicationForm.cover_letter}
-                                onChange={(e) => setApplicationForm(prev => ({ ...prev, cover_letter: e.target.value }))}
-                                placeholder="Tell the recruiter why you're a great fit and include your resume link (e.g., Google Drive, LinkedIn)..."
-                                rows={4}
-                              />
-                            </div>
+                        </a>
+                      ) : (
+                        <Dialog open={isApplyDialogOpen} onOpenChange={setIsApplyDialogOpen}>
+                          <DialogTrigger asChild>
                             <Button 
-                              onClick={handleSubmitApplication} 
-                              className="w-full cta-primary"
-                              disabled={isApplying || !applicationForm.applicant_name || !applicationForm.applicant_email}
+                              size="lg" 
+                              className="w-full cta-primary text-lg gap-2"
+                              onClick={(e) => {
+                                if (!user) {
+                                  e.preventDefault();
+                                  navigate('/auth?redirect=' + encodeURIComponent(`/job/${jobId}`));
+                                }
+                              }}
+                              disabled={!user}
                             >
-                              {isApplying ? 'Submitting...' : 'Submit Application'}
+                              <Send className="w-5 h-5" />
+                              {user ? 'Apply Now' : 'Login to Apply'}
                             </Button>
-                          </div>
-                        </DialogContent>
-                      </Dialog>
+                          </DialogTrigger>
+                          {!user && (
+                            <p className="text-xs text-center text-muted-foreground mt-2">
+                              You need to <Link to={`/auth?redirect=${encodeURIComponent(`/job/${jobId}`)}`} className="text-primary hover:underline">create an account</Link> to apply
+                            </p>
+                          )}
+                          <DialogContent className="sm:max-w-lg">
+                            <DialogHeader>
+                              <DialogTitle>Apply for {job.title}</DialogTitle>
+                              <DialogDescription>
+                                Submit your application to {recruiter?.company_name}
+                              </DialogDescription>
+                            </DialogHeader>
+                            <div className="space-y-4 pt-4">
+                              <div className="space-y-2">
+                                <Label htmlFor="name">Full Name *</Label>
+                                <Input
+                                  id="name"
+                                  value={applicationForm.applicant_name}
+                                  onChange={(e) => setApplicationForm(prev => ({ ...prev, applicant_name: e.target.value }))}
+                                  placeholder="Your full name"
+                                  required
+                                />
+                              </div>
+                              <div className="space-y-2">
+                                <Label htmlFor="email">Email *</Label>
+                                <Input
+                                  id="email"
+                                  type="email"
+                                  value={applicationForm.applicant_email}
+                                  onChange={(e) => setApplicationForm(prev => ({ ...prev, applicant_email: e.target.value }))}
+                                  placeholder="your.email@example.com"
+                                  required
+                                />
+                              </div>
+                              <div className="space-y-2">
+                                <Label htmlFor="phone">Phone Number</Label>
+                                <Input
+                                  id="phone"
+                                  value={applicationForm.applicant_phone}
+                                  onChange={(e) => setApplicationForm(prev => ({ ...prev, applicant_phone: e.target.value }))}
+                                  placeholder="+91 98765 43210"
+                                />
+                              </div>
+                              <div className="space-y-2">
+                                <Label htmlFor="cover">Cover Letter and share the Resume link</Label>
+                                <Textarea
+                                  id="cover"
+                                  value={applicationForm.cover_letter}
+                                  onChange={(e) => setApplicationForm(prev => ({ ...prev, cover_letter: e.target.value }))}
+                                  placeholder="Tell the recruiter why you're a great fit and include your resume link (e.g., Google Drive, LinkedIn)..."
+                                  rows={4}
+                                />
+                              </div>
+                              <Button 
+                                onClick={handleSubmitApplication} 
+                                className="w-full cta-primary"
+                                disabled={isApplying || !applicationForm.applicant_name || !applicationForm.applicant_email}
+                              >
+                                {isApplying ? 'Submitting...' : 'Submit Application'}
+                              </Button>
+                            </div>
+                          </DialogContent>
+                        </Dialog>
+                      )}
 
+                      {/* Job attachment */}
+                      {job.attachment_url && (
+                        <a
+                          href={job.attachment_url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-2 text-sm text-primary hover:underline justify-center"
+                        >
+                          <ExternalLink className="w-4 h-4" />
+                          View Job Attachment
+                        </a>
+                      )}
                     </CardContent>
                   </Card>
 
