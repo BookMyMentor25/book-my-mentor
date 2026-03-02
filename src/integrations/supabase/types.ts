@@ -346,6 +346,9 @@ export type Database = {
           apply_url: string | null
           attachment_url: string | null
           benefits: string[] | null
+          company_name: string | null
+          company_website: string | null
+          contact_email: string | null
           created_at: string
           currency: string | null
           description: string
@@ -354,7 +357,7 @@ export type Database = {
           is_active: boolean | null
           job_type: string
           location: string
-          recruiter_id: string
+          recruiter_id: string | null
           requirements: string[] | null
           salary_max: number | null
           salary_min: number | null
@@ -372,6 +375,9 @@ export type Database = {
           apply_url?: string | null
           attachment_url?: string | null
           benefits?: string[] | null
+          company_name?: string | null
+          company_website?: string | null
+          contact_email?: string | null
           created_at?: string
           currency?: string | null
           description: string
@@ -380,7 +386,7 @@ export type Database = {
           is_active?: boolean | null
           job_type: string
           location: string
-          recruiter_id: string
+          recruiter_id?: string | null
           requirements?: string[] | null
           salary_max?: number | null
           salary_min?: number | null
@@ -398,6 +404,9 @@ export type Database = {
           apply_url?: string | null
           attachment_url?: string | null
           benefits?: string[] | null
+          company_name?: string | null
+          company_website?: string | null
+          contact_email?: string | null
           created_at?: string
           currency?: string | null
           description?: string
@@ -406,7 +415,7 @@ export type Database = {
           is_active?: boolean | null
           job_type?: string
           location?: string
-          recruiter_id?: string
+          recruiter_id?: string | null
           requirements?: string[] | null
           salary_max?: number | null
           salary_min?: number | null

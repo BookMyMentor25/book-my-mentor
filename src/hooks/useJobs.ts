@@ -26,7 +26,7 @@ import { Recruiter } from './useRecruiters';
 
 export interface JobPosting {
   id: string;
-  recruiter_id: string;
+  recruiter_id: string | null;
   title: string;
   description: string;
   location: string;
@@ -42,6 +42,9 @@ export interface JobPosting {
   application_deadline?: string;
   apply_url?: string;
   attachment_url?: string;
+  contact_email?: string;
+  company_name?: string;
+  company_website?: string;
   is_active: boolean;
   views_count: number;
   applications_count: number;
@@ -66,6 +69,9 @@ export interface JobInput {
   application_deadline?: string;
   apply_url?: string;
   attachment_url?: string;
+  contact_email?: string;
+  company_name?: string;
+  company_website?: string;
 }
 
 export interface JobFilters {
@@ -86,16 +92,16 @@ export const useJobs = (filters?: JobFilters) => {
         .from('job_postings')
         .select(`
           *,
-          recruiters!inner (
+          recruiters (
             id,
             company_name,
             logo_url,
             location,
-            is_verified
+            is_verified,
+            website
           )
         `)
         .eq('is_active', true)
-        .eq('recruiters.is_verified', true)
         .order('created_at', { ascending: false });
 
       if (filters?.job_type && filters.job_type !== 'all') {
@@ -184,14 +190,13 @@ export const useRecruiterJobs = (recruiterId?: string) => {
         .from('job_postings')
         .insert({
           ...jobInput,
-          is_active: false as const, // Jobs start as inactive until admin verifies
+          is_active: false as const,
         } as any)
         .select()
         .single();
 
       if (error) throw error;
       
-      // Send notification if recruiter info provided
       if (recruiter_email && recruiter_name && company_name) {
         sendJobNotification({
           recruiter_email,
@@ -251,7 +256,6 @@ export const useRecruiterJobs = (recruiterId?: string) => {
     },
   });
 
-  // Delete job posting
   const deleteJobMutation = useMutation({
     mutationFn: async (jobId: string) => {
       const { error } = await supabase
@@ -278,7 +282,6 @@ export const useRecruiterJobs = (recruiterId?: string) => {
     },
   });
 
-  // Toggle job active status
   const toggleJobStatusMutation = useMutation({
     mutationFn: async ({ id, is_active }: { id: string; is_active: boolean }) => {
       const { data, error } = await supabase
@@ -327,7 +330,6 @@ export const useJobApplications = () => {
   const { user } = useAuth();
   const queryClient = useQueryClient();
 
-  // Apply to a job
   const applyToJobMutation = useMutation({
     mutationFn: async (input: {
       job_id: string;
@@ -367,7 +369,6 @@ export const useJobApplications = () => {
     },
   });
 
-  // Get user's applications
   const { data: userApplications, isLoading: isLoadingApplications } = useQuery({
     queryKey: ['user-applications', user?.id],
     queryFn: async () => {
