@@ -78,6 +78,7 @@ const RecruiterDashboard = () => {
     application_deadline: '',
     apply_url: '',
     attachment_url: '',
+    contact_email: '',
   });
   const [requirementsText, setRequirementsText] = useState('');
   const [skillsText, setSkillsText] = useState('');
@@ -110,6 +111,7 @@ const RecruiterDashboard = () => {
       application_deadline: '',
       apply_url: '',
       attachment_url: '',
+      contact_email: '',
     });
     setRequirementsText('');
     setSkillsText('');
@@ -162,6 +164,7 @@ const RecruiterDashboard = () => {
       application_deadline: job.application_deadline || '',
       apply_url: job.apply_url || '',
       attachment_url: job.attachment_url || '',
+      contact_email: job.contact_email || '',
     });
     setRequirementsText(job.requirements?.join('\n') || '');
     setSkillsText(job.skills?.join(', ') || '');
@@ -386,6 +389,18 @@ const RecruiterDashboard = () => {
                           placeholder="https://company.com/careers/apply"
                         />
                         <p className="text-xs text-muted-foreground">If provided, candidates will be redirected to this link to apply.</p>
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="contact_email">Contact Email (for resume submissions)</Label>
+                        <Input
+                          id="contact_email"
+                          type="email"
+                          value={jobForm.contact_email || ''}
+                          onChange={(e) => setJobForm(prev => ({ ...prev, contact_email: e.target.value }))}
+                          placeholder="hr@company.com — candidates can email resumes here"
+                        />
+                        <p className="text-xs text-muted-foreground">If provided, a "Email Your Resume" button will appear instead of the apply form.</p>
                       </div>
 
                       <div className="space-y-2">
