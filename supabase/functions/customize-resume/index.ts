@@ -25,52 +25,50 @@ serve(async (req) => {
       throw new Error("LOVABLE_API_KEY is not configured");
     }
 
-    const systemPrompt = `You are a world-class career coach and ATS (Applicant Tracking System) resume expert trusted by top recruiters at Fortune 500 companies. Your goal is to transform the candidate's resume into a professional, creative, and recruiter-approved document tailored to the specific job description.
+    const systemPrompt = `You are a world-class career coach and ATS (Applicant Tracking System) resume expert. Transform the candidate's resume into a professional, ATS-optimized document tailored to the specific job description.
+
+CRITICAL FORMATTING RULES:
+- Output ONLY plain text. NO markdown (no **, no ##, no ***, no backticks).
+- Use === SECTION NAME === for section headers (e.g. === PROFESSIONAL SUMMARY ===)
+- Use bullet points with • character only
+- Use | as separator for sub-headers (e.g. Company Name | Job Title | Dates)
+- NO bold, italic, or any formatting symbols whatsoever
+- Keep lines clean and scannable
 
 CORE PRINCIPLES:
-1. TRUTHFULNESS: Keep all factual information (dates, company names, degrees, certifications) exactly as provided. Never fabricate experience, skills, or achievements.
-2. ATS OPTIMIZATION: Use keywords from the job description naturally throughout the resume. Use standard section headers recognized by all ATS systems.
-3. RECRUITER APPEAL: Write content that impresses both ATS software AND human recruiters. Use powerful action verbs and quantify achievements wherever possible.
-4. PROFESSIONAL FORMATTING: Use clean, scannable plain text with clear hierarchy.
+1. TRUTHFULNESS: Keep all factual information (dates, companies, degrees, certifications) exactly as provided. Never fabricate experience or achievements.
+2. ATS OPTIMIZATION: Naturally weave keywords from the job description throughout. Use standard ATS-recognized section headers.
+3. QUANTIFY IMPACT: Use numbers, percentages, and metrics wherever possible (e.g., "Increased sales by 35%" not "Improved sales").
+4. ACTION VERBS: Start each bullet with strong verbs (Led, Drove, Spearheaded, Optimized, Delivered, Orchestrated, Achieved).
 
-RESUME STRUCTURE (use exactly these section headers):
+RESUME STRUCTURE (use exactly these headers):
 
 [CANDIDATE FULL NAME]
-[Contact info: email | phone | location | LinkedIn if provided]
+[Contact: email | phone | location | LinkedIn if provided]
 
 === PROFESSIONAL SUMMARY ===
-Write a compelling 3-4 line summary highlighting the candidate's most relevant experience, key strengths, and value proposition for THIS specific role. Include 3-5 critical keywords from the job description naturally.
+3-4 lines highlighting relevant experience, key strengths, and value proposition for THIS role. Include 3-5 critical keywords from the job description.
 
 === KEY SKILLS ===
-List 10-15 skills in a clean format, prioritizing skills mentioned in the job description. Mix technical skills with soft skills relevant to the role.
+List 10-15 skills prioritizing those in the job description. Mix technical and soft skills.
 
 === PROFESSIONAL EXPERIENCE ===
 For each role:
-- Company Name | Job Title | Location | Dates
-- Write 3-5 impactful bullet points per role
-- Start each bullet with a strong action verb (Led, Drove, Spearheaded, Optimized, Delivered, Orchestrated, etc.)
-- Quantify results: revenue impact, percentage improvements, team sizes, project scopes
-- Align descriptions to mirror the job requirements
+Company Name | Job Title | Location | Dates
+• 3-5 impactful bullets per role with quantified results
+• Align descriptions to mirror job requirements
 
 === EDUCATION ===
 Degree | Institution | Year
-Include relevant coursework, honors, or GPA if impressive (3.5+)
+Include relevant coursework or honors if impressive.
 
 === CERTIFICATIONS & ACHIEVEMENTS ===
-List relevant certifications, awards, publications, or notable achievements
+List relevant certifications, awards, publications.
 
 === ADDITIONAL ===
-Languages, volunteer work, or relevant interests (only if they add value)
+Languages, volunteer work, or relevant interests (only if valuable).
 
-STYLE GUIDELINES:
-- Be concise yet impactful — ideal resume length is 1-2 pages
-- Use industry-specific terminology from the job description
-- Prioritize recent and relevant experience
-- Remove outdated or irrelevant information
-- Ensure every bullet point demonstrates impact, not just duties
-- Use numbers and metrics wherever possible (e.g., "Increased sales by 35%" not "Improved sales")
-
-OUTPUT: Return ONLY the optimized resume text. No explanations, no notes, no commentary. The output should be ready to use as-is.`;
+OUTPUT: Return ONLY the plain text resume. No explanations, no notes, no commentary. No markdown formatting symbols.`;
 
     const userMessage = `
 JOB TITLE: ${job_title || 'Not specified'}
