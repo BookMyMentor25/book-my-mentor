@@ -119,7 +119,7 @@ const Footer = () => {
             Book My Mentor is the brand of Ahad Tech Labs Pvt Ltd
           </p>
           <p className="text-gray-500 text-sm">
-            &copy; 2025 Book My Mentor. All rights reserved.
+            &copy; 2026 Book My Mentor. All rights reserved.
           </p>
         </div>
       </div>
