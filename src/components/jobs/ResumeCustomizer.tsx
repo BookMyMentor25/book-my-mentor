@@ -1,6 +1,5 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import {
   Dialog,
@@ -10,7 +9,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Sparkles, Download, Copy, Check, FileText, Loader2 } from "lucide-react";
+import { Sparkles, Download, Copy, Check, FileText, Loader2, Upload, X } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
 import jsPDF from "jspdf";
@@ -21,22 +20,70 @@ interface ResumeCustomizerProps {
   companyName: string;
 }
 
+const MAX_FILE_SIZE = 1 * 1024 * 1024; // 1MB
+
+const extractTextFromPDF = async (file: File): Promise<string> => {
+  const pdfjsLib = await import("pdfjs-dist");
+  pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.0.379/pdf.worker.min.mjs`;
+  
+  const arrayBuffer = await file.arrayBuffer();
+  const pdf = await pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+  
+  let fullText = "";
+  for (let i = 1; i <= pdf.numPages; i++) {
+    const page = await pdf.getPage(i);
+    const textContent = await page.getTextContent();
+    const pageText = textContent.items.map((item: any) => item.str).join(" ");
+    fullText += pageText + "\n";
+  }
+  return fullText.trim();
+};
+
 const ResumeCustomizer = ({ jobTitle, jobDescription, companyName }: ResumeCustomizerProps) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [resumeText, setResumeText] = useState("");
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [optimizedResume, setOptimizedResume] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [copied, setCopied] = useState(false);
   const [step, setStep] = useState<"input" | "result">("input");
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    
+    if (file.type !== "application/pdf") {
+      toast({ title: "Invalid file type", description: "Please upload a PDF file.", variant: "destructive" });
+      return;
+    }
+    if (file.size > MAX_FILE_SIZE) {
+      toast({ title: "File too large", description: "Maximum file size is 1MB.", variant: "destructive" });
+      return;
+    }
+    setSelectedFile(file);
+  };
+
+  const handleRemoveFile = () => {
+    setSelectedFile(null);
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
 
   const handleCustomize = async () => {
-    if (!resumeText.trim()) {
-      toast({ title: "Please paste your resume", variant: "destructive" });
+    if (!selectedFile) {
+      toast({ title: "Please upload your resume PDF", variant: "destructive" });
       return;
     }
 
     setIsLoading(true);
     try {
+      const resumeText = await extractTextFromPDF(selectedFile);
+      
+      if (!resumeText.trim()) {
+        toast({ title: "Could not extract text", description: "The PDF appears to be empty or image-based. Please try a text-based PDF.", variant: "destructive" });
+        setIsLoading(false);
+        return;
+      }
+
       const { data, error } = await supabase.functions.invoke("customize-resume", {
         body: {
           resume_text: resumeText,
@@ -51,10 +98,10 @@ const ResumeCustomizer = ({ jobTitle, jobDescription, companyName }: ResumeCusto
 
       setOptimizedResume(data.optimized_resume);
       setStep("result");
-      toast({ title: "Resume optimized!", description: "Your ATS-friendly resume is ready." });
+      toast({ title: "Resume built!", description: "Your ATS-friendly resume is ready to download." });
     } catch (err: any) {
       toast({
-        title: "Optimization failed",
+        title: "Resume building failed",
         description: err.message || "Please try again.",
         variant: "destructive",
       });
@@ -73,60 +120,120 @@ const ResumeCustomizer = ({ jobTitle, jobDescription, companyName }: ResumeCusto
   const handleDownloadPDF = () => {
     const doc = new jsPDF();
     const margin = 20;
-    const pageWidth = doc.internal.pageSize.getWidth() - 2 * margin;
-    const lines = doc.splitTextToSize(optimizedResume, pageWidth);
-    
-    doc.setFont("helvetica", "normal");
-    doc.setFontSize(11);
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const contentWidth = pageWidth - 2 * margin;
+    const pageHeight = doc.internal.pageSize.getHeight();
     
     let y = margin;
-    const lineHeight = 6;
-    
-    lines.forEach((line: string) => {
-      if (y > doc.internal.pageSize.getHeight() - margin) {
+    const lines = optimizedResume.split("\n");
+
+    const addPageIfNeeded = (requiredSpace: number) => {
+      if (y + requiredSpace > pageHeight - margin) {
         doc.addPage();
         y = margin;
       }
-      // Bold section headers
-      if (line.includes("===") || line === line.toUpperCase() && line.trim().length > 2) {
+    };
+
+    lines.forEach((line) => {
+      const trimmed = line.trim();
+      
+      // Section headers (lines with === or ALL CAPS lines > 3 chars)
+      if (trimmed.includes("===") || (trimmed === trimmed.toUpperCase() && trimmed.length > 3 && /^[A-Z\s&]+$/.test(trimmed))) {
+        const headerText = trimmed.replace(/===/g, "").trim();
+        if (!headerText) return;
+        
+        addPageIfNeeded(14);
+        y += 4;
+        // Draw accent line
+        doc.setDrawColor(41, 98, 255);
+        doc.setLineWidth(0.8);
+        doc.line(margin, y, margin + contentWidth, y);
+        y += 6;
+        
         doc.setFont("helvetica", "bold");
         doc.setFontSize(12);
-      } else {
-        doc.setFont("helvetica", "normal");
-        doc.setFontSize(11);
+        doc.setTextColor(30, 30, 30);
+        doc.text(headerText, margin, y);
+        y += 7;
       }
-      doc.text(line.replace(/===/g, '').trim(), margin, y);
-      y += lineHeight;
+      // Name line (first non-empty line, typically)
+      else if (y === margin && trimmed.length > 0) {
+        doc.setFont("helvetica", "bold");
+        doc.setFontSize(16);
+        doc.setTextColor(20, 20, 20);
+        const nameLines = doc.splitTextToSize(trimmed, contentWidth);
+        addPageIfNeeded(nameLines.length * 8);
+        doc.text(nameLines, margin, y);
+        y += nameLines.length * 8 + 2;
+      }
+      // Bullet points
+      else if (trimmed.startsWith("•") || trimmed.startsWith("-") || trimmed.startsWith("*")) {
+        doc.setFont("helvetica", "normal");
+        doc.setFontSize(10);
+        doc.setTextColor(50, 50, 50);
+        const bulletText = trimmed.replace(/^[•\-*]\s*/, "");
+        const wrapped = doc.splitTextToSize(bulletText, contentWidth - 8);
+        addPageIfNeeded(wrapped.length * 5);
+        doc.text("•", margin + 2, y);
+        doc.text(wrapped, margin + 8, y);
+        y += wrapped.length * 5 + 1;
+      }
+      // Empty line
+      else if (trimmed === "") {
+        y += 3;
+      }
+      // Regular text
+      else {
+        // Check if it looks like a sub-header (job title/company line)
+        const isSubHeader = trimmed.includes("|") || (trimmed.split(" ").length <= 8 && !trimmed.endsWith("."));
+        
+        if (isSubHeader && trimmed.length < 80) {
+          doc.setFont("helvetica", "bold");
+          doc.setFontSize(10.5);
+          doc.setTextColor(40, 40, 40);
+        } else {
+          doc.setFont("helvetica", "normal");
+          doc.setFontSize(10);
+          doc.setTextColor(50, 50, 50);
+        }
+        
+        const wrapped = doc.splitTextToSize(trimmed, contentWidth);
+        addPageIfNeeded(wrapped.length * 5);
+        doc.text(wrapped, margin, y);
+        y += wrapped.length * 5 + 1;
+      }
     });
 
-    doc.save(`Resume_${jobTitle.replace(/\s+/g, '_')}_ATS.pdf`);
-    toast({ title: "PDF Downloaded!", description: "Your ATS-friendly resume has been saved." });
+    doc.save(`Resume_${jobTitle.replace(/\s+/g, "_")}_ATS.pdf`);
+    toast({ title: "PDF Downloaded!", description: "Your professional resume has been saved." });
   };
 
   const handleReset = () => {
     setStep("input");
     setOptimizedResume("");
+    setSelectedFile(null);
+    if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
   return (
     <Dialog open={isOpen} onOpenChange={(open) => {
       setIsOpen(open);
-      if (!open) { setStep("input"); setOptimizedResume(""); }
+      if (!open) { setStep("input"); setOptimizedResume(""); setSelectedFile(null); }
     }}>
       <DialogTrigger asChild>
         <Button variant="outline" className="w-full gap-2 border-primary/30 text-primary hover:bg-primary/5">
-          <Sparkles className="w-4 h-4" />
-          AI Resume Customizer (ATS)
+          <FileText className="w-4 h-4" />
+          Resume Builder as per JD
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Sparkles className="w-5 h-5 text-primary" />
-            AI Resume Customizer
+            Resume Builder as per Job Description
           </DialogTitle>
           <DialogDescription>
-            Customize your resume for <strong>{jobTitle}</strong> at <strong>{companyName}</strong> — optimized for ATS (Applicant Tracking System)
+            Build your ATS-optimized resume for <strong>{jobTitle}</strong> at <strong>{companyName}</strong>
           </DialogDescription>
         </DialogHeader>
 
@@ -138,42 +245,61 @@ const ResumeCustomizer = ({ jobTitle, jobDescription, companyName }: ResumeCusto
                 How it works
               </h4>
               <ol className="text-xs text-muted-foreground space-y-1 list-decimal list-inside">
-                <li>Paste your current resume text below</li>
-                <li>AI analyzes the job description and optimizes your resume</li>
-                <li>Review the ATS-friendly version</li>
+                <li>Upload your current resume as a PDF (max 1MB)</li>
+                <li>AI analyzes the job description and rebuilds your resume</li>
+                <li>Review the professional, ATS-friendly version</li>
                 <li>Download as PDF or copy and use it to apply</li>
               </ol>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="resume-input">Paste your current resume *</Label>
-              <Textarea
-                id="resume-input"
-                value={resumeText}
-                onChange={(e) => setResumeText(e.target.value)}
-                placeholder="Paste your entire resume here including name, contact info, experience, education, skills..."
-                rows={12}
-                className="font-mono text-sm"
+              <Label>Upload your resume (PDF, max 1MB) *</Label>
+              
+              {selectedFile ? (
+                <div className="flex items-center gap-3 p-4 rounded-lg border border-primary/30 bg-primary/5">
+                  <FileText className="w-8 h-8 text-primary flex-shrink-0" />
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium truncate">{selectedFile.name}</p>
+                    <p className="text-xs text-muted-foreground">{(selectedFile.size / 1024).toFixed(0)} KB</p>
+                  </div>
+                  <Button variant="ghost" size="sm" onClick={handleRemoveFile} className="text-destructive hover:text-destructive">
+                    <X className="w-4 h-4" />
+                  </Button>
+                </div>
+              ) : (
+                <div 
+                  className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-8 text-center cursor-pointer hover:border-primary/50 hover:bg-primary/5 transition-all"
+                  onClick={() => fileInputRef.current?.click()}
+                >
+                  <Upload className="w-10 h-10 mx-auto text-muted-foreground mb-3" />
+                  <p className="text-sm font-medium">Click to upload your resume</p>
+                  <p className="text-xs text-muted-foreground mt-1">PDF format only • Max 1MB</p>
+                </div>
+              )}
+              
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept=".pdf,application/pdf"
+                onChange={handleFileSelect}
+                className="hidden"
               />
-              <p className="text-xs text-muted-foreground">
-                Tip: Copy your resume text from a Word doc, PDF, or LinkedIn profile
-              </p>
             </div>
 
             <Button
               onClick={handleCustomize}
-              disabled={isLoading || !resumeText.trim()}
+              disabled={isLoading || !selectedFile}
               className="w-full cta-primary gap-2"
             >
               {isLoading ? (
                 <>
                   <Loader2 className="w-4 h-4 animate-spin" />
-                  Optimizing with AI...
+                  Building your resume...
                 </>
               ) : (
                 <>
                   <Sparkles className="w-4 h-4" />
-                  Customize for ATS
+                  Build ATS Resume
                 </>
               )}
             </Button>
@@ -182,12 +308,12 @@ const ResumeCustomizer = ({ jobTitle, jobDescription, companyName }: ResumeCusto
           <div className="space-y-4 pt-4">
             <div className="rounded-lg bg-green-50 dark:bg-green-950/20 border border-green-200 dark:border-green-800 p-3">
               <p className="text-sm text-green-800 dark:text-green-300 font-medium">
-                ✅ Your resume has been optimized for ATS compatibility
+                ✅ Your professional, ATS-optimized resume is ready
               </p>
             </div>
 
             <div className="space-y-2">
-              <Label>Optimized Resume (ATS-Friendly)</Label>
+              <Label>Your New Resume</Label>
               <div className="rounded-lg border bg-card p-4 max-h-[400px] overflow-y-auto">
                 <pre className="text-sm whitespace-pre-wrap font-sans">{optimizedResume}</pre>
               </div>
@@ -206,12 +332,12 @@ const ResumeCustomizer = ({ jobTitle, jobDescription, companyName }: ResumeCusto
 
             <div className="flex gap-3 pt-2 border-t">
               <Button onClick={handleReset} variant="ghost" className="flex-1">
-                ← Try Again
+                ← Upload Different Resume
               </Button>
             </div>
 
             <p className="text-xs text-muted-foreground text-center">
-              If you're satisfied with this resume, use it to apply. Otherwise, go back and modify your input.
+              If satisfied, use this resume to apply. Otherwise, upload a different version and try again.
             </p>
           </div>
         )}
