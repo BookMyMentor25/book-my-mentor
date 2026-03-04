@@ -1,9 +1,11 @@
 import { useState, useMemo } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
 import { useJobs } from "@/hooks/useJobs";
+import { useAuth } from "@/hooks/useAuth";
+import { useJobSubscription } from "@/hooks/useJobSubscription";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -23,14 +25,18 @@ import {
   Award,
   ChevronRight,
   Sparkles,
-  Globe
+  Globe,
+  Crown
 } from "lucide-react";
 
 const Jobs = () => {
+  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
   const [jobTypeFilter, setJobTypeFilter] = useState("all");
   const [experienceFilter, setExperienceFilter] = useState("all");
   const [locationFilter, setLocationFilter] = useState("");
+  const { user } = useAuth();
+  const { hasActiveSubscription } = useJobSubscription();
 
   const { jobs, isLoading } = useJobs({
     search: searchTerm,
@@ -88,13 +94,29 @@ const Jobs = () => {
   return (
     <>
       <SEOHead 
-        title="Jobs & Internships 2025 | Product Management, MBA, Tech & Startup Careers India | BookMyMentor"
-        description="Browse 100+ verified Product Management jobs, MBA internships, tech careers & startup opportunities in India. Apply to top companies hiring for PM, Business Analyst, Data Analyst, and Management Trainee roles. Updated daily."
-        keywords="product management jobs India 2025, MBA internships, tech jobs India, startup careers, PM jobs, business analyst jobs, management trainee, product manager hiring, fresher jobs, campus placements, data analyst jobs, remote jobs India, IIT IIM jobs, entry level product manager, internship opportunities"
+        title="Jobs & Internships 2026 | Product Management, MBA, Tech & Startup Careers India | BookMyMentor"
+        description="Browse 100+ verified Product Management jobs, MBA internships, tech careers & startup opportunities in India. Apply to top companies hiring for PM, Business Analyst, Data Analyst, and Management Trainee roles. Updated daily with ATS Resume Builder."
+        keywords="product management jobs India 2026, MBA internships, tech jobs India, startup careers, PM jobs, business analyst jobs, management trainee, product manager hiring, fresher jobs, campus placements, data analyst jobs, remote jobs India, IIT IIM jobs, entry level product manager, internship opportunities, ATS resume builder, job portal India"
       />
       
       <div className="min-h-screen bg-background flex flex-col">
         <Header />
+
+        {/* Subscription Banner */}
+        {!hasActiveSubscription && (
+          <div className="bg-gradient-to-r from-primary/10 via-accent/5 to-primary/10 border-b border-primary/20">
+            <div className="container mx-auto px-4 py-3 flex items-center justify-between flex-wrap gap-3">
+              <div className="flex items-center gap-2 text-sm">
+                <Crown className="w-4 h-4 text-primary" />
+                <span className="font-medium">Get Premium Access</span>
+                <span className="hidden sm:inline text-muted-foreground">— Apply to jobs, use AI Resume Builder & more</span>
+              </div>
+              <Button size="sm" onClick={() => navigate('/jobs/subscribe')} className="cta-primary gap-1">
+                <Crown className="w-3 h-3" /> ₹299 for 3 months
+              </Button>
+            </div>
+          </div>
+        )}
         
         {/* Hero Section */}
         <section className="relative py-16 lg:py-24 overflow-hidden">

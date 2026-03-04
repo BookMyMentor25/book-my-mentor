@@ -20,3 +20,6 @@ verify_jwt = false
 
 [functions.customize-resume]
 verify_jwt = false
+
+[functions.notify-resume-builder]
+verify_jwt = false
