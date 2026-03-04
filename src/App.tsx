@@ -18,6 +18,7 @@ import AITools from "./pages/AITools";
 import AIToolPage from "./pages/AIToolPage";
 import Jobs from "./pages/Jobs";
 import JobDetails from "./pages/JobDetails";
+import JobSubscription from "./pages/JobSubscription";
 import RecruiterRegister from "./pages/RecruiterRegister";
 import RecruiterDashboard from "./pages/RecruiterDashboard";
 
@@ -43,6 +44,7 @@ const App = () => (
             <Route path="/ai-tool/:toolId" element={<AIToolPage />} />
             <Route path="/wireframe-tool" element={<WireframeTool />} />
             <Route path="/jobs" element={<Jobs />} />
+            <Route path="/jobs/subscribe" element={<JobSubscription />} />
             <Route path="/job/:jobId" element={<JobDetails />} />
             <Route path="/recruiter/register" element={<RecruiterRegister />} />
             <Route path="/recruiter/dashboard" element={<RecruiterDashboard />} />

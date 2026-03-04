@@ -5,6 +5,7 @@ import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
 import { useJobs, useJobApplications } from "@/hooks/useJobs";
 import { useAuth } from "@/hooks/useAuth";
+import { useJobSubscription } from "@/hooks/useJobSubscription";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -21,7 +22,7 @@ import {
 } from "@/components/ui/dialog";
 import { 
   MapPin, Briefcase, Clock, Building2, IndianRupee, Globe, Users,
-  CheckCircle, ArrowLeft, Send, ExternalLink, Calendar, GraduationCap, Mail
+  CheckCircle, ArrowLeft, Send, ExternalLink, Calendar, GraduationCap, Mail, Lock, Crown
 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import ShareJobButton from "@/components/jobs/ShareJobButton";
@@ -33,6 +34,7 @@ const JobDetails = () => {
   const { user } = useAuth();
   const { getJobById } = useJobs();
   const { applyToJob, isApplying } = useJobApplications();
+  const { hasActiveSubscription } = useJobSubscription();
   
   const [isApplyDialogOpen, setIsApplyDialogOpen] = useState(false);
   const [applicationForm, setApplicationForm] = useState({
@@ -90,6 +92,10 @@ const JobDetails = () => {
     });
   };
 
+  const handleSubscribeClick = () => {
+    navigate('/jobs/subscribe');
+  };
+
   const recruiter = job?.recruiters as any;
   const companyName = recruiter?.company_name || job?.company_name || 'Company';
   const companyWebsite = recruiter?.website || job?.company_website;
@@ -124,6 +130,9 @@ const JobDetails = () => {
     );
   }
 
+  // Determine if apply/email features should be locked
+  const isLocked = !hasActiveSubscription;
+
   return (
     <>
       <SEOHead 
@@ -144,6 +153,21 @@ const JobDetails = () => {
               </Link>
             </div>
           </div>
+
+          {/* Subscription Banner */}
+          {isLocked && (
+            <div className="bg-gradient-to-r from-primary/10 via-accent/5 to-primary/10 border-b border-primary/20">
+              <div className="container mx-auto px-4 py-3 flex items-center justify-between flex-wrap gap-3">
+                <div className="flex items-center gap-2 text-sm">
+                  <Crown className="w-4 h-4 text-primary" />
+                  <span>Subscribe to apply, use Resume Builder, and access application channels</span>
+                </div>
+                <Button size="sm" onClick={handleSubscribeClick} className="cta-primary gap-1">
+                  <Crown className="w-3 h-3" /> Get Premium — ₹299/3 months
+                </Button>
+              </div>
+            </div>
+          )}
 
           <div className="container mx-auto px-4 py-8 lg:py-12">
             <div className="max-w-5xl mx-auto">
@@ -253,8 +277,13 @@ const JobDetails = () => {
                 <div className="space-y-6">
                   <Card className="sticky top-24 border-primary/20 shadow-lg">
                     <CardContent className="p-6 space-y-4">
-                      {/* External apply link */}
-                      {job.apply_url ? (
+                      {/* Apply actions - gated behind subscription */}
+                      {isLocked ? (
+                        <Button size="lg" className="w-full gap-2" variant="outline" onClick={handleSubscribeClick}>
+                          <Lock className="w-5 h-5" /> Subscribe to Apply
+                          <Badge className="ml-1 bg-primary/10 text-primary text-[10px]">₹299</Badge>
+                        </Button>
+                      ) : job.apply_url ? (
                         <a
                           href={job.apply_url.startsWith('http') ? job.apply_url : `https://${job.apply_url}`}
                           target="_blank" rel="noopener noreferrer"
@@ -307,7 +336,7 @@ const JobDetails = () => {
                               </div>
                               <div className="space-y-2">
                                 <Label htmlFor="cover">Cover Letter and share the Resume link</Label>
-                                <Textarea id="cover" value={applicationForm.cover_letter} onChange={(e) => setApplicationForm(prev => ({ ...prev, cover_letter: e.target.value }))} placeholder="Tell the recruiter why you're a great fit and include your resume link (e.g., Google Drive, LinkedIn)..." rows={4} />
+                                <Textarea id="cover" value={applicationForm.cover_letter} onChange={(e) => setApplicationForm(prev => ({ ...prev, cover_letter: e.target.value }))} placeholder="Tell the recruiter why you're a great fit and include your resume link..." rows={4} />
                               </div>
                               <Button onClick={handleSubmitApplication} className="w-full cta-primary" disabled={isApplying || !applicationForm.applicant_name || !applicationForm.applicant_email}>
                                 {isApplying ? 'Submitting...' : 'Submit Application'}
@@ -317,15 +346,21 @@ const JobDetails = () => {
                         </Dialog>
                       )}
 
-                      {/* Contact email info */}
-                      {job.contact_email && (
+                      {/* Contact email info - gated */}
+                      {job.contact_email && !isLocked && (
                         <p className="text-xs text-center text-muted-foreground">
                           Send resume to: <span className="text-primary font-medium">{job.contact_email}</span>
                         </p>
                       )}
 
                       {/* AI Resume Customizer */}
-                      <ResumeCustomizer jobTitle={job.title} jobDescription={job.description} companyName={companyName} />
+                      <ResumeCustomizer 
+                        jobTitle={job.title} 
+                        jobDescription={job.description} 
+                        companyName={companyName} 
+                        hasSubscription={hasActiveSubscription}
+                        onSubscribeClick={handleSubscribeClick}
+                      />
 
                       {/* Job attachment */}
                       {job.attachment_url && (
