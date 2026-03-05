@@ -19,12 +19,27 @@ import { supabase } from "@/integrations/supabase/client";
 
 const JobSubscription = () => {
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, loading: authLoading } = useAuth();
   const { hasActiveSubscription, purchaseSubscription, isPurchasing, subscription } = useJobSubscription();
   const [orderId, setOrderId] = useState("");
   const [step, setStep] = useState<"info" | "payment">("info");
   const [sendingEmail, setSendingEmail] = useState(false);
+  const [notifyingAdmin, setNotifyingAdmin] = useState(false);
 
+  // Show loading while auth is restoring
+  if (authLoading) {
+    return (
+      <div className="min-h-screen bg-background flex flex-col">
+        <Header />
+        <main className="flex-1 flex items-center justify-center">
+          <p className="text-muted-foreground">Loading...</p>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
+
+  // Redirect unauthenticated users to sign-in page
   if (!user) {
     navigate('/auth?redirect=/jobs/subscribe');
     return null;
@@ -62,11 +77,32 @@ const JobSubscription = () => {
     { icon: Shield, label: "Priority visibility to recruiters" },
   ];
 
-  const handlePayment = () => {
+  const handlePaymentClaimed = async () => {
     if (!orderId.trim()) {
       toast({ title: "Please enter your UPI Transaction ID", variant: "destructive" });
       return;
     }
+
+    // Notify admin immediately
+    setNotifyingAdmin(true);
+    try {
+      await supabase.functions.invoke('notify-payment-claim', {
+        body: {
+          user_email: user.email,
+          user_name: user.user_metadata?.full_name || user.email,
+          user_id: user.id,
+          order_id: orderId.trim(),
+          amount: 299,
+          plan: 'Jobs & Internships Premium (3 months)',
+        },
+      });
+    } catch (err) {
+      console.error('Admin notification failed:', err);
+    } finally {
+      setNotifyingAdmin(false);
+    }
+
+    // Activate subscription
     purchaseSubscription(orderId.trim());
   };
 
@@ -197,11 +233,11 @@ const JobSubscription = () => {
                         <p><strong>Plan:</strong> 3 Months Premium Access</p>
                       </div>
                       <Button
-                        onClick={handlePayment}
-                        disabled={isPurchasing || !orderId.trim()}
+                        onClick={handlePaymentClaimed}
+                        disabled={isPurchasing || notifyingAdmin || !orderId.trim()}
                         className="w-full cta-primary gap-2"
                       >
-                        {isPurchasing ? "Activating..." : "Activate Subscription"}
+                        {isPurchasing || notifyingAdmin ? "Activating..." : "Activate Subscription"}
                       </Button>
                       <Button variant="ghost" onClick={() => setStep("info")} className="w-full">
                         ← Back to Payment Instructions
