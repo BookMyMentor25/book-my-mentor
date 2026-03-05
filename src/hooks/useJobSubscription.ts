@@ -41,7 +41,23 @@ export const useJobSubscription = () => {
     enabled: !!user?.id,
   });
 
-  const hasActiveSubscription = !!subscription;
+  // Check if user is blocked
+  const { data: isBlocked } = useQuery({
+    queryKey: ['blocked-user', user?.id],
+    queryFn: async () => {
+      if (!user?.id) return false;
+      const { data, error } = await (supabase
+        .from('blocked_users' as any)
+        .select('id')
+        .eq('user_id', user.id)
+        .maybeSingle());
+      if (error) return false;
+      return !!data;
+    },
+    enabled: !!user?.id,
+  });
+
+  const hasActiveSubscription = !!subscription && !isBlocked;
 
   const purchaseSubscription = useMutation({
     mutationFn: async (orderId: string) => {

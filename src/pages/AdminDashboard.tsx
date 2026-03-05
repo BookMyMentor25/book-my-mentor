@@ -13,6 +13,7 @@ import { format } from "date-fns";
  import RecruiterManagement from "@/components/admin/RecruiterManagement";
  import JobManagement from "@/components/admin/JobManagement";
  import BulkEmailTool from "@/components/admin/BulkEmailTool";
+ import SubscriptionManagement from "@/components/admin/SubscriptionManagement";
 
 const AdminDashboard = () => {
   const { signOut } = useAuth();
@@ -91,6 +92,7 @@ const AdminDashboard = () => {
           <TabsTrigger value="inquiries">Inquiries</TabsTrigger>
           <TabsTrigger value="recruiters">Recruiters</TabsTrigger>
           <TabsTrigger value="jobs">Job Listings</TabsTrigger>
+          <TabsTrigger value="subscriptions">Subscriptions</TabsTrigger>
           <TabsTrigger value="bulk-email">Bulk Email</TabsTrigger>
         </TabsList>
         <TabsContent value="orders" className="space-y-4">
@@ -249,6 +251,10 @@ const AdminDashboard = () => {
 
         <TabsContent value="jobs" className="space-y-4">
           <JobManagement />
+        </TabsContent>
+
+        <TabsContent value="subscriptions" className="space-y-4">
+          <SubscriptionManagement />
         </TabsContent>
 
         <TabsContent value="bulk-email" className="space-y-4">
