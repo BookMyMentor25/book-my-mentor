@@ -12,9 +12,10 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
   CheckCircle, Shield, Sparkles, Briefcase, FileText, Mail,
-  ArrowLeft, Crown, Clock, Zap
+  ArrowLeft, Crown, Clock, Zap, Send
 } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const JobSubscription = () => {
   const navigate = useNavigate();
@@ -22,6 +23,7 @@ const JobSubscription = () => {
   const { hasActiveSubscription, purchaseSubscription, isPurchasing, subscription } = useJobSubscription();
   const [orderId, setOrderId] = useState("");
   const [step, setStep] = useState<"info" | "payment">("info");
+  const [sendingEmail, setSendingEmail] = useState(false);
 
   if (!user) {
     navigate('/auth?redirect=/jobs/subscribe');
@@ -66,6 +68,28 @@ const JobSubscription = () => {
       return;
     }
     purchaseSubscription(orderId.trim());
+  };
+
+  const handleSendPaymentEmail = async () => {
+    if (!user?.email) return;
+    setSendingEmail(true);
+    try {
+      const { error } = await supabase.functions.invoke('send-payment-details', {
+        body: {
+          user_email: user.email,
+          user_name: user.user_metadata?.full_name || user.email,
+          plan: 'Jobs & Internships Premium',
+          amount: 299,
+          duration: '3 months',
+        },
+      });
+      if (error) throw error;
+      toast({ title: "Payment details sent! 📧", description: `Check your inbox at ${user.email}` });
+    } catch (err) {
+      toast({ title: "Couldn't send email", description: "Please try again or contact support.", variant: "destructive" });
+    } finally {
+      setSendingEmail(false);
+    }
   };
 
   return (
@@ -128,20 +152,27 @@ const JobSubscription = () => {
                   {step === "info" ? (
                     <div className="space-y-6">
                       <div className="rounded-lg bg-primary/5 border border-primary/20 p-4 space-y-3">
-                        <h4 className="font-semibold text-sm">Pay via UPI</h4>
-                        <div className="bg-card rounded-lg p-3 border text-center">
-                          <p className="text-lg font-mono font-bold text-primary">bookmymentor@ybl</p>
-                          <p className="text-xs text-muted-foreground mt-1">Amount: ₹299</p>
+                        <h4 className="font-semibold text-sm">Scan QR Code to Pay ₹299</h4>
+                        <div className="bg-card rounded-lg p-4 border flex justify-center">
+                          <img
+                            src="/lovable-uploads/QR_Book_My_Mentor.jpeg"
+                            alt="BookMyMentor Payment QR Code"
+                            className="w-48 h-48 rounded-lg object-contain"
+                          />
                         </div>
+                        <p className="text-xs text-center text-muted-foreground">Amount: <strong className="text-primary">₹299</strong></p>
                         <ol className="text-xs text-muted-foreground space-y-1 list-decimal list-inside">
                           <li>Open any UPI app (GPay, PhonePe, Paytm)</li>
-                          <li>Pay ₹299 to the UPI ID above</li>
+                          <li>Scan the QR code above and pay ₹299</li>
                           <li>Copy the Transaction ID from payment confirmation</li>
                           <li>Paste it below and activate your subscription</li>
                         </ol>
                       </div>
                       <Button onClick={() => setStep("payment")} className="w-full cta-primary gap-2">
                         <CheckCircle className="w-4 h-4" /> I've Made the Payment
+                      </Button>
+                      <Button variant="outline" onClick={handleSendPaymentEmail} disabled={sendingEmail} className="w-full gap-2">
+                        <Send className="w-4 h-4" /> {sendingEmail ? "Sending..." : "Send Payment Details to My Email"}
                       </Button>
                     </div>
                   ) : (

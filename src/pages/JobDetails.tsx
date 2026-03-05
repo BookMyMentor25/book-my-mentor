@@ -346,10 +346,15 @@ const JobDetails = () => {
                         </Dialog>
                       )}
 
-                      {/* Contact email info - gated */}
+                      {/* Contact email info - fully hidden for non-subscribers */}
                       {job.contact_email && !isLocked && (
                         <p className="text-xs text-center text-muted-foreground">
                           Send resume to: <span className="text-primary font-medium">{job.contact_email}</span>
+                        </p>
+                      )}
+                      {job.contact_email && isLocked && (
+                        <p className="text-xs text-center text-muted-foreground flex items-center justify-center gap-1">
+                          <Lock className="w-3 h-3" /> Recruiter email hidden — <button onClick={handleSubscribeClick} className="text-primary hover:underline font-medium">Subscribe to view</button>
                         </p>
                       )}
 
