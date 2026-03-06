@@ -23,12 +23,16 @@ serve(async (req) => {
     }
 
     const emailBody = `
-      <h2>Resume Builder Used</h2>
-      <p><strong>User:</strong> ${user_name || 'N/A'}</p>
-      <p><strong>Email:</strong> ${user_email || 'N/A'}</p>
-      <p><strong>Job Title:</strong> ${job_title || 'N/A'}</p>
-      <p><strong>Company:</strong> ${company_name || 'N/A'}</p>
-      <p><strong>Time:</strong> ${new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })}</p>
+      <div style="font-family:sans-serif;max-width:600px;margin:0 auto;padding:24px">
+        <h2 style="color:#1a1a1a">Resume Builder Used</h2>
+        <div style="background:#f8f9fa;border:1px solid #e2e8f0;border-radius:8px;padding:20px;margin:16px 0">
+          <p><strong>User:</strong> ${user_name || 'N/A'}</p>
+          <p><strong>Email:</strong> ${user_email || 'N/A'}</p>
+          <p><strong>Job Title:</strong> ${job_title || 'N/A'}</p>
+          <p><strong>Company:</strong> ${company_name || 'N/A'}</p>
+          <p><strong>Time:</strong> ${new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })}</p>
+        </div>
+      </div>
     `;
 
     const res = await fetch("https://api.resend.com/emails", {
@@ -38,7 +42,7 @@ serve(async (req) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        from: "BookMyMentor <onboarding@resend.dev>",
+        from: "BookMyMentor <support@bookmymentor.com>",
         to: ["bookmymentor.org@gmail.com"],
         subject: `Resume Builder Used: ${job_title} at ${company_name}`,
         html: emailBody,

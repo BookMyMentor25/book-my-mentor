@@ -12,7 +12,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
   CheckCircle, Shield, Sparkles, Briefcase, FileText, Mail,
-  ArrowLeft, Crown, Clock, Zap, Send
+  ArrowLeft, Crown, Clock, Zap, Send, CreditCard, Smartphone
 } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -22,24 +22,25 @@ const JobSubscription = () => {
   const { user, loading: authLoading } = useAuth();
   const { hasActiveSubscription, purchaseSubscription, isPurchasing, subscription } = useJobSubscription();
   const [orderId, setOrderId] = useState("");
-  const [step, setStep] = useState<"info" | "payment">("info");
+  const [step, setStep] = useState<"scan" | "confirm">("scan");
   const [sendingEmail, setSendingEmail] = useState(false);
   const [notifyingAdmin, setNotifyingAdmin] = useState(false);
 
-  // Show loading while auth is restoring
   if (authLoading) {
     return (
       <div className="min-h-screen bg-background flex flex-col">
         <Header />
         <main className="flex-1 flex items-center justify-center">
-          <p className="text-muted-foreground">Loading...</p>
+          <div className="animate-pulse space-y-3 text-center">
+            <div className="w-12 h-12 rounded-full bg-primary/20 mx-auto" />
+            <p className="text-muted-foreground">Loading...</p>
+          </div>
         </main>
         <Footer />
       </div>
     );
   }
 
-  // Redirect unauthenticated users to sign-in page
   if (!user) {
     navigate('/auth?redirect=/jobs/subscribe');
     return null;
@@ -52,15 +53,15 @@ const JobSubscription = () => {
         <SEOHead title="Jobs Subscription | BookMyMentor" description="Your active subscription details" />
         <main className="flex-1 container mx-auto px-4 py-16">
           <div className="max-w-xl mx-auto text-center space-y-6">
-            <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
+            <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto animate-fade-in">
               <Crown className="w-10 h-10 text-primary" />
             </div>
-            <h1 className="text-3xl font-bold">You're a Premium Member! 🎉</h1>
-            <p className="text-muted-foreground">
+            <h1 className="text-3xl font-bold animate-fade-in animate-delay-100">You're a Premium Member! 🎉</h1>
+            <p className="text-muted-foreground animate-fade-in animate-delay-200">
               Your subscription is active until{" "}
               <strong>{new Date(subscription?.expires_at).toLocaleDateString('en-IN', { day: 'numeric', month: 'long', year: 'numeric' })}</strong>
             </p>
-            <Button onClick={() => navigate('/jobs')} className="cta-primary gap-2">
+            <Button onClick={() => navigate('/jobs')} className="cta-primary gap-2 animate-fade-in animate-delay-300">
               <Briefcase className="w-4 h-4" /> Browse Jobs
             </Button>
           </div>
@@ -83,7 +84,6 @@ const JobSubscription = () => {
       return;
     }
 
-    // Notify admin immediately
     setNotifyingAdmin(true);
     try {
       await supabase.functions.invoke('notify-payment-claim', {
@@ -102,7 +102,6 @@ const JobSubscription = () => {
       setNotifyingAdmin(false);
     }
 
-    // Activate subscription
     purchaseSubscription(orderId.trim());
   };
 
@@ -138,18 +137,18 @@ const JobSubscription = () => {
       />
 
       <main className="flex-1">
-        <section className="py-16 lg:py-24">
+        <section className="py-12 lg:py-20">
           <div className="container mx-auto px-4">
-            <Button variant="ghost" onClick={() => navigate('/jobs')} className="mb-8 gap-2">
+            <Button variant="ghost" onClick={() => navigate('/jobs')} className="mb-6 gap-2 text-muted-foreground hover:text-foreground">
               <ArrowLeft className="w-4 h-4" /> Back to Jobs
             </Button>
 
             <div className="max-w-4xl mx-auto grid lg:grid-cols-2 gap-8">
               {/* Plan Card */}
-              <Card className="border-primary/30 shadow-xl relative overflow-hidden">
-                <div className="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-primary/20 to-transparent rounded-full blur-2xl" />
+              <Card className="border-primary/20 shadow-xl relative overflow-hidden animate-fade-in">
+                <div className="absolute top-0 right-0 w-40 h-40 bg-gradient-to-bl from-primary/15 to-transparent rounded-full blur-3xl" />
                 <CardHeader className="pb-4">
-                  <div className="flex items-center gap-2 mb-2">
+                  <div className="flex items-center gap-2 mb-3">
                     <Badge className="bg-primary/10 text-primary border-primary/20 gap-1">
                       <Sparkles className="w-3 h-3" /> Premium Access
                     </Badge>
@@ -180,73 +179,96 @@ const JobSubscription = () => {
               </Card>
 
               {/* Payment Section */}
-              <Card className="shadow-lg">
-                <CardHeader>
-                  <CardTitle className="text-xl">Complete Payment</CardTitle>
+              <Card className="shadow-xl animate-fade-in animate-delay-100">
+                <CardHeader className="pb-4">
+                  <CardTitle className="text-xl flex items-center gap-2">
+                    <CreditCard className="w-5 h-5 text-primary" />
+                    {step === "scan" ? "Complete Payment" : "Activate Subscription"}
+                  </CardTitle>
+                  {/* Step indicator */}
+                  <div className="flex items-center gap-3 mt-3">
+                    <div className={`flex items-center gap-1.5 text-xs font-medium ${step === "scan" ? "text-primary" : "text-muted-foreground"}`}>
+                      <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold ${step === "scan" ? "bg-primary text-primary-foreground" : "bg-primary/20 text-primary"}`}>1</div>
+                      Pay
+                    </div>
+                    <div className="flex-1 h-px bg-border" />
+                    <div className={`flex items-center gap-1.5 text-xs font-medium ${step === "confirm" ? "text-primary" : "text-muted-foreground"}`}>
+                      <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold ${step === "confirm" ? "bg-primary text-primary-foreground" : "bg-muted text-muted-foreground"}`}>2</div>
+                      Activate
+                    </div>
+                  </div>
                 </CardHeader>
-                <CardContent className="space-y-6">
-                  {step === "info" ? (
-                    <div className="space-y-6">
-                      <div className="rounded-lg bg-primary/5 border border-primary/20 p-4 space-y-3">
-                        <h4 className="font-semibold text-sm">Scan QR Code to Pay ₹299</h4>
-                        <div className="bg-card rounded-lg p-4 border flex justify-center">
+                <CardContent className="space-y-5">
+                  {step === "scan" ? (
+                    <div className="space-y-5">
+                      <div className="rounded-xl bg-gradient-to-br from-primary/5 to-accent/5 border border-primary/15 p-5 space-y-4">
+                        <div className="flex items-center gap-2 text-sm font-semibold">
+                          <Smartphone className="w-4 h-4 text-primary" />
+                          Scan QR Code to Pay ₹299
+                        </div>
+                        <div className="bg-card rounded-xl p-4 border shadow-sm flex justify-center">
                           <img
                             src="/lovable-uploads/QR_Book_My_Mentor.jpeg"
                             alt="BookMyMentor Payment QR Code"
-                            className="w-48 h-48 rounded-lg object-contain"
+                            className="w-52 h-52 rounded-lg object-contain"
                           />
                         </div>
-                        <p className="text-xs text-center text-muted-foreground">Amount: <strong className="text-primary">₹299</strong></p>
-                        <ol className="text-xs text-muted-foreground space-y-1 list-decimal list-inside">
+                        <p className="text-xs text-center text-muted-foreground">Amount: <strong className="text-primary text-sm">₹299</strong></p>
+                      </div>
+                      
+                      <div className="rounded-lg bg-muted/50 p-4 space-y-2">
+                        <p className="text-xs font-medium text-foreground">How to pay:</p>
+                        <ol className="text-xs text-muted-foreground space-y-1.5 list-decimal list-inside">
                           <li>Open any UPI app (GPay, PhonePe, Paytm)</li>
                           <li>Scan the QR code above and pay ₹299</li>
-                          <li>Copy the Transaction ID from payment confirmation</li>
-                          <li>Paste it below and activate your subscription</li>
+                          <li>Note the Transaction ID from confirmation</li>
+                          <li>Click below and enter it to activate</li>
                         </ol>
                       </div>
-                      <Button onClick={() => setStep("payment")} className="w-full cta-primary gap-2">
-                        <CheckCircle className="w-4 h-4" /> I've Made the Payment
+
+                      <Button onClick={() => setStep("confirm")} className="w-full cta-primary gap-2 h-12 text-base">
+                        <CheckCircle className="w-5 h-5" /> I've Made the Payment
                       </Button>
                       <Button variant="outline" onClick={handleSendPaymentEmail} disabled={sendingEmail} className="w-full gap-2">
                         <Send className="w-4 h-4" /> {sendingEmail ? "Sending..." : "Send Payment Details to My Email"}
                       </Button>
                     </div>
                   ) : (
-                    <div className="space-y-4">
+                    <div className="space-y-5">
                       <div className="space-y-2">
-                        <Label htmlFor="orderId">UPI Transaction ID / Reference Number *</Label>
+                        <Label htmlFor="orderId" className="text-sm font-medium">UPI Transaction ID / Reference Number *</Label>
                         <Input
                           id="orderId"
                           value={orderId}
                           onChange={(e) => setOrderId(e.target.value)}
                           placeholder="e.g. T2403041234567890"
-                          className="font-mono"
+                          className="font-mono h-12 text-base"
                         />
                         <p className="text-xs text-muted-foreground">
-                          You can find this in your UPI app's transaction history
+                          Find this in your UPI app's transaction history
                         </p>
                       </div>
-                      <div className="rounded-lg bg-muted/50 p-3 text-xs text-muted-foreground">
-                        <p><strong>Name:</strong> {user.user_metadata?.full_name || user.email}</p>
-                        <p><strong>Email:</strong> {user.email}</p>
-                        <p><strong>Amount:</strong> ₹299</p>
-                        <p><strong>Plan:</strong> 3 Months Premium Access</p>
+                      <div className="rounded-xl bg-muted/50 p-4 space-y-1 text-sm">
+                        <p><span className="text-muted-foreground">Name:</span> <strong>{user.user_metadata?.full_name || user.email}</strong></p>
+                        <p><span className="text-muted-foreground">Email:</span> <strong>{user.email}</strong></p>
+                        <p><span className="text-muted-foreground">Amount:</span> <strong className="text-primary">₹299</strong></p>
+                        <p><span className="text-muted-foreground">Plan:</span> <strong>3 Months Premium</strong></p>
                       </div>
                       <Button
                         onClick={handlePaymentClaimed}
                         disabled={isPurchasing || notifyingAdmin || !orderId.trim()}
-                        className="w-full cta-primary gap-2"
+                        className="w-full cta-primary gap-2 h-12 text-base"
                       >
-                        {isPurchasing || notifyingAdmin ? "Activating..." : "Activate Subscription"}
+                        {isPurchasing || notifyingAdmin ? "Activating..." : "🚀 Activate Subscription"}
                       </Button>
-                      <Button variant="ghost" onClick={() => setStep("info")} className="w-full">
-                        ← Back to Payment Instructions
+                      <Button variant="ghost" onClick={() => setStep("scan")} className="w-full text-muted-foreground">
+                        ← Back to Payment
                       </Button>
                     </div>
                   )}
                   <p className="text-xs text-center text-muted-foreground">
-                    🔒 Your payment will be verified and subscription activated instantly.
-                    For issues, contact support@bookmymentor.com
+                    🔒 Secure payment. Subscription activates instantly.
+                    Issues? Contact support@bookmymentor.com
                   </p>
                 </CardContent>
               </Card>
