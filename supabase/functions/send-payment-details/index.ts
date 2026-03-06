@@ -43,9 +43,8 @@ serve(async (req) => {
                 <li>Copy the Transaction ID from payment confirmation</li>
                 <li>Paste it on the subscription page to activate</li>
               </ol>
-              <p style="margin-top:12px"><a href="https://book-my-mentor.lovable.app/jobs/subscribe" style="color:#6366f1;font-weight:bold">→ Complete Payment Here</a></p>
             </div>
-            <p style="font-size:13px;color:#888">For support, reply to this email or contact support@bookmymentor.com</p>
+            <p style="font-size:13px;color:#888">For support, reply to this email or contact info@bookmymentor.com</p>
           </div>`,
       }),
     });
