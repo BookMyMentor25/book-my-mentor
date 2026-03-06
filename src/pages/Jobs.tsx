@@ -111,7 +111,7 @@ const Jobs = () => {
                 <span className="font-medium">Get Premium Access</span>
                 <span className="hidden sm:inline text-muted-foreground">— Apply to jobs, use AI Resume Builder & more</span>
               </div>
-              <Button size="sm" onClick={() => navigate('/jobs/subscribe')} className="cta-primary gap-1">
+              <Button size="sm" onClick={() => user ? navigate('/jobs/subscribe') : navigate('/auth?redirect=/jobs/subscribe')} className="cta-primary gap-1">
                 <Crown className="w-3 h-3" /> ₹299 for 3 months
               </Button>
             </div>

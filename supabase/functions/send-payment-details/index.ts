@@ -15,7 +15,8 @@ serve(async (req) => {
     const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
     if (!RESEND_API_KEY) throw new Error("RESEND_API_KEY not set");
 
-    // Send to the user
+    const qrCodeUrl = "https://book-my-mentor.lovable.app/lovable-uploads/QR_Book_My_Mentor.jpeg";
+
     const userRes = await fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: { "Content-Type": "application/json", Authorization: `Bearer ${RESEND_API_KEY}` },
@@ -31,12 +32,16 @@ serve(async (req) => {
               <p><strong>Plan:</strong> ${plan}</p>
               <p><strong>Amount:</strong> ₹${amount}</p>
               <p><strong>Duration:</strong> ${duration}</p>
+              <div style="margin:20px 0;text-align:center">
+                <p style="font-weight:bold;margin-bottom:12px">Scan the QR Code to Pay ₹${amount}</p>
+                <img src="${qrCodeUrl}" alt="BookMyMentor Payment QR Code" style="width:200px;height:200px;border-radius:8px;border:1px solid #e2e8f0" />
+              </div>
               <p style="margin-top:12px"><strong>How to Pay:</strong></p>
               <ol style="font-size:14px;color:#555">
                 <li>Open any UPI app (GPay, PhonePe, Paytm)</li>
-                <li>Scan the QR code on our subscription page or search for our UPI</li>
-                <li>Pay ₹${amount}</li>
-                <li>Copy the Transaction ID and paste it on the subscription page</li>
+                <li>Scan the QR code above and pay ₹${amount}</li>
+                <li>Copy the Transaction ID from payment confirmation</li>
+                <li>Paste it on the subscription page to activate</li>
               </ol>
               <p style="margin-top:12px"><a href="https://book-my-mentor.lovable.app/jobs/subscribe" style="color:#6366f1;font-weight:bold">→ Complete Payment Here</a></p>
             </div>
