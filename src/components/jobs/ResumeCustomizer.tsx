@@ -27,7 +27,7 @@ interface ResumeCustomizerProps {
 const MAX_FILE_SIZE = 1 * 1024 * 1024;
 
 const extractTextFromPDF = async (file: File): Promise<string> => {
-  const pdfjsLib = await import("pdfjs-dist");
+  const pdfjsLib = await import("pdfjs-dist/legacy/build/pdf.mjs");
   const version = pdfjsLib.version;
   pdfjsLib.GlobalWorkerOptions.workerSrc = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${version}/pdf.worker.min.mjs`;
   
