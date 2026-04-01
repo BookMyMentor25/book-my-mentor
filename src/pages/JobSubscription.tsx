@@ -12,10 +12,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
   CheckCircle, Shield, Sparkles, Briefcase, FileText, Mail,
-  ArrowLeft, Crown, Clock, Zap, Send, CreditCard, Smartphone
+  ArrowLeft, Crown, Clock, Zap, Send, CreditCard, Smartphone, Tag, X
 } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+
+const ORIGINAL_PRICE = 299;
 
 const JobSubscription = () => {
   const navigate = useNavigate();
@@ -25,6 +27,13 @@ const JobSubscription = () => {
   const [step, setStep] = useState<"scan" | "confirm">("scan");
   const [sendingEmail, setSendingEmail] = useState(false);
   const [notifyingAdmin, setNotifyingAdmin] = useState(false);
+
+  // Coupon state
+  const [couponCode, setCouponCode] = useState("");
+  const [appliedCoupon, setAppliedCoupon] = useState<{ code: string; discountPercent: number; discountAmount: number } | null>(null);
+  const [couponLoading, setCouponLoading] = useState(false);
+
+  const finalPrice = appliedCoupon ? Math.round(ORIGINAL_PRICE - appliedCoupon.discountAmount) : ORIGINAL_PRICE;
 
   if (authLoading) {
     return (
@@ -78,6 +87,68 @@ const JobSubscription = () => {
     { icon: Shield, label: "Priority visibility to recruiters" },
   ];
 
+  const applyCoupon = async () => {
+    if (!couponCode.trim()) return;
+    setCouponLoading(true);
+    try {
+      // Validate coupon via backend function
+      const { data, error } = await supabase.rpc('validate_coupon', { input_code: couponCode.trim() });
+      if (error) throw error;
+      const result = data?.[0];
+      if (!result?.is_valid) {
+        toast({ title: "Invalid Coupon", description: result?.error_message || "This coupon code is not valid.", variant: "destructive" });
+        setCouponLoading(false);
+        return;
+      }
+
+      // Check applies_to — must be 'job_subscription'
+      const { data: couponData } = await (supabase
+        .from('coupons' as any)
+        .select('applies_to, is_reusable')
+        .ilike('coupon_code', couponCode.trim())
+        .maybeSingle());
+
+      if ((couponData as any)?.applies_to && (couponData as any).applies_to !== 'job_subscription') {
+        toast({ title: "Not Applicable", description: "This coupon is not valid for Jobs & Internships subscription.", variant: "destructive" });
+        setCouponLoading(false);
+        return;
+      }
+
+      // Check one-time usage per user
+      if ((couponData as any)?.is_reusable === false) {
+        const { data: usageData } = await (supabase
+          .from('job_subscription_coupon_usage' as any)
+          .select('id')
+          .eq('user_id', user.id)
+          .ilike('coupon_code', couponCode.trim())
+          .maybeSingle());
+
+        if (usageData) {
+          toast({ title: "Already Used", description: "You have already used this coupon code.", variant: "destructive" });
+          setCouponLoading(false);
+          return;
+        }
+      }
+
+      const discountAmt = Math.round((result.discount_percent / 100) * ORIGINAL_PRICE) + (result.discount_amount || 0);
+      setAppliedCoupon({
+        code: couponCode.trim().toUpperCase(),
+        discountPercent: result.discount_percent,
+        discountAmount: Math.min(discountAmt, ORIGINAL_PRICE),
+      });
+      toast({ title: "Coupon Applied! 🎉", description: `You get ${result.discount_percent}% off!` });
+    } catch (err) {
+      toast({ title: "Error", description: "Could not validate coupon. Try again.", variant: "destructive" });
+    } finally {
+      setCouponLoading(false);
+    }
+  };
+
+  const removeCoupon = () => {
+    setAppliedCoupon(null);
+    setCouponCode("");
+  };
+
   const handlePaymentClaimed = async () => {
     if (!orderId.trim()) {
       toast({ title: "Please enter your UPI Transaction ID", variant: "destructive" });
@@ -86,14 +157,23 @@ const JobSubscription = () => {
 
     setNotifyingAdmin(true);
     try {
+      // Record coupon usage if applied
+      if (appliedCoupon) {
+        await (supabase
+          .from('job_subscription_coupon_usage' as any)
+          .insert({ user_id: user.id, coupon_code: appliedCoupon.code }));
+      }
+
       await supabase.functions.invoke('notify-payment-claim', {
         body: {
           user_email: user.email,
           user_name: user.user_metadata?.full_name || user.email,
           user_id: user.id,
           order_id: orderId.trim(),
-          amount: 299,
+          amount: finalPrice,
           plan: 'Jobs & Internships Premium (3 months)',
+          coupon_applied: appliedCoupon?.code || null,
+          discount_amount: appliedCoupon?.discountAmount || 0,
         },
       });
     } catch (err) {
@@ -114,8 +194,11 @@ const JobSubscription = () => {
           user_email: user.email,
           user_name: user.user_metadata?.full_name || user.email,
           plan: 'Jobs & Internships Premium',
-          amount: 299,
+          amount: finalPrice,
           duration: '3 months',
+          coupon_applied: appliedCoupon?.code || null,
+          original_amount: ORIGINAL_PRICE,
+          discount_amount: appliedCoupon?.discountAmount || 0,
         },
       });
       if (error) throw error;
@@ -155,10 +238,31 @@ const JobSubscription = () => {
                   </div>
                   <CardTitle className="text-2xl">Jobs & Internships</CardTitle>
                   <div className="flex items-baseline gap-2 mt-4">
-                    <span className="text-5xl font-bold text-primary">₹299</span>
+                    {appliedCoupon ? (
+                      <>
+                        <span className="text-2xl line-through text-muted-foreground">₹{ORIGINAL_PRICE}</span>
+                        <span className="text-5xl font-bold text-primary">₹{finalPrice}</span>
+                      </>
+                    ) : (
+                      <span className="text-5xl font-bold text-primary">₹{ORIGINAL_PRICE}</span>
+                    )}
                     <span className="text-muted-foreground">/ 3 months</span>
                   </div>
-                  <p className="text-sm text-muted-foreground mt-2">That's less than ₹100/month!</p>
+                  {appliedCoupon && (
+                    <div className="flex items-center gap-2 mt-2">
+                      <Badge variant="secondary" className="gap-1 text-xs bg-green-100 text-green-700 border-green-200">
+                        <Tag className="w-3 h-3" /> {appliedCoupon.code} — {appliedCoupon.discountPercent}% OFF
+                      </Badge>
+                      <button onClick={removeCoupon} className="text-muted-foreground hover:text-destructive transition-colors">
+                        <X className="w-4 h-4" />
+                      </button>
+                    </div>
+                  )}
+                  <p className="text-sm text-muted-foreground mt-2">
+                    {appliedCoupon
+                      ? `You save ₹${appliedCoupon.discountAmount}!`
+                      : "That's less than ₹100/month!"}
+                  </p>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   {features.map((f, i) => (
@@ -167,6 +271,33 @@ const JobSubscription = () => {
                       <span className="text-sm">{f.label}</span>
                     </div>
                   ))}
+
+                  {/* Coupon Code Section */}
+                  {!appliedCoupon && (
+                    <div className="pt-4 border-t space-y-3">
+                      <Label htmlFor="couponInput" className="text-sm font-medium flex items-center gap-1.5">
+                        <Tag className="w-3.5 h-3.5 text-primary" /> Have a Referral / Coupon Code?
+                      </Label>
+                      <div className="flex gap-2">
+                        <Input
+                          id="couponInput"
+                          value={couponCode}
+                          onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
+                          placeholder="Enter code"
+                          className="font-mono uppercase"
+                        />
+                        <Button
+                          variant="outline"
+                          onClick={applyCoupon}
+                          disabled={couponLoading || !couponCode.trim()}
+                          className="shrink-0"
+                        >
+                          {couponLoading ? "..." : "Apply"}
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+
                   <div className="pt-4 border-t space-y-2">
                     <div className="flex items-center gap-2 text-xs text-muted-foreground">
                       <Clock className="w-3 h-3" /> Instant activation after payment
@@ -185,7 +316,6 @@ const JobSubscription = () => {
                     <CreditCard className="w-5 h-5 text-primary" />
                     {step === "scan" ? "Complete Payment" : "Activate Subscription"}
                   </CardTitle>
-                  {/* Step indicator */}
                   <div className="flex items-center gap-3 mt-3">
                     <div className={`flex items-center gap-1.5 text-xs font-medium ${step === "scan" ? "text-primary" : "text-muted-foreground"}`}>
                       <div className={`w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-bold ${step === "scan" ? "bg-primary text-primary-foreground" : "bg-primary/20 text-primary"}`}>1</div>
@@ -204,7 +334,7 @@ const JobSubscription = () => {
                       <div className="rounded-xl bg-gradient-to-br from-primary/5 to-accent/5 border border-primary/15 p-5 space-y-4">
                         <div className="flex items-center gap-2 text-sm font-semibold">
                           <Smartphone className="w-4 h-4 text-primary" />
-                          Scan QR Code to Pay ₹299
+                          Scan QR Code to Pay ₹{finalPrice}
                         </div>
                         <div className="bg-card rounded-xl p-4 border shadow-sm flex justify-center">
                           <img
@@ -213,14 +343,17 @@ const JobSubscription = () => {
                             className="w-52 h-52 rounded-lg object-contain"
                           />
                         </div>
-                        <p className="text-xs text-center text-muted-foreground">Amount: <strong className="text-primary text-sm">₹299</strong></p>
+                        <p className="text-xs text-center text-muted-foreground">
+                          Amount: <strong className="text-primary text-sm">₹{finalPrice}</strong>
+                          {appliedCoupon && <span className="ml-1 line-through text-muted-foreground/60">₹{ORIGINAL_PRICE}</span>}
+                        </p>
                       </div>
                       
                       <div className="rounded-lg bg-muted/50 p-4 space-y-2">
                         <p className="text-xs font-medium text-foreground">How to pay:</p>
                         <ol className="text-xs text-muted-foreground space-y-1.5 list-decimal list-inside">
                           <li>Open any UPI app (GPay, PhonePe, Paytm)</li>
-                          <li>Scan the QR code above and pay ₹299</li>
+                          <li>Scan the QR code above and pay ₹{finalPrice}</li>
                           <li>Note the Transaction ID from confirmation</li>
                           <li>Click below and enter it to activate</li>
                         </ol>
@@ -251,7 +384,12 @@ const JobSubscription = () => {
                       <div className="rounded-xl bg-muted/50 p-4 space-y-1 text-sm">
                         <p><span className="text-muted-foreground">Name:</span> <strong>{user.user_metadata?.full_name || user.email}</strong></p>
                         <p><span className="text-muted-foreground">Email:</span> <strong>{user.email}</strong></p>
-                        <p><span className="text-muted-foreground">Amount:</span> <strong className="text-primary">₹299</strong></p>
+                        <p><span className="text-muted-foreground">Amount:</span> <strong className="text-primary">₹{finalPrice}</strong>
+                          {appliedCoupon && <span className="ml-1 text-xs line-through text-muted-foreground">₹{ORIGINAL_PRICE}</span>}
+                        </p>
+                        {appliedCoupon && (
+                          <p><span className="text-muted-foreground">Coupon:</span> <strong className="text-green-600">{appliedCoupon.code} ({appliedCoupon.discountPercent}% off)</strong></p>
+                        )}
                         <p><span className="text-muted-foreground">Plan:</span> <strong>3 Months Premium</strong></p>
                       </div>
                       <Button

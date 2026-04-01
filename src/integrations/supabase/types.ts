@@ -461,6 +461,27 @@ export type Database = {
           },
         ]
       }
+      job_subscription_coupon_usage: {
+        Row: {
+          coupon_code: string
+          id: string
+          used_at: string
+          user_id: string
+        }
+        Insert: {
+          coupon_code: string
+          id?: string
+          used_at?: string
+          user_id: string
+        }
+        Update: {
+          coupon_code?: string
+          id?: string
+          used_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       job_subscriptions: {
         Row: {
           amount: number
