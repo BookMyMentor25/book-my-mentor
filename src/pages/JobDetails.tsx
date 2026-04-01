@@ -93,7 +93,7 @@ const JobDetails = () => {
   };
 
   const handleSubscribeClick = () => {
-    navigate('/jobs/subscribe');
+    navigate(user ? '/jobs/subscribe' : '/auth?redirect=/jobs/subscribe');
   };
 
   const recruiter = job?.recruiters as any;
@@ -306,7 +306,6 @@ const JobDetails = () => {
                               onClick={(e) => {
                                 if (!user) { e.preventDefault(); navigate('/auth?redirect=' + encodeURIComponent(`/job/${jobId}`)); }
                               }}
-                              disabled={!user}
                             >
                               <Send className="w-5 h-5" />{user ? 'Apply Now' : 'Login to Apply'}
                             </Button>
