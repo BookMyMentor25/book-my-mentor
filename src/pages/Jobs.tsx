@@ -91,6 +91,10 @@ const Jobs = () => {
     return labels[level || ''] || level;
   };
 
+  const handlePostJobClick = () => {
+    navigate(user ? '/recruiter/register' : '/auth?redirect=/recruiter/register');
+  };
+
   return (
     <>
       <SEOHead 
@@ -226,12 +230,10 @@ const Jobs = () => {
               <h2 className="text-2xl font-bold">
                 {isLoading ? 'Loading...' : `${jobs?.length || 0} Jobs Found`}
               </h2>
-              <Link to="/recruiter/register">
-                <Button variant="outline" className="gap-2">
-                  <Building2 className="w-4 h-4" />
-                  Post a Job
-                </Button>
-              </Link>
+              <Button variant="outline" className="gap-2" onClick={handlePostJobClick}>
+                <Building2 className="w-4 h-4" />
+                Post a Job
+              </Button>
             </div>
 
             {isLoading ? (
@@ -366,12 +368,10 @@ const Jobs = () => {
                       ? "Try adjusting your filters or search terms."
                       : "Be the first to post a job opportunity!"}
                   </p>
-                  <Link to="/recruiter/register">
-                    <Button className="cta-primary mt-4">
-                      <Building2 className="w-4 h-4 mr-2" />
-                      Post a Job Opening
-                    </Button>
-                  </Link>
+                  <Button className="cta-primary mt-4" onClick={handlePostJobClick}>
+                    <Building2 className="w-4 h-4 mr-2" />
+                    Post a Job Opening
+                  </Button>
                 </div>
               </Card>
             )}
