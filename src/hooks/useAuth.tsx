@@ -7,7 +7,7 @@ interface AuthContextType {
   user: (User & { isAdmin?: boolean }) | null;
   session: Session | null;
   loading: boolean;
-  signUp: (email: string, password: string, fullName: string) => Promise<{ error: any }>;
+  signUp: (email: string, password: string, fullName: string, phone?: string) => Promise<{ error: any }>;
   signIn: (email: string, password: string) => Promise<{ error: any }>;
   signOut: () => Promise<void>;
   resetPassword: (email: string) => Promise<{ error: any }>;
@@ -20,32 +20,40 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
 
+  const checkAdminAndSetUser = (sessionUser: User) => {
+    // Fire-and-forget admin check to avoid blocking onAuthStateChange
+    supabase
+      .from('admin_users')
+      .select('*')
+      .eq('user_id', sessionUser.id)
+      .single()
+      .then(({ data: adminData, error }) => {
+        if (error) {
+          setUser(sessionUser);
+        } else {
+          setUser({ ...sessionUser, isAdmin: !!adminData });
+        }
+      });
+  };
+
   useEffect(() => {
-    // Set up auth state listener first
+    // 1. Restore session from storage FIRST
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+      if (session?.user) {
+        checkAdminAndSetUser(session.user);
+      } else {
+        setUser(null);
+      }
+      setLoading(false);
+    });
+
+    // 2. Listen for subsequent auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, session) => {
-        console.log('Auth state change:', event, session?.user?.email);
+      (_event, session) => {
         setSession(session);
-        
         if (session?.user) {
-          // Use setTimeout to prevent deadlock when checking admin status
-          setTimeout(async () => {
-            try {
-              const { data: adminData } = await supabase
-                .from('admin_users')
-                .select('*')
-                .eq('user_id', session.user.id)
-                .single();
-              
-              setUser({
-                ...session.user,
-                isAdmin: !!adminData
-              });
-            } catch (error) {
-              console.log('Admin check failed:', error);
-              setUser(session.user);
-            }
-          }, 0);
+          checkAdminAndSetUser(session.user);
         } else {
           setUser(null);
         }
@@ -53,53 +61,34 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       }
     );
 
-    // Then check for existing session
-    supabase.auth.getSession().then(async ({ data: { session } }) => {
-      console.log('Initial session check:', session?.user?.email);
-      setSession(session);
-      
-      if (session?.user) {
-        try {
-          const { data: adminData } = await supabase
-            .from('admin_users')
-            .select('*')
-            .eq('user_id', session.user.id)
-            .single();
-          
-          setUser({
-            ...session.user,
-            isAdmin: !!adminData
-          });
-        } catch (error) {
-          console.log('Admin check failed:', error);
-          setUser(session.user);
-        }
-      } else {
-        setUser(null);
-      }
-      setLoading(false);
-    });
-
     return () => subscription.unsubscribe();
   }, []);
 
-  const signUp = async (email: string, password: string, fullName: string) => {
+  const signUp = async (email: string, password: string, fullName: string, phone?: string) => {
     try {
       const redirectUrl = `${window.location.origin}/`;
-      console.log('Sign up attempt:', email, 'redirect:', redirectUrl);
-      
       const { data, error } = await supabase.auth.signUp({
         email,
         password,
         options: {
           emailRedirectTo: redirectUrl,
           data: {
-            full_name: fullName
+            full_name: fullName,
+            phone: phone || '',
           }
         }
       });
-      
-      console.log('Sign up result:', { data, error });
+
+      // If sign-up succeeds, also save profile data
+      if (!error && data?.user) {
+        supabase.from('profiles').upsert({
+          id: data.user.id,
+          full_name: fullName,
+          email: email,
+          phone: phone || null,
+        }).then(() => {});
+      }
+
       return { error };
     } catch (error) {
       console.error('Sign up error:', error);
@@ -109,13 +98,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const signIn = async (email: string, password: string) => {
     try {
-      console.log('Sign in attempt:', email);
       const { data, error } = await supabase.auth.signInWithPassword({
         email,
         password
       });
-      
-      console.log('Sign in result:', { data, error });
       return { error };
     } catch (error) {
       console.error('Sign in error:', error);
@@ -125,7 +111,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const signOut = async () => {
     try {
-      console.log('Sign out attempt');
       await supabase.auth.signOut();
     } catch (error) {
       console.error('Sign out error:', error);
@@ -134,11 +119,9 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const resetPassword = async (email: string) => {
     try {
-      console.log('Password reset attempt:', email);
       const { error } = await supabase.auth.resetPasswordForEmail(email, {
         redirectTo: `${window.location.origin}/auth`
       });
-      console.log('Password reset result:', error);
       return { error };
     } catch (error) {
       console.error('Password reset error:', error);
