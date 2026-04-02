@@ -331,22 +331,44 @@ const JobSubscription = () => {
                 <CardContent className="space-y-5">
                   {step === "scan" ? (
                     <div className="space-y-5">
-                      <div className="rounded-xl bg-gradient-to-br from-primary/5 to-accent/5 border border-primary/15 p-5 space-y-4">
-                        <div className="flex items-center gap-2 text-sm font-semibold">
-                          <Smartphone className="w-4 h-4 text-primary" />
-                          Scan QR Code to Pay ₹{finalPrice}
+                      <div className="rounded-2xl bg-gradient-to-br from-primary/5 via-background to-accent/5 border-2 border-primary/20 p-6 space-y-4 relative overflow-hidden">
+                        {/* Decorative corner accents */}
+                        <div className="absolute top-0 left-0 w-16 h-16 border-t-2 border-l-2 border-primary/30 rounded-tl-2xl" />
+                        <div className="absolute bottom-0 right-0 w-16 h-16 border-b-2 border-r-2 border-primary/30 rounded-br-2xl" />
+                        
+                        <div className="flex items-center justify-center gap-2 text-sm font-semibold">
+                          <Shield className="w-4 h-4 text-primary" />
+                          <span>Secure UPI Payment</span>
                         </div>
-                        <div className="bg-card rounded-xl p-4 border shadow-sm flex justify-center">
-                          <img
-                            src="/lovable-uploads/QR_Book_My_Mentor.jpeg"
-                            alt="BookMyMentor Payment QR Code"
-                            className="w-52 h-52 rounded-lg object-contain"
-                          />
+
+                        {/* QR Code with protective frame */}
+                        <div className="relative mx-auto w-fit">
+                          <div className="absolute -inset-1 bg-gradient-to-br from-primary/20 via-accent/10 to-primary/20 rounded-2xl blur-sm" />
+                          <div className="relative bg-card rounded-2xl p-5 border-2 border-primary/10 shadow-lg">
+                            <img
+                              src="/lovable-uploads/QR_Book_My_Mentor.jpeg"
+                              alt="BookMyMentor Verified Payment QR Code — Scan to pay securely"
+                              className="w-48 h-48 rounded-lg object-contain select-none pointer-events-none"
+                              draggable={false}
+                              onContextMenu={(e) => e.preventDefault()}
+                            />
+                          </div>
                         </div>
-                        <p className="text-xs text-center text-muted-foreground">
-                          Amount: <strong className="text-primary text-sm">₹{finalPrice}</strong>
-                          {appliedCoupon && <span className="ml-1 line-through text-muted-foreground/60">₹{ORIGINAL_PRICE}</span>}
-                        </p>
+
+                        {/* Amount badge */}
+                        <div className="flex justify-center">
+                          <div className="inline-flex items-center gap-2 bg-primary/10 border border-primary/20 rounded-full px-4 py-1.5">
+                            <span className="text-xs text-muted-foreground">Pay</span>
+                            <span className="text-lg font-bold text-primary">₹{finalPrice}</span>
+                            {appliedCoupon && <span className="text-xs line-through text-muted-foreground/60">₹{ORIGINAL_PRICE}</span>}
+                          </div>
+                        </div>
+
+                        {/* Trust indicators */}
+                        <div className="flex items-center justify-center gap-4 text-[10px] text-muted-foreground pt-1">
+                          <span className="flex items-center gap-1"><Shield className="w-3 h-3 text-green-500" /> Verified Merchant</span>
+                          <span className="flex items-center gap-1"><CheckCircle className="w-3 h-3 text-green-500" /> UPI Secured</span>
+                        </div>
                       </div>
                       
                       <div className="rounded-lg bg-muted/50 p-4 space-y-2">
