@@ -122,6 +122,22 @@ export const useCheckout = () => {
         return;
       }
 
+      // Check if coupon is restricted to job_subscription only
+      const { data: couponMeta } = await supabase
+        .from('coupons' as any)
+        .select('applies_to')
+        .ilike('coupon_code', formData.couponCode.trim())
+        .maybeSingle();
+
+      if ((couponMeta as any)?.applies_to === 'job_subscription') {
+        toast({
+          title: "Not Applicable",
+          description: "This coupon is only valid for Jobs & Internships subscription, not course purchases.",
+          variant: "destructive",
+        });
+        return;
+      }
+
       if (appliedCoupon?.code.toLowerCase() === formData.couponCode.toLowerCase()) {
         toast({
           title: "Coupon Already Applied",
