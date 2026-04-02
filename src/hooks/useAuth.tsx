@@ -27,11 +27,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       .select('*')
       .eq('user_id', sessionUser.id)
       .single()
-      .then(({ data: adminData }) => {
-        setUser({ ...sessionUser, isAdmin: !!adminData });
-      })
-      .catch(() => {
-        setUser(sessionUser);
+      .then(({ data: adminData, error }) => {
+        if (error) {
+          setUser(sessionUser);
+        } else {
+          setUser({ ...sessionUser, isAdmin: !!adminData });
+        }
       });
   };
 
