@@ -67,10 +67,9 @@ const ResumeToolkit = () => {
   const [step, setStep] = useState<"input" | "result">("input");
   const [showFullAnalysis, setShowFullAnalysis] = useState(false);
 
-  if (!user) {
-    navigate("/auth");
-    return null;
-  }
+  useEffect(() => {
+    if (!user) navigate("/auth");
+  }, [user, navigate]);
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
