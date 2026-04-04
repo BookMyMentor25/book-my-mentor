@@ -29,3 +29,6 @@ verify_jwt = false
 
 [functions.notify-payment-claim]
 verify_jwt = false
+
+[functions.resume-toolkit]
+verify_jwt = false
