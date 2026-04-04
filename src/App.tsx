@@ -21,6 +21,7 @@ import JobDetails from "./pages/JobDetails";
 import JobSubscription from "./pages/JobSubscription";
 import RecruiterRegister from "./pages/RecruiterRegister";
 import RecruiterDashboard from "./pages/RecruiterDashboard";
+import ResumeToolkit from "./pages/ResumeToolkit";
 
 const queryClient = new QueryClient();
 
