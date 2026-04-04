@@ -42,8 +42,8 @@ const App = () => (
             <Route path="/contact" element={<Contact />} />
             <Route path="/course/:courseId" element={<CourseDetails />} />
             <Route path="/ai-tools" element={<AITools />} />
-            <Route path="/ai-tool/:toolId" element={<AIToolPage />} />
             <Route path="/ai-tool/ats-resume-builder" element={<ResumeToolkit />} />
+            <Route path="/ai-tool/:toolId" element={<AIToolPage />} />
             <Route path="/wireframe-tool" element={<WireframeTool />} />
             <Route path="/jobs" element={<Jobs />} />
             <Route path="/jobs/subscribe" element={<JobSubscription />} />
