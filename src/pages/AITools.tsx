@@ -422,6 +422,16 @@ const aiTools = [
     route: '/ai-tool/feedback-analyzer',
     features: ['Theme categorization', 'Sentiment analysis', 'Priority ranking'],
     stage: 'optimization'
+  },
+  {
+    id: 'ats-resume-builder',
+    title: 'ATS Resume Builder',
+    description: 'Upload your resume, paste a job description, and get an AI-optimized ATS-friendly resume with JD match score and detailed analysis.',
+    icon: FileText,
+    color: 'from-emerald-500 to-teal-600',
+    route: '/ai-tool/ats-resume-builder',
+    features: ['ATS-optimized resume', 'JD match % score', 'PDF download'],
+    stage: 'optimization'
   }
 ];
 
