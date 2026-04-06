@@ -26,7 +26,11 @@ import {
   ChevronRight,
   Sparkles,
   Globe,
-  Crown
+  Crown,
+  FileText,
+  Zap,
+  BarChart3,
+  Download
 } from "lucide-react";
 
 const Jobs = () => {
@@ -113,7 +117,7 @@ const Jobs = () => {
               <div className="flex items-center gap-2 text-sm">
                 <Crown className="w-4 h-4 text-primary" />
                 <span className="font-medium">Get Premium Access</span>
-                <span className="hidden sm:inline text-muted-foreground">— Apply to jobs, use AI Resume Builder & more</span>
+                <span className="hidden sm:inline text-muted-foreground">— Apply to jobs, use AI Resume Pro & more</span>
               </div>
               <Button size="sm" onClick={() => user ? navigate('/jobs/subscribe') : navigate('/auth?redirect=/jobs/subscribe')} className="cta-primary gap-1">
                 <Crown className="w-3 h-3" /> ₹299 for 3 months
@@ -121,6 +125,51 @@ const Jobs = () => {
             </div>
           </div>
         )}
+
+        {/* AI Resume Pro Feature Card */}
+        <section className="container mx-auto px-4 pt-8">
+          <Card className="border-primary/20 shadow-lg overflow-hidden bg-gradient-to-r from-primary/5 via-background to-accent/5">
+            <CardContent className="p-6 md:p-8">
+              <div className="flex flex-col md:flex-row items-center gap-6">
+                <div className="flex-shrink-0">
+                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-lg">
+                    <FileText className="w-8 h-8 text-white" />
+                  </div>
+                </div>
+                <div className="flex-1 text-center md:text-left">
+                  <div className="flex items-center justify-center md:justify-start gap-2 mb-2">
+                    <h3 className="text-xl font-bold">AI Resume Pro</h3>
+                    <Badge className="bg-primary/10 text-primary text-xs gap-1"><Sparkles className="w-3 h-3" />Premium</Badge>
+                  </div>
+                  <p className="text-muted-foreground text-sm mb-3">
+                    Build ATS-optimized resumes tailored to any job description. Get JD match score, skills gap analysis, and professional PDF download.
+                  </p>
+                  <div className="flex flex-wrap justify-center md:justify-start gap-3">
+                    <span className="text-xs flex items-center gap-1 text-muted-foreground"><Zap className="w-3 h-3 text-primary" />ATS Optimized</span>
+                    <span className="text-xs flex items-center gap-1 text-muted-foreground"><BarChart3 className="w-3 h-3 text-primary" />JD Match %</span>
+                    <span className="text-xs flex items-center gap-1 text-muted-foreground"><Download className="w-3 h-3 text-primary" />PDF Export</span>
+                  </div>
+                </div>
+                <div className="flex-shrink-0">
+                  <Button
+                    onClick={() => {
+                      if (!user) { navigate('/auth?redirect=/ai-tool/ats-resume-builder'); return; }
+                      if (!hasActiveSubscription) { navigate('/jobs/subscribe'); return; }
+                      navigate('/ai-tool/ats-resume-builder');
+                    }}
+                    className="cta-primary gap-2 px-6"
+                  >
+                    {hasActiveSubscription ? (
+                      <><Sparkles className="w-4 h-4" />Open AI Resume Pro</>
+                    ) : (
+                      <><Crown className="w-4 h-4" />Subscribe to Access</>
+                    )}
+                  </Button>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </section>
         
         {/* Hero Section */}
         <section className="relative py-16 lg:py-24 overflow-hidden">
