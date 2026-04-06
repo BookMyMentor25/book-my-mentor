@@ -160,7 +160,7 @@ const JobDetails = () => {
               <div className="container mx-auto px-4 py-3 flex items-center justify-between flex-wrap gap-3">
                 <div className="flex items-center gap-2 text-sm">
                   <Crown className="w-4 h-4 text-primary" />
-                  <span>Subscribe to apply, use Resume Builder, and access application channels</span>
+                  <span>Subscribe to apply, use AI Resume Pro, and access application channels</span>
                 </div>
                 <Button size="sm" onClick={handleSubscribeClick} className="cta-primary gap-1">
                   <Crown className="w-3 h-3" /> Get Premium — ₹299/3 months

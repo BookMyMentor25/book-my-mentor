@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
+import { useJobSubscription } from "@/hooks/useJobSubscription";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { SEOHead } from "@/components/SEOHead";
@@ -15,7 +16,8 @@ import { toast } from "sonner";
 import { supabase } from "@/integrations/supabase/client";
 import {
   Loader2, Download, Copy, Check, FileText, Upload, X, Sparkles,
-  ArrowLeft, Target, TrendingUp, AlertCircle, CheckCircle2, ChevronDown, ChevronUp
+  ArrowLeft, Target, TrendingUp, AlertCircle, CheckCircle2, ChevronDown, ChevronUp,
+  Crown, Lock, Zap, Shield, BarChart3
 } from "lucide-react";
 import jsPDF from "jspdf";
 
@@ -52,6 +54,7 @@ interface AnalysisData {
 
 const ResumeToolkit = () => {
   const { user } = useAuth();
+  const { hasActiveSubscription } = useJobSubscription();
   const navigate = useNavigate();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -68,8 +71,54 @@ const ResumeToolkit = () => {
   const [showFullAnalysis, setShowFullAnalysis] = useState(false);
 
   useEffect(() => {
-    if (!user) navigate("/auth");
+    if (!user) navigate("/auth?redirect=/ai-tool/ats-resume-builder");
   }, [user, navigate]);
+
+  // Gate behind subscription
+  if (user && !hasActiveSubscription) {
+    return (
+      <div className="min-h-screen flex flex-col bg-background">
+        <SEOHead
+          title="AI Resume Pro – ATS Resume Builder | Jobs & Internships | BookMyMentor"
+          description="Build ATS-optimized resumes tailored to any job description. Get JD match analysis, ATS score, and professional PDF download. Premium feature for Jobs & Internships subscribers."
+          keywords="ats resume builder, ai resume pro, ats friendly resume, resume builder ai, job description match, resume optimizer, ats score checker"
+          canonicalUrl="https://bookmymentor.com/ai-tool/ats-resume-builder"
+        />
+        <Header />
+        <main className="flex-1 flex items-center justify-center px-4 py-16">
+          <Card className="max-w-lg w-full border-primary/20 shadow-xl overflow-hidden">
+            <div className="bg-gradient-to-br from-primary/10 via-accent/5 to-primary/10 p-8 text-center space-y-4">
+              <div className="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-primary to-accent flex items-center justify-center">
+                <FileText className="w-8 h-8 text-white" />
+              </div>
+              <h1 className="text-2xl font-bold">AI Resume Pro</h1>
+              <p className="text-muted-foreground">
+                This premium AI tool is exclusively available for Jobs & Internships subscribers. 
+                Get ATS-optimized resumes, JD match scores, and more.
+              </p>
+              <div className="flex flex-wrap justify-center gap-3 pt-2">
+                <Badge className="bg-primary/10 text-primary gap-1"><Zap className="w-3 h-3" />ATS Optimized</Badge>
+                <Badge className="bg-accent/10 text-accent gap-1"><BarChart3 className="w-3 h-3" />Match Score</Badge>
+                <Badge className="bg-green-500/10 text-green-600 gap-1"><Download className="w-3 h-3" />PDF Export</Badge>
+              </div>
+            </div>
+            <CardContent className="p-6 space-y-4">
+              <Button
+                onClick={() => navigate(user ? '/jobs/subscribe' : '/auth?redirect=/jobs/subscribe')}
+                className="w-full cta-primary gap-2 py-6 text-base"
+              >
+                <Crown className="w-5 h-5" /> Subscribe — ₹299 for 3 Months
+              </Button>
+              <Button variant="outline" onClick={() => navigate('/jobs')} className="w-full gap-2">
+                <ArrowLeft className="w-4 h-4" /> Back to Jobs & Internships
+              </Button>
+            </CardContent>
+          </Card>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
   const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -129,21 +178,19 @@ const ResumeToolkit = () => {
         return;
       }
 
-      // Track usage
       supabase.from("toolkit_usage").insert({
-        user_id: user.id,
-        user_email: user.email || "",
-        user_name: user.user_metadata?.full_name || "",
-        tool_name: "ATS Resume Builder",
+        user_id: user!.id,
+        user_email: user!.email || "",
+        user_name: user!.user_metadata?.full_name || "",
+        tool_name: "AI Resume Pro",
         tool_id: "ats-resume-builder",
         prompt: `Job: ${jobTitle} at ${companyName}`,
       }).then(({ error }) => { if (error) console.error("Usage tracking error:", error); });
 
-      // Send notification
       supabase.functions.invoke("notify-resume-builder", {
         body: {
-          user_name: user.user_metadata?.full_name || "Unknown",
-          user_email: user.email || "Unknown",
+          user_name: user!.user_metadata?.full_name || "Unknown",
+          user_email: user!.email || "Unknown",
           job_title: jobTitle || "Not specified",
           company_name: companyName || "Not specified",
         },
@@ -263,38 +310,43 @@ const ResumeToolkit = () => {
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <SEOHead
-        title="ATS Resume Builder - Free AI Tool | BookMyMentor"
-        description="Build ATS-optimized resumes tailored to any job description. Get JD match analysis, ATS score, and professional PDF download. Free for registered users."
-        keywords="ats resume builder, ats friendly resume, resume builder ai, job description match, resume optimizer, ats score checker, free resume tool"
+        title="AI Resume Pro – ATS Resume Builder | Jobs & Internships | BookMyMentor"
+        description="Build ATS-optimized resumes tailored to any job description. Get JD match analysis, ATS score, and professional PDF download. Premium feature included with Jobs & Internships subscription."
+        keywords="ats resume builder, ai resume pro, ats friendly resume, resume builder ai, job description match, resume optimizer, ats score checker, free resume tool, jobs india"
         canonicalUrl="https://bookmymentor.com/ai-tool/ats-resume-builder"
       />
       <Header />
 
       <main className="flex-1 container mx-auto px-4 py-8 max-w-5xl">
-        <Button variant="ghost" onClick={() => navigate("/ai-tools")} className="mb-6">
-          <ArrowLeft className="mr-2 h-4 w-4" />
-          Back to AI Tools
+        <Button variant="ghost" onClick={() => navigate("/jobs")} className="mb-6 gap-2">
+          <ArrowLeft className="h-4 w-4" />
+          Back to Jobs & Internships
         </Button>
 
         {/* Hero */}
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-2 bg-gradient-to-r from-primary/10 to-accent/10 px-4 py-2 rounded-full mb-4">
-            <FileText className="w-5 h-5 text-primary" />
-            <span className="text-sm font-medium text-primary">ATS Resume Builder</span>
-            <Badge className="bg-green-500/10 text-green-600 text-xs">Free</Badge>
+        <div className="text-center mb-10">
+          <div className="inline-flex items-center gap-2 bg-gradient-to-r from-primary/10 to-accent/10 px-5 py-2.5 rounded-full mb-4">
+            <Sparkles className="w-5 h-5 text-primary" />
+            <span className="text-sm font-semibold text-primary">AI Resume Pro</span>
+            <Badge className="bg-primary/10 text-primary text-xs gap-1"><Crown className="w-3 h-3" />Premium</Badge>
           </div>
-          <h1 className="text-3xl md:text-4xl font-bold mb-3">
-            Build Your ATS-Optimized Resume
+          <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold mb-4 tracking-tight">
+            Build Your <span className="text-gradient bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">ATS-Optimized</span> Resume
           </h1>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-muted-foreground max-w-2xl mx-auto text-base md:text-lg">
             Upload your resume, paste the job description, and get an AI-optimized resume with detailed JD match analysis and ATS compatibility score.
           </p>
+          <div className="flex flex-wrap justify-center gap-4 mt-6">
+            <div className="flex items-center gap-1.5 text-sm text-muted-foreground"><Shield className="w-4 h-4 text-green-500" />ATS Optimized</div>
+            <div className="flex items-center gap-1.5 text-sm text-muted-foreground"><BarChart3 className="w-4 h-4 text-primary" />JD Match Score</div>
+            <div className="flex items-center gap-1.5 text-sm text-muted-foreground"><Download className="w-4 h-4 text-accent" />PDF Download</div>
+          </div>
         </div>
 
         {step === "input" ? (
           <div className="grid md:grid-cols-2 gap-6">
             {/* Left: Upload */}
-            <Card className="border-primary/10">
+            <Card className="border-primary/10 shadow-lg">
               <CardContent className="p-6 space-y-5">
                 <div>
                   <Label className="text-base font-semibold mb-2 flex items-center gap-2">
@@ -313,7 +365,7 @@ const ResumeToolkit = () => {
                     </div>
                   ) : (
                     <div
-                      className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-8 text-center cursor-pointer hover:border-primary/50 hover:bg-primary/5 transition-all mt-2"
+                      className="border-2 border-dashed border-muted-foreground/25 rounded-xl p-8 text-center cursor-pointer hover:border-primary/50 hover:bg-primary/5 transition-all mt-2"
                       onClick={() => fileInputRef.current?.click()}
                     >
                       <Upload className="w-10 h-10 mx-auto text-muted-foreground mb-3" />
@@ -338,7 +390,7 @@ const ResumeToolkit = () => {
             </Card>
 
             {/* Right: JD */}
-            <Card className="border-primary/10">
+            <Card className="border-primary/10 shadow-lg">
               <CardContent className="p-6 space-y-4">
                 <div>
                   <Label className="text-base font-semibold mb-2 flex items-center gap-2">
@@ -352,15 +404,15 @@ const ResumeToolkit = () => {
                   />
                 </div>
 
-                <div className="rounded-lg bg-muted/50 p-3 space-y-1">
-                  <h4 className="text-xs font-medium flex items-center gap-1.5">
-                    <Sparkles className="w-3.5 h-3.5 text-primary" /> What you get
+                <div className="rounded-xl bg-gradient-to-br from-primary/5 to-accent/5 p-4 space-y-2 border border-primary/10">
+                  <h4 className="text-sm font-semibold flex items-center gap-1.5">
+                    <Sparkles className="w-4 h-4 text-primary" /> What you'll get
                   </h4>
-                  <ul className="text-xs text-muted-foreground space-y-0.5">
-                    <li>• ATS-optimized resume tailored to the JD</li>
-                    <li>• JD match percentage & detailed analysis</li>
-                    <li>• Skills gap identification & recommendations</li>
-                    <li>• Professional PDF download</li>
+                  <ul className="text-sm text-muted-foreground space-y-1">
+                    <li className="flex items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-green-500" />ATS-optimized resume tailored to the JD</li>
+                    <li className="flex items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-green-500" />JD match percentage & detailed analysis</li>
+                    <li className="flex items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-green-500" />Skills gap identification & recommendations</li>
+                    <li className="flex items-center gap-2"><CheckCircle2 className="w-3.5 h-3.5 text-green-500" />Professional PDF download</li>
                   </ul>
                 </div>
               </CardContent>
@@ -385,12 +437,12 @@ const ResumeToolkit = () => {
           <div className="space-y-6">
             {/* Match Score Card */}
             {matchPercentage !== null && (
-              <Card className="border-primary/20 overflow-hidden">
-                <div className="bg-gradient-to-r from-primary/5 to-accent/5 p-6">
+              <Card className="border-primary/20 overflow-hidden shadow-lg">
+                <div className="bg-gradient-to-r from-primary/5 via-accent/5 to-primary/5 p-6 md:p-8">
                   <div className="flex flex-col md:flex-row items-center gap-6">
                     <div className="text-center md:text-left flex-shrink-0">
                       <p className="text-sm text-muted-foreground mb-1">JD Match Score</p>
-                      <div className={`text-5xl font-bold ${getMatchColor(matchPercentage)}`}>
+                      <div className={`text-5xl md:text-6xl font-bold ${getMatchColor(matchPercentage)}`}>
                         {matchPercentage}%
                       </div>
                       <Badge className={`mt-2 ${matchPercentage >= 75 ? 'bg-green-500/10 text-green-600' : matchPercentage >= 60 ? 'bg-amber-500/10 text-amber-600' : 'bg-red-500/10 text-red-600'}`}>
@@ -410,7 +462,7 @@ const ResumeToolkit = () => {
 
             {/* Analysis Card */}
             {analysis && (
-              <Card className="border-primary/10">
+              <Card className="border-primary/10 shadow-lg">
                 <CardContent className="p-6">
                   <button
                     className="w-full flex items-center justify-between text-left"
@@ -424,112 +476,55 @@ const ResumeToolkit = () => {
                   </button>
 
                   {showFullAnalysis && (
-                    <div className="mt-4 space-y-5">
-                      {/* Matched vs Missing Skills */}
-                      <div className="grid md:grid-cols-2 gap-4">
+                    <div className="mt-6 space-y-6">
+                      <div className="grid sm:grid-cols-2 gap-4">
                         {analysis.matched_skills?.length > 0 && (
-                          <div className="rounded-lg bg-green-50 dark:bg-green-950/20 p-4">
-                            <h4 className="text-sm font-semibold text-green-700 dark:text-green-400 flex items-center gap-1.5 mb-2">
-                              <CheckCircle2 className="w-4 h-4" /> Matched Skills ({analysis.matched_skills.length})
-                            </h4>
-                            <div className="flex flex-wrap gap-1.5">
-                              {analysis.matched_skills.map((s, i) => (
-                                <Badge key={i} variant="outline" className="bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-300 text-xs border-green-200">{s}</Badge>
-                              ))}
-                            </div>
+                          <div>
+                            <h4 className="text-sm font-semibold text-green-600 flex items-center gap-1 mb-2"><CheckCircle2 className="w-4 h-4" />Matched Skills</h4>
+                            <div className="flex flex-wrap gap-1.5">{analysis.matched_skills.map((s, i) => <Badge key={i} variant="secondary" className="bg-green-50 text-green-700 text-xs">{s}</Badge>)}</div>
                           </div>
                         )}
                         {analysis.missing_skills?.length > 0 && (
-                          <div className="rounded-lg bg-red-50 dark:bg-red-950/20 p-4">
-                            <h4 className="text-sm font-semibold text-red-700 dark:text-red-400 flex items-center gap-1.5 mb-2">
-                              <AlertCircle className="w-4 h-4" /> Missing Skills ({analysis.missing_skills.length})
-                            </h4>
-                            <div className="flex flex-wrap gap-1.5">
-                              {analysis.missing_skills.map((s, i) => (
-                                <Badge key={i} variant="outline" className="bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 text-xs border-red-200">{s}</Badge>
-                              ))}
-                            </div>
+                          <div>
+                            <h4 className="text-sm font-semibold text-red-600 flex items-center gap-1 mb-2"><AlertCircle className="w-4 h-4" />Missing Skills</h4>
+                            <div className="flex flex-wrap gap-1.5">{analysis.missing_skills.map((s, i) => <Badge key={i} variant="secondary" className="bg-red-50 text-red-700 text-xs">{s}</Badge>)}</div>
                           </div>
                         )}
                       </div>
 
-                      {/* Keywords */}
-                      <div className="grid md:grid-cols-2 gap-4">
+                      <div className="grid sm:grid-cols-2 gap-4">
                         {analysis.matched_keywords?.length > 0 && (
-                          <div className="rounded-lg bg-blue-50 dark:bg-blue-950/20 p-4">
-                            <h4 className="text-sm font-semibold text-blue-700 dark:text-blue-400 mb-2">✅ Matched Keywords</h4>
-                            <div className="flex flex-wrap gap-1.5">
-                              {analysis.matched_keywords.map((k, i) => (
-                                <Badge key={i} variant="outline" className="text-xs bg-blue-100 dark:bg-blue-900/30 border-blue-200">{k}</Badge>
-                              ))}
-                            </div>
+                          <div>
+                            <h4 className="text-sm font-semibold mb-2">✅ Matched Keywords</h4>
+                            <div className="flex flex-wrap gap-1.5">{analysis.matched_keywords.map((k, i) => <Badge key={i} variant="outline" className="text-xs">{k}</Badge>)}</div>
                           </div>
                         )}
                         {analysis.missing_keywords?.length > 0 && (
-                          <div className="rounded-lg bg-orange-50 dark:bg-orange-950/20 p-4">
-                            <h4 className="text-sm font-semibold text-orange-700 dark:text-orange-400 mb-2">⚠️ Missing Keywords</h4>
-                            <div className="flex flex-wrap gap-1.5">
-                              {analysis.missing_keywords.map((k, i) => (
-                                <Badge key={i} variant="outline" className="text-xs bg-orange-100 dark:bg-orange-900/30 border-orange-200">{k}</Badge>
-                              ))}
-                            </div>
-                          </div>
-                        )}
-                      </div>
-
-                      {/* Experience & Education Match */}
-                      <div className="grid md:grid-cols-2 gap-4">
-                        {analysis.experience_match && (
-                          <div className="rounded-lg bg-muted/50 p-4">
-                            <h4 className="text-sm font-semibold mb-1">💼 Experience Match</h4>
-                            <p className="text-sm text-muted-foreground">{analysis.experience_match}</p>
-                          </div>
-                        )}
-                        {analysis.education_match && (
-                          <div className="rounded-lg bg-muted/50 p-4">
-                            <h4 className="text-sm font-semibold mb-1">🎓 Education Match</h4>
-                            <p className="text-sm text-muted-foreground">{analysis.education_match}</p>
-                          </div>
-                        )}
-                      </div>
-
-                      {/* Strengths & Improvements */}
-                      <div className="grid md:grid-cols-2 gap-4">
-                        {analysis.strengths?.length > 0 && (
                           <div>
-                            <h4 className="text-sm font-semibold text-green-600 mb-2">💪 Strengths</h4>
-                            <ul className="space-y-1">
-                              {analysis.strengths.map((s, i) => (
-                                <li key={i} className="text-sm text-muted-foreground flex items-start gap-1.5">
-                                  <CheckCircle2 className="w-3.5 h-3.5 text-green-500 mt-0.5 flex-shrink-0" /> {s}
-                                </li>
-                              ))}
-                            </ul>
-                          </div>
-                        )}
-                        {analysis.improvement_areas?.length > 0 && (
-                          <div>
-                            <h4 className="text-sm font-semibold text-amber-600 mb-2">🔧 Areas to Improve</h4>
-                            <ul className="space-y-1">
-                              {analysis.improvement_areas.map((a, i) => (
-                                <li key={i} className="text-sm text-muted-foreground flex items-start gap-1.5">
-                                  <AlertCircle className="w-3.5 h-3.5 text-amber-500 mt-0.5 flex-shrink-0" /> {a}
-                                </li>
-                              ))}
-                            </ul>
+                            <h4 className="text-sm font-semibold mb-2">⚠️ Missing Keywords</h4>
+                            <div className="flex flex-wrap gap-1.5">{analysis.missing_keywords.map((k, i) => <Badge key={i} variant="outline" className="text-xs border-amber-300 text-amber-700">{k}</Badge>)}</div>
                           </div>
                         )}
                       </div>
 
-                      {/* Recommendations */}
+                      {analysis.experience_match && (
+                        <div className="grid sm:grid-cols-2 gap-4">
+                          <div><h4 className="text-sm font-semibold mb-1">Experience Match</h4><p className="text-sm text-muted-foreground">{analysis.experience_match}</p></div>
+                          {analysis.education_match && <div><h4 className="text-sm font-semibold mb-1">Education Match</h4><p className="text-sm text-muted-foreground">{analysis.education_match}</p></div>}
+                        </div>
+                      )}
+
+                      {analysis.strengths?.length > 0 && (
+                        <div>
+                          <h4 className="text-sm font-semibold text-green-600 mb-2">💪 Strengths</h4>
+                          <ul className="space-y-1">{analysis.strengths.map((s, i) => <li key={i} className="text-sm text-muted-foreground flex items-start gap-2"><CheckCircle2 className="w-3.5 h-3.5 mt-0.5 text-green-500 flex-shrink-0" />{s}</li>)}</ul>
+                        </div>
+                      )}
+
                       {analysis.recommendations?.length > 0 && (
-                        <div className="rounded-lg bg-primary/5 border border-primary/20 p-4">
+                        <div>
                           <h4 className="text-sm font-semibold text-primary mb-2">💡 Recommendations</h4>
-                          <ul className="space-y-1.5">
-                            {analysis.recommendations.map((r, i) => (
-                              <li key={i} className="text-sm text-muted-foreground">{i + 1}. {r}</li>
-                            ))}
-                          </ul>
+                          <ul className="space-y-1">{analysis.recommendations.map((r, i) => <li key={i} className="text-sm text-muted-foreground flex items-start gap-2"><Sparkles className="w-3.5 h-3.5 mt-0.5 text-primary flex-shrink-0" />{r}</li>)}</ul>
                         </div>
                       )}
                     </div>
@@ -538,30 +533,36 @@ const ResumeToolkit = () => {
               </Card>
             )}
 
-            {/* Resume Output */}
-            <Card className="border-primary/10">
+            {/* Resume Preview */}
+            <Card className="border-primary/10 shadow-lg">
               <CardContent className="p-6">
-                <Label className="text-base font-semibold">Your ATS-Optimized Resume</Label>
-                <div className="rounded-lg border bg-card p-4 max-h-[400px] overflow-y-auto mt-2">
-                  <pre className="text-sm whitespace-pre-wrap font-sans">{optimizedResume}</pre>
+                <div className="flex items-center justify-between mb-4">
+                  <h3 className="text-lg font-semibold flex items-center gap-2">
+                    <FileText className="w-5 h-5 text-primary" />
+                    Optimized Resume
+                  </h3>
+                  <div className="flex gap-2">
+                    <Button variant="outline" size="sm" onClick={handleCopy} className="gap-1.5">
+                      {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                      {copied ? "Copied" : "Copy"}
+                    </Button>
+                    <Button size="sm" onClick={handleDownloadPDF} className="gap-1.5 cta-primary">
+                      <Download className="w-4 h-4" />Download PDF
+                    </Button>
+                  </div>
+                </div>
+                <div className="bg-muted/30 rounded-xl p-6 max-h-[500px] overflow-y-auto border">
+                  <pre className="whitespace-pre-wrap text-sm font-mono leading-relaxed">{optimizedResume}</pre>
                 </div>
               </CardContent>
             </Card>
 
-            {/* Actions */}
-            <div className="flex flex-wrap gap-3">
-              <Button onClick={handleDownloadPDF} className="flex-1 gap-2 cta-primary">
-                <Download className="w-4 h-4" /> Download PDF
+            <div className="flex gap-3">
+              <Button variant="outline" onClick={handleReset} className="gap-2 flex-1">
+                <ArrowLeft className="w-4 h-4" />Try Another Resume
               </Button>
-              <Button onClick={handleCopy} variant="outline" className="flex-1 gap-2">
-                {copied ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
-                {copied ? "Copied!" : "Copy Text"}
-              </Button>
-            </div>
-
-            <div className="flex gap-3 pt-2 border-t">
-              <Button onClick={handleReset} variant="ghost" className="flex-1">
-                ← Build Another Resume
+              <Button onClick={() => navigate('/jobs')} className="gap-2 flex-1" variant="outline">
+                Browse Jobs
               </Button>
             </div>
           </div>

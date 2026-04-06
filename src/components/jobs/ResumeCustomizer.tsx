@@ -206,7 +206,7 @@ const ResumeCustomizer = ({ jobTitle, jobDescription, companyName, hasSubscripti
     return (
       <Button variant="outline" className="w-full gap-2 border-muted text-muted-foreground" onClick={onSubscribeClick}>
         <Lock className="w-4 h-4" />
-        Resume Builder as per JD
+        AI Resume Pro
         <Badge className="ml-1 bg-primary/10 text-primary text-[10px] px-1.5">Premium</Badge>
       </Button>
     );
@@ -217,14 +217,14 @@ const ResumeCustomizer = ({ jobTitle, jobDescription, companyName, hasSubscripti
       <DialogTrigger asChild>
         <Button variant="outline" className="w-full gap-2 border-primary/30 text-primary hover:bg-primary/5">
           <FileText className="w-4 h-4" />
-          Resume Builder as per JD
+          AI Resume Pro
         </Button>
       </DialogTrigger>
       <DialogContent className="sm:max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="flex items-center gap-2">
             <Sparkles className="w-5 h-5 text-primary" />
-            Resume Builder as per Job Description
+            AI Resume Pro
           </DialogTitle>
           <DialogDescription>
             Build your ATS-optimized resume for <strong>{jobTitle}</strong> at <strong>{companyName}</strong>
