@@ -152,9 +152,10 @@ const CoverLetterTool = () => {
 
         supabase.functions.invoke("notify-toolkit-usage", {
           body: {
-            user_name: user.user_metadata?.full_name || "User",
-            user_email: user.email,
-            tool_name: "AI Cover Letter Pro",
+            userName: user.user_metadata?.full_name || applicantName || "User",
+            userEmail: user.email,
+            toolName: "AI Cover Letter Pro",
+            toolId: "cover-letter-pro",
             prompt: `Cover letter for ${jobTitle} at ${companyName}`,
           },
         }).catch(console.error);
