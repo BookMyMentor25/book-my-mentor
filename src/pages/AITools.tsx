@@ -114,7 +114,7 @@ const AITools = () => {
               </h1>
               
               <p className="text-base sm:text-lg md:text-xl text-muted-foreground mb-10 max-w-3xl mx-auto leading-relaxed">
-                From idea validation to IPO readiness — <strong className="text-foreground">32 free AI tools</strong> to help you build, launch, and scale your product. 
+                From idea validation to IPO readiness, <strong className="text-foreground">32 free AI tools</strong> to help you build, launch, and scale your product. 
                 Professional documents and strategic insights in seconds.
               </p>
 
