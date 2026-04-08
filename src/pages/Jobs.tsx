@@ -30,7 +30,8 @@ import {
   FileText,
   Zap,
   BarChart3,
-  Download
+  Download,
+  PenTool
 } from "lucide-react";
 
 const Jobs = () => {
@@ -126,49 +127,67 @@ const Jobs = () => {
           </div>
         )}
 
-        {/* AI Resume Pro Feature Card */}
+        {/* AI Premium Tools */}
         <section className="container mx-auto px-4 pt-8">
-          <Card className="border-primary/20 shadow-lg overflow-hidden bg-gradient-to-r from-primary/5 via-background to-accent/5">
-            <CardContent className="p-6 md:p-8">
-              <div className="flex flex-col md:flex-row items-center gap-6">
-                <div className="flex-shrink-0">
-                  <div className="w-16 h-16 rounded-2xl bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-lg">
-                    <FileText className="w-8 h-8 text-white" />
+          <div className="grid md:grid-cols-2 gap-4">
+            {/* AI Resume Pro Card */}
+            <Card className="border-primary/20 shadow-lg overflow-hidden bg-gradient-to-r from-primary/5 via-background to-accent/5">
+              <CardContent className="p-6">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-lg flex-shrink-0">
+                    <FileText className="w-6 h-6 text-white" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1">
+                      <h3 className="font-bold">AI Resume Pro</h3>
+                      <Badge className="bg-primary/10 text-primary text-[10px] gap-0.5"><Sparkles className="w-2.5 h-2.5" />Premium</Badge>
+                    </div>
+                    <p className="text-muted-foreground text-xs mb-3">ATS-optimized resumes with JD match score & PDF download.</p>
+                    <Button
+                      size="sm"
+                      onClick={() => {
+                        if (!user) { navigate('/auth?redirect=/ai-tool/ats-resume-builder'); return; }
+                        if (!hasActiveSubscription) { navigate('/jobs/subscribe'); return; }
+                        navigate('/ai-tool/ats-resume-builder');
+                      }}
+                      className="cta-primary gap-1 text-xs"
+                    >
+                      {hasActiveSubscription ? <><Sparkles className="w-3 h-3" />Open Tool</> : <><Crown className="w-3 h-3" />Subscribe</>}
+                    </Button>
                   </div>
                 </div>
-                <div className="flex-1 text-center md:text-left">
-                  <div className="flex items-center justify-center md:justify-start gap-2 mb-2">
-                    <h3 className="text-xl font-bold">AI Resume Pro</h3>
-                    <Badge className="bg-primary/10 text-primary text-xs gap-1"><Sparkles className="w-3 h-3" />Premium</Badge>
+              </CardContent>
+            </Card>
+
+            {/* AI Cover Letter Pro Card */}
+            <Card className="border-primary/20 shadow-lg overflow-hidden bg-gradient-to-r from-accent/5 via-background to-primary/5">
+              <CardContent className="p-6">
+                <div className="flex items-start gap-4">
+                  <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-accent to-primary flex items-center justify-center shadow-lg flex-shrink-0">
+                    <PenTool className="w-6 h-6 text-white" />
                   </div>
-                  <p className="text-muted-foreground text-sm mb-3">
-                    Build ATS-optimized resumes tailored to any job description. Get JD match score, skills gap analysis, and professional PDF download.
-                  </p>
-                  <div className="flex flex-wrap justify-center md:justify-start gap-3">
-                    <span className="text-xs flex items-center gap-1 text-muted-foreground"><Zap className="w-3 h-3 text-primary" />ATS Optimized</span>
-                    <span className="text-xs flex items-center gap-1 text-muted-foreground"><BarChart3 className="w-3 h-3 text-primary" />JD Match %</span>
-                    <span className="text-xs flex items-center gap-1 text-muted-foreground"><Download className="w-3 h-3 text-primary" />PDF Export</span>
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1">
+                      <h3 className="font-bold">AI Cover Letter Pro</h3>
+                      <Badge className="bg-accent/10 text-accent text-[10px] gap-0.5"><Sparkles className="w-2.5 h-2.5" />Premium</Badge>
+                    </div>
+                    <p className="text-muted-foreground text-xs mb-3">Professional, ATS-friendly cover letters with match analysis.</p>
+                    <Button
+                      size="sm"
+                      onClick={() => {
+                        if (!user) { navigate('/auth?redirect=/cover-letter-tool'); return; }
+                        if (!hasActiveSubscription) { navigate('/jobs/subscribe'); return; }
+                        navigate('/cover-letter-tool');
+                      }}
+                      className="cta-primary gap-1 text-xs"
+                    >
+                      {hasActiveSubscription ? <><PenTool className="w-3 h-3" />Open Tool</> : <><Crown className="w-3 h-3" />Subscribe</>}
+                    </Button>
                   </div>
                 </div>
-                <div className="flex-shrink-0">
-                  <Button
-                    onClick={() => {
-                      if (!user) { navigate('/auth?redirect=/ai-tool/ats-resume-builder'); return; }
-                      if (!hasActiveSubscription) { navigate('/jobs/subscribe'); return; }
-                      navigate('/ai-tool/ats-resume-builder');
-                    }}
-                    className="cta-primary gap-2 px-6"
-                  >
-                    {hasActiveSubscription ? (
-                      <><Sparkles className="w-4 h-4" />Open AI Resume Pro</>
-                    ) : (
-                      <><Crown className="w-4 h-4" />Subscribe to Access</>
-                    )}
-                  </Button>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
+          </div>
         </section>
         
         {/* Hero Section */}

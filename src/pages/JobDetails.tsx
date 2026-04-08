@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/dialog";
 import { 
   MapPin, Briefcase, Clock, Building2, IndianRupee, Globe, Users,
-  CheckCircle, ArrowLeft, Send, ExternalLink, Calendar, GraduationCap, Mail, Lock, Crown
+  CheckCircle, ArrowLeft, Send, ExternalLink, Calendar, GraduationCap, Mail, Lock, Crown, PenTool
 } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import ShareJobButton from "@/components/jobs/ShareJobButton";
@@ -365,6 +365,28 @@ const JobDetails = () => {
                         hasSubscription={hasActiveSubscription}
                         onSubscribeClick={handleSubscribeClick}
                       />
+
+                      {/* AI Cover Letter */}
+                      <Button
+                        variant="outline"
+                        className="w-full gap-2"
+                        onClick={() => {
+                          if (!user) { navigate('/auth?redirect=/cover-letter-tool'); return; }
+                          if (!hasActiveSubscription) { handleSubscribeClick(); return; }
+                          const params = new URLSearchParams({
+                            jobTitle: job.title,
+                            companyName: companyName,
+                            jobDescription: job.description,
+                          });
+                          navigate(`/cover-letter-tool?${params.toString()}`);
+                        }}
+                      >
+                        {hasActiveSubscription ? (
+                          <><PenTool className="w-4 h-4" />Generate Cover Letter</>
+                        ) : (
+                          <><Lock className="w-4 h-4" />Cover Letter <Badge className="ml-1 bg-primary/10 text-primary text-[10px]">Premium</Badge></>
+                        )}
+                      </Button>
 
                       {/* Job attachment */}
                       {job.attachment_url && (
