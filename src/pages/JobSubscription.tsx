@@ -82,8 +82,9 @@ const JobSubscription = () => {
 
   const features = [
     { icon: Briefcase, label: "Apply to all job listings & internships" },
-    { icon: FileText, label: "AI Resume Builder tailored per Job Description" },
-    { icon: Mail, label: "Direct access to application channels (email/portal)" },
+    { icon: FileText, label: "AI Resume Pro — tailored per Job Description" },
+    { icon: Mail, label: "AI Cover Letter Pro — ATS-optimized, role-specific" },
+    { icon: Send, label: "Direct access to application channels (email/portal)" },
     { icon: Shield, label: "Priority visibility to recruiters" },
   ];
 
