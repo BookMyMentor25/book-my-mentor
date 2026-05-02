@@ -35,7 +35,7 @@ const Team = () => {
     {
       name: "Rizwan S",
       role: "Lead Data Scientist",
-      image: "/lovable-uploads/42b0341b-80b0-43f8-87d1-0d9a29f59242.png",
+      image: "/lovable-uploads/riz1.png",
       bio: "Data science expert specializing in machine learning and predictive analytics.",
       expertise: ["Machine Learning", "Data Analytics", "AI Solutions"]
     },
