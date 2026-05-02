@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -37,24 +37,57 @@ import {
 const Jobs = () => {
   const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState("");
+  const [debouncedSearch, setDebouncedSearch] = useState("");
   const [jobTypeFilter, setJobTypeFilter] = useState("all");
   const [experienceFilter, setExperienceFilter] = useState("all");
   const [locationFilter, setLocationFilter] = useState("");
   const { user } = useAuth();
   const { hasActiveSubscription } = useJobSubscription();
 
-  const { jobs, isLoading } = useJobs({
-    search: searchTerm,
+  // Debounce search input for smoother UX
+  useEffect(() => {
+    const t = setTimeout(() => setDebouncedSearch(searchTerm.trim().toLowerCase()), 250);
+    return () => clearTimeout(t);
+  }, [searchTerm]);
+
+  // Fetch jobs WITHOUT server-side keyword search so we can match across
+  // title, description, company name, skills, requirements & location client-side.
+  const { jobs: rawJobs, isLoading } = useJobs({
     job_type: jobTypeFilter,
     experience_level: experienceFilter,
     location: locationFilter,
   });
 
+  const jobs = useMemo(() => {
+    if (!rawJobs) return [];
+    if (!debouncedSearch) return rawJobs;
+    const q = debouncedSearch;
+    return rawJobs.filter((job: any) => {
+      const haystack = [
+        job.title,
+        job.description,
+        job.location,
+        job.job_type,
+        job.experience_level,
+        job.company_name,
+        job.recruiters?.company_name,
+        job.recruiters?.industry,
+        ...(Array.isArray(job.skills) ? job.skills : []),
+        ...(Array.isArray(job.requirements) ? job.requirements : []),
+        ...(Array.isArray(job.benefits) ? job.benefits : []),
+      ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+      return haystack.includes(q);
+    });
+  }, [rawJobs, debouncedSearch]);
+
   const stats = useMemo(() => ({
-    totalJobs: jobs?.length || 0,
-    companies: new Set(jobs?.map(j => (j.recruiters as any)?.company_name || j.company_name).filter(Boolean)).size,
-    internships: jobs?.filter(j => j.job_type === 'internship').length || 0,
-  }), [jobs]);
+    totalJobs: rawJobs?.length || 0,
+    companies: new Set(rawJobs?.map((j: any) => j.recruiters?.company_name || j.company_name).filter(Boolean)).size,
+    internships: rawJobs?.filter((j: any) => j.job_type === 'internship').length || 0,
+  }), [rawJobs]);
 
   const getCompanyName = (job: any) => {
     return (job.recruiters as any)?.company_name || job.company_name || 'Company';
