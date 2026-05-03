@@ -79,6 +79,40 @@ const SubscriptionManagement = () => {
   const isBlocked = (userId: string) =>
     blockedUsers?.some((b: any) => b.user_id === userId);
 
+  const approveSubscription = useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase
+        .from("job_subscriptions")
+        .update({
+          payment_status: "completed",
+          status: "active",
+          starts_at: new Date().toISOString(),
+          expires_at: new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString(),
+        })
+        .eq("id", id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["admin-subscriptions"] });
+      toast({ title: "Subscription approved & activated ✅" });
+    },
+    onError: (err: Error) => toast({ title: "Approval failed", description: err.message, variant: "destructive" }),
+  });
+
+  const rejectSubscription = useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase
+        .from("job_subscriptions")
+        .update({ payment_status: "failed", status: "rejected" })
+        .eq("id", id);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["admin-subscriptions"] });
+      toast({ title: "Subscription rejected" });
+    },
+  });
+
   const filtered = subscriptions?.filter(
     (s) =>
       !search ||
