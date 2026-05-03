@@ -122,9 +122,16 @@ const JobManagement = () => {
         insertData.company_website = adminJobForm.company_website || null;
       }
 
-      const { error } = await supabase.from('job_postings').insert(insertData);
+      const { data: inserted, error } = await supabase.from('job_postings').insert(insertData).select('id').single();
       if (error) throw error;
-      toast({ title: "Job Posted", description: "Job posted successfully." });
+
+      // Broadcast new job to all registered users
+      if (inserted?.id) {
+        supabase.functions.invoke('notify-job-broadcast', { body: { job_id: inserted.id } })
+          .catch((e) => console.error('Job broadcast failed:', e));
+      }
+
+      toast({ title: "Job Posted", description: "Job posted successfully. Notifications are being sent to registered users." });
       setIsPostOpen(false);
       resetForm();
       queryClient.invalidateQueries({ queryKey: ['admin-jobs'] });
