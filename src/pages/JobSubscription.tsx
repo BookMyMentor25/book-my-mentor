@@ -151,8 +151,17 @@ const JobSubscription = () => {
   };
 
   const handlePaymentClaimed = async () => {
-    if (!orderId.trim()) {
+    const trimmed = orderId.trim();
+    if (!trimmed) {
       toast({ title: "Please enter your UPI Transaction ID", variant: "destructive" });
+      return;
+    }
+    if (!/^[A-Za-z0-9]{8,32}$/.test(trimmed)) {
+      toast({
+        title: "Invalid Transaction ID",
+        description: "UPI Transaction IDs are 8–32 characters, letters and numbers only — no spaces or symbols. Please copy it exactly from your UPI app's transaction history.",
+        variant: "destructive",
+      });
       return;
     }
 
@@ -170,7 +179,7 @@ const JobSubscription = () => {
           user_email: user.email,
           user_name: user.user_metadata?.full_name || user.email,
           user_id: user.id,
-          order_id: orderId.trim(),
+          order_id: trimmed,
           amount: finalPrice,
           plan: 'Jobs & Internships Premium (3 months)',
           coupon_applied: appliedCoupon?.code || null,
@@ -183,7 +192,7 @@ const JobSubscription = () => {
       setNotifyingAdmin(false);
     }
 
-    purchaseSubscription(orderId.trim());
+    purchaseSubscription({ orderId: trimmed, amount: finalPrice });
   };
 
   const handleSendPaymentEmail = async () => {
