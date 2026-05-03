@@ -172,30 +172,53 @@ const SubscriptionManagement = () => {
                       {format(new Date(sub.expires_at), "dd MMM yyyy")}
                     </td>
                     <td className="px-4 py-3 text-sm">
-                      {isBlocked(sub.user_id) ? (
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => unblockUser.mutate(sub.user_id)}
-                          disabled={unblockUser.isPending}
-                          className="gap-1"
-                        >
-                          <CheckCircle className="w-3 h-3" /> Unblock
-                        </Button>
-                      ) : (
-                        <Button
-                          size="sm"
-                          variant="destructive"
-                          onClick={() => blockUser.mutate({
-                            userId: sub.user_id,
-                            reason: "Payment not verified"
-                          })}
-                          disabled={blockUser.isPending}
-                          className="gap-1"
-                        >
-                          <Ban className="w-3 h-3" /> Block
-                        </Button>
-                      )}
+                      <div className="flex flex-wrap gap-2">
+                        {sub.payment_status === "pending" && (
+                          <>
+                            <Button
+                              size="sm"
+                              onClick={() => approveSubscription.mutate(sub.id)}
+                              disabled={approveSubscription.isPending}
+                              className="gap-1 bg-green-600 hover:bg-green-700"
+                            >
+                              <ShieldCheck className="w-3 h-3" /> Approve
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => rejectSubscription.mutate(sub.id)}
+                              disabled={rejectSubscription.isPending}
+                              className="gap-1"
+                            >
+                              <Ban className="w-3 h-3" /> Reject
+                            </Button>
+                          </>
+                        )}
+                        {isBlocked(sub.user_id) ? (
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => unblockUser.mutate(sub.user_id)}
+                            disabled={unblockUser.isPending}
+                            className="gap-1"
+                          >
+                            <CheckCircle className="w-3 h-3" /> Unblock
+                          </Button>
+                        ) : (
+                          <Button
+                            size="sm"
+                            variant="destructive"
+                            onClick={() => blockUser.mutate({
+                              userId: sub.user_id,
+                              reason: "Payment not verified"
+                            })}
+                            disabled={blockUser.isPending}
+                            className="gap-1"
+                          >
+                            <Ban className="w-3 h-3" /> Block
+                          </Button>
+                        )}
+                      </div>
                     </td>
                   </tr>
                 ))}
