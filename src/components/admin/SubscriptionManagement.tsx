@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "@/hooks/use-toast";
 import { format } from "date-fns";
-import { Ban, CheckCircle, Search } from "lucide-react";
+import { Ban, CheckCircle, Search, ShieldCheck } from "lucide-react";
 
 const SubscriptionManagement = () => {
   const queryClient = useQueryClient();
