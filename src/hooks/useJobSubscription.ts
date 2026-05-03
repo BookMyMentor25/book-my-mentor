@@ -60,34 +60,49 @@ export const useJobSubscription = () => {
   const hasActiveSubscription = !!subscription && !isBlocked;
 
   const purchaseSubscription = useMutation({
-    mutationFn: async (orderId: string) => {
+    mutationFn: async ({ orderId, amount }: { orderId: string; amount: number }) => {
       if (!user?.id) throw new Error('User not authenticated');
+
+      // Validate UPI transaction ID client-side (8-32 alphanumeric)
+      const trimmed = orderId.trim();
+      if (!/^[A-Za-z0-9]{8,32}$/.test(trimmed)) {
+        throw new Error('Invalid UPI Transaction ID. It must be 8–32 alphanumeric characters with no spaces or symbols.');
+      }
+      if (amount <= 0 || amount > 299) {
+        throw new Error('Invalid amount.');
+      }
 
       const { data, error } = await (supabase
         .from('job_subscriptions' as any)
         .insert({
           user_id: user.id,
-          amount: 299,
-          order_id: orderId,
-          payment_status: 'completed',
-          status: 'active',
+          amount,
+          order_id: trimmed,
+          payment_status: 'pending',
+          status: 'pending_verification',
         })
         .select()
         .single());
 
-      if (error) throw error;
+      if (error) {
+        // Surface DB-level errors (duplicate transaction id, invalid format)
+        if (error.code === '23505') {
+          throw new Error('This UPI Transaction ID has already been submitted. Please enter the correct ID from your UPI app.');
+        }
+        throw new Error(error.message || 'Could not record your subscription request.');
+      }
       return data as unknown as JobSubscription;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['job-subscription'] });
       toast({
-        title: "Subscription Activated! 🎉",
-        description: "You now have full access to Jobs & Internships for 3 months.",
+        title: "Payment Submitted for Verification ✅",
+        description: "We've received your transaction ID. Our team will verify your payment and activate your subscription within a few hours. You'll receive a confirmation email once it's live.",
       });
     },
     onError: (error: Error) => {
       toast({
-        title: "Subscription Failed",
+        title: "Submission Failed",
         description: error.message,
         variant: "destructive",
       });
