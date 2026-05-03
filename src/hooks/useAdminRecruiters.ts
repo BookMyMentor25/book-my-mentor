@@ -95,6 +95,12 @@
          .single();
        
        if (error) throw error;
+
+       // Broadcast email to all registered users when a job is set live
+       if (is_active) {
+         supabase.functions.invoke('notify-job-broadcast', { body: { job_id: id } })
+           .catch((e) => console.error('Job broadcast failed:', e));
+       }
        return data as JobPosting;
      },
      onSuccess: (data) => {
