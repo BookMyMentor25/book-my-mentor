@@ -78,31 +78,30 @@ export const useJobSubscription = () => {
           user_id: user.id,
           amount,
           order_id: trimmed,
-          payment_status: 'pending',
-          status: 'pending_verification',
+          payment_status: 'completed',
+          status: 'active',
         })
         .select()
         .single());
 
       if (error) {
-        // Surface DB-level errors (duplicate transaction id, invalid format)
         if (error.code === '23505') {
           throw new Error('This UPI Transaction ID has already been submitted. Please enter the correct ID from your UPI app.');
         }
-        throw new Error(error.message || 'Could not record your subscription request.');
+        throw new Error(error.message || 'Could not activate your subscription.');
       }
       return data as unknown as JobSubscription;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['job-subscription'] });
       toast({
-        title: "Payment Submitted for Verification ✅",
-        description: "We've received your transaction ID. Our team will verify your payment and activate your subscription within a few hours. You'll receive a confirmation email once it's live.",
+        title: "Subscription Activated 🎉",
+        description: "Your premium access is live for the next 3 months. Start applying to jobs now!",
       });
     },
     onError: (error: Error) => {
       toast({
-        title: "Submission Failed",
+        title: "Activation Failed",
         description: error.message,
         variant: "destructive",
       });
