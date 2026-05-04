@@ -45,14 +45,26 @@ serve(async (req) => {
     }
     companyName = companyName || "A leading company";
 
-    // Get all registered users (profiles)
-    const { data: profiles, error: profErr } = await supabase
-      .from("profiles")
-      .select("email, full_name")
-      .not("email", "is", null);
-    if (profErr) throw profErr;
-
-    const recipients = (profiles || []).filter((p: any) => p.email && p.email.includes("@"));
+    // Get all registered users from auth.users (profiles table may be empty for legacy users)
+    const recipients: { email: string; full_name: string }[] = [];
+    const seen = new Set<string>();
+    let page = 1;
+    const perPage = 1000;
+    while (true) {
+      const { data: authData, error: authErr } = await supabase.auth.admin.listUsers({ page, perPage });
+      if (authErr) throw authErr;
+      const users = authData?.users || [];
+      for (const u of users) {
+        const email = (u.email || "").trim().toLowerCase();
+        if (!email || !email.includes("@") || seen.has(email)) continue;
+        seen.add(email);
+        recipients.push({ email, full_name: (u.user_metadata as any)?.full_name || "" });
+      }
+      if (users.length < perPage) break;
+      page++;
+      if (page > 20) break; // hard safety cap
+    }
+    console.log(`notify-job-broadcast: sending to ${recipients.length} users for job ${job_id}`);
     if (recipients.length === 0) {
       return new Response(JSON.stringify({ success: true, sent: 0 }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
