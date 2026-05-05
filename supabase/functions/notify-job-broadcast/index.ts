@@ -78,8 +78,8 @@ serve(async (req) => {
         ? `${fmtMoney(job.salary_min)} – ${fmtMoney(job.salary_max)} ${job.salary_period || ""}`.trim()
         : null;
 
-    const jobUrl = `https://book-my-mentor.lovable.app/jobs/${job.id}`;
-    const jobsListUrl = `https://book-my-mentor.lovable.app/jobs`;
+    const jobUrl = `https://www.bookmymentor.com/jobs`;
+    const jobsListUrl = `https://www.bookmymentor.com/jobs`;
 
     const skillsList: string[] = Array.isArray(job.skills) ? job.skills.slice(0, 6) : [];
 
