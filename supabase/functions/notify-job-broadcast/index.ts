@@ -193,15 +193,26 @@ serve(async (req) => {
 
     // Send in small batches to respect rate limits
     let sent = 0;
-    const batch = 5;
-    for (let i = 0; i < recipients.length; i += batch) {
-      const slice = recipients.slice(i, i + batch);
+    const sendBatchSize = 5;
+    for (let i = 0; i < recipients.length; i += sendBatchSize) {
+      const slice = recipients.slice(i, i + sendBatchSize);
       await Promise.all(slice.map((p: any) => sendOne(p.email, p.full_name || "")));
       sent += slice.length;
-      if (i + batch < recipients.length) await new Promise(r => setTimeout(r, 600));
+      if (i + sendBatchSize < recipients.length) await new Promise(r => setTimeout(r, 600));
     }
 
-    return new Response(JSON.stringify({ success: true, sent }), {
+    // Advance the rotating cursor so the NEXT job notifies the next batch of 50
+    if (lastUser) {
+      await supabase.from("job_broadcast_state").upsert({
+        id: 1,
+        last_user_created_at: lastUser.created_at,
+        last_user_id: lastUser.id,
+        cycle_count: cycleCount,
+        updated_at: new Date().toISOString(),
+      });
+    }
+
+    return new Response(JSON.stringify({ success: true, sent, batch_start: startIdx, total_users: allUsers.length, cycle: cycleCount }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (err: any) {
