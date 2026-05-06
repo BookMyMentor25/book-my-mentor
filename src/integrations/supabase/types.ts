@@ -363,6 +363,30 @@ export type Database = {
           },
         ]
       }
+      job_broadcast_state: {
+        Row: {
+          cycle_count: number
+          id: number
+          last_user_created_at: string | null
+          last_user_id: string | null
+          updated_at: string
+        }
+        Insert: {
+          cycle_count?: number
+          id?: number
+          last_user_created_at?: string | null
+          last_user_id?: string | null
+          updated_at?: string
+        }
+        Update: {
+          cycle_count?: number
+          id?: number
+          last_user_created_at?: string | null
+          last_user_id?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       job_postings: {
         Row: {
           application_deadline: string | null
