@@ -45,8 +45,21 @@ serve(async (req) => {
     }
     companyName = companyName || "A leading company";
 
-    // Get all registered users from auth.users (profiles table may be empty for legacy users)
-    const recipients: { email: string; full_name: string }[] = [];
+    // Rotating batch of 50: pick the next 50 users (by created_at ASC) AFTER the cursor.
+    // When we reach the end, wrap around to the beginning (cycle repeats).
+    const BATCH_SIZE = 50;
+
+    const { data: stateRow } = await supabase
+      .from("job_broadcast_state")
+      .select("last_user_created_at, last_user_id, cycle_count")
+      .eq("id", 1)
+      .maybeSingle();
+
+    const cursorAt: string | null = stateRow?.last_user_created_at ?? null;
+    const cursorId: string | null = stateRow?.last_user_id ?? null;
+
+    // Pull all users sorted by created_at ASC, then pick next 50 after cursor
+    const allUsers: { id: string; email: string; full_name: string; created_at: string }[] = [];
     const seen = new Set<string>();
     let page = 1;
     const perPage = 1000;
@@ -58,13 +71,47 @@ serve(async (req) => {
         const email = (u.email || "").trim().toLowerCase();
         if (!email || !email.includes("@") || seen.has(email)) continue;
         seen.add(email);
-        recipients.push({ email, full_name: (u.user_metadata as any)?.full_name || "" });
+        allUsers.push({
+          id: u.id,
+          email,
+          full_name: (u.user_metadata as any)?.full_name || "",
+          created_at: u.created_at as string,
+        });
       }
       if (users.length < perPage) break;
       page++;
-      if (page > 20) break; // hard safety cap
+      if (page > 20) break;
     }
-    console.log(`notify-job-broadcast: sending to ${recipients.length} users for job ${job_id}`);
+
+    allUsers.sort((a, b) => {
+      const t = new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
+      return t !== 0 ? t : a.id.localeCompare(b.id);
+    });
+
+    let startIdx = 0;
+    if (cursorAt) {
+      const cAt = new Date(cursorAt).getTime();
+      const idx = allUsers.findIndex(u => {
+        const t = new Date(u.created_at).getTime();
+        return t > cAt || (t === cAt && cursorId && u.id.localeCompare(cursorId) > 0);
+      });
+      startIdx = idx === -1 ? allUsers.length : idx;
+    }
+
+    let batch = allUsers.slice(startIdx, startIdx + BATCH_SIZE);
+    let cycleCount = stateRow?.cycle_count ?? 0;
+
+    // Wrap around if we ran out — start a new cycle from the top
+    if (batch.length === 0 && allUsers.length > 0) {
+      batch = allUsers.slice(0, BATCH_SIZE);
+      startIdx = 0;
+      cycleCount += 1;
+    }
+
+    const recipients = batch.map(u => ({ email: u.email, full_name: u.full_name }));
+    const lastUser = batch[batch.length - 1];
+
+    console.log(`notify-job-broadcast: batch=${recipients.length} startIdx=${startIdx} total=${allUsers.length} cycle=${cycleCount} for job ${job_id}`);
     if (recipients.length === 0) {
       return new Response(JSON.stringify({ success: true, sent: 0 }), {
         headers: { ...corsHeaders, "Content-Type": "application/json" },
@@ -146,15 +193,26 @@ serve(async (req) => {
 
     // Send in small batches to respect rate limits
     let sent = 0;
-    const batch = 5;
-    for (let i = 0; i < recipients.length; i += batch) {
-      const slice = recipients.slice(i, i + batch);
+    const sendBatchSize = 5;
+    for (let i = 0; i < recipients.length; i += sendBatchSize) {
+      const slice = recipients.slice(i, i + sendBatchSize);
       await Promise.all(slice.map((p: any) => sendOne(p.email, p.full_name || "")));
       sent += slice.length;
-      if (i + batch < recipients.length) await new Promise(r => setTimeout(r, 600));
+      if (i + sendBatchSize < recipients.length) await new Promise(r => setTimeout(r, 600));
     }
 
-    return new Response(JSON.stringify({ success: true, sent }), {
+    // Advance the rotating cursor so the NEXT job notifies the next batch of 50
+    if (lastUser) {
+      await supabase.from("job_broadcast_state").upsert({
+        id: 1,
+        last_user_created_at: lastUser.created_at,
+        last_user_id: lastUser.id,
+        cycle_count: cycleCount,
+        updated_at: new Date().toISOString(),
+      });
+    }
+
+    return new Response(JSON.stringify({ success: true, sent, batch_start: startIdx, total_users: allUsers.length, cycle: cycleCount }), {
       headers: { ...corsHeaders, "Content-Type": "application/json" },
     });
   } catch (err: any) {
