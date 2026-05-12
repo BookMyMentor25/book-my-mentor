@@ -53,6 +53,7 @@ const App = () => (
             <Route path="/job/:jobId" element={<JobDetails />} />
             <Route path="/recruiter/register" element={<RecruiterRegister />} />
             <Route path="/recruiter/dashboard" element={<RecruiterDashboard />} />
+            <Route path="/terms" element={<Terms />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
