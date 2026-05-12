@@ -14,6 +14,7 @@ import {
   CheckCircle, Shield, Sparkles, Briefcase, FileText, Mail,
   ArrowLeft, Crown, Clock, Zap, Send, CreditCard, Smartphone, Tag, X
 } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
 
