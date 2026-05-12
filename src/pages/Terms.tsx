@@ -5,7 +5,6 @@ import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { motion } from "framer-motion";
 import {
   ArrowLeft,
   FileText,
@@ -63,15 +62,6 @@ const Terms = () => {
 
   const scrollTo = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
-
-  const staggerFade = {
-    hidden: { opacity: 0, y: 20 },
-    visible: (i: number) => ({
-      opacity: 1,
-      y: 0,
-      transition: { delay: i * 0.08, duration: 0.5, ease: [0.16, 1, 0.3, 1] },
-    }),
   };
 
   const CourseClauses = [
@@ -150,23 +140,18 @@ const Terms = () => {
 
       <main className="flex-1 container mx-auto px-4 py-[2.618rem] max-w-6xl">
         {/* Back button */}
-        <motion.div
-          initial={{ opacity: 0, x: -10 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.4 }}
-        >
-          <Button variant="ghost" onClick={() => navigate(-1)} className="mb-[1.618rem] gap-2 hover:bg-primary/10">
+        <div className="animate-slide-down animate-delay-100 mb-[1.618rem]">
+          <Button
+            variant="ghost"
+            onClick={() => navigate(-1)}
+            className="gap-2 hover:bg-primary/10"
+          >
             <ArrowLeft className="w-4 h-4" /> Back
           </Button>
-        </motion.div>
+        </div>
 
         {/* Hero header */}
-        <motion.header
-          className="mb-[2.618rem] text-center"
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        >
+        <header className="mb-[2.618rem] text-center animate-slide-up animate-delay-200">
           <div className="inline-flex items-center justify-center w-[3.5rem] h-[3.5rem] rounded-2xl bg-gradient-to-br from-primary/20 to-primary-dark/10 mb-[1rem]">
             <FileText className="w-7 h-7 text-primary" />
           </div>
@@ -176,17 +161,12 @@ const Terms = () => {
           <p className="text-muted-foreground text-sm md:text-base max-w-xl mx-auto">
             Effective Date: 12 May 2026 · Please read carefully before completing your purchase.
           </p>
-        </motion.header>
+        </header>
 
         <div className="grid lg:grid-cols-[260px_1fr] gap-[1.618rem]">
           {/* Sticky sidebar nav */}
-          <aside className="hidden lg:block">
-            <motion.nav
-              className="sticky top-[100px] bg-card border border-border rounded-2xl p-[1rem] shadow-sm"
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-            >
+          <aside className="hidden lg:block animate-slide-up animate-delay-300">
+            <nav className="sticky top-[100px] bg-card border border-border rounded-2xl p-[1rem] shadow-sm">
               <div className="flex items-center gap-2 mb-[0.618rem] px-2">
                 <List className="w-4 h-4 text-primary" />
                 <span className="text-sm font-semibold">On this page</span>
@@ -207,24 +187,21 @@ const Terms = () => {
                       >
                         <Icon className="w-4 h-4 flex-shrink-0" />
                         <span className="leading-snug">{s.label}</span>
-                        {isActive && <ChevronRight className="w-3 h-3 ml-auto flex-shrink-0" />}
+                        {isActive && (
+                          <ChevronRight className="w-3 h-3 ml-auto flex-shrink-0" />
+                        )}
                       </button>
                     </li>
                   );
                 })}
               </ul>
-            </motion.nav>
+            </nav>
           </aside>
 
           {/* Main content */}
           <div className="space-y-[1.618rem]">
             {/* Mobile quick-jump cards */}
-            <motion.div
-              className="grid sm:grid-cols-2 gap-[0.618rem] lg:hidden"
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.15 }}
-            >
+            <div className="grid sm:grid-cols-2 gap-[0.618rem] lg:hidden animate-fade-in animate-delay-300">
               {sections.map((s) => {
                 const Icon = s.icon;
                 return (
@@ -240,17 +217,12 @@ const Terms = () => {
                   </button>
                 );
               })}
-            </motion.div>
+            </div>
 
             {/* Courses Terms */}
-            <motion.div
+            <div
               id="courses-terms"
-              className="scroll-mt-[100px]"
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-50px" }}
-              variants={staggerFade}
-              custom={0}
+              className="scroll-mt-[100px] animate-hidden animate-fade-in"
             >
               <Card className="border border-border shadow-sm overflow-hidden">
                 <CardHeader className="bg-gradient-to-r from-primary/[0.06] to-transparent border-b border-border/60 pb-[1.2rem] pt-[1.5rem]">
@@ -263,11 +235,13 @@ const Terms = () => {
                 </CardHeader>
                 <CardContent className="p-[1.5rem] md:p-[2rem] space-y-[1.2rem]">
                   {CourseClauses.map((clause, i) => (
-                    <motion.div
+                    <div
                       key={clause.title}
-                      className="group"
-                      variants={staggerFade}
-                      custom={i + 1}
+                      className="animate-hidden animate-fade-in group"
+                      style={{
+                        animationDelay: `${(i + 1) * 80}ms`,
+                        animationFillMode: "forwards",
+                      }}
                     >
                       <div className="flex items-start gap-3">
                         <CheckCircle2 className="w-5 h-5 text-accent mt-0.5 flex-shrink-0 opacity-80 group-hover:opacity-100 transition-opacity" />
@@ -280,7 +254,10 @@ const Terms = () => {
                               idx < arr.length - 1 ? (
                                 <span key={idx}>
                                   {part}
-                                  <a href="mailto:info@bookmymentor.com" className="text-primary underline hover:text-primary-dark transition-colors">
+                                  <a
+                                    href="mailto:info@bookmymentor.com"
+                                    className="text-primary underline hover:text-primary-dark transition-colors"
+                                  >
                                     info@bookmymentor.com
                                   </a>
                                 </span>
@@ -291,21 +268,16 @@ const Terms = () => {
                           </p>
                         </div>
                       </div>
-                    </motion.div>
+                    </div>
                   ))}
                 </CardContent>
               </Card>
-            </motion.div>
+            </div>
 
             {/* Jobs Terms */}
-            <motion.div
+            <div
               id="jobs-terms"
-              className="scroll-mt-[100px]"
-              initial="hidden"
-              whileInView="visible"
-              viewport={{ once: true, margin: "-50px" }}
-              variants={staggerFade}
-              custom={0}
+              className="scroll-mt-[100px] animate-hidden animate-fade-in"
             >
               <Card className="border border-border shadow-sm overflow-hidden">
                 <CardHeader className="bg-gradient-to-r from-primary/[0.06] to-transparent border-b border-border/60 pb-[1.2rem] pt-[1.5rem]">
@@ -318,11 +290,13 @@ const Terms = () => {
                 </CardHeader>
                 <CardContent className="p-[1.5rem] md:p-[2rem] space-y-[1.2rem]">
                   {JobClauses.map((clause, i) => (
-                    <motion.div
+                    <div
                       key={clause.title}
-                      className="group"
-                      variants={staggerFade}
-                      custom={i + 1}
+                      className="animate-hidden animate-fade-in group"
+                      style={{
+                        animationDelay: `${(i + 1) * 80}ms`,
+                        animationFillMode: "forwards",
+                      }}
                     >
                       <div className="flex items-start gap-3">
                         <CheckCircle2 className="w-5 h-5 text-accent mt-0.5 flex-shrink-0 opacity-80 group-hover:opacity-100 transition-opacity" />
@@ -335,7 +309,10 @@ const Terms = () => {
                               idx < arr.length - 1 ? (
                                 <span key={idx}>
                                   {part}
-                                  <a href="mailto:info@bookmymentor.com" className="text-primary underline hover:text-primary-dark transition-colors">
+                                  <a
+                                    href="mailto:info@bookmymentor.com"
+                                    className="text-primary underline hover:text-primary-dark transition-colors"
+                                  >
                                     info@bookmymentor.com
                                   </a>
                                 </span>
@@ -346,19 +323,14 @@ const Terms = () => {
                           </p>
                         </div>
                       </div>
-                    </motion.div>
+                    </div>
                   ))}
                 </CardContent>
               </Card>
-            </motion.div>
+            </div>
 
             {/* Acknowledgment banner */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5 }}
-            >
+            <div className="animate-hidden animate-fade-in" style={{ animationDelay: "400ms", animationFillMode: "forwards" }}>
               <Card className="bg-gradient-to-r from-primary/5 via-primary/[0.03] to-accent/5 border border-primary/20 shadow-sm">
                 <CardContent className="p-[1.5rem] md:p-[1.8rem] flex items-start gap-4">
                   <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
@@ -374,7 +346,7 @@ const Terms = () => {
                   </div>
                 </CardContent>
               </Card>
-            </motion.div>
+            </div>
           </div>
         </div>
       </main>
