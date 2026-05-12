@@ -1,10 +1,11 @@
 
-import React from "react";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { User, Phone, Mail, MapPin, Tag, X, MessageCircle } from "lucide-react";
+import { User, Phone, Mail, MapPin, Tag, X, MessageCircle, FileText } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 
 interface FormData {
@@ -47,6 +48,13 @@ const StudentInfoForm = ({
   onRemoveCoupon,
   onCheckboxChange
 }: StudentInfoFormProps) => {
+  const [agreedToTerms, setAgreedToTerms] = useState(false);
+
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!agreedToTerms) return;
+    onSubmit(e);
+  };
   return (
     <Card>
       <CardHeader>
@@ -56,7 +64,7 @@ const StudentInfoForm = ({
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <form onSubmit={onSubmit} className="space-y-6">
+        <form onSubmit={handleFormSubmit} className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <Label htmlFor="name">Full Name *</Label>
@@ -240,12 +248,29 @@ const StudentInfoForm = ({
             </p>
           </div>
 
+          {/* Terms & Conditions Agreement */}
+          <div className="flex items-start space-x-3 p-4 bg-purple-50 border border-purple-200 rounded-lg">
+            <Checkbox
+              id="agreeTerms"
+              checked={agreedToTerms}
+              onCheckedChange={(checked) => setAgreedToTerms(checked as boolean)}
+            />
+            <Label htmlFor="agreeTerms" className="text-sm cursor-pointer leading-relaxed">
+              <FileText className="w-4 h-4 inline mr-1 text-purple-600" />
+              I have read and agree to the{" "}
+              <Link to="/terms?type=courses" target="_blank" className="text-purple-700 underline font-medium">
+                Terms & Conditions
+              </Link>{" "}
+              for Courses.
+            </Label>
+          </div>
+
           <Button
             type="submit"
             className="w-full h-12 text-lg font-bold bg-gradient-to-r from-purple-600 to-purple-800 hover:from-purple-700 hover:to-purple-900 transform transition-all duration-300 hover:scale-105"
-            disabled={isLoading}
+            disabled={isLoading || !agreedToTerms}
           >
-            {isLoading ? "Processing..." : "Place Order & Generate Invoice"}
+            {isLoading ? "Processing..." : !agreedToTerms ? "Accept Terms to Continue" : "Place Order & Generate Invoice"}
           </Button>
         </form>
       </CardContent>

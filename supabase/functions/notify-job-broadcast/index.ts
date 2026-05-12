@@ -126,7 +126,7 @@ serve(async (req) => {
         : null;
 
     const jobUrl = `https://www.bookmymentor.com/jobs`;
-    const jobsListUrl = `https://www.bookmymentor.com/jobs`;
+    const jobsListUrl = `https://www.bookmymentor.com`;
 
     const skillsList: string[] = Array.isArray(job.skills) ? job.skills.slice(0, 6) : [];
 

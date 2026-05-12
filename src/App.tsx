@@ -23,6 +23,7 @@ import RecruiterRegister from "./pages/RecruiterRegister";
 import RecruiterDashboard from "./pages/RecruiterDashboard";
 import ResumeToolkit from "./pages/ResumeToolkit";
 import CoverLetterTool from "./pages/CoverLetterTool";
+import Terms from "./pages/Terms";
 
 const queryClient = new QueryClient();
 
@@ -52,6 +53,7 @@ const App = () => (
             <Route path="/job/:jobId" element={<JobDetails />} />
             <Route path="/recruiter/register" element={<RecruiterRegister />} />
             <Route path="/recruiter/dashboard" element={<RecruiterDashboard />} />
+            <Route path="/terms" element={<Terms />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
