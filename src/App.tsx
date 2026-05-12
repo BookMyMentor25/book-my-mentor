@@ -23,6 +23,7 @@ import RecruiterRegister from "./pages/RecruiterRegister";
 import RecruiterDashboard from "./pages/RecruiterDashboard";
 import ResumeToolkit from "./pages/ResumeToolkit";
 import CoverLetterTool from "./pages/CoverLetterTool";
+import Terms from "./pages/Terms";
 
 const queryClient = new QueryClient();
 
