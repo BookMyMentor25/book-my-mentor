@@ -1,24 +1,144 @@
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import SEOHead from "@/components/SEOHead";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowLeft, FileText, Briefcase, GraduationCap, ShieldCheck } from "lucide-react";
+import { motion } from "framer-motion";
+import {
+  ArrowLeft,
+  FileText,
+  Briefcase,
+  GraduationCap,
+  ShieldCheck,
+  CheckCircle2,
+  List,
+  ChevronRight,
+} from "lucide-react";
+
+const sections = [
+  { id: "courses-terms", label: "Courses Terms", icon: GraduationCap },
+  { id: "jobs-terms", label: "Jobs & Internships Terms", icon: Briefcase },
+];
 
 const Terms = () => {
   const navigate = useNavigate();
   const [params] = useSearchParams();
-  const type = params.get("type"); // 'jobs' | 'courses' | null
+  const type = params.get("type");
+  const [activeSection, setActiveSection] = useState<string>("courses-terms");
+  const observerRef = useRef<IntersectionObserver | null>(null);
 
   useEffect(() => {
     if (type === "jobs") {
-      document.getElementById("jobs-terms")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      setTimeout(() => {
+        document.getElementById("jobs-terms")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 100);
     } else if (type === "courses") {
-      document.getElementById("courses-terms")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      setTimeout(() => {
+        document.getElementById("courses-terms")?.scrollIntoView({ behavior: "smooth", block: "start" });
+      }, 100);
     }
   }, [type]);
+
+  useEffect(() => {
+    observerRef.current = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          }
+        });
+      },
+      { rootMargin: "-20% 0px -60% 0px" }
+    );
+
+    sections.forEach((s) => {
+      const el = document.getElementById(s.id);
+      if (el) observerRef.current?.observe(el);
+    });
+
+    return () => observerRef.current?.disconnect();
+  }, []);
+
+  const scrollTo = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  const staggerFade = {
+    hidden: { opacity: 0, y: 20 },
+    visible: (i: number) => ({
+      opacity: 1,
+      y: 0,
+      transition: { delay: i * 0.08, duration: 0.5, ease: [0.16, 1, 0.3, 1] },
+    }),
+  };
+
+  const CourseClauses = [
+    {
+      title: "1. Enrollment & Access",
+      text: "Course enrollment is confirmed only after full payment is received and verified by our team. Access credentials and joining details are shared on the registered email and phone number within 24 hours of payment confirmation.",
+    },
+    {
+      title: "2. Pricing, Coupons & Taxes",
+      text: "Prices displayed are inclusive of applicable platform fees. Coupon discounts are validated at checkout and cannot be combined or applied retroactively. Coupons restricted to specific products will not apply to courses.",
+    },
+    {
+      title: "3. Refund Policy",
+      text: "All course purchases are final and non-refundable once access has been granted or content has been delivered. In exceptional cases (duplicate payment, technical inability to deliver), refund requests must be raised within 7 days of payment by writing to info@bookmymentor.com.",
+    },
+    {
+      title: "4. Code of Conduct",
+      text: "Learners must not share account credentials, record live sessions, or redistribute course materials. Violations may result in immediate revocation of access without refund.",
+    },
+    {
+      title: "5. Intellectual Property",
+      text: "All curriculum, recordings, templates and toolkits are the property of Book My Mentor and licensed for personal, non-commercial use only.",
+    },
+    {
+      title: "6. Communication",
+      text: "By enrolling, you consent to receive course-related communications via email, WhatsApp and SMS from support@bookmymentor.com. You can opt out of promotional messages at any time.",
+    },
+    {
+      title: "7. Liability",
+      text: "Book My Mentor's total liability for any claim related to a course purchase is limited to the amount paid for that course. We do not guarantee specific career, salary or placement outcomes.",
+    },
+  ];
+
+  const JobClauses = [
+    {
+      title: "1. Subscription Details",
+      text: "The Jobs & Internships subscription is priced at ₹299 for 3 months from the date of admin verification. Activation is manual and may take up to 24 hours after payment is claimed.",
+    },
+    {
+      title: "2. What's Included",
+      text: "Access to view full job & internship details, apply via internal/external/email channels, AI Resume Pro, AI Cover Letter Pro, and recruiter visibility — for the duration of the active subscription only.",
+    },
+    {
+      title: "3. Payment Verification",
+      text: "Subscriptions activate only after a valid UPI Transaction ID is submitted and verified by our admin team. Invalid, duplicate or unmatched transaction IDs will be rejected.",
+    },
+    {
+      title: "4. No Job Guarantee",
+      text: "Book My Mentor is a discovery and enablement platform. We do not guarantee job offers, interview calls, salary outcomes, or response from any recruiter or employer. Hiring decisions rest solely with the respective companies.",
+    },
+    {
+      title: "5. Refund Policy",
+      text: "Subscription fees are non-refundable once activated. Refunds are considered only when payment is verified but activation cannot be delivered, and must be requested within 7 days at info@bookmymentor.com.",
+    },
+    {
+      title: "6. Acceptable Use",
+      text: "Subscribers must apply to roles in good faith and must not misrepresent credentials, spam recruiters, or share platform content externally. Misuse may result in suspension without refund. Blocked users lose access to all premium features immediately.",
+    },
+    {
+      title: "7. Coupons",
+      text: "Coupons applicable to the Jobs & Internships plan are single-use per user and cannot be combined with other offers.",
+    },
+    {
+      title: "8. Communications",
+      text: "You will receive job alerts, application updates and admin notifications via email from support@bookmymentor.com. Reply to info@bookmymentor.com for any queries.",
+    },
+  ];
 
   return (
     <div className="min-h-screen bg-background flex flex-col">
@@ -28,159 +148,235 @@ const Terms = () => {
         description="Read the Terms & Conditions for Book My Mentor courses and Jobs & Internships subscription before checkout."
       />
 
-      <main className="flex-1 container mx-auto px-4 py-10 max-w-4xl">
-        <Button variant="ghost" onClick={() => navigate(-1)} className="mb-6 gap-2">
-          <ArrowLeft className="w-4 h-4" /> Back
-        </Button>
+      <main className="flex-1 container mx-auto px-4 py-[2.618rem] max-w-6xl">
+        {/* Back button */}
+        <motion.div
+          initial={{ opacity: 0, x: -10 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.4 }}
+        >
+          <Button variant="ghost" onClick={() => navigate(-1)} className="mb-[1.618rem] gap-2 hover:bg-primary/10">
+            <ArrowLeft className="w-4 h-4" /> Back
+          </Button>
+        </motion.div>
 
-        <header className="mb-10 text-center">
-          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-primary/10 mb-4">
+        {/* Hero header */}
+        <motion.header
+          className="mb-[2.618rem] text-center"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <div className="inline-flex items-center justify-center w-[3.5rem] h-[3.5rem] rounded-2xl bg-gradient-to-br from-primary/20 to-primary-dark/10 mb-[1rem]">
             <FileText className="w-7 h-7 text-primary" />
           </div>
-          <h1 className="text-3xl md:text-4xl font-bold mb-2">Terms & Conditions</h1>
-          <p className="text-muted-foreground">
+          <h1 className="text-[2.618rem] md:text-[4.236rem] font-bold mb-[0.618rem] leading-tight bg-gradient-to-r from-primary via-primary-dark to-accent bg-clip-text text-transparent">
+            Terms & Conditions
+          </h1>
+          <p className="text-muted-foreground text-sm md:text-base max-w-xl mx-auto">
             Effective Date: 12 May 2026 · Please read carefully before completing your purchase.
           </p>
-        </header>
+        </motion.header>
 
-        <div className="grid sm:grid-cols-2 gap-3 mb-10">
-          <a href="#courses-terms" className="rounded-xl border border-border p-4 hover:border-primary/50 transition-colors flex items-center gap-3">
-            <GraduationCap className="w-5 h-5 text-primary" />
-            <span className="font-medium">Courses Terms</span>
-          </a>
-          <a href="#jobs-terms" className="rounded-xl border border-border p-4 hover:border-primary/50 transition-colors flex items-center gap-3">
-            <Briefcase className="w-5 h-5 text-primary" />
-            <span className="font-medium">Jobs & Internships Terms</span>
-          </a>
+        <div className="grid lg:grid-cols-[260px_1fr] gap-[1.618rem]">
+          {/* Sticky sidebar nav */}
+          <aside className="hidden lg:block">
+            <motion.nav
+              className="sticky top-[100px] bg-card border border-border rounded-2xl p-[1rem] shadow-sm"
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+            >
+              <div className="flex items-center gap-2 mb-[0.618rem] px-2">
+                <List className="w-4 h-4 text-primary" />
+                <span className="text-sm font-semibold">On this page</span>
+              </div>
+              <ul className="space-y-1">
+                {sections.map((s) => {
+                  const Icon = s.icon;
+                  const isActive = activeSection === s.id;
+                  return (
+                    <li key={s.id}>
+                      <button
+                        onClick={() => scrollTo(s.id)}
+                        className={`w-full flex items-center gap-2 rounded-xl px-3 py-2 text-sm transition-all duration-200 text-left ${
+                          isActive
+                            ? "bg-gradient-to-r from-primary/10 to-primary-dark/5 text-primary font-medium shadow-sm"
+                            : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                        }`}
+                      >
+                        <Icon className="w-4 h-4 flex-shrink-0" />
+                        <span className="leading-snug">{s.label}</span>
+                        {isActive && <ChevronRight className="w-3 h-3 ml-auto flex-shrink-0" />}
+                      </button>
+                    </li>
+                  );
+                })}
+              </ul>
+            </motion.nav>
+          </aside>
+
+          {/* Main content */}
+          <div className="space-y-[1.618rem]">
+            {/* Mobile quick-jump cards */}
+            <motion.div
+              className="grid sm:grid-cols-2 gap-[0.618rem] lg:hidden"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.15 }}
+            >
+              {sections.map((s) => {
+                const Icon = s.icon;
+                return (
+                  <button
+                    key={s.id}
+                    onClick={() => scrollTo(s.id)}
+                    className="rounded-xl border border-border bg-card p-[1rem] hover:border-primary/40 hover:shadow-md transition-all duration-200 flex items-center gap-3 text-left"
+                  >
+                    <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                      <Icon className="w-5 h-5 text-primary" />
+                    </div>
+                    <span className="font-medium text-sm">{s.label}</span>
+                  </button>
+                );
+              })}
+            </motion.div>
+
+            {/* Courses Terms */}
+            <motion.div
+              id="courses-terms"
+              className="scroll-mt-[100px]"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-50px" }}
+              variants={staggerFade}
+              custom={0}
+            >
+              <Card className="border border-border shadow-sm overflow-hidden">
+                <CardHeader className="bg-gradient-to-r from-primary/[0.06] to-transparent border-b border-border/60 pb-[1.2rem] pt-[1.5rem]">
+                  <CardTitle className="flex items-center gap-3 text-[1.618rem] md:text-[2rem]">
+                    <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+                      <GraduationCap className="w-5 h-5 text-primary" />
+                    </div>
+                    Courses — Terms & Conditions
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="p-[1.5rem] md:p-[2rem] space-y-[1.2rem]">
+                  {CourseClauses.map((clause, i) => (
+                    <motion.div
+                      key={clause.title}
+                      className="group"
+                      variants={staggerFade}
+                      custom={i + 1}
+                    >
+                      <div className="flex items-start gap-3">
+                        <CheckCircle2 className="w-5 h-5 text-accent mt-0.5 flex-shrink-0 opacity-80 group-hover:opacity-100 transition-opacity" />
+                        <div>
+                          <h3 className="font-semibold text-foreground mb-1 text-[1.05rem]">
+                            {clause.title}
+                          </h3>
+                          <p className="text-sm leading-[1.7] text-muted-foreground">
+                            {clause.text.split("info@bookmymentor.com").map((part, idx, arr) =>
+                              idx < arr.length - 1 ? (
+                                <span key={idx}>
+                                  {part}
+                                  <a href="mailto:info@bookmymentor.com" className="text-primary underline hover:text-primary-dark transition-colors">
+                                    info@bookmymentor.com
+                                  </a>
+                                </span>
+                              ) : (
+                                <span key={idx}>{part}</span>
+                              )
+                            )}
+                          </p>
+                        </div>
+                      </div>
+                    </motion.div>
+                  ))}
+                </CardContent>
+              </Card>
+            </motion.div>
+
+            {/* Jobs Terms */}
+            <motion.div
+              id="jobs-terms"
+              className="scroll-mt-[100px]"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-50px" }}
+              variants={staggerFade}
+              custom={0}
+            >
+              <Card className="border border-border shadow-sm overflow-hidden">
+                <CardHeader className="bg-gradient-to-r from-primary/[0.06] to-transparent border-b border-border/60 pb-[1.2rem] pt-[1.5rem]">
+                  <CardTitle className="flex items-center gap-3 text-[1.618rem] md:text-[2rem]">
+                    <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center">
+                      <Briefcase className="w-5 h-5 text-primary" />
+                    </div>
+                    Jobs & Internships Subscription — Terms & Conditions
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="p-[1.5rem] md:p-[2rem] space-y-[1.2rem]">
+                  {JobClauses.map((clause, i) => (
+                    <motion.div
+                      key={clause.title}
+                      className="group"
+                      variants={staggerFade}
+                      custom={i + 1}
+                    >
+                      <div className="flex items-start gap-3">
+                        <CheckCircle2 className="w-5 h-5 text-accent mt-0.5 flex-shrink-0 opacity-80 group-hover:opacity-100 transition-opacity" />
+                        <div>
+                          <h3 className="font-semibold text-foreground mb-1 text-[1.05rem]">
+                            {clause.title}
+                          </h3>
+                          <p className="text-sm leading-[1.7] text-muted-foreground">
+                            {clause.text.split("info@bookmymentor.com").map((part, idx, arr) =>
+                              idx < arr.length - 1 ? (
+                                <span key={idx}>
+                                  {part}
+                                  <a href="mailto:info@bookmymentor.com" className="text-primary underline hover:text-primary-dark transition-colors">
+                                    info@bookmymentor.com
+                                  </a>
+                                </span>
+                              ) : (
+                                <span key={idx}>{part}</span>
+                              )
+                            )}
+                          </p>
+                        </div>
+                      </div>
+                    </motion.div>
+                  ))}
+                </CardContent>
+              </Card>
+            </motion.div>
+
+            {/* Acknowledgment banner */}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5 }}
+            >
+              <Card className="bg-gradient-to-r from-primary/5 via-primary/[0.03] to-accent/5 border border-primary/20 shadow-sm">
+                <CardContent className="p-[1.5rem] md:p-[1.8rem] flex items-start gap-4">
+                  <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
+                    <ShieldCheck className="w-5 h-5 text-primary" />
+                  </div>
+                  <div>
+                    <p className="text-sm md:text-base text-foreground font-medium mb-1">
+                      Acknowledgment
+                    </p>
+                    <p className="text-sm text-muted-foreground leading-relaxed">
+                      By proceeding with any purchase or subscription on Book My Mentor, you acknowledge that you have read, understood and agreed to these Terms & Conditions.
+                    </p>
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
+          </div>
         </div>
-
-        {/* Courses */}
-        <Card id="courses-terms" className="mb-8 scroll-mt-24">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-2xl">
-              <GraduationCap className="w-6 h-6 text-primary" />
-              Courses — Terms & Conditions
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4 text-sm leading-relaxed text-muted-foreground">
-            <section>
-              <h3 className="font-semibold text-foreground mb-1">1. Enrollment & Access</h3>
-              <p>
-                Course enrollment is confirmed only after full payment is received and verified by our team.
-                Access credentials and joining details are shared on the registered email and phone number within 24 hours of payment confirmation.
-              </p>
-            </section>
-            <section>
-              <h3 className="font-semibold text-foreground mb-1">2. Pricing, Coupons & Taxes</h3>
-              <p>
-                Prices displayed are inclusive of applicable platform fees. Coupon discounts are validated at checkout and cannot be combined or applied retroactively.
-                Coupons restricted to specific products will not apply to courses.
-              </p>
-            </section>
-            <section>
-              <h3 className="font-semibold text-foreground mb-1">3. Refund Policy</h3>
-              <p>
-                All course purchases are final and non-refundable once access has been granted or content has been delivered.
-                In exceptional cases (duplicate payment, technical inability to deliver), refund requests must be raised within 7 days of payment by writing to <a href="mailto:info@bookmymentor.com" className="text-primary underline">info@bookmymentor.com</a>.
-              </p>
-            </section>
-            <section>
-              <h3 className="font-semibold text-foreground mb-1">4. Code of Conduct</h3>
-              <p>
-                Learners must not share account credentials, record live sessions, or redistribute course materials. Violations may result in immediate revocation of access without refund.
-              </p>
-            </section>
-            <section>
-              <h3 className="font-semibold text-foreground mb-1">5. Intellectual Property</h3>
-              <p>
-                All curriculum, recordings, templates and toolkits are the property of Book My Mentor and licensed for personal, non-commercial use only.
-              </p>
-            </section>
-            <section>
-              <h3 className="font-semibold text-foreground mb-1">6. Communication</h3>
-              <p>
-                By enrolling, you consent to receive course-related communications via email, WhatsApp and SMS from <strong>support@bookmymentor.com</strong>. You can opt out of promotional messages at any time.
-              </p>
-            </section>
-            <section>
-              <h3 className="font-semibold text-foreground mb-1">7. Liability</h3>
-              <p>
-                Book My Mentor's total liability for any claim related to a course purchase is limited to the amount paid for that course. We do not guarantee specific career, salary or placement outcomes.
-              </p>
-            </section>
-          </CardContent>
-        </Card>
-
-        {/* Jobs */}
-        <Card id="jobs-terms" className="mb-8 scroll-mt-24">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-2xl">
-              <Briefcase className="w-6 h-6 text-primary" />
-              Jobs & Internships Subscription — Terms & Conditions
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4 text-sm leading-relaxed text-muted-foreground">
-            <section>
-              <h3 className="font-semibold text-foreground mb-1">1. Subscription Details</h3>
-              <p>
-                The Jobs & Internships subscription is priced at <strong>₹299 for 3 months</strong> from the date of admin verification. Activation is manual and may take up to 24 hours after payment is claimed.
-              </p>
-            </section>
-            <section>
-              <h3 className="font-semibold text-foreground mb-1">2. What's Included</h3>
-              <p>
-                Access to view full job & internship details, apply via internal/external/email channels, AI Resume Pro, AI Cover Letter Pro, and recruiter visibility — for the duration of the active subscription only.
-              </p>
-            </section>
-            <section>
-              <h3 className="font-semibold text-foreground mb-1">3. Payment Verification</h3>
-              <p>
-                Subscriptions activate only after a valid UPI Transaction ID is submitted and verified by our admin team. Invalid, duplicate or unmatched transaction IDs will be rejected.
-              </p>
-            </section>
-            <section>
-              <h3 className="font-semibold text-foreground mb-1">4. No Job Guarantee</h3>
-              <p>
-                Book My Mentor is a discovery and enablement platform. We do not guarantee job offers, interview calls, salary outcomes, or response from any recruiter or employer.
-                Hiring decisions rest solely with the respective companies.
-              </p>
-            </section>
-            <section>
-              <h3 className="font-semibold text-foreground mb-1">5. Refund Policy</h3>
-              <p>
-                Subscription fees are <strong>non-refundable</strong> once activated. Refunds are considered only when payment is verified but activation cannot be delivered, and must be requested within 7 days at <a href="mailto:info@bookmymentor.com" className="text-primary underline">info@bookmymentor.com</a>.
-              </p>
-            </section>
-            <section>
-              <h3 className="font-semibold text-foreground mb-1">6. Acceptable Use</h3>
-              <p>
-                Subscribers must apply to roles in good faith and must not misrepresent credentials, spam recruiters, or share platform content externally. Misuse may result in suspension without refund.
-                Blocked users lose access to all premium features immediately.
-              </p>
-            </section>
-            <section>
-              <h3 className="font-semibold text-foreground mb-1">7. Coupons</h3>
-              <p>
-                Coupons applicable to the Jobs & Internships plan (e.g., <code>CHAMPION</code>) are single-use per user and cannot be combined with other offers.
-              </p>
-            </section>
-            <section>
-              <h3 className="font-semibold text-foreground mb-1">8. Communications</h3>
-              <p>
-                You will receive job alerts, application updates and admin notifications via email from <strong>support@bookmymentor.com</strong>. Reply to <strong>info@bookmymentor.com</strong> for any queries.
-              </p>
-            </section>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-primary/5 border-primary/20">
-          <CardContent className="p-5 flex items-start gap-3">
-            <ShieldCheck className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
-            <p className="text-sm text-muted-foreground">
-              By proceeding with any purchase or subscription on Book My Mentor, you acknowledge that you have read, understood and agreed to these Terms & Conditions.
-            </p>
-          </CardContent>
-        </Card>
       </main>
 
       <Footer />
