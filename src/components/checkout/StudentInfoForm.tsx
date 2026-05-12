@@ -1,10 +1,11 @@
 
-import React from "react";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { User, Phone, Mail, MapPin, Tag, X, MessageCircle } from "lucide-react";
+import { User, Phone, Mail, MapPin, Tag, X, MessageCircle, FileText } from "lucide-react";
 import { Checkbox } from "@/components/ui/checkbox";
 
 interface FormData {
