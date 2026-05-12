@@ -64,7 +64,7 @@ const StudentInfoForm = ({
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <form onSubmit={onSubmit} className="space-y-6">
+        <form onSubmit={handleFormSubmit} className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <Label htmlFor="name">Full Name *</Label>
