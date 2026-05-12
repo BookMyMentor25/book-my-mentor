@@ -430,12 +430,27 @@ const JobSubscription = () => {
                         )}
                         <p><span className="text-muted-foreground">Plan:</span> <strong>3 Months Premium</strong></p>
                       </div>
+                      <div className="flex items-start gap-2 p-3 rounded-lg bg-primary/5 border border-primary/20">
+                        <Checkbox
+                          id="agreeJobsTerms"
+                          checked={agreedToTerms}
+                          onCheckedChange={(c) => setAgreedToTerms(c as boolean)}
+                          className="mt-0.5"
+                        />
+                        <Label htmlFor="agreeJobsTerms" className="text-xs cursor-pointer leading-relaxed">
+                          I agree to the{" "}
+                          <Link to="/terms?type=jobs" target="_blank" className="text-primary underline font-medium">
+                            Terms & Conditions
+                          </Link>{" "}
+                          for the Jobs & Internships subscription, including the no-job-guarantee and non-refundable activation policy.
+                        </Label>
+                      </div>
                       <Button
                         onClick={handlePaymentClaimed}
-                        disabled={isPurchasing || notifyingAdmin || !orderId.trim()}
+                        disabled={isPurchasing || notifyingAdmin || !orderId.trim() || !agreedToTerms}
                         className="w-full cta-primary gap-2 h-12 text-base"
                       >
-                        {isPurchasing || notifyingAdmin ? "Activating..." : "🚀 Activate Subscription"}
+                        {isPurchasing || notifyingAdmin ? "Activating..." : !agreedToTerms ? "Accept Terms to Continue" : "🚀 Activate Subscription"}
                       </Button>
                       <Button variant="ghost" onClick={() => setStep("scan")} className="w-full text-muted-foreground">
                         ← Back to Payment
