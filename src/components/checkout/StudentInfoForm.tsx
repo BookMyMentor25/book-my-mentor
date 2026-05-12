@@ -48,6 +48,13 @@ const StudentInfoForm = ({
   onRemoveCoupon,
   onCheckboxChange
 }: StudentInfoFormProps) => {
+  const [agreedToTerms, setAgreedToTerms] = useState(false);
+
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!agreedToTerms) return;
+    onSubmit(e);
+  };
   return (
     <Card>
       <CardHeader>
