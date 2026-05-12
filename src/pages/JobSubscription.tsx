@@ -28,6 +28,7 @@ const JobSubscription = () => {
   const [step, setStep] = useState<"scan" | "confirm">("scan");
   const [sendingEmail, setSendingEmail] = useState(false);
   const [notifyingAdmin, setNotifyingAdmin] = useState(false);
+  const [agreedToTerms, setAgreedToTerms] = useState(false);
 
   // Coupon state
   const [couponCode, setCouponCode] = useState("");
