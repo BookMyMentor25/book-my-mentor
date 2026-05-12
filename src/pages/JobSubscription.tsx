@@ -158,6 +158,10 @@ const JobSubscription = () => {
       toast({ title: "Please enter your UPI Transaction ID", variant: "destructive" });
       return;
     }
+    if (!agreedToTerms) {
+      toast({ title: "Please accept the Terms & Conditions to activate.", variant: "destructive" });
+      return;
+    }
     if (!/^[A-Za-z0-9]{8,32}$/.test(trimmed)) {
       toast({
         title: "Invalid Transaction ID",
