@@ -459,7 +459,7 @@ const JobSubscription = () => {
                   )}
                   <p className="text-xs text-center text-muted-foreground">
                     🔒 Secure payment. Subscription activates instantly.
-                    Issues? Contact support@bookmymentor.com
+                    Issues? Contact info@bookmymentor.com
                   </p>
                 </CardContent>
               </Card>
