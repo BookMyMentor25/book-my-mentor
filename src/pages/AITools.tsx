@@ -84,10 +84,10 @@ const AITools = () => {
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <SEOHead 
-        title="Free AI Business Toolkit | 32 Product Management Tools | BookMyMentor"
-        description="Access 32 free AI-powered tools for Product Managers & Entrepreneurs. Includes App Prototype Generator, Agentic AI, Generative AI guides, Business Model Canvas, PRDs, SWOT Analysis & more. No credit card required."
+        title="Free AI Business Toolkit — 32 PM Tools | BookMyMentor"
+        description="32 free AI tools for Product Managers & Entrepreneurs: Business Model Canvas, PRDs, SWOT, Roadmaps, Pitch Decks & more. No credit card."
         keywords="free AI tools, agentic AI, generative AI, product management tools, business model canvas generator, lean canvas maker, PRD generator, SWOT analysis tool, competitor analysis, roadmap builder, pitch deck creator, startup tools, entrepreneur toolkit, free business tools, agile tools, sprint planning"
-        canonicalUrl="https://bookmymentor.com/ai-tools"
+        canonicalUrl="https://book-my-mentor.lovable.app/ai-tools"
         structuredData={generateFAQSchema(toolsFAQs)}
       />
       <Header />
