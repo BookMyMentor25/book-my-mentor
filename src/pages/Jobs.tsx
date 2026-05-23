@@ -136,8 +136,8 @@ const Jobs = () => {
   return (
     <>
       <SEOHead 
-        title="Jobs & Internships 2026 | Product Management, MBA, Tech & Startup Careers India | BookMyMentor"
-        description="Browse 100+ verified Product Management jobs, MBA internships, tech careers & startup opportunities in India. Apply to top companies hiring for PM, Business Analyst, Data Analyst, and Management Trainee roles. Updated daily with ATS Resume Builder."
+        title="Jobs & Internships 2026 | PM, MBA & Tech Careers | BookMyMentor"
+        description="Browse 100+ verified Product Management jobs, MBA internships & tech roles in India. Apply to top companies. Updated daily with ATS Resume Builder."
         keywords="product management jobs India 2026, MBA internships, tech jobs India, startup careers, PM jobs, business analyst jobs, management trainee, product manager hiring, fresher jobs, campus placements, data analyst jobs, remote jobs India, IIT IIM jobs, entry level product manager, internship opportunities, ATS resume builder, job portal India"
       />
       
