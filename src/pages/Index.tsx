@@ -56,6 +56,9 @@ const Index = () => {
             alt="Professional online mentorship - Learn Product Management, Lean Startup and Project Management" 
             className="w-full h-full object-cover scale-105 animate-[scaleIn_1.5s_ease-out_forwards]"
             loading="eager"
+            fetchPriority="high"
+            width={1920}
+            height={1080}
           />
           <div className="absolute inset-0 bg-gradient-to-br from-primary/95 via-primary-light/90 to-primary-dark/95 animate-gradient-shift"></div>
         </div>
