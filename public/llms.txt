@@ -1,0 +1,23 @@
+# BookMyMentor
+
+> Online learning platform for Product Management, Lean Startup and Project Management certification, plus a free AI Business Toolkit and a verified Jobs & Internships board.
+
+BookMyMentor offers mentor-led certification programs, 32 free AI-powered business tools for product managers and entrepreneurs, and a curated Jobs & Internships board with AI Resume Pro and AI Cover Letter Pro.
+
+## Pages
+
+- [Home](/): Overview of courses, mentors, AI toolkit and job board.
+- [AI Business Toolkit](/ai-tools): 32 free AI tools — Business Model Canvas, Lean Canvas, PRD Generator, SWOT, Roadmap, Pitch Deck and more.
+- [ATS Resume Builder](/ai-tool/ats-resume-builder): Free AI-powered ATS-friendly resume builder.
+- [Cover Letter Tool](/cover-letter-tool): AI cover letter generator tailored to a job description.
+- [Wireframe Tool](/wireframe-tool): Natural-language UI wireframe generator with PDF/JSON export.
+- [Jobs & Internships](/jobs): Verified Product Management, MBA, tech and startup jobs and internships in India.
+- [Jobs Premium](/jobs/subscribe): ₹299 / 3 months plan unlocking unlimited applications, AI Resume Pro and AI Cover Letter Pro.
+- [Team](/team): Mentors and leadership behind BookMyMentor.
+- [Contact](/contact): Reach the team for inquiries, partnerships and support.
+- [Recruiter Register](/recruiter/register): For companies hiring through BookMyMentor.
+- [Terms & Conditions](/terms): Platform terms covering courses, jobs subscription and coupons.
+
+## Optional
+
+- [Sign In / Sign Up](/auth): Account access for students, recruiters and admins.
