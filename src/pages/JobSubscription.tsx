@@ -230,8 +230,8 @@ const JobSubscription = () => {
     <div className="min-h-screen bg-background flex flex-col">
       <Header />
       <SEOHead
-        title="Jobs & Internships Premium ₹299 / 3 Months — AI Resume + Cover Letter | BookMyMentor"
-        description="Unlock unlimited job & internship applications with AI Resume Pro and AI Cover Letter Pro. Direct recruiter access. Just ₹299 for 3 months. Activate instantly via UPI."
+        title="Jobs Premium ₹299/3 Months — AI Resume + Cover Letter | BookMyMentor"
+        description="Unlock unlimited job & internship applications with AI Resume Pro, AI Cover Letter Pro and direct recruiter access. ₹299 for 3 months. Instant UPI activation."
         keywords="jobs and internships India, AI resume builder, AI cover letter generator, ATS resume, job subscription, internship portal, recruiter access, career platform"
       />
 
