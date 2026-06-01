@@ -38,7 +38,7 @@ const Index = () => {
         title="BookMyMentor | Product Management & Lean Startup Courses"
         description="Master Product Management, Lean Startup & Project Management with expert mentors. 95% success rate, placement support & free AI Business Toolkit."
         keywords="product management course, product management certification, lean startup certification, project management training online, PMP certification, agile project management, scrum master course, product owner certification, MBA skills, business strategy course, startup courses, professional development, PM bootcamp, free business tools"
-        canonicalUrl="https://book-my-mentor.lovable.app/"
+        canonicalUrl="https://bookmymentor.com/"
         structuredData={combinedStructuredData}
       />
       <Header />

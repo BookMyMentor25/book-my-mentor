@@ -412,13 +412,13 @@ const CourseDetails = () => {
     rating: course.rating || 4.9,
     reviewCount: course.student_count || 500,
     duration: course.duration || '4 weeks',
-    url: `https://book-my-mentor.lovable.app/course/${courseId}`
+    url: `https://bookmymentor.com/course/${courseId}`
   });
 
   const breadcrumbData = generateBreadcrumbSchema([
-    { name: 'Home', url: 'https://book-my-mentor.lovable.app/' },
-    { name: 'Courses', url: 'https://book-my-mentor.lovable.app/#courses' },
-    { name: course.title, url: `https://book-my-mentor.lovable.app/course/${courseId}` }
+    { name: 'Home', url: 'https://bookmymentor.com/' },
+    { name: 'Courses', url: 'https://bookmymentor.com/#courses' },
+    { name: course.title, url: `https://bookmymentor.com/course/${courseId}` }
   ]);
 
   const combinedSchema = {
@@ -432,7 +432,7 @@ const CourseDetails = () => {
         title={`${course.title} - Online Certification Course | BookMyMentor`}
         description={`${metadata?.shortDescription?.substring(0, 155) || course.description || 'Master ' + course.title + ' with expert mentors'}. ${course.rating || 4.9}★ rating, ${course.student_count || 2500}+ students enrolled. Get certified with 100% placement support.`}
         keywords={seoKeywords}
-        canonicalUrl={`https://book-my-mentor.lovable.app/course/${courseId}`}
+        canonicalUrl={`https://bookmymentor.com/course/${courseId}`}
         structuredData={combinedSchema}
       />
       <Header />
