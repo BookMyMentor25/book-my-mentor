@@ -243,7 +243,9 @@ const SubscriptionManagement = () => {
                       </div>
                     </td>
                   </tr>
-                ))}
+                  );
+                })}
+
               </tbody>
             </table>
           </div>
