@@ -146,7 +146,7 @@ const SubscriptionManagement = () => {
         <div className="relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <Input
-            placeholder="Search by user ID or transaction ID..."
+            placeholder="Search by user ID, name, email or transaction ID..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="pl-9"
@@ -160,7 +160,8 @@ const SubscriptionManagement = () => {
             <table className="min-w-full divide-y divide-border">
               <thead>
                 <tr>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase">User ID</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase">Customer</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase">Email</th>
                   <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase">Transaction ID</th>
                   <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase">Amount</th>
                   <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase">Status</th>
@@ -169,12 +170,17 @@ const SubscriptionManagement = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-border">
-                {filtered?.map((sub) => (
+                {filtered?.map((sub) => {
+                  const profile = profileMap.get(sub.user_id);
+                  return (
                   <tr key={sub.id}>
-                    <td className="px-4 py-3 text-sm font-mono text-muted-foreground">
-                      {sub.user_id?.slice(0, 8)}...
+                    <td className="px-4 py-3 text-sm">
+                      <div className="font-medium">{profile?.full_name || "—"}</div>
+                      <div className="text-xs font-mono text-muted-foreground">{sub.user_id?.slice(0, 8)}...</div>
                     </td>
+                    <td className="px-4 py-3 text-sm text-muted-foreground">{profile?.email || "—"}</td>
                     <td className="px-4 py-3 text-sm font-mono">{sub.order_id || "—"}</td>
+
                     <td className="px-4 py-3 text-sm">₹{sub.amount}</td>
                     <td className="px-4 py-3 text-sm">
                       <Badge variant={
