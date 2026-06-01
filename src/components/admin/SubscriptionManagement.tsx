@@ -129,12 +129,18 @@ const SubscriptionManagement = () => {
     },
   });
 
-  const filtered = subscriptions?.filter(
-    (s) =>
-      !search ||
-      s.user_id?.toLowerCase().includes(search.toLowerCase()) ||
-      s.order_id?.toLowerCase().includes(search.toLowerCase())
-  );
+  const filtered = subscriptions?.filter((s) => {
+    if (!search) return true;
+    const q = search.toLowerCase();
+    const p = profileMap.get(s.user_id);
+    return (
+      s.user_id?.toLowerCase().includes(q) ||
+      s.order_id?.toLowerCase().includes(q) ||
+      p?.full_name?.toLowerCase().includes(q) ||
+      p?.email?.toLowerCase().includes(q)
+    );
+  });
+
 
   return (
     <Card>
