@@ -36,6 +36,22 @@ const SubscriptionManagement = () => {
     },
   });
 
+  const userIds = Array.from(new Set((subscriptions || []).map((s: any) => s.user_id).filter(Boolean)));
+  const { data: profiles } = useQuery({
+    queryKey: ["subscription-profiles", userIds],
+    enabled: userIds.length > 0,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("id, full_name, email")
+        .in("id", userIds as string[]);
+      if (error) throw error;
+      return data as Array<{ id: string; full_name: string | null; email: string | null }>;
+    },
+  });
+  const profileMap = new Map((profiles || []).map((p) => [p.id, p]));
+
+
   const blockUser = useMutation({
     mutationFn: async ({ userId, reason }: { userId: string; reason: string }) => {
       const { data: { user } } = await supabase.auth.getUser();
@@ -113,12 +129,18 @@ const SubscriptionManagement = () => {
     },
   });
 
-  const filtered = subscriptions?.filter(
-    (s) =>
-      !search ||
-      s.user_id?.toLowerCase().includes(search.toLowerCase()) ||
-      s.order_id?.toLowerCase().includes(search.toLowerCase())
-  );
+  const filtered = subscriptions?.filter((s) => {
+    if (!search) return true;
+    const q = search.toLowerCase();
+    const p = profileMap.get(s.user_id);
+    return (
+      s.user_id?.toLowerCase().includes(q) ||
+      s.order_id?.toLowerCase().includes(q) ||
+      p?.full_name?.toLowerCase().includes(q) ||
+      p?.email?.toLowerCase().includes(q)
+    );
+  });
+
 
   return (
     <Card>
@@ -130,7 +152,7 @@ const SubscriptionManagement = () => {
         <div className="relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <Input
-            placeholder="Search by user ID or transaction ID..."
+            placeholder="Search by user ID, name, email or transaction ID..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="pl-9"
@@ -144,7 +166,8 @@ const SubscriptionManagement = () => {
             <table className="min-w-full divide-y divide-border">
               <thead>
                 <tr>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase">User ID</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase">Customer</th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase">Email</th>
                   <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase">Transaction ID</th>
                   <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase">Amount</th>
                   <th className="px-4 py-3 text-left text-xs font-medium text-muted-foreground uppercase">Status</th>
@@ -153,12 +176,17 @@ const SubscriptionManagement = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-border">
-                {filtered?.map((sub) => (
+                {filtered?.map((sub) => {
+                  const profile = profileMap.get(sub.user_id);
+                  return (
                   <tr key={sub.id}>
-                    <td className="px-4 py-3 text-sm font-mono text-muted-foreground">
-                      {sub.user_id?.slice(0, 8)}...
+                    <td className="px-4 py-3 text-sm">
+                      <div className="font-medium">{profile?.full_name || "—"}</div>
+                      <div className="text-xs font-mono text-muted-foreground">{sub.user_id?.slice(0, 8)}...</div>
                     </td>
+                    <td className="px-4 py-3 text-sm text-muted-foreground">{profile?.email || "—"}</td>
                     <td className="px-4 py-3 text-sm font-mono">{sub.order_id || "—"}</td>
+
                     <td className="px-4 py-3 text-sm">₹{sub.amount}</td>
                     <td className="px-4 py-3 text-sm">
                       <Badge variant={
@@ -221,7 +249,9 @@ const SubscriptionManagement = () => {
                       </div>
                     </td>
                   </tr>
-                ))}
+                  );
+                })}
+
               </tbody>
             </table>
           </div>

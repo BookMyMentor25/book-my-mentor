@@ -87,7 +87,7 @@ const AITools = () => {
         title="Free AI Business Toolkit — 32 PM Tools | BookMyMentor"
         description="32 free AI tools for Product Managers & Entrepreneurs: Business Model Canvas, PRDs, SWOT, Roadmaps, Pitch Decks & more. No credit card."
         keywords="free AI tools, agentic AI, generative AI, product management tools, business model canvas generator, lean canvas maker, PRD generator, SWOT analysis tool, competitor analysis, roadmap builder, pitch deck creator, startup tools, entrepreneur toolkit, free business tools, agile tools, sprint planning"
-        canonicalUrl="https://book-my-mentor.lovable.app/ai-tools"
+        canonicalUrl="https://bookmymentor.com/ai-tools"
         structuredData={generateFAQSchema(toolsFAQs)}
       />
       <Header />

@@ -109,39 +109,31 @@ const AdminDashboard = () => {
                   <table className="min-w-full divide-y divide-gray-200">
                     <thead>
                       <tr>
-                        <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                          Order ID
-                        </th>
-                        <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                          User ID
-                        </th>
-                        <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                          Amount
-                        </th>
-                        <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                          Status
-                        </th>
-                        <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                          Date
-                        </th>
-                        <th className="px-6 py-3 bg-gray-50"></th>
+                        <th className="px-4 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Order ID</th>
+                        <th className="px-4 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Customer</th>
+                        <th className="px-4 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
+                        <th className="px-4 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Amount</th>
+                        <th className="px-4 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                        <th className="px-4 py-3 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+                        <th className="px-4 py-3 bg-gray-50"></th>
                       </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
-                      {orders?.map((order) => (
+                      {orders?.map((order: any) => (
                         <tr key={order.id}>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{order.id}</td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">{order.user_id}</td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">${order.amount}</td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                          <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500 font-mono">{order.id.slice(0, 8)}...</td>
+                          <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-900">{order.student_name || '—'}</td>
+                          <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">{order.student_email || '—'}</td>
+                          <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">₹{order.amount}</td>
+                          <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
                             <Badge variant={getStatusVariant(order.status || 'pending')}>
                               {order.status}
                             </Badge>
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                          <td className="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
                             {format(new Date(order.created_at), 'MMM dd, yyyy')}
                           </td>
-                          <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                          <td className="px-4 py-4 whitespace-nowrap text-right text-sm font-medium">
                             <Select
                               defaultValue={order.status || 'pending'}
                               onValueChange={(status) => handleUpdateOrderStatus(order.id, status)}
@@ -161,6 +153,7 @@ const AdminDashboard = () => {
                         </tr>
                       ))}
                     </tbody>
+
                   </table>
                 </div>
               )}

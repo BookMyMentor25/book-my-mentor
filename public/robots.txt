@@ -44,7 +44,7 @@ Disallow: /checkout
 Disallow: /api/
 
 # Sitemap location
-Sitemap: https://book-my-mentor.lovable.app/sitemap.xml
+Sitemap: https://bookmymentor.com/sitemap.xml
 
 # Host
-Host: https://book-my-mentor.lovable.app
+Host: https://bookmymentor.com
