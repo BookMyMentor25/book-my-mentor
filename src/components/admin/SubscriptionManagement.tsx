@@ -36,6 +36,22 @@ const SubscriptionManagement = () => {
     },
   });
 
+  const userIds = Array.from(new Set((subscriptions || []).map((s: any) => s.user_id).filter(Boolean)));
+  const { data: profiles } = useQuery({
+    queryKey: ["subscription-profiles", userIds],
+    enabled: userIds.length > 0,
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("id, full_name, email")
+        .in("id", userIds as string[]);
+      if (error) throw error;
+      return data as Array<{ id: string; full_name: string | null; email: string | null }>;
+    },
+  });
+  const profileMap = new Map((profiles || []).map((p) => [p.id, p]));
+
+
   const blockUser = useMutation({
     mutationFn: async ({ userId, reason }: { userId: string; reason: string }) => {
       const { data: { user } } = await supabase.auth.getUser();
