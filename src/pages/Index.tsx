@@ -93,7 +93,7 @@ const Index = () => {
             
             {/* Subheadline - Fade in with delay */}
             <p className="animate-hidden animate-slide-up animate-delay-500 text-base sm:text-lg md:text-xl mb-8 text-white/90 max-w-2xl mx-auto leading-relaxed font-medium">
-              India's trusted EdTech and HR-Tech platform. Get expert-led courses in Product Management, Lean Startup and Project Management with Live Projects, plus verified jobs and internships from top recruiters.
+              India's trusted EdTech and HR-Tech platform. Expert-led courses with Live Projects, plus verified jobs and internships.
             </p>
 
 
