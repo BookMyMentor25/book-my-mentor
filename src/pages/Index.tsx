@@ -93,7 +93,7 @@ const Index = () => {
             
             {/* Subheadline - Fade in with delay */}
             <p className="animate-hidden animate-slide-up animate-delay-500 text-base sm:text-lg md:text-xl mb-8 text-white/90 max-w-2xl mx-auto leading-relaxed font-medium">
-              India's EdTech + HR-Tech platform — expert-led courses in Product Management, Lean Startup & Project Management, plus verified jobs & internships from top recruiters.
+              India's trusted EdTech and HR-Tech platform. Get expert-led courses in Product Management, Lean Startup and Project Management with Live Projects, plus verified jobs and internships from top recruiters.
             </p>
 
 
@@ -114,10 +114,10 @@ const Index = () => {
                     size="lg" 
                     variant="outline"
                     className="bg-white/10 backdrop-blur-md text-white border-2 border-white/30 hover:bg-white/20 hover:border-white/50 text-base md:text-lg px-8 py-6 rounded-xl font-semibold w-full sm:w-auto transition-all duration-300 hover:scale-[1.02]"
-                    onClick={handleDownloadBrochures}
-                    aria-label="Download free e-books and course brochures"
+                    onClick={() => navigate('/jobs')}
+                    aria-label="Apply to trending jobs and internships"
                   >
-                    Free E-Books
+                    Apply to Trending Jobs & Internships
                   </Button>
                 </>
               ) : (
@@ -135,10 +135,10 @@ const Index = () => {
                     size="lg" 
                     variant="outline"
                     className="bg-white/10 backdrop-blur-md text-white border-2 border-white/30 hover:bg-white/20 hover:border-white/50 text-base md:text-lg px-8 py-6 rounded-xl font-semibold w-full sm:w-auto transition-all duration-300 hover:scale-[1.02]"
-                    onClick={handleDownloadBrochures}
-                    aria-label="Download free e-books"
+                    onClick={() => navigate('/jobs')}
+                    aria-label="Apply to trending jobs and internships"
                   >
-                    Download Free E-Books
+                    Apply to Trending Jobs & Internships
                   </Button>
                 </>
               )}
