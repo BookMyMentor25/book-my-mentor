@@ -117,7 +117,7 @@ const Index = () => {
                     onClick={() => navigate('/jobs')}
                     aria-label="Apply to trending jobs and internships"
                   >
-                    Apply to Trending Jobs & Internships
+                    Get Hired Now — Apply for Jobs & Internships
                   </Button>
                 </>
               ) : (
@@ -138,7 +138,7 @@ const Index = () => {
                     onClick={() => navigate('/jobs')}
                     aria-label="Apply to trending jobs and internships"
                   >
-                    Apply to Trending Jobs & Internships
+                    Get Hired Now — Apply for Jobs & Internships
                   </Button>
                 </>
               )}
