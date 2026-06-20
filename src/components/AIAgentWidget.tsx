@@ -8,29 +8,31 @@ import { toast } from "@/hooks/use-toast";
 
 type Msg = { role: "user" | "assistant"; content: string };
 
-const GUEST_DAILY_LIMIT = 8;
-const STORAGE_KEY = "bmm_ai_agent_guest_usage";
+const GUEST_DAILY_LIMIT = 3;
+const USER_DAILY_LIMIT = 10;
+const GUEST_KEY = "bmm_ai_agent_guest_usage";
+const USER_KEY_PREFIX = "bmm_ai_agent_user_usage_";
 
-function getGuestUsage() {
+function getUsage(key: string) {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
+    const raw = localStorage.getItem(key);
     if (!raw) return { date: "", count: 0 };
     const obj = JSON.parse(raw);
     return { date: obj.date || "", count: Number(obj.count) || 0 };
   } catch { return { date: "", count: 0 }; }
 }
-function bumpGuestUsage() {
+function bumpUsage(key: string) {
   const today = new Date().toISOString().slice(0, 10);
-  const u = getGuestUsage();
+  const u = getUsage(key);
   const next = u.date === today ? { date: today, count: u.count + 1 } : { date: today, count: 1 };
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+  localStorage.setItem(key, JSON.stringify(next));
   return next.count;
 }
-function guestRemaining() {
+function remaining(key: string, limit: number) {
   const today = new Date().toISOString().slice(0, 10);
-  const u = getGuestUsage();
-  if (u.date !== today) return GUEST_DAILY_LIMIT;
-  return Math.max(0, GUEST_DAILY_LIMIT - u.count);
+  const u = getUsage(key);
+  if (u.date !== today) return limit;
+  return Math.max(0, limit - u.count);
 }
 
 const SUGGESTIONS = [
@@ -55,10 +57,14 @@ export default function AIAgentWidget() {
   const send = async (text?: string) => {
     const content = (text ?? input).trim();
     if (!content || loading) return;
-    if (!user && guestRemaining() <= 0) {
+    const key = user ? USER_KEY_PREFIX + user.id : GUEST_KEY;
+    const limit = user ? USER_DAILY_LIMIT : GUEST_DAILY_LIMIT;
+    if (remaining(key, limit) <= 0) {
       toast({
         title: "Daily limit reached",
-        description: "Sign up free to keep chatting with Mentor AI.",
+        description: user
+          ? `You've reached your ${USER_DAILY_LIMIT}/day limit. Please come back tomorrow.`
+          : `Guests get ${GUEST_DAILY_LIMIT}/day. Sign up free for ${USER_DAILY_LIMIT}/day.`,
         variant: "destructive",
       });
       return;
@@ -75,7 +81,7 @@ export default function AIAgentWidget() {
       if ((data as any)?.error) throw new Error((data as any).error);
       const reply = (data as any)?.reply || "Sorry, I didn't get that.";
       setMessages((m) => [...m, { role: "assistant", content: reply }]);
-      if (!user) bumpGuestUsage();
+      bumpUsage(key);
     } catch (e: any) {
       const msg = String(e?.message || e);
       let friendly = "Something went wrong. Please try again.";
@@ -151,7 +157,7 @@ export default function AIAgentWidget() {
             <Input
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder={user ? "Ask anything…" : `${guestRemaining()} free messages left today`}
+              placeholder={`${remaining(user ? USER_KEY_PREFIX + user.id : GUEST_KEY, user ? USER_DAILY_LIMIT : GUEST_DAILY_LIMIT)} messages left today`}
               disabled={loading}
               className="flex-1"
             />
