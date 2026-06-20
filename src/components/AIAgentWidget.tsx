@@ -157,7 +157,7 @@ export default function AIAgentWidget() {
             <Input
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder={user ? "Ask anything…" : `${guestRemaining()} free messages left today`}
+              placeholder={`${remaining(user ? USER_KEY_PREFIX + user.id : GUEST_KEY, user ? USER_DAILY_LIMIT : GUEST_DAILY_LIMIT)} messages left today`}
               disabled={loading}
               className="flex-1"
             />
