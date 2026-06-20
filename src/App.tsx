@@ -24,6 +24,7 @@ import RecruiterDashboard from "./pages/RecruiterDashboard";
 import ResumeToolkit from "./pages/ResumeToolkit";
 import CoverLetterTool from "./pages/CoverLetterTool";
 import Terms from "./pages/Terms";
+import AIAgentWidget from "./components/AIAgentWidget";
 
 const queryClient = new QueryClient();
 
@@ -56,6 +57,7 @@ const App = () => (
             <Route path="/terms" element={<Terms />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
+          <AIAgentWidget />
         </BrowserRouter>
       </TooltipProvider>
     </AuthProvider>
