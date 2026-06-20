@@ -57,10 +57,14 @@ export default function AIAgentWidget() {
   const send = async (text?: string) => {
     const content = (text ?? input).trim();
     if (!content || loading) return;
-    if (!user && guestRemaining() <= 0) {
+    const key = user ? USER_KEY_PREFIX + user.id : GUEST_KEY;
+    const limit = user ? USER_DAILY_LIMIT : GUEST_DAILY_LIMIT;
+    if (remaining(key, limit) <= 0) {
       toast({
         title: "Daily limit reached",
-        description: "Sign up free to keep chatting with Mentor AI.",
+        description: user
+          ? `You've reached your ${USER_DAILY_LIMIT}/day limit. Please come back tomorrow.`
+          : `Guests get ${GUEST_DAILY_LIMIT}/day. Sign up free for ${USER_DAILY_LIMIT}/day.`,
         variant: "destructive",
       });
       return;
@@ -77,7 +81,7 @@ export default function AIAgentWidget() {
       if ((data as any)?.error) throw new Error((data as any).error);
       const reply = (data as any)?.reply || "Sorry, I didn't get that.";
       setMessages((m) => [...m, { role: "assistant", content: reply }]);
-      if (!user) bumpGuestUsage();
+      bumpUsage(key);
     } catch (e: any) {
       const msg = String(e?.message || e);
       let friendly = "Something went wrong. Please try again.";
