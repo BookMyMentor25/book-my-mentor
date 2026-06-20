@@ -8,29 +8,31 @@ import { toast } from "@/hooks/use-toast";
 
 type Msg = { role: "user" | "assistant"; content: string };
 
-const GUEST_DAILY_LIMIT = 8;
-const STORAGE_KEY = "bmm_ai_agent_guest_usage";
+const GUEST_DAILY_LIMIT = 3;
+const USER_DAILY_LIMIT = 10;
+const GUEST_KEY = "bmm_ai_agent_guest_usage";
+const USER_KEY_PREFIX = "bmm_ai_agent_user_usage_";
 
-function getGuestUsage() {
+function getUsage(key: string) {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
+    const raw = localStorage.getItem(key);
     if (!raw) return { date: "", count: 0 };
     const obj = JSON.parse(raw);
     return { date: obj.date || "", count: Number(obj.count) || 0 };
   } catch { return { date: "", count: 0 }; }
 }
-function bumpGuestUsage() {
+function bumpUsage(key: string) {
   const today = new Date().toISOString().slice(0, 10);
-  const u = getGuestUsage();
+  const u = getUsage(key);
   const next = u.date === today ? { date: today, count: u.count + 1 } : { date: today, count: 1 };
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(next));
+  localStorage.setItem(key, JSON.stringify(next));
   return next.count;
 }
-function guestRemaining() {
+function remaining(key: string, limit: number) {
   const today = new Date().toISOString().slice(0, 10);
-  const u = getGuestUsage();
-  if (u.date !== today) return GUEST_DAILY_LIMIT;
-  return Math.max(0, GUEST_DAILY_LIMIT - u.count);
+  const u = getUsage(key);
+  if (u.date !== today) return limit;
+  return Math.max(0, limit - u.count);
 }
 
 const SUGGESTIONS = [
