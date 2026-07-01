@@ -98,6 +98,9 @@ async function runTool(name: string, args: any) {
     if (error) return { error: error.message, courses: [] };
     return { courses: data ?? [], count: data?.length ?? 0 };
   }
+  if (name === "list_ai_tools") {
+    return { tools: BMM_AI_TOOLS, count: BMM_AI_TOOLS.length };
+  }
   return { error: "unknown tool" };
 }
 
