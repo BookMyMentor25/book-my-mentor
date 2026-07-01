@@ -51,10 +51,26 @@ const tools = [
     type: "function",
     function: {
       name: "list_courses",
-      description: "List active courses offered by Book My Mentor. Use ONLY when the user asks about courses available on this platform.",
+      description: "List active courses offered by Book My Mentor. Call whenever the user asks about learning, certifications, mentorship, or course recommendations.",
       parameters: { type: "object", properties: {} },
     },
   },
+  {
+    type: "function",
+    function: {
+      name: "list_ai_tools",
+      description: "List Book My Mentor's in-house AI tools (Resume Pro, Cover Letter Pro, Wireframe, Business Toolkit, etc.). Call whenever the user asks about tools, resume/cover-letter helpers, wireframing, or productivity assistants.",
+      parameters: { type: "object", properties: {} },
+    },
+  },
+];
+
+const BMM_AI_TOOLS = [
+  { name: "AI Resume Pro", path: "/ai-tools", description: "PDF resume analysis + ATS-optimized rewrites, gated for registered users." },
+  { name: "AI Cover Letter Pro", path: "/ai-tools/cover-letter", description: "Personalized, ATS-friendly cover letters generated from job details." },
+  { name: "AI Wireframe Tool", path: "/ai-tools/wireframe", description: "Natural-language UI/UX wireframe generator, exportable to JSON/PDF." },
+  { name: "Business & Product Toolkit", path: "/ai-tools", description: "32+ free AI tools for founders and PMs — SWOT, personas, GTM, roadmaps, more." },
+  { name: "Free Assessment Quizzes", path: "/courses", description: "Timed quizzes on each course page to assess skills before enrolling." },
 ];
 
 async function runTool(name: string, args: any) {
