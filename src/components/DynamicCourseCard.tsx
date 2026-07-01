@@ -183,6 +183,16 @@ const DynamicCourseCard = ({ course }: DynamicCourseCardProps) => {
         
         {/* CTA Buttons - 3-Click Navigation */}
         <div className="mt-6 space-y-3">
+          <Button
+            onClick={() => navigate(`/course/${course.id}#quiz`)}
+            variant="secondary"
+            className="w-full h-11 text-sm font-semibold bg-accent/10 text-accent border-2 border-accent/40 hover:bg-accent hover:text-accent-foreground group/quiz"
+            aria-label={`Take the free assessment quiz for ${course.title}`}
+          >
+            <Target className="w-4 h-4 mr-2 group-hover/quiz:scale-110 transition-transform" />
+            Free Assessment Quiz
+          </Button>
+
           <Button 
             onClick={() => navigate(`/course/${course.id}`)}
             variant="outline"
