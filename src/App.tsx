@@ -24,6 +24,7 @@ import RecruiterDashboard from "./pages/RecruiterDashboard";
 import ResumeToolkit from "./pages/ResumeToolkit";
 import CoverLetterTool from "./pages/CoverLetterTool";
 import Terms from "./pages/Terms";
+import OAuthConsent from "./pages/OAuthConsent";
 import AIAgentWidget from "./components/AIAgentWidget";
 
 const queryClient = new QueryClient();
@@ -55,6 +56,7 @@ const App = () => (
             <Route path="/recruiter/register" element={<RecruiterRegister />} />
             <Route path="/recruiter/dashboard" element={<RecruiterDashboard />} />
             <Route path="/terms" element={<Terms />} />
+            <Route path="/.lovable/oauth/consent" element={<OAuthConsent />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
           <AIAgentWidget />
