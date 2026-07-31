@@ -119,6 +119,94 @@ export type Database = {
         }
         Relationships: []
       }
+      course_case_studies: {
+        Row: {
+          challenge: string
+          course_id: string
+          created_at: string
+          difficulty: string
+          hint: string | null
+          id: string
+          order_index: number
+          scenario: string
+          tasks: string[]
+          title: string
+        }
+        Insert: {
+          challenge: string
+          course_id: string
+          created_at?: string
+          difficulty?: string
+          hint?: string | null
+          id?: string
+          order_index?: number
+          scenario: string
+          tasks?: string[]
+          title: string
+        }
+        Update: {
+          challenge?: string
+          course_id?: string
+          created_at?: string
+          difficulty?: string
+          hint?: string | null
+          id?: string
+          order_index?: number
+          scenario?: string
+          tasks?: string[]
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "course_case_studies_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "courses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      course_interview_questions: {
+        Row: {
+          answer_outline: string
+          category: string
+          course_id: string
+          created_at: string
+          difficulty: string
+          id: string
+          order_index: number
+          question: string
+        }
+        Insert: {
+          answer_outline: string
+          category?: string
+          course_id: string
+          created_at?: string
+          difficulty?: string
+          id?: string
+          order_index?: number
+          question: string
+        }
+        Update: {
+          answer_outline?: string
+          category?: string
+          course_id?: string
+          created_at?: string
+          difficulty?: string
+          id?: string
+          order_index?: number
+          question?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "course_interview_questions_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "courses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       courses: {
         Row: {
           category: string | null
