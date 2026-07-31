@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
@@ -81,8 +81,23 @@ const QuizModal = ({ open, onOpenChange, quiz, questions, attempt }: QuizModalPr
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
+  // Randomise option order per attempt so the correct answer position varies
+  const shuffledOptions = useMemo(() => {
+    const map: Record<string, typeof questions[number]['options']> = {};
+    questions.forEach((q) => {
+      const opts = [...(q.options || [])];
+      for (let i = opts.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [opts[i], opts[j]] = [opts[j], opts[i]];
+      }
+      map[q.id] = opts;
+    });
+    return map;
+  }, [questions, attempt.id]);
+
   const currentQuestion = questions[currentIndex];
   const progress = ((currentIndex + 1) / questions.length) * 100;
+
 
   const handleAnswer = (optionId: string) => {
     setAnswers(prev => ({ ...prev, [currentQuestion.id]: optionId }));
@@ -176,7 +191,7 @@ const QuizModal = ({ open, onOpenChange, quiz, questions, attempt }: QuizModalPr
           <div className="min-h-[200px]">
             <h3 className="text-lg font-semibold mb-4">{currentQuestion?.question_text}</h3>
             <div className="space-y-3">
-              {currentQuestion?.options.map((option) => (
+              {(currentQuestion ? shuffledOptions[currentQuestion.id] || currentQuestion.options : []).map((option) => (
                 <button
                   key={option.id}
                   onClick={() => handleAnswer(option.id)}
