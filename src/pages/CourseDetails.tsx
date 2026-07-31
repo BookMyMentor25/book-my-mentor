@@ -615,6 +615,15 @@ const CourseDetails = () => {
                 </div>
               )}
 
+              {/* Interview Questions & Case Studies - signed-in users only */}
+              <InterviewPrepSection
+                courseId={courseId!}
+                courseTitle={course.title}
+                isSignedIn={!!user}
+              />
+
+
+
               {/* Course Breakdown */}
               {hasWeeklyBreakdown && (
                 <Card className="shadow-lg animate-fade-in animate-delay-400">
