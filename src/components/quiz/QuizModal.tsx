@@ -191,7 +191,7 @@ const QuizModal = ({ open, onOpenChange, quiz, questions, attempt }: QuizModalPr
           <div className="min-h-[200px]">
             <h3 className="text-lg font-semibold mb-4">{currentQuestion?.question_text}</h3>
             <div className="space-y-3">
-              {currentQuestion?.options.map((option) => (
+              {(currentQuestion ? shuffledOptions[currentQuestion.id] || currentQuestion.options : []).map((option) => (
                 <button
                   key={option.id}
                   onClick={() => handleAnswer(option.id)}
