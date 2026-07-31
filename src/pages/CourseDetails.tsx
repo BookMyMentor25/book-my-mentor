@@ -12,6 +12,7 @@ import { SEOHead, generateCourseSchema, generateBreadcrumbSchema } from "@/compo
 import { useQuizByCourse, useQuizQuestions, useUserQuizAttempts, useStartQuiz } from "@/hooks/useQuiz";
 import QuizCard from "@/components/quiz/QuizCard";
 import QuizModal from "@/components/quiz/QuizModal";
+import InterviewPrepSection from "@/components/course/InterviewPrepSection";
 
 // Course metadata for SEO and display - synced with backend
 const courseMetadata: Record<string, {
