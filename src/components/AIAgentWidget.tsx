@@ -108,7 +108,7 @@ export default function AIAgentWidget() {
       )}
 
       {open && (
-        <div className="fixed inset-x-0 bottom-0 sm:bottom-6 sm:right-6 sm:inset-x-auto z-50 w-full sm:w-[380px] h-[80vh] sm:h-[600px] bg-background border border-border rounded-t-2xl sm:rounded-2xl shadow-2xl flex flex-col overflow-hidden">
+        <div className="fixed inset-x-0 bottom-0 sm:bottom-6 sm:left-6 sm:inset-x-auto z-50 w-full sm:w-[380px] h-[80vh] sm:h-[600px] bg-background border border-border rounded-t-2xl sm:rounded-2xl shadow-2xl flex flex-col overflow-hidden">
           <div className="flex items-center justify-between p-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white">
             <div className="flex items-center gap-2">
               <Bot className="w-5 h-5" />
