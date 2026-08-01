@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { useJobSubscription } from "@/hooks/useJobSubscription";
+import { useFreeToolTrial } from "@/hooks/useFreeToolTrial";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { SEOHead } from "@/components/SEOHead";
@@ -55,6 +56,7 @@ interface AnalysisData {
 const ResumeToolkit = () => {
   const { user } = useAuth();
   const { hasActiveSubscription } = useJobSubscription();
+  const { hasFreeTrial, isLoading: trialLoading } = useFreeToolTrial("ats-resume-builder");
   const navigate = useNavigate();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -75,7 +77,7 @@ const ResumeToolkit = () => {
   }, [user, navigate]);
 
   // Gate behind subscription
-  if (user && !hasActiveSubscription) {
+  if (user && !hasActiveSubscription && !trialLoading && !hasFreeTrial) {
     return (
       <div className="min-h-screen flex flex-col bg-background">
         <SEOHead
@@ -93,8 +95,7 @@ const ResumeToolkit = () => {
               </div>
               <h1 className="text-2xl font-bold">AI Resume Pro</h1>
               <p className="text-muted-foreground">
-                This premium AI tool is exclusively available for Jobs & Internships subscribers. 
-                Get ATS-optimized resumes, JD match scores, and more.
+                You have already used your one free run of AI Resume Pro. Subscribe to Jobs & Internships for unlimited ATS-optimized resumes, JD match scores, and more.
               </p>
               <div className="flex flex-wrap justify-center gap-3 pt-2">
                 <Badge className="bg-primary/10 text-primary gap-1"><Zap className="w-3 h-3" />ATS Optimized</Badge>
