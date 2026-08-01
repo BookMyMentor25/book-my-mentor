@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Lock, MessageSquareText, BriefcaseBusiness, Lightbulb, CheckCircle2, Sparkles } from "lucide-react";
@@ -14,6 +15,18 @@ interface Props {
   isSignedIn: boolean;
 }
 
+const LoadingRows = () => (
+  <div className="space-y-3" aria-busy="true" aria-live="polite">
+    {[0, 1, 2].map((i) => (
+      <div key={i} className="rounded-lg border border-border p-4 space-y-2">
+        <Skeleton className="h-4 w-24" />
+        <Skeleton className="h-4 w-full" />
+        <Skeleton className="h-4 w-3/5" />
+      </div>
+    ))}
+  </div>
+);
+
 const InterviewPrepSection = ({ courseId, courseTitle, isSignedIn }: Props) => {
   const location = useLocation();
   const { data: questions = [], isLoading: loadingQ } = useInterviewQuestions(courseId, isSignedIn);
@@ -22,23 +35,51 @@ const InterviewPrepSection = ({ courseId, courseTitle, isSignedIn }: Props) => {
 
   const authHref = `/auth?redirect=${encodeURIComponent(location.pathname + "#interview-prep")}`;
 
+  // SEO: FAQ structured data for the interview questions on this course page
+  const faqSchema = useMemo(() => {
+    if (!questions.length) return null;
+    return {
+      "@context": "https://schema.org",
+      "@type": "FAQPage",
+      mainEntity: questions.slice(0, 10).map((q) => ({
+        "@type": "Question",
+        name: q.question,
+        acceptedAnswer: { "@type": "Answer", text: q.answer_outline },
+      })),
+    };
+  }, [questions]);
+
+  useEffect(() => {
+    if (!faqSchema) return;
+    const el = document.createElement("script");
+    el.type = "application/ld+json";
+    el.setAttribute("data-seo", "course-interview-faq");
+    el.textContent = JSON.stringify(faqSchema);
+    document.head.appendChild(el);
+    return () => { el.remove(); };
+  }, [faqSchema]);
+
   return (
-    <section id="interview-prep" className="mb-[var(--space-lg)] scroll-mt-24">
+    <section id="interview-prep" aria-labelledby="interview-prep-heading" className="mb-[var(--space-lg)] scroll-mt-24">
       <Card className="shadow-lg overflow-hidden border-primary/20">
-        <CardHeader className="bg-gradient-to-r from-primary/10 via-primary/5 to-transparent">
-          <div className="flex flex-wrap items-center gap-3">
-            <div className="p-2 rounded-lg bg-primary/15">
-              <MessageSquareText className="w-5 h-5 text-primary" />
+        <CardHeader className="bg-gradient-to-r from-primary/10 via-primary/5 to-transparent p-[var(--space-md)] md:p-[var(--space-lg)]">
+          <div className="flex flex-wrap items-start gap-3">
+            <div className="p-2 rounded-lg bg-primary/15 shrink-0">
+              <MessageSquareText className="w-5 h-5 text-primary" aria-hidden />
             </div>
-            <div className="min-w-0">
-              <CardTitle className="text-[1.618rem] font-bold text-foreground leading-tight">
-                Interview Questions &amp; Case Studies
-              </CardTitle>
-              <p className="text-sm text-muted-foreground mt-1">
-                Real hiring-round questions and advanced case studies for {courseTitle}
+            <div className="min-w-0 flex-1">
+              <h2
+                id="interview-prep-heading"
+                className="text-[1.2rem] sm:text-[1.618rem] font-bold text-foreground leading-tight tracking-tight"
+              >
+                {courseTitle} Interview Questions &amp; Case Studies
+              </h2>
+              <p className="text-sm text-muted-foreground mt-1 leading-relaxed">
+                Real hiring-round interview questions, answer frameworks and advanced case studies to help
+                you crack {courseTitle} interviews and get hired faster.
               </p>
             </div>
-            <Badge className="ml-auto bg-accent text-accent-foreground shrink-0">Members only</Badge>
+            <Badge className="bg-accent text-accent-foreground shrink-0">Members only</Badge>
           </div>
         </CardHeader>
 
@@ -56,38 +97,39 @@ const InterviewPrepSection = ({ courseId, courseTitle, isSignedIn }: Props) => {
               </div>
               <div className="mt-6 text-center max-w-xl mx-auto">
                 <div className="inline-flex p-3 rounded-full bg-primary/10 mb-3">
-                  <Lock className="w-6 h-6 text-primary" />
+                  <Lock className="w-6 h-6 text-primary" aria-hidden />
                 </div>
-                <h3 className="text-xl font-bold text-foreground mb-2">
-                  Unlock 6 interview questions + 3 case studies — free
+                <h3 className="text-lg sm:text-xl font-bold text-foreground mb-2">
+                  Unlock interview questions + case studies — free
                 </h3>
-                <p className="text-muted-foreground mb-4 text-sm md:text-base">
-                  Sign in to access model answer frameworks used in real product, startup and project
-                  management interviews. No payment required.
+                <p className="text-muted-foreground mb-4 text-sm md:text-base leading-relaxed">
+                  Sign in to access model answer frameworks used in real product management, lean startup and
+                  project management interviews. No payment required.
                 </p>
-                <Button asChild size="lg" className="w-full sm:w-auto">
-                  <Link to={authHref}>
-                    <Sparkles className="w-4 h-4 mr-2" /> Sign in to unlock free access
+                <Button asChild size="lg" className="cta-primary w-full sm:w-auto min-h-[3rem]">
+                  <Link to={authHref} aria-label="Sign in to unlock free interview questions and case studies">
+                    <Sparkles className="w-4 h-4 mr-2" aria-hidden /> Sign in to unlock free access
                   </Link>
                 </Button>
+                <p className="text-xs text-muted-foreground mt-3">Takes 30 seconds · Your data stays private</p>
               </div>
             </div>
           ) : (
             <Tabs defaultValue="interview" className="w-full">
-              <TabsList className="grid w-full grid-cols-2 mb-[var(--space-md)]">
-                <TabsTrigger value="interview" className="text-xs sm:text-sm">
-                  <MessageSquareText className="w-4 h-4 mr-1.5 hidden sm:inline" />
+              <TabsList className="grid w-full grid-cols-2 mb-[var(--space-md)] h-auto">
+                <TabsTrigger value="interview" className="text-xs sm:text-sm py-2">
+                  <MessageSquareText className="w-4 h-4 mr-1.5 hidden sm:inline" aria-hidden />
                   Interview Questions
                 </TabsTrigger>
-                <TabsTrigger value="cases" className="text-xs sm:text-sm">
-                  <BriefcaseBusiness className="w-4 h-4 mr-1.5 hidden sm:inline" />
+                <TabsTrigger value="cases" className="text-xs sm:text-sm py-2">
+                  <BriefcaseBusiness className="w-4 h-4 mr-1.5 hidden sm:inline" aria-hidden />
                   Case Studies
                 </TabsTrigger>
               </TabsList>
 
-              <TabsContent value="interview">
+              <TabsContent value="interview" className="focus-visible:outline-none">
                 {loadingQ ? (
-                  <p className="text-muted-foreground text-sm">Loading questions…</p>
+                  <LoadingRows />
                 ) : questions.length === 0 ? (
                   <p className="text-muted-foreground text-sm">Questions are being added for this course.</p>
                 ) : (
@@ -98,7 +140,7 @@ const InterviewPrepSection = ({ courseId, courseTitle, isSignedIn }: Props) => {
                           <Badge variant="secondary" className="text-[11px]">{q.category}</Badge>
                           <Badge variant="outline" className="text-[11px]">{q.difficulty}</Badge>
                         </div>
-                        <h3 className="font-semibold text-foreground leading-snug">
+                        <h3 className="font-semibold text-foreground leading-snug text-[0.95rem] sm:text-base">
                           Q{i + 1}. {q.question}
                         </h3>
                         {revealed[q.id] ? (
@@ -110,7 +152,8 @@ const InterviewPrepSection = ({ courseId, courseTitle, isSignedIn }: Props) => {
                           <Button
                             variant="ghost"
                             size="sm"
-                            className="mt-2 px-0 text-primary hover:text-primary"
+                            className="mt-2 px-0 text-primary hover:text-primary hover:bg-transparent"
+                            aria-expanded={false}
                             onClick={() => setRevealed((p) => ({ ...p, [q.id]: true }))}
                           >
                             Reveal answer framework
@@ -122,22 +165,22 @@ const InterviewPrepSection = ({ courseId, courseTitle, isSignedIn }: Props) => {
                 )}
               </TabsContent>
 
-              <TabsContent value="cases">
+              <TabsContent value="cases" className="focus-visible:outline-none">
                 {loadingC ? (
-                  <p className="text-muted-foreground text-sm">Loading case studies…</p>
+                  <LoadingRows />
                 ) : cases.length === 0 ? (
                   <p className="text-muted-foreground text-sm">Case studies are being added for this course.</p>
                 ) : (
                   <Accordion type="single" collapsible className="w-full space-y-3">
                     {cases.map((cs, i) => (
-                      <AccordionItem key={cs.id} value={cs.id} className="border border-border rounded-lg px-4">
-                        <AccordionTrigger className="text-left hover:no-underline">
-                          <div className="pr-2">
+                      <AccordionItem key={cs.id} value={cs.id} className="border border-border rounded-lg px-3 sm:px-4">
+                        <AccordionTrigger className="text-left hover:no-underline py-3">
+                          <div className="pr-2 min-w-0">
                             <div className="flex flex-wrap items-center gap-2 mb-1">
                               <Badge className="bg-accent text-accent-foreground text-[11px]">Case {i + 1}</Badge>
                               <Badge variant="outline" className="text-[11px]">{cs.difficulty}</Badge>
                             </div>
-                            <span className="font-semibold text-foreground">{cs.title}</span>
+                            <h3 className="font-semibold text-foreground text-[0.95rem] sm:text-base leading-snug">{cs.title}</h3>
                           </div>
                         </AccordionTrigger>
                         <AccordionContent className="space-y-4 pb-4">
@@ -154,7 +197,7 @@ const InterviewPrepSection = ({ courseId, courseTitle, isSignedIn }: Props) => {
                             <ul className="space-y-2">
                               {cs.tasks.map((t) => (
                                 <li key={t} className="flex items-start gap-2 text-sm text-foreground/80">
-                                  <CheckCircle2 className="w-4 h-4 text-primary mt-0.5 shrink-0" />
+                                  <CheckCircle2 className="w-4 h-4 text-primary mt-0.5 shrink-0" aria-hidden />
                                   <span>{t}</span>
                                 </li>
                               ))}
@@ -162,7 +205,7 @@ const InterviewPrepSection = ({ courseId, courseTitle, isSignedIn }: Props) => {
                           </div>
                           {cs.hint && (
                             <div className="flex items-start gap-2 p-3 rounded-md bg-accent/10 border border-accent/30">
-                              <Lightbulb className="w-4 h-4 text-accent mt-0.5 shrink-0" />
+                              <Lightbulb className="w-4 h-4 text-accent mt-0.5 shrink-0" aria-hidden />
                               <p className="text-sm text-foreground/80">{cs.hint}</p>
                             </div>
                           )}
