@@ -99,7 +99,7 @@ export default function AIAgentWidget() {
         <button
           onClick={() => setOpen(true)}
           aria-label="Open Mentor AI assistant"
-          className="fixed bottom-24 right-4 z-50 group flex items-center gap-2 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-2xl px-4 py-3 hover:scale-105 transition-transform"
+          className="fixed bottom-6 left-4 sm:left-6 z-50 group flex items-center gap-2 rounded-full bg-gradient-to-r from-purple-600 to-pink-600 text-white shadow-2xl px-4 py-3 hover:scale-105 transition-transform"
         >
           <Sparkles className="w-5 h-5" />
           <span className="hidden sm:inline font-semibold text-sm">Ask Mentor AI</span>
