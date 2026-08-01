@@ -68,14 +68,12 @@ const InterviewPrepSection = ({ courseId, courseTitle, isSignedIn }: Props) => {
               <MessageSquareText className="w-5 h-5 text-primary" aria-hidden />
             </div>
             <div className="min-w-0 flex-1">
-              <CardTitle asChild>
-                <h2
-                  id="interview-prep-heading"
-                  className="text-[1.2rem] sm:text-[1.618rem] font-bold text-foreground leading-tight"
-                >
-                  {courseTitle} Interview Questions &amp; Case Studies
-                </h2>
-              </CardTitle>
+              <h2
+                id="interview-prep-heading"
+                className="text-[1.2rem] sm:text-[1.618rem] font-bold text-foreground leading-tight tracking-tight"
+              >
+                {courseTitle} Interview Questions &amp; Case Studies
+              </h2>
               <p className="text-sm text-muted-foreground mt-1 leading-relaxed">
                 Real hiring-round interview questions, answer frameworks and advanced case studies to help
                 you crack {courseTitle} interviews and get hired faster.
