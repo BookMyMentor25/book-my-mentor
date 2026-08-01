@@ -77,11 +77,11 @@ const InterviewPrepSection = ({ courseId, courseTitle, isSignedIn }: Props) => {
               <TabsList className="grid w-full grid-cols-2 mb-[var(--space-md)]">
                 <TabsTrigger value="interview" className="text-xs sm:text-sm">
                   <MessageSquareText className="w-4 h-4 mr-1.5 hidden sm:inline" />
-                  Interview Questions ({questions.length})
+                  Interview Questions
                 </TabsTrigger>
                 <TabsTrigger value="cases" className="text-xs sm:text-sm">
                   <BriefcaseBusiness className="w-4 h-4 mr-1.5 hidden sm:inline" />
-                  Case Studies ({cases.length})
+                  Case Studies
                 </TabsTrigger>
               </TabsList>
 
