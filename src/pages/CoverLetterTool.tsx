@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { useJobSubscription } from "@/hooks/useJobSubscription";
+import { useFreeToolTrial } from "@/hooks/useFreeToolTrial";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { SEOHead } from "@/components/SEOHead";
@@ -51,6 +52,7 @@ interface CoverLetterAnalysis {
 const CoverLetterTool = () => {
   const { user } = useAuth();
   const { hasActiveSubscription } = useJobSubscription();
+  const { hasFreeTrial, isLoading: trialLoading } = useFreeToolTrial("cover-letter-pro");
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -88,7 +90,7 @@ const CoverLetterTool = () => {
     }
   }, [user]);
 
-  if (user && !hasActiveSubscription) {
+  if (user && !hasActiveSubscription && !trialLoading && !hasFreeTrial) {
     return (
       <div className="min-h-screen flex flex-col bg-background">
         <Header />
@@ -99,7 +101,7 @@ const CoverLetterTool = () => {
                 <Crown className="w-10 h-10 text-primary" />
               </div>
               <h2 className="text-2xl font-bold">Premium Feature</h2>
-              <p className="text-muted-foreground">AI Cover Letter Pro is available exclusively for Jobs & Internships subscribers.</p>
+              <p className="text-muted-foreground">You have already used your one free run of AI Cover Letter Pro. Subscribe to Jobs & Internships for unlimited access.</p>
               <div className="bg-muted/50 rounded-lg p-4 space-y-2 text-left">
                 <div className="flex items-center gap-2 text-sm"><CheckCircle2 className="w-4 h-4 text-primary" />ATS-optimized cover letters</div>
                 <div className="flex items-center gap-2 text-sm"><CheckCircle2 className="w-4 h-4 text-primary" />JD match percentage analysis</div>
