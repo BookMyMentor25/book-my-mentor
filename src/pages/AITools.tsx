@@ -12,7 +12,8 @@ import {
   ArrowRight, Lock, Sparkles, ListOrdered, Kanban, RotateCcw, ShieldAlert, Target,
   LineChart, Landmark, FileText, ClipboardList, FileCheck, Lightbulb, Layers,
   CheckCircle2, UserCircle, Gem, UserPlus, AlertTriangle, BookOpen, Calendar,
-  PenTool, ClipboardCheck, MessageSquare, BarChart3, Bot, Zap, Shield, Clock
+  PenTool, ClipboardCheck, MessageSquare, BarChart3, Bot, Zap, Shield, Clock,
+  Calculator, PiggyBank, MessagesSquare, Wallet
 } from 'lucide-react';
 
 const lifecycleStages = [
@@ -20,6 +21,7 @@ const lifecycleStages = [
   { id: 'ideation', name: 'Ideation & Research', description: 'Discover opportunities and validate your idea', icon: Lightbulb, color: 'from-amber-500 to-orange-500' },
   { id: 'planning', name: 'Planning & Documentation', description: 'Create foundational documents and plans', icon: FileText, color: 'from-blue-500 to-indigo-500' },
   { id: 'development', name: 'Development & Execution', description: 'Build and manage your product development', icon: Layers, color: 'from-purple-500 to-violet-500' },
+  { id: 'finance-communication', name: 'Finance & Communication', description: 'Fund the project, control the numbers, communicate with clarity', icon: Wallet, color: 'from-yellow-500 to-amber-600' },
   { id: 'launch', name: 'Launch & Growth', description: 'Take your product to market and scale', icon: Rocket, color: 'from-green-500 to-emerald-500' },
   { id: 'optimization', name: 'Optimization & Maturity', description: 'Monitor, improve, and prepare for the future', icon: CheckCircle2, color: 'from-teal-500 to-cyan-500' }
 ];
