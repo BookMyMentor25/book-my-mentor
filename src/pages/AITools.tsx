@@ -12,7 +12,8 @@ import {
   ArrowRight, Lock, Sparkles, ListOrdered, Kanban, RotateCcw, ShieldAlert, Target,
   LineChart, Landmark, FileText, ClipboardList, FileCheck, Lightbulb, Layers,
   CheckCircle2, UserCircle, Gem, UserPlus, AlertTriangle, BookOpen, Calendar,
-  PenTool, ClipboardCheck, MessageSquare, BarChart3, Bot, Zap, Shield, Clock
+  PenTool, ClipboardCheck, MessageSquare, BarChart3, Bot, Zap, Shield, Clock,
+  Calculator, PiggyBank, MessagesSquare, Wallet
 } from 'lucide-react';
 
 const lifecycleStages = [
@@ -20,6 +21,7 @@ const lifecycleStages = [
   { id: 'ideation', name: 'Ideation & Research', description: 'Discover opportunities and validate your idea', icon: Lightbulb, color: 'from-amber-500 to-orange-500' },
   { id: 'planning', name: 'Planning & Documentation', description: 'Create foundational documents and plans', icon: FileText, color: 'from-blue-500 to-indigo-500' },
   { id: 'development', name: 'Development & Execution', description: 'Build and manage your product development', icon: Layers, color: 'from-purple-500 to-violet-500' },
+  { id: 'finance-communication', name: 'Finance & Communication', description: 'Fund the project, control the numbers, communicate with clarity', icon: Wallet, color: 'from-yellow-500 to-amber-600' },
   { id: 'launch', name: 'Launch & Growth', description: 'Take your product to market and scale', icon: Rocket, color: 'from-green-500 to-emerald-500' },
   { id: 'optimization', name: 'Optimization & Maturity', description: 'Monitor, improve, and prepare for the future', icon: CheckCircle2, color: 'from-teal-500 to-cyan-500' }
 ];
@@ -48,6 +50,9 @@ const aiTools = [
   { id: 'user-story', title: 'User Story Generator', description: 'Create well-formatted user stories with acceptance criteria following Agile best practices.', icon: BookOpen, color: 'from-blue-500 to-indigo-600', route: '/ai-tool/user-story', features: ['Story templates', 'Acceptance criteria', 'Story points estimation'], stage: 'development' },
   { id: 'sprint-planning', title: 'Sprint Planning Assistant', description: 'Plan sprints effectively with effort estimation and resource allocation.', icon: Calendar, color: 'from-green-500 to-teal-600', route: '/ai-tool/sprint-planning', features: ['Sprint goals', 'Effort estimation', 'Resource planning'], stage: 'development' },
   { id: 'wireframe-requirements', title: 'Wireframe Requirements Spec', description: 'Define UI/UX requirements and comprehensive wireframe documentation.', icon: PenTool, color: 'from-violet-500 to-purple-600', route: '/ai-tool/wireframe-requirements', features: ['UI specifications', 'UX flows', 'Design documentation'], stage: 'development' },
+  { id: 'financial-feasibility', title: 'Project Financial Feasibility & Ratio Analyzer', description: 'Check if your project is financially viable — NPV, IRR, payback, break-even, budgets and all key financial ratios.', icon: Calculator, color: 'from-yellow-500 to-amber-600', route: '/ai-tool/financial-feasibility', features: ['NPV, IRR & payback period', 'Break-even & cash flow plan', 'Liquidity, profitability & leverage ratios'], stage: 'finance-communication' },
+  { id: 'corporate-finance', title: 'Corporate Finance Advisor', description: 'Get capital structure, valuation, working capital and funding strategy guidance for your company or project.', icon: PiggyBank, color: 'from-emerald-500 to-teal-600', route: '/ai-tool/corporate-finance', features: ['Capital structure & WACC', 'Valuation (DCF & multiples)', 'Working capital & funding plan'], stage: 'finance-communication' },
+  { id: 'business-communication', title: 'Business Communication Coach', description: 'Improve communication at every level — emails, presentations, stakeholder updates, negotiations and team conversations.', icon: MessagesSquare, color: 'from-sky-500 to-blue-600', route: '/ai-tool/business-communication', features: ['Email & report rewrites', 'Executive & client messaging', 'Meeting, feedback & conflict scripts'], stage: 'finance-communication' },
   { id: 'gtm-strategy', title: 'Launch Your Product Plan', description: 'Create a comprehensive GTM plan with pricing, distribution, and launch timeline.', icon: Rocket, color: 'from-violet-500 to-purple-600', route: '/ai-tool/gtm-strategy', features: ['Launch timeline', 'Pricing strategy', 'Sales channels'], stage: 'launch' },
   { id: 'marketing-strategy', title: 'Marketing Strategy Planner', description: 'Develop a complete marketing strategy with digital and traditional marketing recommendations.', icon: Megaphone, color: 'from-orange-500 to-amber-600', route: '/ai-tool/marketing-strategy', features: ['4P marketing mix', 'Digital strategy', 'Budget allocation'], stage: 'launch' },
   { id: 'launch-checklist', title: 'Launch Checklist Generator', description: 'Comprehensive go-live checklists for successful product releases.', icon: ClipboardCheck, color: 'from-emerald-500 to-green-600', route: '/ai-tool/launch-checklist', features: ['Pre-launch tasks', 'Launch day plan', 'Post-launch monitoring'], stage: 'launch' },
@@ -73,20 +78,20 @@ const AITools = () => {
   const getToolsByStage = (stageId: string) => aiTools.filter(tool => tool.stage === stageId);
 
   const toolsFAQs = [
-    { question: "What are free AI tools for Product Managers?", answer: "BookMyMentor offers 32 free AI-powered tools including App Prototype Generator, Agentic AI Guide, Generative AI Use Case Finder, Business Model Canvas Generator, PRD Generator, SWOT Analysis, Competitor Analysis, Roadmap Builder, and more—all designed specifically for Product Managers, Entrepreneurs, and Project Managers." },
+    { question: "What are free AI tools for Product Managers?", answer: "BookMyMentor offers 35 free AI-powered tools including App Prototype Generator, Agentic AI Guide, Generative AI Use Case Finder, Business Model Canvas Generator, PRD Generator, SWOT Analysis, Competitor Analysis, Roadmap Builder, and more—all designed specifically for Product Managers, Entrepreneurs, and Project Managers." },
     { question: "What is Agentic AI and how can I use it?", answer: "Agentic AI refers to AI systems that can independently take actions, make decisions, and complete tasks with minimal human supervision. Our Agentic AI Guide helps you understand use cases like automated customer support, workflow automation, and intelligent assistants for your business." },
     { question: "How can Generative AI help my business?", answer: "Generative AI can create content, code, images, and more. Our Generative AI Use Case Finder helps you identify practical applications like automated product descriptions, marketing copy, email responses, and design ideas tailored to your specific business needs." },
     { question: "How do I use the AI Business Toolkit?", answer: "Simply sign up for a free account, choose any tool from our product lifecycle stages (AI & Technology, Ideation, Planning, Development, Launch, Optimization), enter your business details, and get AI-generated professional documents and insights in seconds." },
-    { question: "Is the AI Business Toolkit really free?", answer: "Yes! All 32 tools in our Business Toolkit are completely free for registered users. No credit card required, no hidden fees—just instant access to professional-grade AI tools." },
+    { question: "Is the AI Business Toolkit really free?", answer: "Yes! All 35 tools in our Business Toolkit are completely free for registered users. No credit card required, no hidden fees—just instant access to professional-grade AI tools." },
     { question: "What types of documents can I generate?", answer: "You can generate Business Model Canvas, Lean Canvas, PRDs, User Stories, Roadmaps, SWOT Analysis, Competitor Analysis, Pitch Decks, Go-to-Market Strategies, OKRs, KPI Dashboards, Agentic AI implementation plans, and much more." }
   ];
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <SEOHead 
-        title="Free AI Business Toolkit — 32 PM Tools | BookMyMentor"
-        description="32 free AI tools for Product Managers & Entrepreneurs: Business Model Canvas, PRDs, SWOT, Roadmaps, Pitch Decks & more. No credit card."
-        keywords="free AI tools, agentic AI, generative AI, product management tools, business model canvas generator, lean canvas maker, PRD generator, SWOT analysis tool, competitor analysis, roadmap builder, pitch deck creator, startup tools, entrepreneur toolkit, free business tools, agile tools, sprint planning"
+        title="Free AI Business Toolkit — 35 PM Tools | BookMyMentor"
+        description="35 free AI tools for Product Managers & Entrepreneurs: Business Model Canvas, PRDs, SWOT, Roadmaps, Pitch Decks & more. No credit card."
+        keywords="free AI tools, financial feasibility analysis, project financial ratios, corporate finance advisor, business communication skills, agentic AI, generative AI, product management tools, business model canvas generator, lean canvas maker, PRD generator, SWOT analysis tool, competitor analysis, roadmap builder, pitch deck creator, startup tools, entrepreneur toolkit, free business tools, agile tools, sprint planning"
         canonicalUrl="https://bookmymentor.com/ai-tools"
         structuredData={generateFAQSchema(toolsFAQs)}
       />
@@ -114,14 +119,14 @@ const AITools = () => {
               </h1>
               
               <p className="text-base sm:text-lg md:text-xl text-muted-foreground mb-10 max-w-3xl mx-auto leading-relaxed">
-                From idea validation to IPO readiness, <strong className="text-foreground">32 free AI tools</strong> to help you build, launch, and scale your product. 
+                From idea validation to IPO readiness, <strong className="text-foreground">35 free AI tools</strong> to help you build, launch, and scale your product. 
                 Professional documents and strategic insights in seconds.
               </p>
 
               {/* Trust indicators */}
               <div className="flex flex-wrap justify-center gap-6 mb-10">
                 {[
-                  { icon: Zap, text: '32 AI Tools', color: 'text-primary' },
+                  { icon: Zap, text: '35 AI Tools', color: 'text-primary' },
                   { icon: Clock, text: 'Instant Results', color: 'text-accent' },
                   { icon: Shield, text: '100% Free', color: 'text-green-600' },
                 ].map((item, i) => (
