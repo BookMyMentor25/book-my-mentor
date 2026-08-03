@@ -17,7 +17,7 @@ import {
   RefreshCcw, Rocket, Search, Users, ListOrdered, Kanban, RotateCcw, ShieldAlert,
   Target, Landmark, FileText, ClipboardList, FileCheck, UserCircle, Gem, UserPlus,
   AlertTriangle, BookOpen, Calendar, PenTool, ClipboardCheck, MessageSquare,
-  BarChart3, Bot, Wand2, CheckCircle2, Zap
+  BarChart3, Bot, Wand2, CheckCircle2, Zap, Calculator, PiggyBank, MessagesSquare
 } from 'lucide-react';
 import jsPDF from 'jspdf';
 
@@ -54,6 +54,9 @@ const toolConfig: Record<string, {
   'feedback-analyzer': { title: 'Customer Feedback Analyzer', description: 'Categorize and prioritize customer feedback', icon: BarChart3, placeholder: 'Paste or describe customer feedback', color: 'from-teal-500 to-cyan-600' },
   'agentic-ai': { title: 'Agentic AI Implementation Guide', description: 'Build AI assistants that take actions and complete tasks autonomously', icon: Bot, placeholder: 'Describe what you want your AI agent to do', color: 'from-indigo-500 to-blue-600' },
   'generative-ai': { title: 'Generative AI Use Case Finder', description: 'Discover practical AI use cases for your business', icon: Wand2, placeholder: 'Describe your business or task', color: 'from-purple-500 to-pink-600' },
+  'financial-feasibility': { title: 'Project Financial Feasibility & Ratio Analyzer', description: 'Assess viability, manage project finances and compute key financial ratios', icon: Calculator, placeholder: 'Describe your project with numbers if available (e.g., "Setting up a 50-seat coaching centre in Pune. Setup cost ₹40 lakh, monthly running cost ₹3.5 lakh, expected revenue ₹7 lakh/month, 5-year horizon, loan of ₹25 lakh at 11%")', color: 'from-yellow-500 to-amber-600' },
+  'corporate-finance': { title: 'Corporate Finance Advisor', description: 'Capital structure, valuation, working capital and funding strategy', icon: PiggyBank, placeholder: 'Describe your company/project and finance question (e.g., "SaaS startup, ₹6 crore ARR, 40% growth, deciding between ₹10 crore equity round vs debt — advise on capital structure and valuation")', color: 'from-emerald-500 to-teal-600' },
+  'business-communication': { title: 'Business Communication Coach', description: 'Improve communication at every level — written, verbal and executive', icon: MessagesSquare, placeholder: 'Paste your message or describe the situation (e.g., "Rewrite this email to a client explaining a 2-week project delay" or "Help me present quarterly results to the board")', color: 'from-sky-500 to-blue-600' },
   'app-prototype': { title: 'App Prototype Generator', description: 'Turn your idea into a detailed prototype specification', icon: Rocket, placeholder: 'Describe your app or website idea', color: 'from-cyan-500 to-blue-600' }
 };
 
