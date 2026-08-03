@@ -35,7 +35,7 @@ const CoursesSection = () => {
           <Sparkles className="h-5 w-5 text-primary" />
         </CardTitle>
         <CardDescription className="text-sm text-muted-foreground">
-          29 AI-Powered Tools for Product Managers & Entrepreneurs
+          35 AI-Powered Tools for Product Managers & Entrepreneurs
         </CardDescription>
       </CardHeader>
       
