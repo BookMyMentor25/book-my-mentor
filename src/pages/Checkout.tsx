@@ -48,7 +48,15 @@ const Checkout = () => {
         <div className="text-center mb-8">
           <h1 className="text-4xl font-bold text-gray-800 mb-2">Complete Your Enrollment</h1>
           <p className="text-gray-600">You're one step away from transforming your career!</p>
+          <Button
+            variant="link"
+            onClick={() => navigate(`/group-enroll${window.location.search}`)}
+            className="mt-2 text-purple-700 font-semibold"
+          >
+            Joining with 2 friends? Enroll as a batch of 3 and split the fee →
+          </Button>
         </div>
+
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
           <OrderSummary 

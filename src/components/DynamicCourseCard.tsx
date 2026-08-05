@@ -214,6 +214,22 @@ const DynamicCourseCard = ({ course }: DynamicCourseCardProps) => {
           >
             {user ? 'Enroll Now' : 'Sign In to Enroll'}
           </Button>
+
+          <Button
+            onClick={() =>
+              navigate(
+                user
+                  ? `/group-enroll?courseId=${encodeURIComponent(course.id)}`
+                  : `/auth?redirect=${encodeURIComponent(`/group-enroll?courseId=${course.id}`)}`
+              )
+            }
+            variant="ghost"
+            className="w-full h-10 text-sm font-semibold text-primary hover:bg-primary/5"
+            aria-label={`Enroll as a batch of 3 for ${course.title} and split the fee`}
+          >
+            <Users className="w-4 h-4 mr-2" />
+            Enroll as a Batch of 3 — Split the Fee
+          </Button>
         </div>
         
         {/* Trust Signals */}

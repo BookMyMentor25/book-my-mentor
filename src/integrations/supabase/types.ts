@@ -282,6 +282,106 @@ export type Database = {
         }
         Relationships: []
       }
+      group_enrollment_members: {
+        Row: {
+          created_at: string
+          group_id: string
+          id: string
+          is_lead: boolean
+          member_email: string
+          member_name: string
+          member_phone: string
+          share_amount: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          group_id: string
+          id?: string
+          is_lead?: boolean
+          member_email: string
+          member_name: string
+          member_phone: string
+          share_amount: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          group_id?: string
+          id?: string
+          is_lead?: boolean
+          member_email?: string
+          member_name?: string
+          member_phone?: string
+          share_amount?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "group_enrollment_members_group_id_fkey"
+            columns: ["group_id"]
+            isOneToOne: false
+            referencedRelation: "group_enrollments"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      group_enrollments: {
+        Row: {
+          coupon_applied: string | null
+          course_id: string
+          created_at: string
+          created_by: string
+          discount_amount: number
+          group_code: string
+          group_name: string
+          id: string
+          member_count: number
+          per_member_amount: number
+          status: string
+          total_amount: number
+          updated_at: string
+        }
+        Insert: {
+          coupon_applied?: string | null
+          course_id: string
+          created_at?: string
+          created_by: string
+          discount_amount?: number
+          group_code: string
+          group_name: string
+          id?: string
+          member_count?: number
+          per_member_amount: number
+          status?: string
+          total_amount: number
+          updated_at?: string
+        }
+        Update: {
+          coupon_applied?: string | null
+          course_id?: string
+          created_at?: string
+          created_by?: string
+          discount_amount?: number
+          group_code?: string
+          group_name?: string
+          id?: string
+          member_count?: number
+          per_member_amount?: number
+          status?: string
+          total_amount?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "group_enrollments_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "courses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       inquiries: {
         Row: {
           course_interest: string | null
@@ -643,6 +743,7 @@ export type Database = {
           course_id: string
           created_at: string | null
           discount_amount: number | null
+          group_enrollment_id: string | null
           id: string
           invoice_generated_at: string | null
           invoice_number: string | null
@@ -665,6 +766,7 @@ export type Database = {
           course_id: string
           created_at?: string | null
           discount_amount?: number | null
+          group_enrollment_id?: string | null
           id?: string
           invoice_generated_at?: string | null
           invoice_number?: string | null
@@ -687,6 +789,7 @@ export type Database = {
           course_id?: string
           created_at?: string | null
           discount_amount?: number | null
+          group_enrollment_id?: string | null
           id?: string
           invoice_generated_at?: string | null
           invoice_number?: string | null
@@ -706,6 +809,13 @@ export type Database = {
             columns: ["course_id"]
             isOneToOne: false
             referencedRelation: "courses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "orders_group_enrollment_id_fkey"
+            columns: ["group_enrollment_id"]
+            isOneToOne: false
+            referencedRelation: "group_enrollments"
             referencedColumns: ["id"]
           },
         ]

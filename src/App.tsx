@@ -24,6 +24,7 @@ import RecruiterDashboard from "./pages/RecruiterDashboard";
 import ResumeToolkit from "./pages/ResumeToolkit";
 import CoverLetterTool from "./pages/CoverLetterTool";
 import Terms from "./pages/Terms";
+import GroupEnroll from "./pages/GroupEnroll";
 import OAuthConsent from "./pages/OAuthConsent";
 import AIAgentWidget from "./components/AIAgentWidget";
 
@@ -40,6 +41,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/checkout" element={<Checkout />} />
+            <Route path="/group-enroll" element={<GroupEnroll />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/team" element={<Team />} />
