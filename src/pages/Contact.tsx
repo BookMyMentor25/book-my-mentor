@@ -1,17 +1,25 @@
 
-import React, { useState } from 'react';
+import React, { useState, useMemo, useRef } from 'react';
 import { useContact } from '@/hooks/useContact';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { MapPin, Phone, Mail, Clock } from 'lucide-react';
+import { MapPin, Phone, Mail, Clock, ShieldCheck } from 'lucide-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
 const Contact = () => {
   const { submitInquiry, isSubmitting } = useContact();
+  const mountedAt = useRef<number>(Date.now());
+  const [honeypot, setHoneypot] = useState('');
+  const [humanAnswer, setHumanAnswer] = useState('');
+  const challenge = useMemo(() => {
+    const a = 2 + Math.floor(Math.random() * 7);
+    const b = 1 + Math.floor(Math.random() * 6);
+    return { a, b, expected: a + b };
+  }, []);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -22,7 +30,13 @@ const Contact = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const result = await submitInquiry(formData);
+    const result = await submitInquiry({
+      ...formData,
+      honeypot,
+      elapsedMs: Date.now() - mountedAt.current,
+      humanAnswer,
+      humanExpected: challenge.expected,
+    });
     if (result.success) {
       setFormData({
         name: '',
@@ -31,12 +45,15 @@ const Contact = () => {
         message: '',
         course_interest: ''
       });
+      setHumanAnswer('');
+      mountedAt.current = Date.now();
     }
   };
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
+
 
   return (
     <div className="min-h-screen bg-gray-50">
