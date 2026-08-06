@@ -230,7 +230,7 @@ const DynamicCourseCard = ({ course }: DynamicCourseCardProps) => {
             <span className="flex items-center justify-between gap-3">
               <span className="flex items-center gap-2.5">
                 <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent/20">
-                  <Users className="h-4.5 w-4.5 text-accent" />
+                  <Users className="h-5 w-5 text-accent" />
                 </span>
                 <span className="flex flex-col leading-tight">
                   <span className="text-sm font-bold text-foreground">Bring 2 friends — pay 1/3 each</span>
