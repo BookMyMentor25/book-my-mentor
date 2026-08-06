@@ -215,7 +215,8 @@ const DynamicCourseCard = ({ course }: DynamicCourseCardProps) => {
             {user ? 'Enroll Now' : 'Sign In to Enroll'}
           </Button>
 
-          <Button
+          <button
+            type="button"
             onClick={() =>
               navigate(
                 user
@@ -223,13 +224,23 @@ const DynamicCourseCard = ({ course }: DynamicCourseCardProps) => {
                   : `/auth?redirect=${encodeURIComponent(`/group-enroll?courseId=${course.id}`)}`
               )
             }
-            variant="ghost"
-            className="w-full h-10 text-sm font-semibold text-primary hover:bg-primary/5"
-            aria-label={`Enroll as a batch of 3 for ${course.title} and split the fee`}
+            aria-label={`Enroll as a batch of 3 for ${course.title} and pay only one third of the fee`}
+            className="w-full rounded-xl border-2 border-accent bg-accent/10 px-4 py-3 text-left transition-all duration-300 hover:bg-accent/20 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
           >
-            <Users className="w-4 h-4 mr-2" />
-            Enroll as a Batch of 3 — Split the Fee
-          </Button>
+            <span className="flex items-center justify-between gap-3">
+              <span className="flex items-center gap-2.5">
+                <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-accent/20">
+                  <Users className="h-5 w-5 text-accent" />
+                </span>
+                <span className="flex flex-col leading-tight">
+                  <span className="text-sm font-bold text-foreground">Bring 2 friends — pay 1/3 each</span>
+                  <span className="text-xs font-medium text-accent">Batch of 3 • Fee split equally</span>
+                </span>
+              </span>
+              <ArrowRight className="h-4 w-4 shrink-0 text-accent" />
+            </span>
+          </button>
+
         </div>
         
         {/* Trust Signals */}

@@ -264,16 +264,33 @@ const GroupEnroll = () => {
           Back
         </Button>
 
-        <header className="text-center max-w-2xl mx-auto mb-8 sm:mb-10 space-y-3">
-          <Badge className="bg-accent/15 text-accent border border-accent/30">Batch of 3 • Save together</Badge>
+        <header className="text-center max-w-2xl mx-auto mb-6 space-y-3">
+          <Badge className="bg-accent/15 text-accent border border-accent/30">Batch of 3 • Pay 1/3 each</Badge>
           <h1 className="text-3xl sm:text-4xl font-bold text-foreground">
-            Group Enrollment — Split the Course Fee 3 Ways
+            Group Enrollment — Pay Only 1/3 of the Course Fee
           </h1>
           <p className="text-muted-foreground">
-            Register with 2 friends or colleagues. The course fee is divided equally among all 3 members, and any
-            referral code adds an extra discount.
+            Join with 2 friends or colleagues in one batch. The course fee is split equally among all 3 members, and a
+            referral or coupon code adds an extra discount on top.
           </p>
         </header>
+
+        <ol className="mx-auto mb-8 grid max-w-3xl grid-cols-1 gap-3 sm:mb-10 sm:grid-cols-3">
+          {[
+            { step: "1", title: "Pick your course", desc: "Choose the program and name your batch." },
+            { step: "2", title: "Add 2 members", desc: "Enter name, email and phone for each member." },
+            { step: "3", title: "Split & confirm", desc: "See each share instantly, then submit." },
+          ].map((item) => (
+            <li key={item.step} className="rounded-xl border border-border bg-card p-4 text-left">
+              <span className="mb-2 inline-flex h-7 w-7 items-center justify-center rounded-full bg-primary/10 text-sm font-bold text-primary">
+                {item.step}
+              </span>
+              <p className="text-sm font-semibold text-foreground">{item.title}</p>
+              <p className="text-xs text-muted-foreground">{item.desc}</p>
+            </li>
+          ))}
+        </ol>
+
 
         <div className="grid grid-cols-1 lg:grid-cols-[1.618fr_1fr] gap-6 lg:gap-8 max-w-6xl mx-auto items-start">
           {/* Form — 60% */}

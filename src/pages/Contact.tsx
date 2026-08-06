@@ -1,17 +1,25 @@
 
-import React, { useState } from 'react';
+import React, { useState, useMemo, useRef } from 'react';
 import { useContact } from '@/hooks/useContact';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { MapPin, Phone, Mail, Clock } from 'lucide-react';
+import { MapPin, Phone, Mail, Clock, ShieldCheck } from 'lucide-react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 
 const Contact = () => {
   const { submitInquiry, isSubmitting } = useContact();
+  const mountedAt = useRef<number>(Date.now());
+  const [honeypot, setHoneypot] = useState('');
+  const [humanAnswer, setHumanAnswer] = useState('');
+  const challenge = useMemo(() => {
+    const a = 2 + Math.floor(Math.random() * 7);
+    const b = 1 + Math.floor(Math.random() * 6);
+    return { a, b, expected: a + b };
+  }, []);
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -22,7 +30,13 @@ const Contact = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const result = await submitInquiry(formData);
+    const result = await submitInquiry({
+      ...formData,
+      honeypot,
+      elapsedMs: Date.now() - mountedAt.current,
+      humanAnswer,
+      humanExpected: challenge.expected,
+    });
     if (result.success) {
       setFormData({
         name: '',
@@ -31,12 +45,15 @@ const Contact = () => {
         message: '',
         course_interest: ''
       });
+      setHumanAnswer('');
+      mountedAt.current = Date.now();
     }
   };
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
   };
+
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -136,12 +153,53 @@ const Contact = () => {
                   <Textarea
                     id="message"
                     required
+                    maxLength={1000}
                     value={formData.message}
                     onChange={(e) => handleInputChange('message', e.target.value)}
                     placeholder="Tell us about your goals and how we can help you..."
                     rows={5}
                     className="w-full resize-none"
                   />
+                  <p className="mt-1 text-xs text-gray-500">
+                    {formData.message.length}/1000 • Please write in plain text. Links are not allowed.
+                  </p>
+                </div>
+
+                {/* Honeypot — hidden from humans, filled by bots */}
+                <div className="absolute left-[-9999px] top-auto h-0 w-0 overflow-hidden" aria-hidden="true">
+                  <label htmlFor="company_website">Company website</label>
+                  <input
+                    id="company_website"
+                    name="company_website"
+                    type="text"
+                    tabIndex={-1}
+                    autoComplete="off"
+                    value={honeypot}
+                    onChange={(e) => setHoneypot(e.target.value)}
+                  />
+                </div>
+
+                <div>
+                  <label htmlFor="human_check" className="block text-sm font-medium text-gray-700 mb-2">
+                    Quick check: what is {challenge.a} + {challenge.b}? *
+                  </label>
+                  <Input
+                    id="human_check"
+                    name="human_check"
+                    type="text"
+                    inputMode="numeric"
+                    required
+                    autoComplete="off"
+                    maxLength={3}
+                    value={humanAnswer}
+                    onChange={(e) => setHumanAnswer(e.target.value.replace(/[^0-9]/g, ''))}
+                    placeholder="Enter the answer"
+                    className="w-full sm:max-w-[12rem]"
+                  />
+                  <p className="mt-1 flex items-center gap-1.5 text-xs text-gray-500">
+                    <ShieldCheck className="h-3.5 w-3.5 text-purple-600" />
+                    Spam protected — we never share your details.
+                  </p>
                 </div>
 
                 <Button
@@ -151,6 +209,7 @@ const Contact = () => {
                 >
                   {isSubmitting ? 'Sending...' : 'Send Message'}
                 </Button>
+
               </form>
             </CardContent>
           </Card>
