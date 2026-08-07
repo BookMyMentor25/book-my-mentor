@@ -36,9 +36,9 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <SEOHead 
-        title="BookMyMentor | Product Management & Lean Startup Courses"
-        description="Master Product Management, Lean Startup & Project Management with expert mentors. 95% success rate, placement support & free AI Business Toolkit."
-        keywords="product management course, product management certification, lean startup certification, project management training online, PMP certification, agile project management, scrum master course, product owner certification, MBA skills, business strategy course, startup courses, professional development, PM bootcamp, free business tools"
+        title="Live Project Based Product Management Courses | BookMyMentor"
+        description="Gain real Live Project experience in SaaS, EdTech, Fintech & E-Commerce with 1:1 mentorship, verified jobs, internships and placement support."
+        keywords="live projects for students, live project internship, product management live project, real time projects with certificate, industry live project training, product management course, project management training online, lean startup certification, mentorship program India, jobs and internships, placement support, free AI business toolkit"
         canonicalUrl="https://bookmymentor.com/"
         structuredData={combinedStructuredData}
       />
