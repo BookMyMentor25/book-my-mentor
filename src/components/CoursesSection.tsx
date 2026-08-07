@@ -114,9 +114,9 @@ const CoursesSection = () => {
     <section className="py-20 bg-gray-50" id="courses">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-gray-800 mb-4">Our Courses & Tools</h2>
+          <h2 className="text-4xl font-bold text-gray-800 mb-4">Live Project Programs & Tools</h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Choose from our expertly designed courses and free AI-powered business tools to accelerate your career growth
+            Every program includes hands-on live projects, 1:1 mentorship and free AI-powered business tools to accelerate your career growth
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
