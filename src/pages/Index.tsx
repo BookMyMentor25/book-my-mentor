@@ -14,7 +14,7 @@ import MobileToolkitBanner from "@/components/MobileToolkitBanner";
 import LiveProjectsSection from "@/components/LiveProjectsSection";
 import { SEOHead, generateOrganizationSchema, generateWebsiteSchema } from "@/components/SEOHead";
 import heroImage from "@/assets/hero-mentorship.jpg";
-import { CheckCircle, Users, Award, Briefcase } from "lucide-react";
+import { Users, Award, Briefcase, Rocket } from "lucide-react";
 
 const Index = () => {
   const { user } = useAuth();
