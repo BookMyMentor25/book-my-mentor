@@ -1,4 +1,4 @@
-import { Menu, X, GraduationCap, Users, Mail, MessageSquare, Sparkles, Briefcase } from "lucide-react";
+import { Menu, X, GraduationCap, Users, Mail, MessageSquare, Sparkles, Briefcase, Rocket } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
@@ -17,6 +17,7 @@ const Header = () => {
 
   // 3-Click Navigation Structure - Strategic ordering for conversion
   const navItems = [
+    { label: "Live Projects", href: "/#live-projects", icon: Rocket, isHighlighted: true },
     { label: "Courses", href: "/#courses", icon: GraduationCap },
     { label: "Jobs & Internships", href: "/jobs", icon: Briefcase, isNew: true },
     { label: "Business & Product Toolkit", href: "/ai-tools", icon: Sparkles, isHighlighted: true },

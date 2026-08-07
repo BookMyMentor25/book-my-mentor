@@ -11,9 +11,10 @@ import TestimonialsSection from "@/components/TestimonialsSection";
 import DownloadSection from "@/components/DownloadSection";
 import AboutSection from "@/components/AboutSection";
 import MobileToolkitBanner from "@/components/MobileToolkitBanner";
+import LiveProjectsSection from "@/components/LiveProjectsSection";
 import { SEOHead, generateOrganizationSchema, generateWebsiteSchema } from "@/components/SEOHead";
 import heroImage from "@/assets/hero-mentorship.jpg";
-import { CheckCircle, Users, Award, Briefcase } from "lucide-react";
+import { Users, Award, Briefcase, Rocket } from "lucide-react";
 
 const Index = () => {
   const { user } = useAuth();
@@ -35,9 +36,9 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <SEOHead 
-        title="BookMyMentor | Product Management & Lean Startup Courses"
-        description="Master Product Management, Lean Startup & Project Management with expert mentors. 95% success rate, placement support & free AI Business Toolkit."
-        keywords="product management course, product management certification, lean startup certification, project management training online, PMP certification, agile project management, scrum master course, product owner certification, MBA skills, business strategy course, startup courses, professional development, PM bootcamp, free business tools"
+        title="Live Project Based Product Management Courses | BookMyMentor"
+        description="Gain real Live Project experience in SaaS, EdTech, Fintech & E-Commerce with 1:1 mentorship, verified jobs, internships and placement support."
+        keywords="live projects for students, live project internship, product management live project, real time projects with certificate, industry live project training, product management course, project management training online, lean startup certification, mentorship program India, jobs and internships, placement support, free AI business toolkit"
         canonicalUrl="https://bookmymentor.com/"
         structuredData={combinedStructuredData}
       />
@@ -78,23 +79,24 @@ const Index = () => {
             {/* Trust Badge - Immediate credibility with bounce animation */}
             <div className="animate-hidden animate-slide-down inline-flex items-center gap-2 bg-white/15 backdrop-blur-md text-white px-5 py-2.5 rounded-full mb-6 border border-white/25 shadow-lg hover:bg-white/20 hover:scale-105 transition-all duration-300 cursor-default">
               <span className="text-amber-300 text-base">★★★★★</span>
-              <span className="text-sm font-semibold">Rated 4.9/5 by 2000+ Students</span>
+              <span className="text-sm font-semibold">Live Projects • Rated 4.9/5 by 2000+ Students</span>
             </div>
 
             {/* H1 - Primary keyword + staggered reveal animation */}
             <h1 className="text-[2rem] sm:text-[2.5rem] md:text-[3.25rem] lg:text-[4rem] font-extrabold mb-5 text-white leading-[1.15] tracking-tight">
               <span className="animate-hidden animate-slide-up block animate-delay-100">
-                Learn In-Demand Skills.
+                Learn by Building
               </span>
               <span className="animate-hidden animate-slide-up animate-delay-300 bg-gradient-to-r from-accent via-accent-light to-accent bg-clip-text text-transparent inline-block">
-                Get Hired Faster.
+                Real Live Projects.
               </span>
             </h1>
             
             {/* Subheadline - Fade in with delay */}
             <p className="animate-hidden animate-slide-up animate-delay-500 text-base sm:text-lg md:text-xl mb-8 text-white/90 max-w-2xl mx-auto leading-relaxed font-medium">
-              Master in-demand skills with Live Projects. Land verified jobs and internships. All on India's trusted EdTech and HR-Tech platform.
+              Work on live industry projects in SaaS, EdTech, Fintech and E-Commerce with 1:1 mentorship — then land verified jobs and internships. India's trusted EdTech and HR-Tech platform.
             </p>
+
 
 
             {/* 3-Click Navigation - CTAs with scale animation */}
@@ -126,9 +128,9 @@ const Index = () => {
                     size="lg" 
                     className="cta-primary text-base md:text-lg px-10 py-6 rounded-xl shadow-2xl font-bold w-full sm:w-auto group relative overflow-hidden"
                     onClick={() => navigate('/auth')}
-                    aria-label="Start learning product management today"
+                    aria-label="Start your live project with mentorship today"
                   >
-                    <span className="relative z-10">Start Learning Free →</span>
+                    <span className="relative z-10">Start Your Live Project →</span>
                     <div className="absolute inset-0 animate-shimmer"></div>
                   </Button>
                   <Button 
@@ -148,8 +150,8 @@ const Index = () => {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
               {[
                 { icon: Users, value: "2000+", label: "Students Enrolled", delay: "0.8s" },
-                { icon: Award, value: "4.9★", label: "Average Rating", delay: "0.9s" },
-                { icon: CheckCircle, value: "95%", label: "Success Rate", delay: "1s" },
+                { icon: Rocket, value: "6+", label: "Live Project Domains", delay: "0.9s" },
+                { icon: Award, value: "4.9★", label: "Average Rating", delay: "1s" },
                 { icon: Briefcase, value: "100%", label: "Placement Support", delay: "1.1s" },
               ].map((stat, index) => (
                 <div 
@@ -169,6 +171,9 @@ const Index = () => {
 
       {/* Main Content - Semantic HTML for SEO */}
       <main>
+        {/* Live Projects - Core theme of the platform */}
+        <LiveProjectsSection />
+
         {/* Courses Section - Primary conversion point */}
         <CoursesSection />
 
