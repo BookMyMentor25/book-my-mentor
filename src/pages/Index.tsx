@@ -150,8 +150,8 @@ const Index = () => {
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
               {[
                 { icon: Users, value: "2000+", label: "Students Enrolled", delay: "0.8s" },
-                { icon: Award, value: "4.9★", label: "Average Rating", delay: "0.9s" },
-                { icon: CheckCircle, value: "95%", label: "Success Rate", delay: "1s" },
+                { icon: Rocket, value: "6+", label: "Live Project Domains", delay: "0.9s" },
+                { icon: Award, value: "4.9★", label: "Average Rating", delay: "1s" },
                 { icon: Briefcase, value: "100%", label: "Placement Support", delay: "1.1s" },
               ].map((stat, index) => (
                 <div 
