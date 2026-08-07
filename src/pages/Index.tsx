@@ -128,9 +128,9 @@ const Index = () => {
                     size="lg" 
                     className="cta-primary text-base md:text-lg px-10 py-6 rounded-xl shadow-2xl font-bold w-full sm:w-auto group relative overflow-hidden"
                     onClick={() => navigate('/auth')}
-                    aria-label="Start learning product management today"
+                    aria-label="Start your live project with mentorship today"
                   >
-                    <span className="relative z-10">Start Learning Free →</span>
+                    <span className="relative z-10">Start Your Live Project →</span>
                     <div className="absolute inset-0 animate-shimmer"></div>
                   </Button>
                   <Button 
