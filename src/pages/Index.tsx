@@ -79,23 +79,24 @@ const Index = () => {
             {/* Trust Badge - Immediate credibility with bounce animation */}
             <div className="animate-hidden animate-slide-down inline-flex items-center gap-2 bg-white/15 backdrop-blur-md text-white px-5 py-2.5 rounded-full mb-6 border border-white/25 shadow-lg hover:bg-white/20 hover:scale-105 transition-all duration-300 cursor-default">
               <span className="text-amber-300 text-base">★★★★★</span>
-              <span className="text-sm font-semibold">Rated 4.9/5 by 2000+ Students</span>
+              <span className="text-sm font-semibold">Live Projects • Rated 4.9/5 by 2000+ Students</span>
             </div>
 
             {/* H1 - Primary keyword + staggered reveal animation */}
             <h1 className="text-[2rem] sm:text-[2.5rem] md:text-[3.25rem] lg:text-[4rem] font-extrabold mb-5 text-white leading-[1.15] tracking-tight">
               <span className="animate-hidden animate-slide-up block animate-delay-100">
-                Learn In-Demand Skills.
+                Learn by Building
               </span>
               <span className="animate-hidden animate-slide-up animate-delay-300 bg-gradient-to-r from-accent via-accent-light to-accent bg-clip-text text-transparent inline-block">
-                Get Hired Faster.
+                Real Live Projects.
               </span>
             </h1>
             
             {/* Subheadline - Fade in with delay */}
             <p className="animate-hidden animate-slide-up animate-delay-500 text-base sm:text-lg md:text-xl mb-8 text-white/90 max-w-2xl mx-auto leading-relaxed font-medium">
-              Master in-demand skills with Live Projects. Land verified jobs and internships. All on India's trusted EdTech and HR-Tech platform.
+              Work on live industry projects in SaaS, EdTech, Fintech and E-Commerce with 1:1 mentorship — then land verified jobs and internships. India's trusted EdTech and HR-Tech platform.
             </p>
+
 
 
             {/* 3-Click Navigation - CTAs with scale animation */}
