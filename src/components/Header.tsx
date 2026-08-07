@@ -17,6 +17,7 @@ const Header = () => {
 
   // 3-Click Navigation Structure - Strategic ordering for conversion
   const navItems = [
+    { label: "Live Projects", href: "/#live-projects", icon: Rocket, isHighlighted: true },
     { label: "Courses", href: "/#courses", icon: GraduationCap },
     { label: "Jobs & Internships", href: "/jobs", icon: Briefcase, isNew: true },
     { label: "Business & Product Toolkit", href: "/ai-tools", icon: Sparkles, isHighlighted: true },
