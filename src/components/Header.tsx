@@ -1,4 +1,4 @@
-import { Menu, X, GraduationCap, Users, Mail, MessageSquare, Sparkles, Briefcase } from "lucide-react";
+import { Menu, X, GraduationCap, Users, Mail, MessageSquare, Sparkles, Briefcase, Rocket } from "lucide-react";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
