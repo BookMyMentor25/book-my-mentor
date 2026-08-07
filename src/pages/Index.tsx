@@ -171,6 +171,9 @@ const Index = () => {
 
       {/* Main Content - Semantic HTML for SEO */}
       <main>
+        {/* Live Projects - Core theme of the platform */}
+        <LiveProjectsSection />
+
         {/* Courses Section - Primary conversion point */}
         <CoursesSection />
 
