@@ -2,6 +2,7 @@
 import React from "react";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Card, CardContent } from "@/components/ui/card";
+import rgitEcellAsset from "@/assets/RGIT-E-Cell.jfif.asset.json";
 
 const PartnersSection = () => {
   const partners = [
