@@ -7,12 +7,19 @@ const Footer = () => {
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
           <div className="lg:col-span-1">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-12 h-12 bg-gradient-to-br from-primary to-accent rounded-xl flex items-center justify-center shadow-lg">
-                <span className="text-white font-bold text-xl">BM</span>
+            <div className="mb-4">
+              <div className="inline-flex items-center rounded-xl bg-white px-3 py-2 shadow-lg">
+                <img
+                  src={bmmLogo.url}
+                  alt="Book My Mentor logo — Acquire the trending skills"
+                  width={200}
+                  height={53}
+                  loading="lazy"
+                  className="h-10 w-auto object-contain"
+                />
               </div>
-              <span className="text-xl font-bold">Book My Mentor</span>
             </div>
+
             <p className="text-gray-300 mb-6 text-sm leading-relaxed">
               Where Skills Recommended by LinkedIn, Gartner, and Forbes Become Yours.
             </p>
