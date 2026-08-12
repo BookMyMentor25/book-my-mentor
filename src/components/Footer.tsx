@@ -1,5 +1,7 @@
 
 import { Linkedin, Instagram, Youtube } from "lucide-react";
+import bmmLogo from "@/assets/bmm-logo.png.asset.json";
+
 
 const Footer = () => {
   return (
