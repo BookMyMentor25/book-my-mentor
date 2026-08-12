@@ -2,6 +2,7 @@
 import React from "react";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "@/components/ui/carousel";
 import { Card, CardContent } from "@/components/ui/card";
+import rgitEcellAsset from "@/assets/RGIT-E-Cell.jfif.asset.json";
 
 const PartnersSection = () => {
   const partners = [
@@ -24,7 +25,8 @@ const PartnersSection = () => {
     { src: "/lovable-uploads/PIE_IIMU.jpeg", alt: "PIE IIMU" },
     { src: "/lovable-uploads/Logo_atharv_ranbhoomi.jpg", alt: "Atharv Ranbhoomi" },
     { src: "/lovable-uploads/optumiz_NMIMS.jpeg", alt: "Optumiz NMIMS" },
-    { src: "/lovable-uploads/logo_spjimr.jfif", alt: "SPJIMR" }
+    { src: "/lovable-uploads/logo_spjimr.jfif", alt: "SPJIMR" },
+    { src: rgitEcellAsset.url, alt: "E-Cell IIC RGIT" }
   ];
 
   return (
