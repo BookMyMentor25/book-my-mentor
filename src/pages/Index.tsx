@@ -171,6 +171,9 @@ const Index = () => {
 
       {/* Main Content - Semantic HTML for SEO */}
       <main>
+        {/* Path finder - 5-second clarity, 3-click navigation */}
+        <PathFinderSection />
+
         {/* Live Projects - Core theme of the platform */}
         <LiveProjectsSection />
 
