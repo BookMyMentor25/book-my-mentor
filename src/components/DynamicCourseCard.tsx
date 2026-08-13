@@ -233,7 +233,7 @@ const DynamicCourseCard = ({ course }: DynamicCourseCardProps) => {
                   <Users className="h-5 w-5 text-accent" />
                 </span>
                 <span className="flex flex-col leading-tight">
-                  <span className="text-sm font-bold text-foreground">Bring 2 friends — pay 1/3 each</span>
+                  <span className="text-sm font-bold text-foreground">Add 2 friends-pay 1/3 each</span>
                   <span className="text-xs font-medium text-accent">Batch of 3 • Fee split equally</span>
                 </span>
               </span>
