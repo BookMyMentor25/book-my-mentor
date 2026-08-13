@@ -12,6 +12,7 @@ import DownloadSection from "@/components/DownloadSection";
 import AboutSection from "@/components/AboutSection";
 import MobileToolkitBanner from "@/components/MobileToolkitBanner";
 import LiveProjectsSection from "@/components/LiveProjectsSection";
+import PathFinderSection from "@/components/PathFinderSection";
 import { SEOHead, generateOrganizationSchema, generateWebsiteSchema } from "@/components/SEOHead";
 import heroImage from "@/assets/hero-mentorship.jpg";
 import { Users, Award, Briefcase, Rocket } from "lucide-react";
