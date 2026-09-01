@@ -733,6 +733,80 @@ export type Database = {
         }
         Relationships: []
       }
+      live_project_teammate_profiles: {
+        Row: {
+          about: string | null
+          availability: string | null
+          city: string | null
+          contact_email: string
+          contact_phone: string | null
+          course_id: string | null
+          created_at: string
+          display_name: string
+          experience_level: string
+          headline: string
+          id: string
+          join_requests_count: number
+          linkedin_url: string | null
+          preferred_domain: string | null
+          skills: string[]
+          status: string
+          updated_at: string
+          user_id: string
+          views_count: number
+        }
+        Insert: {
+          about?: string | null
+          availability?: string | null
+          city?: string | null
+          contact_email: string
+          contact_phone?: string | null
+          course_id?: string | null
+          created_at?: string
+          display_name: string
+          experience_level?: string
+          headline: string
+          id?: string
+          join_requests_count?: number
+          linkedin_url?: string | null
+          preferred_domain?: string | null
+          skills?: string[]
+          status?: string
+          updated_at?: string
+          user_id: string
+          views_count?: number
+        }
+        Update: {
+          about?: string | null
+          availability?: string | null
+          city?: string | null
+          contact_email?: string
+          contact_phone?: string | null
+          course_id?: string | null
+          created_at?: string
+          display_name?: string
+          experience_level?: string
+          headline?: string
+          id?: string
+          join_requests_count?: number
+          linkedin_url?: string | null
+          preferred_domain?: string | null
+          skills?: string[]
+          status?: string
+          updated_at?: string
+          user_id?: string
+          views_count?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "live_project_teammate_profiles_course_id_fkey"
+            columns: ["course_id"]
+            isOneToOne: false
+            referencedRelation: "courses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       orders: {
         Row: {
           address: string | null
@@ -1053,6 +1127,53 @@ export type Database = {
           valid_until?: string | null
         }
         Relationships: []
+      }
+      teammate_join_requests: {
+        Row: {
+          created_at: string
+          id: string
+          message: string | null
+          profile_id: string
+          requester_email: string
+          requester_name: string
+          requester_phone: string | null
+          requester_user_id: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          message?: string | null
+          profile_id: string
+          requester_email: string
+          requester_name: string
+          requester_phone?: string | null
+          requester_user_id: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          message?: string | null
+          profile_id?: string
+          requester_email?: string
+          requester_name?: string
+          requester_phone?: string | null
+          requester_user_id?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "teammate_join_requests_profile_id_fkey"
+            columns: ["profile_id"]
+            isOneToOne: false
+            referencedRelation: "live_project_teammate_profiles"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       toolkit_usage: {
         Row: {
