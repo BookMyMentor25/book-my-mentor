@@ -6,8 +6,6 @@ const corsHeaders = {
 };
 
 const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
-const GATEWAY_URL = 'https://connector-gateway.lovable.dev/resend';
-const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
 
 interface OrderConfirmationRequest {
   orderId: string;
