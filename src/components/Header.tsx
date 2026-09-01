@@ -61,9 +61,9 @@ const Header = () => {
                     : "text-foreground/80 hover:text-primary"
                 }`}
               >
-                {item.isHighlighted && <Sparkles className="w-4 h-4" aria-hidden="true" />}
-                {item.isHighlighted ? "Business & Product Toolkit" : item.label}
-                {item.isHighlighted && <span className="text-[10px] bg-white/20 px-1.5 py-0.5 rounded-full ml-1">Free</span>}
+                {item.isHighlighted && <item.icon className="w-4 h-4" aria-hidden="true" />}
+                {item.label}
+                {item.label === "Business & Product Toolkit" && <span className="text-[10px] bg-white/20 px-1.5 py-0.5 rounded-full ml-1">Free</span>}
                 {item.isNew && <span className="text-[10px] bg-primary text-primary-foreground px-1.5 py-0.5 rounded-full">New</span>}
               </a>
             ))}

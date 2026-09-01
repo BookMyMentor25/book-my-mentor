@@ -6,8 +6,6 @@ const corsHeaders = {
 };
 
 const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
-const GATEWAY_URL = 'https://connector-gateway.lovable.dev/resend';
-const LOVABLE_API_KEY = Deno.env.get("LOVABLE_API_KEY");
 
 interface OrderConfirmationRequest {
   orderId: string;
@@ -27,12 +25,11 @@ interface OrderConfirmationRequest {
 async function sendEmailWithRetry(payload: any, maxRetries = 2): Promise<any> {
   for (let attempt = 0; attempt <= maxRetries; attempt++) {
     try {
-      const response = await fetch(`${GATEWAY_URL}/emails`, {
+      const response = await fetch("https://api.resend.com/emails", {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${LOVABLE_API_KEY}`,
-          'X-Connection-Api-Key': RESEND_API_KEY!,
+          'Authorization': `Bearer ${RESEND_API_KEY}`,
         },
         body: JSON.stringify(payload),
       });
@@ -72,7 +69,7 @@ serve(async (req) => {
 
     console.log('Processing order confirmation for:', { orderId, customerEmail, customerName });
 
-    if (!RESEND_API_KEY || !LOVABLE_API_KEY) {
+    if (!RESEND_API_KEY) {
       throw new Error("Email API keys are not configured");
     }
 
