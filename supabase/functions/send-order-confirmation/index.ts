@@ -69,7 +69,7 @@ serve(async (req) => {
 
     console.log('Processing order confirmation for:', { orderId, customerEmail, customerName });
 
-    if (!RESEND_API_KEY || !LOVABLE_API_KEY) {
+    if (!RESEND_API_KEY) {
       throw new Error("Email API keys are not configured");
     }
 
