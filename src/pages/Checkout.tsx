@@ -75,7 +75,30 @@ const Checkout = () => {
           </span>
         </button>
 
-
+        <button
+          type="button"
+          onClick={() => navigate("/find-teammates")}
+          aria-label="No team yet? Find Live Project teammates on Book My Mentor"
+          className="mx-auto mb-8 flex w-full max-w-6xl flex-col items-center gap-3 rounded-2xl border-2 border-primary/30 bg-primary/5 p-4 text-left transition-all duration-300 hover:bg-primary/10 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary sm:flex-row sm:justify-between sm:gap-6 sm:p-5"
+        >
+          <span className="flex items-center gap-3 sm:gap-4">
+            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary/15">
+              <UserPlus className="h-5 w-5 text-primary" />
+            </span>
+            <span className="flex flex-col leading-snug">
+              <span className="text-base font-bold text-gray-900 sm:text-lg">
+                No team yet? Find teammates in 1 click
+              </span>
+              <span className="text-sm text-gray-600">
+                Publish a short profile, invite friends from LinkedIn or Instagram, or join a candidate already looking for members.
+              </span>
+            </span>
+          </span>
+          <span className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-primary px-5 py-3 text-sm font-bold text-primary-foreground shadow-md sm:w-auto">
+            Find Teammates
+            <ArrowRight className="h-4 w-4" />
+          </span>
+        </button>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-6xl mx-auto">
           <OrderSummary 
