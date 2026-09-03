@@ -33,7 +33,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
 import { useCourses, formatPrice } from "@/hooks/useCourses";
 import { supabase } from "@/integrations/supabase/client";
-import { useCreateGroupEnrollment, splitThreeWays } from "@/hooks/useGroupEnrollment";
+import { useCreateGroupEnrollment, splitEvenly } from "@/hooks/useGroupEnrollment";
 
 const memberSchema = z.object({
   member_name: z.string().trim().min(2, "Name must be at least 2 characters").max(100),
@@ -62,7 +62,7 @@ const GroupEnroll = () => {
 
   const [courseId, setCourseId] = useState(searchParams.get("courseId") || "");
   const [groupName, setGroupName] = useState("");
-  const [members, setMembers] = useState([{ ...emptyMember }, { ...emptyMember }, { ...emptyMember }]);
+  const [members, setMembers] = useState([{ ...emptyMember }]);
   const [couponCode, setCouponCode] = useState("");
   const [appliedCoupon, setAppliedCoupon] = useState<AppliedCoupon | null>(null);
   const [agreed, setAgreed] = useState(false);
@@ -104,11 +104,19 @@ const GroupEnroll = () => {
       discount = Math.min(discount, total);
     }
     const payable = Math.max(0, total - discount);
-    return { total, discount, payable, shares: splitThreeWays(payable) };
-  }, [selectedCourse, appliedCoupon]);
+    return { total, discount, payable, shares: splitEvenly(payable, members.length) };
+  }, [selectedCourse, appliedCoupon, members.length]);
 
   const updateMember = (index: number, field: keyof typeof emptyMember, value: string) => {
     setMembers((prev) => prev.map((m, i) => (i === index ? { ...m, [field]: value } : m)));
+  };
+
+  const addMember = () => {
+    setMembers((prev) => (prev.length < 3 ? [...prev, { ...emptyMember }] : prev));
+  };
+
+  const removeMember = (index: number) => {
+    setMembers((prev) => (prev.length > 1 ? prev.filter((_, i) => i !== index) : prev));
   };
 
   const applyCoupon = async () => {
@@ -190,8 +198,8 @@ const GroupEnroll = () => {
     }
 
     const emails = members.map((m) => m.member_email.trim().toLowerCase());
-    if (new Set(emails).size !== 3) {
-      toast({ title: "Duplicate Emails", description: "Each of the 3 members needs a unique email.", variant: "destructive" });
+    if (new Set(emails).size !== members.length) {
+      toast({ title: "Duplicate Emails", description: "Each member needs a unique email.", variant: "destructive" });
       return;
     }
 
@@ -211,8 +219,8 @@ const GroupEnroll = () => {
       });
 
       toast({
-        title: "Batch Registered!",
-        description: `Batch code ${result.groupCode}. Invoices are on the way to all 3 members.`,
+        title: "Enrollment Registered!",
+        description: `Code ${result.groupCode}. ${members.length > 1 ? `Invoices are on the way to all ${members.length} members.` : "Your invoice is on the way."}`,
       });
       setTimeout(() => navigate("/dashboard"), 1800);
     } catch (error: any) {
