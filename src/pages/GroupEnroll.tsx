@@ -291,6 +291,30 @@ const GroupEnroll = () => {
           ))}
         </ol>
 
+        <div className="mx-auto mb-8 flex max-w-6xl flex-col items-start gap-3 rounded-2xl border-2 border-primary/30 bg-primary/5 p-4 sm:flex-row sm:items-center sm:justify-between sm:p-5">
+          <div className="flex items-start gap-3">
+            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-primary/15">
+              <Users className="h-5 w-5 text-primary" aria-hidden="true" />
+            </span>
+            <div className="leading-snug">
+              <p className="text-base font-bold text-foreground sm:text-lg">
+                Don't have 2 members yet?
+              </p>
+              <p className="text-sm text-muted-foreground">
+                Publish a short profile on our teammate board, invite people from LinkedIn, Facebook,
+                Instagram, Reddit or Snapchat, or join a candidate already looking for a team.
+              </p>
+            </div>
+          </div>
+          <Button
+            type="button"
+            onClick={() => navigate("/find-teammates")}
+            className="w-full sm:w-auto"
+          >
+            Find Teammates
+          </Button>
+        </div>
+
 
         <div className="grid grid-cols-1 lg:grid-cols-[1.618fr_1fr] gap-6 lg:gap-8 max-w-6xl mx-auto items-start">
           {/* Form — 60% */}

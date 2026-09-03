@@ -25,6 +25,7 @@ import ResumeToolkit from "./pages/ResumeToolkit";
 import CoverLetterTool from "./pages/CoverLetterTool";
 import Terms from "./pages/Terms";
 import GroupEnroll from "./pages/GroupEnroll";
+import FindTeammates from "./pages/FindTeammates";
 import OAuthConsent from "./pages/OAuthConsent";
 import AIAgentWidget from "./components/AIAgentWidget";
 
@@ -42,6 +43,7 @@ const App = () => (
             <Route path="/auth" element={<Auth />} />
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/group-enroll" element={<GroupEnroll />} />
+            <Route path="/find-teammates" element={<FindTeammates />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/team" element={<Team />} />
