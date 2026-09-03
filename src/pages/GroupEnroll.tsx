@@ -182,10 +182,14 @@ const GroupEnroll = () => {
       toast({ title: "Select a Course", description: "Please choose a course for your batch.", variant: "destructive" });
       return;
     }
-    if (groupName.trim().length < 3) {
+    const isBatch = members.length > 1;
+    if (isBatch && groupName.trim().length < 3) {
       toast({ title: "Batch Name Required", description: "Give your batch a name (min 3 characters).", variant: "destructive" });
       return;
     }
+    const finalGroupName = isBatch
+      ? groupName.trim()
+      : `${members[0].member_name.trim()} — Solo`;
 
     for (let i = 0; i < members.length; i++) {
       const parsed = memberSchema.safeParse(members[i]);
@@ -209,7 +213,7 @@ const GroupEnroll = () => {
       const result = await createGroup.mutateAsync({
         course_id: selectedCourse.id,
         course_title: selectedCourse.title,
-        group_name: groupName.trim(),
+        group_name: finalGroupName,
         total_amount: totals.total,
         discount_amount: totals.discount,
         coupon_applied: appliedCoupon?.code || null,
@@ -354,7 +358,7 @@ const GroupEnroll = () => {
                     </Select>
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="groupName">Batch Name *</Label>
+                    <Label htmlFor="groupName">Batch Name {members.length > 1 ? "*" : "(optional)"}</Label>
                     <Input
                       id="groupName"
                       value={groupName}
