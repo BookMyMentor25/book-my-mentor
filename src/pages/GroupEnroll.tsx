@@ -28,12 +28,14 @@ import {
   ShieldCheck,
   IndianRupee,
   UserRound,
+  UserPlus,
+  Trash2,
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
 import { useCourses, formatPrice } from "@/hooks/useCourses";
 import { supabase } from "@/integrations/supabase/client";
-import { useCreateGroupEnrollment, splitThreeWays } from "@/hooks/useGroupEnrollment";
+import { useCreateGroupEnrollment, splitEvenly } from "@/hooks/useGroupEnrollment";
 
 const memberSchema = z.object({
   member_name: z.string().trim().min(2, "Name must be at least 2 characters").max(100),
@@ -62,7 +64,7 @@ const GroupEnroll = () => {
 
   const [courseId, setCourseId] = useState(searchParams.get("courseId") || "");
   const [groupName, setGroupName] = useState("");
-  const [members, setMembers] = useState([{ ...emptyMember }, { ...emptyMember }, { ...emptyMember }]);
+  const [members, setMembers] = useState([{ ...emptyMember }]);
   const [couponCode, setCouponCode] = useState("");
   const [appliedCoupon, setAppliedCoupon] = useState<AppliedCoupon | null>(null);
   const [agreed, setAgreed] = useState(false);
@@ -104,11 +106,19 @@ const GroupEnroll = () => {
       discount = Math.min(discount, total);
     }
     const payable = Math.max(0, total - discount);
-    return { total, discount, payable, shares: splitThreeWays(payable) };
-  }, [selectedCourse, appliedCoupon]);
+    return { total, discount, payable, shares: splitEvenly(payable, members.length) };
+  }, [selectedCourse, appliedCoupon, members.length]);
 
   const updateMember = (index: number, field: keyof typeof emptyMember, value: string) => {
     setMembers((prev) => prev.map((m, i) => (i === index ? { ...m, [field]: value } : m)));
+  };
+
+  const addMember = () => {
+    setMembers((prev) => (prev.length < 3 ? [...prev, { ...emptyMember }] : prev));
+  };
+
+  const removeMember = (index: number) => {
+    setMembers((prev) => (prev.length > 1 ? prev.filter((_, i) => i !== index) : prev));
   };
 
   const applyCoupon = async () => {
@@ -172,10 +182,14 @@ const GroupEnroll = () => {
       toast({ title: "Select a Course", description: "Please choose a course for your batch.", variant: "destructive" });
       return;
     }
-    if (groupName.trim().length < 3) {
+    const isBatch = members.length > 1;
+    if (isBatch && groupName.trim().length < 3) {
       toast({ title: "Batch Name Required", description: "Give your batch a name (min 3 characters).", variant: "destructive" });
       return;
     }
+    const finalGroupName = isBatch
+      ? groupName.trim()
+      : `${members[0].member_name.trim()} — Solo`;
 
     for (let i = 0; i < members.length; i++) {
       const parsed = memberSchema.safeParse(members[i]);
@@ -190,8 +204,8 @@ const GroupEnroll = () => {
     }
 
     const emails = members.map((m) => m.member_email.trim().toLowerCase());
-    if (new Set(emails).size !== 3) {
-      toast({ title: "Duplicate Emails", description: "Each of the 3 members needs a unique email.", variant: "destructive" });
+    if (new Set(emails).size !== members.length) {
+      toast({ title: "Duplicate Emails", description: "Each member needs a unique email.", variant: "destructive" });
       return;
     }
 
@@ -199,7 +213,7 @@ const GroupEnroll = () => {
       const result = await createGroup.mutateAsync({
         course_id: selectedCourse.id,
         course_title: selectedCourse.title,
-        group_name: groupName.trim(),
+        group_name: finalGroupName,
         total_amount: totals.total,
         discount_amount: totals.discount,
         coupon_applied: appliedCoupon?.code || null,
@@ -211,8 +225,8 @@ const GroupEnroll = () => {
       });
 
       toast({
-        title: "Batch Registered!",
-        description: `Batch code ${result.groupCode}. Invoices are on the way to all 3 members.`,
+        title: "Enrollment Registered!",
+        description: `Code ${result.groupCode}. ${members.length > 1 ? `Invoices are on the way to all ${members.length} members.` : "Your invoice is on the way."}`,
       });
       setTimeout(() => navigate("/dashboard"), 1800);
     } catch (error: any) {
@@ -229,8 +243,8 @@ const GroupEnroll = () => {
   return (
     <div className="min-h-screen bg-background">
       <SEOHead
-        title="Group Enrollment | Split Course Fee 3 Ways | Book My Mentor"
-        description="Register as a batch of 3 and split any Book My Mentor course fee equally. Apply a referral code for extra discount on product, project management & startup courses."
+        title="Group Enrollment | Enroll Solo or Split the Fee | Book My Mentor"
+        description="Enroll solo or as a batch of 2–3 and split any Book My Mentor course fee equally. Apply a referral code for extra discount on product, project management & startup courses."
         keywords="group enrollment course, batch admission online course, split course fee, group discount product management course, team upskilling India, referral discount course"
         canonicalUrl="https://bookmymentor.com/group-enroll"
         structuredData={{
@@ -242,7 +256,7 @@ const GroupEnroll = () => {
               name: "How does group enrollment work at Book My Mentor?",
               acceptedAnswer: {
                 "@type": "Answer",
-                text: "Form a batch of 3 candidates, pick any course, and the fee is divided equally among the 3 members. Referral or coupon codes apply on top.",
+                text: "Enroll solo or form a batch of 2–3 candidates, pick any course, and the fee is divided equally among the members. Referral or coupon codes apply on top.",
               },
             },
             {
@@ -250,7 +264,7 @@ const GroupEnroll = () => {
               name: "Can we use a referral code with a batch registration?",
               acceptedAnswer: {
                 "@type": "Answer",
-                text: "Yes. Apply your referral or coupon code before submitting and the discount is applied to the batch total before the equal 3-way split.",
+                text: "Yes. Apply your referral or coupon code before submitting and the discount is applied to the total before the equal split.",
               },
             },
           ],
@@ -265,20 +279,20 @@ const GroupEnroll = () => {
         </Button>
 
         <header className="text-center max-w-2xl mx-auto mb-6 space-y-3">
-          <Badge className="bg-accent/15 text-accent border border-accent/30">Batch of 3 • Pay 1/3 each</Badge>
+          <Badge className="bg-accent/15 text-accent border border-accent/30">Solo, 2 or 3 • Split the fee equally</Badge>
           <h1 className="text-3xl sm:text-4xl font-bold text-foreground">
-            Group Enrollment — Pay Only 1/3 of the Course Fee
+            Enroll Solo or Split the Fee with Friends
           </h1>
           <p className="text-muted-foreground">
-            Join with 2 friends or colleagues in one batch. The course fee is split equally among all 3 members, and a
-            referral or coupon code adds an extra discount on top.
+            Enroll on your own or add up to 2 friends in one batch. The course fee is split equally among all members,
+            and a referral or coupon code adds an extra discount on top.
           </p>
         </header>
 
         <ol className="mx-auto mb-8 grid max-w-3xl grid-cols-1 gap-3 sm:mb-10 sm:grid-cols-3">
           {[
             { step: "1", title: "Pick your course", desc: "Choose the program and name your batch." },
-            { step: "2", title: "Add 2 members", desc: "Enter name, email and phone for each member." },
+            { step: "2", title: "Go solo or add up to 2 members", desc: "Enter name, email and phone for each member." },
             { step: "3", title: "Split & confirm", desc: "See each share instantly, then submit." },
           ].map((item) => (
             <li key={item.step} className="rounded-xl border border-border bg-card p-4 text-left">
@@ -298,7 +312,7 @@ const GroupEnroll = () => {
             </span>
             <div className="leading-snug">
               <p className="text-base font-bold text-foreground sm:text-lg">
-                Don't have 2 members yet?
+                Looking for batch members?
               </p>
               <p className="text-sm text-muted-foreground">
                 Publish a short profile on our teammate board, invite people from LinkedIn, Facebook,
@@ -344,7 +358,7 @@ const GroupEnroll = () => {
                     </Select>
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="groupName">Batch Name *</Label>
+                    <Label htmlFor="groupName">Batch Name {members.length > 1 ? "*" : "(optional)"}</Label>
                     <Input
                       id="groupName"
                       value={groupName}
@@ -364,6 +378,17 @@ const GroupEnroll = () => {
                       Member {index + 1}
                       {index === 0 && (
                         <span className="text-xs font-normal text-muted-foreground">(you — batch lead)</span>
+                      )}
+                      {index > 0 && (
+                        <button
+                          type="button"
+                          onClick={() => removeMember(index)}
+                          aria-label={`Remove member ${index + 1}`}
+                          className="ml-1 inline-flex items-center gap-1 text-xs font-normal text-destructive hover:underline"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                          Remove
+                        </button>
                       )}
                     </legend>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -409,6 +434,18 @@ const GroupEnroll = () => {
                   </fieldset>
                 ))}
 
+                {members.length < 3 && (
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={addMember}
+                    className="w-full border-dashed border-2"
+                  >
+                    <UserPlus className="w-4 h-4 mr-2" />
+                    Add Member {members.length + 1} — split the fee {members.length + 1} ways
+                  </Button>
+                )}
+
                 {/* Referral / coupon */}
                 <div className="space-y-3">
                   <Label htmlFor="coupon">Referral / Coupon Code (Optional)</Label>
@@ -451,7 +488,7 @@ const GroupEnroll = () => {
                   />
                   <Label htmlFor="agree" className="text-sm cursor-pointer leading-relaxed">
                     <FileText className="w-4 h-4 inline mr-1 text-primary" />
-                    All 3 members have read and agree to the{" "}
+                    All members have read and agree to the{" "}
                     <Link to="/terms?type=courses" target="_blank" className="text-primary underline font-medium">
                       Terms &amp; Conditions
                     </Link>{" "}
@@ -468,7 +505,9 @@ const GroupEnroll = () => {
                     ? "Registering Batch..."
                     : !agreed
                     ? "Accept Terms to Continue"
-                    : "Register Batch & Generate Invoices"}
+                    : members.length > 1
+                    ? "Register Batch & Generate Invoices"
+                    : "Confirm Enrollment & Generate Invoice"}
                 </Button>
               </form>
             </CardContent>

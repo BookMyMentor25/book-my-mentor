@@ -19,11 +19,12 @@ export interface CreateGroupEnrollmentInput {
   members: GroupMemberInput[];
 }
 
-/** Splits a total (paise) into 3 shares as equally as possible. */
-export const splitThreeWays = (total: number): [number, number, number] => {
-  const base = Math.floor(total / 3);
-  const remainder = total - base * 3;
-  return [base + remainder, base, base];
+/** Splits a total (paise) into n shares as equally as possible (1–3 members). */
+export const splitEvenly = (total: number, count: number): number[] => {
+  const n = Math.min(Math.max(count, 1), 3);
+  const base = Math.floor(total / n);
+  const remainder = total - base * n;
+  return Array.from({ length: n }, (_, i) => (i === 0 ? base + remainder : base));
 };
 
 const generateGroupCode = () =>
@@ -36,10 +37,12 @@ export const useCreateGroupEnrollment = () => {
   return useMutation({
     mutationFn: async (input: CreateGroupEnrollmentInput) => {
       if (!user) throw new Error('You must be signed in to create a group enrollment.');
-      if (input.members.length !== 3) throw new Error('A batch must have exactly 3 members.');
+      const memberCount = input.members.length;
+      if (memberCount < 1 || memberCount > 3)
+        throw new Error('A batch can have 1 to 3 members (solo, 2, or 3).');
 
       const payable = Math.max(0, input.total_amount - input.discount_amount);
-      const shares = splitThreeWays(payable);
+      const shares = splitEvenly(payable, memberCount);
       const groupCode = generateGroupCode();
 
       const { data: group, error: groupError } = await supabase
@@ -51,9 +54,9 @@ export const useCreateGroupEnrollment = () => {
           group_code: groupCode,
           total_amount: input.total_amount,
           discount_amount: input.discount_amount,
-          per_member_amount: shares[1],
+          per_member_amount: shares[shares.length - 1],
           coupon_applied: input.coupon_applied || null,
-          member_count: 3,
+          member_count: memberCount,
           status: 'pending',
         })
         .select()
@@ -101,9 +104,9 @@ export const useCreateGroupEnrollment = () => {
               customerEmail: m.member_email.toLowerCase(),
               customerName: m.member_name,
               customerPhone: m.member_phone,
-              courseName: `${input.course_title} (Batch of 3 — ${groupCode})`,
-              orderAmount: Math.round(input.total_amount / 3),
-              discountAmount: Math.round(input.discount_amount / 3),
+              courseName: `${input.course_title} (${memberCount > 1 ? `Batch of ${memberCount}` : 'Solo enrollment'} — ${groupCode})`,
+              orderAmount: Math.round(input.total_amount / memberCount),
+              discountAmount: Math.round(input.discount_amount / memberCount),
               couponApplied: input.coupon_applied || undefined,
             },
           })

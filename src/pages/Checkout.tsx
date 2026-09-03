@@ -53,7 +53,7 @@ const Checkout = () => {
         <button
           type="button"
           onClick={() => navigate(`/group-enroll${window.location.search}`)}
-          aria-label="Enroll as a batch of 3 and pay only one third of the course fee"
+          aria-label="Enroll as a batch of 2 or 3 and split the course fee equally"
           className="mx-auto mb-8 flex w-full max-w-6xl flex-col items-center gap-3 rounded-2xl border-2 border-accent bg-accent/10 p-4 text-left transition-all duration-300 hover:bg-accent/20 hover:shadow-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent sm:flex-row sm:justify-between sm:gap-6 sm:p-5"
         >
           <span className="flex items-center gap-3 sm:gap-4">
@@ -62,15 +62,15 @@ const Checkout = () => {
             </span>
             <span className="flex flex-col leading-snug">
               <span className="text-base font-bold text-gray-900 sm:text-lg">
-                Coming with 2 friends? Pay only 1/3 each
+                Coming with friends? Split the fee equally
               </span>
               <span className="text-sm text-gray-600">
-                Same course, same mentors — the fee is split equally across all 3 members.
+                Same course, same mentors — enroll as a batch of 2 or 3 and each pays an equal share.
               </span>
             </span>
           </span>
           <span className="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-accent px-5 py-3 text-sm font-bold text-accent-foreground shadow-md sm:w-auto">
-            Enroll as a Batch of 3
+            Enroll as a Batch of 2 or 3
             <ArrowRight className="h-4 w-4" />
           </span>
         </button>
