@@ -505,7 +505,9 @@ const GroupEnroll = () => {
                     ? "Registering Batch..."
                     : !agreed
                     ? "Accept Terms to Continue"
-                    : "Register Batch & Generate Invoices"}
+                    : members.length > 1
+                    ? "Register Batch & Generate Invoices"
+                    : "Confirm Enrollment & Generate Invoice"}
                 </Button>
               </form>
             </CardContent>
