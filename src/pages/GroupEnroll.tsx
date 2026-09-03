@@ -28,6 +28,8 @@ import {
   ShieldCheck,
   IndianRupee,
   UserRound,
+  UserPlus,
+  Trash2,
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
@@ -373,6 +375,17 @@ const GroupEnroll = () => {
                       {index === 0 && (
                         <span className="text-xs font-normal text-muted-foreground">(you — batch lead)</span>
                       )}
+                      {index > 0 && (
+                        <button
+                          type="button"
+                          onClick={() => removeMember(index)}
+                          aria-label={`Remove member ${index + 1}`}
+                          className="ml-1 inline-flex items-center gap-1 text-xs font-normal text-destructive hover:underline"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                          Remove
+                        </button>
+                      )}
                     </legend>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                       <div className="space-y-2">
@@ -417,6 +430,18 @@ const GroupEnroll = () => {
                   </fieldset>
                 ))}
 
+                {members.length < 3 && (
+                  <Button
+                    type="button"
+                    variant="outline"
+                    onClick={addMember}
+                    className="w-full border-dashed border-2"
+                  >
+                    <UserPlus className="w-4 h-4 mr-2" />
+                    Add Member {members.length + 1} — split the fee {members.length + 1} ways
+                  </Button>
+                )}
+
                 {/* Referral / coupon */}
                 <div className="space-y-3">
                   <Label htmlFor="coupon">Referral / Coupon Code (Optional)</Label>
@@ -459,7 +484,7 @@ const GroupEnroll = () => {
                   />
                   <Label htmlFor="agree" className="text-sm cursor-pointer leading-relaxed">
                     <FileText className="w-4 h-4 inline mr-1 text-primary" />
-                    All 3 members have read and agree to the{" "}
+                    All members have read and agree to the{" "}
                     <Link to="/terms?type=courses" target="_blank" className="text-primary underline font-medium">
                       Terms &amp; Conditions
                     </Link>{" "}
