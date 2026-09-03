@@ -25,6 +25,7 @@ import ResumeToolkit from "./pages/ResumeToolkit";
 import CoverLetterTool from "./pages/CoverLetterTool";
 import Terms from "./pages/Terms";
 import GroupEnroll from "./pages/GroupEnroll";
+import FindTeammates from "./pages/FindTeammates";
 import OAuthConsent from "./pages/OAuthConsent";
 import AIAgentWidget from "./components/AIAgentWidget";
 
