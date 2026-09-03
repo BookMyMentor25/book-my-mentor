@@ -19,6 +19,7 @@ const Header = () => {
   const navItems = [
     { label: "Live Projects", href: "/#live-projects", icon: Rocket, isHighlighted: true },
     { label: "Courses", href: "/#courses", icon: GraduationCap },
+    { label: "Find Teammates", href: "/find-teammates", icon: Users, isNew: true },
     { label: "Jobs & Internships", href: "/jobs", icon: Briefcase, isNew: true },
     { label: "Business & Product Toolkit", href: "/ai-tools", icon: Sparkles, isHighlighted: true },
     { label: "Our Team", href: "/team", icon: Users },
