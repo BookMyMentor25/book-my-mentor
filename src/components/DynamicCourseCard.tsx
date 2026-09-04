@@ -224,7 +224,7 @@ const DynamicCourseCard = ({ course }: DynamicCourseCardProps) => {
                   : `/auth?redirect=${encodeURIComponent(`/group-enroll?courseId=${course.id}`)}`
               )
             }
-            aria-label={`Enroll as a batch of 3 for ${course.title} and pay only one third of the fee`}
+            aria-label={`Enroll solo or as a batch of 2 or 3 for ${course.title} and split the fee equally`}
             className="w-full rounded-xl border-2 border-accent bg-accent/10 px-4 py-3 text-left transition-all duration-300 hover:bg-accent/20 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
           >
             <span className="flex items-center justify-between gap-3">
@@ -233,8 +233,8 @@ const DynamicCourseCard = ({ course }: DynamicCourseCardProps) => {
                   <Users className="h-5 w-5 text-accent" />
                 </span>
                 <span className="flex flex-col leading-tight">
-                  <span className="text-sm font-bold text-foreground">Add 2 friends-pay 1/3 each</span>
-                  <span className="text-xs font-medium text-accent">Batch of 3 • Fee split equally</span>
+                  <span className="text-sm font-bold text-foreground">Add up to 2 friends-split the fee</span>
+                  <span className="text-xs font-medium text-accent">Solo, batch of 2 or 3 • Fee split equally</span>
                 </span>
               </span>
               <ArrowRight className="h-4 w-4 shrink-0 text-accent" />
