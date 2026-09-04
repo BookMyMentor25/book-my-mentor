@@ -807,6 +807,75 @@ export type Database = {
           },
         ]
       }
+      live_projects: {
+        Row: {
+          apply_url: string | null
+          company_name: string
+          company_website: string | null
+          contact_email: string
+          contact_person: string
+          created_at: string
+          domain: string
+          duration: string | null
+          engagement_type: string
+          id: string
+          location: string | null
+          openings: number
+          skills: string[]
+          status: string
+          stipend: string | null
+          submitted_by: string
+          summary: string
+          title: string
+          updated_at: string
+          views_count: number
+        }
+        Insert: {
+          apply_url?: string | null
+          company_name: string
+          company_website?: string | null
+          contact_email: string
+          contact_person: string
+          created_at?: string
+          domain: string
+          duration?: string | null
+          engagement_type?: string
+          id?: string
+          location?: string | null
+          openings?: number
+          skills?: string[]
+          status?: string
+          stipend?: string | null
+          submitted_by: string
+          summary: string
+          title: string
+          updated_at?: string
+          views_count?: number
+        }
+        Update: {
+          apply_url?: string | null
+          company_name?: string
+          company_website?: string | null
+          contact_email?: string
+          contact_person?: string
+          created_at?: string
+          domain?: string
+          duration?: string | null
+          engagement_type?: string
+          id?: string
+          location?: string | null
+          openings?: number
+          skills?: string[]
+          status?: string
+          stipend?: string | null
+          submitted_by?: string
+          summary?: string
+          title?: string
+          updated_at?: string
+          views_count?: number
+        }
+        Relationships: []
+      }
       orders: {
         Row: {
           address: string | null
