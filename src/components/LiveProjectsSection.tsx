@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { useCourses } from "@/hooks/useCourses";
+import { useLiveProjectDomainCounts } from "@/hooks/useLiveProjects";
 import {
   Rocket,
   ShoppingCart,
@@ -46,6 +47,8 @@ const steps = [
 const LiveProjectsSection = () => {
   const navigate = useNavigate();
   const { data: courses } = useCourses();
+  const { data: domainCounts } = useLiveProjectDomainCounts();
+  const totalOpenProjects = Object.values(domainCounts || {}).reduce((a, b) => a + b, 0);
   const projectCourseCount = courses?.length ?? 0;
 
   const structuredData = {
@@ -106,6 +109,9 @@ const LiveProjectsSection = () => {
                     <span className="flex flex-col">
                       <span className="text-sm font-bold text-foreground">{d.label}</span>
                       <span className="text-xs text-muted-foreground leading-snug">{d.brief}</span>
+                      <span className="mt-1 text-[11px] font-bold text-accent">
+                        {(domainCounts?.[d.label] ?? 0)} live project{(domainCounts?.[d.label] ?? 0) === 1 ? "" : "s"} open
+                      </span>
                     </span>
                   </CardContent>
                 </Card>
@@ -117,22 +123,27 @@ const LiveProjectsSection = () => {
               <Button
                 size="lg"
                 className="cta-primary w-full sm:w-auto rounded-xl px-8"
-                onClick={() => document.getElementById("courses")?.scrollIntoView({ behavior: "smooth" })}
-                aria-label="Explore mentorship programs that include live projects"
+                onClick={() => navigate("/live-projects")}
+                aria-label="Browse live projects posted by companies and startups"
               >
-                Start a Live Project
+                Browse Live Projects
                 <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
               </Button>
               <Button
                 size="lg"
                 variant="outline"
                 className="w-full sm:w-auto rounded-xl px-8 border-2 border-primary/30 text-primary hover:bg-primary/10"
-                onClick={() => navigate("/jobs")}
-                aria-label="See jobs and internships that value live project experience"
+                onClick={() => navigate("/live-projects")}
+                aria-label="Post a live project as a company or startup"
               >
-                Jobs & Internships
+                Post a Live Project
               </Button>
             </div>
+            {totalOpenProjects > 0 && (
+              <p className="mt-3 text-xs font-semibold text-foreground">
+                {totalOpenProjects} live project{totalOpenProjects > 1 ? "s" : ""} currently open from companies and startups.
+              </p>
+            )}
             {projectCourseCount > 0 && (
               <p className="mt-3 text-xs text-muted-foreground">
                 {projectCourseCount} mentorship program{projectCourseCount > 1 ? "s" : ""} currently include live projects,

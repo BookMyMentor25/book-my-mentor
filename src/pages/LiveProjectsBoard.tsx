@@ -70,7 +70,7 @@ const projectSchema = z.object({
   skills: z.string().trim().max(300).optional().or(z.literal("")),
 });
 
-const emptyForm = {
+const emptyForm: Record<string, string> = {
   company_name: "",
   company_website: "",
   contact_person: "",
@@ -78,7 +78,7 @@ const emptyForm = {
   title: "",
   summary: "",
   domain: "",
-  engagement_type: ENGAGEMENT_TYPES[0],
+  engagement_type: ENGAGEMENT_TYPES[0] as string,
   duration: "",
   location: "",
   stipend: "",
@@ -103,7 +103,7 @@ const LiveProjectsBoard = () => {
   const [honeypot, setHoneypot] = useState("");
   const formOpenedAt = useRef<number>(0);
 
-  const setField = (key: keyof typeof emptyForm, value: string) =>
+  const setField = (key: string, value: string) =>
     setForm((prev) => ({ ...prev, [key]: value }));
 
   const filtered = useMemo(() => {
