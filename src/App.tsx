@@ -26,6 +26,7 @@ import CoverLetterTool from "./pages/CoverLetterTool";
 import Terms from "./pages/Terms";
 import GroupEnroll from "./pages/GroupEnroll";
 import FindTeammates from "./pages/FindTeammates";
+import LiveProjectsBoard from "./pages/LiveProjectsBoard";
 import OAuthConsent from "./pages/OAuthConsent";
 import AIAgentWidget from "./components/AIAgentWidget";
 
@@ -44,6 +45,7 @@ const App = () => (
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/group-enroll" element={<GroupEnroll />} />
             <Route path="/find-teammates" element={<FindTeammates />} />
+            <Route path="/live-projects" element={<LiveProjectsBoard />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/admin" element={<AdminDashboard />} />
             <Route path="/team" element={<Team />} />
