@@ -150,7 +150,7 @@ export const useMyLiveProjects = () => {
         .eq("submitted_by", user.id)
         .order("created_at", { ascending: false });
       if (error) throw error;
-      return (data || []) as LiveProject[];
+      return (data || []) as unknown as LiveProject[];
     },
     enabled: !!user?.id,
   });
