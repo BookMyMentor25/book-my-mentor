@@ -182,10 +182,10 @@ export const useCreateLiveProject = () => {
 
       // Notify every registered member (batched server-side)
       supabase.functions
-        .invoke("notify-live-project", { body: { project_id: (data as LiveProject).id } })
+        .invoke("notify-live-project", { body: { project_id: (data as { id: string }).id } })
         .catch((e) => console.error("notify-live-project failed", e));
 
-      return data as LiveProject;
+      return data as unknown as LiveProject;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["live-projects"] });
