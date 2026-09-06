@@ -97,8 +97,26 @@ const LiveProjectsBoard = () => {
   const [search, setSearch] = useState("");
   const [domainFilter, setDomainFilter] = useState<string>("all");
   const [open, setOpen] = useState(false);
+  const [codeOpen, setCodeOpen] = useState(false);
+  const [codeInput, setCodeInput] = useState("");
   const [form, setForm] = useState({ ...emptyForm });
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const { data: hasAccess } = useLiveProjectAccess();
+  const redeemCode = useRedeemProjectCode();
+
+  const handleRedeem = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!user) {
+      navigate("/auth?redirect=/live-projects");
+      return;
+    }
+    redeemCode.mutate(codeInput.trim(), {
+      onSuccess: () => {
+        setCodeInput("");
+        setCodeOpen(false);
+      },
+    });
+  };
 
   // Bot protection: hidden honeypot + minimum dwell time on the form
   const [honeypot, setHoneypot] = useState("");
