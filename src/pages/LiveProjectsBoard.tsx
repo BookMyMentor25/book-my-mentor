@@ -480,7 +480,64 @@ const LiveProjectsBoard = () => {
                     Find Teammates
                   </Button>
                 </div>
+
+                {/* Project code gate — 5-second clarity, one click to unlock */}
+                <Dialog open={codeOpen} onOpenChange={setCodeOpen}>
+                  {user && !hasAccess && (
+                    <div className="mt-[1.618rem] flex flex-col gap-3 rounded-2xl border border-accent/30 bg-accent/5 p-[1rem] sm:flex-row sm:items-center sm:justify-between">
+                      <p className="flex items-start gap-2 text-sm text-muted-foreground">
+                        <Lock className="mt-0.5 h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
+                        <span>
+                          <span className="font-bold text-foreground">Project details are locked.</span>{" "}
+                          Enter the Project code you received after enrolling in a program to unlock company
+                          details and apply.
+                        </span>
+                      </p>
+                      <DialogTrigger asChild>
+                        <Button className="cta-primary shrink-0 rounded-xl">
+                          <KeyRound className="mr-2 h-4 w-4" aria-hidden="true" />
+                          Enter Project Code
+                        </Button>
+                      </DialogTrigger>
+                    </div>
+                  )}
+                  <DialogContent className="sm:max-w-md">
+                    <DialogHeader>
+                      <DialogTitle>Enter your Project code</DialogTitle>
+                      <DialogDescription>
+                        Book My Mentor shares this code with you once you enrol in a program. It unlocks Live
+                        Project applications only.
+                      </DialogDescription>
+                    </DialogHeader>
+                    <form onSubmit={handleRedeem} className="space-y-4" noValidate>
+                      <div>
+                        <Label htmlFor="project_code">Project code *</Label>
+                        <Input
+                          id="project_code"
+                          value={codeInput}
+                          onChange={(e) => setCodeInput(e.target.value.toUpperCase())}
+                          maxLength={32}
+                          autoComplete="off"
+                          className="tracking-widest"
+                          placeholder="XXXXXXXX"
+                        />
+                      </div>
+                      <Button
+                        type="submit"
+                        size="lg"
+                        className="cta-primary w-full rounded-xl"
+                        disabled={redeemCode.isPending || codeInput.trim().length < 4}
+                      >
+                        {redeemCode.isPending ? "Checking…" : "Unlock Live Projects"}
+                      </Button>
+                      <p className="text-center text-xs text-muted-foreground">
+                        Don't have a code? Enrol in a program to receive one.
+                      </p>
+                    </form>
+                  </DialogContent>
+                </Dialog>
               </div>
+
 
               <div className="rounded-2xl border border-border bg-background p-[1.618rem]">
                 <h2 className="mb-3 text-base font-bold text-foreground">How it works</h2>
