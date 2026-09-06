@@ -113,9 +113,9 @@ const LiveProjectsBoard = () => {
       if (!matchesDomain) return false;
       if (!q) return true;
       const haystack = [
-        p.title,
+        p.title || "",
         p.summary,
-        p.company_name,
+        p.company_name || "",
         p.domain,
         p.engagement_type,
         p.location || "",
@@ -126,6 +126,7 @@ const LiveProjectsBoard = () => {
       return haystack.includes(q);
     });
   }, [projects, search, domainFilter]);
+
 
   const handleOpenChange = (next: boolean) => {
     if (next && !user) {
