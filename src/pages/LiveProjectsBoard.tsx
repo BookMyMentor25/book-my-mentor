@@ -31,7 +31,9 @@ import {
   ENGAGEMENT_TYPES,
   LIVE_PROJECT_DOMAINS,
   useCreateLiveProject,
+  useLiveProjectAccess,
   useLiveProjects,
+  useRedeemProjectCode,
 } from "@/hooks/useLiveProjects";
 import {
   Building2,
