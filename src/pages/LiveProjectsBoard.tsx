@@ -541,10 +541,19 @@ const LiveProjectsBoard = () => {
                       <Badge variant="secondary" className="text-xs font-semibold">{p.domain}</Badge>
                       <span className="text-xs text-muted-foreground">{p.engagement_type}</span>
                     </div>
-                    <h3 className="mb-1 text-base font-bold leading-snug text-foreground">{p.title}</h3>
+                    <h3 className="mb-1 text-base font-bold leading-snug text-foreground">
+                      {p.unlocked && p.title ? (
+                        p.title
+                      ) : (
+                        <span className="flex items-center gap-1.5 text-muted-foreground">
+                          <Lock className="h-3.5 w-3.5" aria-hidden="true" />
+                          Project title locked
+                        </span>
+                      )}
+                    </h3>
                     <p className="mb-3 flex items-center gap-1.5 text-sm font-medium text-primary">
                       <Building2 className="h-3.5 w-3.5" aria-hidden="true" />
-                      {p.company_name}
+                      {p.unlocked && p.company_name ? p.company_name : "Company revealed with Project code"}
                     </p>
                     <p className="mb-4 line-clamp-4 text-sm leading-relaxed text-muted-foreground">{p.summary}</p>
 
@@ -580,7 +589,25 @@ const LiveProjectsBoard = () => {
                     )}
 
                     <div className="mt-auto">
-                      {user ? (
+                      {!user ? (
+                        <Button
+                          variant="outline"
+                          className="w-full rounded-xl border-2 border-primary/30 text-primary hover:bg-primary/10"
+                          onClick={() => navigate("/auth?redirect=/live-projects")}
+                        >
+                          <Lock className="mr-2 h-3.5 w-3.5" aria-hidden="true" />
+                          Sign in to Apply
+                        </Button>
+                      ) : !p.unlocked ? (
+                        <Button
+                          variant="outline"
+                          className="w-full rounded-xl border-2 border-accent/40 text-accent hover:bg-accent/10"
+                          onClick={() => setCodeOpen(true)}
+                        >
+                          <KeyRound className="mr-2 h-3.5 w-3.5" aria-hidden="true" />
+                          Unlock &amp; Apply with Project Code
+                        </Button>
+                      ) : (
                         <div className="flex flex-col gap-2">
                           {p.apply_url ? (
                             <Button asChild className="cta-primary w-full rounded-xl">
@@ -599,20 +626,12 @@ const LiveProjectsBoard = () => {
                             Contact: {p.contact_person}
                           </p>
                         </div>
-                      ) : (
-                        <Button
-                          variant="outline"
-                          className="w-full rounded-xl border-2 border-primary/30 text-primary hover:bg-primary/10"
-                          onClick={() => navigate("/auth?redirect=/live-projects")}
-                        >
-                          <Lock className="mr-2 h-3.5 w-3.5" aria-hidden="true" />
-                          Sign in to Apply
-                        </Button>
                       )}
                     </div>
                   </CardContent>
                 </Card>
               ))}
+
             </div>
           )}
 
