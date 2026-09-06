@@ -733,6 +733,51 @@ export type Database = {
         }
         Relationships: []
       }
+      live_project_code_unlocks: {
+        Row: {
+          code: string
+          created_at: string
+          id: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          id?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          id?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      live_project_codes: {
+        Row: {
+          code: string
+          created_at: string
+          is_active: boolean
+          note: string | null
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          is_active?: boolean
+          note?: string | null
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          is_active?: boolean
+          note?: string | null
+        }
+        Relationships: []
+      }
       live_project_teammate_profiles: {
         Row: {
           about: string | null
@@ -1283,7 +1328,44 @@ export type Database = {
     }
     Functions: {
       generate_invoice_number: { Args: never; Returns: string }
+      has_live_project_access: { Args: { _user_id: string }; Returns: boolean }
       is_admin: { Args: { user_uuid: string }; Returns: boolean }
+      list_live_projects: {
+        Args: never
+        Returns: {
+          apply_url: string
+          company_name: string
+          company_website: string
+          contact_email: string
+          contact_person: string
+          created_at: string
+          domain: string
+          duration: string
+          engagement_type: string
+          id: string
+          location: string
+          openings: number
+          skills: string[]
+          stipend: string
+          summary: string
+          title: string
+          unlocked: boolean
+        }[]
+      }
+      live_project_domain_counts: {
+        Args: never
+        Returns: {
+          domain: string
+          total: number
+        }[]
+      }
+      redeem_live_project_code: {
+        Args: { input_code: string }
+        Returns: {
+          message: string
+          success: boolean
+        }[]
+      }
       validate_coupon: {
         Args: { input_code: string }
         Returns: {

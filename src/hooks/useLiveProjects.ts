@@ -22,12 +22,11 @@ export const ENGAGEMENT_TYPES = [
 
 export interface LiveProject {
   id: string;
-  submitted_by: string;
-  company_name: string;
+  company_name: string | null;
   company_website: string | null;
-  contact_person: string;
-  contact_email: string;
-  title: string;
+  contact_person: string | null;
+  contact_email: string | null;
+  title: string | null;
   summary: string;
   domain: string;
   engagement_type: string;
@@ -37,10 +36,8 @@ export interface LiveProject {
   stipend: string | null;
   apply_url: string | null;
   location: string | null;
-  status: string;
-  views_count: number;
   created_at: string;
-  updated_at: string;
+  unlocked: boolean;
 }
 
 export interface LiveProjectInput {
@@ -63,42 +60,83 @@ export interface LiveProjectInput {
 const PUBLIC_COLUMNS =
   "id, submitted_by, company_name, company_website, contact_person, contact_email, title, summary, domain, engagement_type, duration, skills, openings, stipend, apply_url, location, status, views_count, created_at, updated_at";
 
+/** Published projects with sensitive fields masked server-side until a Project code is applied. */
 export const useLiveProjects = () =>
   useQuery({
     queryKey: ["live-projects"],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("live_projects")
-        .select(PUBLIC_COLUMNS)
-        .eq("status", "published")
-        .order("created_at", { ascending: false })
-        .limit(200);
+      const { data, error } = await (supabase as any).rpc("list_live_projects");
       if (error) throw error;
-      return (data || []) as LiveProject[];
+      return ((data || []) as LiveProject[]).map((p) => ({ ...p, skills: p.skills || [] }));
     },
-    staleTime: 60_000,
+    staleTime: 30_000,
   });
+
+/** True once the signed-in member has applied a valid Live Project code. */
+export const useLiveProjectAccess = () => {
+  const { user } = useAuth();
+  return useQuery({
+    queryKey: ["live-project-access", user?.id],
+    queryFn: async () => {
+      if (!user?.id) return false;
+      const { data, error } = await (supabase as any)
+        .from("live_project_code_unlocks")
+        .select("id")
+        .eq("user_id", user.id)
+        .maybeSingle();
+      if (error) throw error;
+      return !!data;
+    },
+    enabled: !!user?.id,
+    staleTime: 30_000,
+  });
+};
+
+/** Redeem the Project code issued by Book My Mentor after course enrolment. */
+export const useRedeemProjectCode = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (code: string) => {
+      const { data, error } = await (supabase as any).rpc("redeem_live_project_code", {
+        input_code: code,
+      });
+      if (error) throw error;
+      const row = (Array.isArray(data) ? data[0] : data) as
+        | { success: boolean; message: string }
+        | undefined;
+      if (!row?.success) throw new Error(row?.message || "Invalid Project code.");
+      return row;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["live-project-access"] });
+      queryClient.invalidateQueries({ queryKey: ["live-projects"] });
+      toast({
+        title: "Project code applied",
+        description: "Full project details are now unlocked. You can apply right away.",
+      });
+    },
+    onError: (error: Error) => {
+      toast({ title: "Could not apply code", description: error.message, variant: "destructive" });
+    },
+  });
+};
 
 /** Live counter per domain, driven entirely by the database. */
 export const useLiveProjectDomainCounts = () =>
   useQuery({
     queryKey: ["live-project-domain-counts"],
     queryFn: async () => {
-      const { data, error } = await supabase
-        .from("live_projects")
-        .select("domain")
-        .eq("status", "published")
-        .limit(1000);
+      const { data, error } = await (supabase as any).rpc("live_project_domain_counts");
       if (error) throw error;
       const counts: Record<string, number> = {};
-      for (const row of data || []) {
-        const key = (row as { domain: string }).domain;
-        counts[key] = (counts[key] || 0) + 1;
+      for (const row of (data || []) as { domain: string; total: number }[]) {
+        counts[row.domain] = Number(row.total) || 0;
       }
       return counts;
     },
     staleTime: 60_000,
   });
+
 
 export const useMyLiveProjects = () => {
   const { user } = useAuth();
@@ -112,7 +150,7 @@ export const useMyLiveProjects = () => {
         .eq("submitted_by", user.id)
         .order("created_at", { ascending: false });
       if (error) throw error;
-      return (data || []) as LiveProject[];
+      return (data || []) as unknown as LiveProject[];
     },
     enabled: !!user?.id,
   });
@@ -144,10 +182,10 @@ export const useCreateLiveProject = () => {
 
       // Notify every registered member (batched server-side)
       supabase.functions
-        .invoke("notify-live-project", { body: { project_id: (data as LiveProject).id } })
+        .invoke("notify-live-project", { body: { project_id: (data as { id: string }).id } })
         .catch((e) => console.error("notify-live-project failed", e));
 
-      return data as LiveProject;
+      return data as unknown as LiveProject;
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ["live-projects"] });

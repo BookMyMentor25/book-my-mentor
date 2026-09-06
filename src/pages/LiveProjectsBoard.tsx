@@ -31,7 +31,9 @@ import {
   ENGAGEMENT_TYPES,
   LIVE_PROJECT_DOMAINS,
   useCreateLiveProject,
+  useLiveProjectAccess,
   useLiveProjects,
+  useRedeemProjectCode,
 } from "@/hooks/useLiveProjects";
 import {
   Building2,
@@ -45,6 +47,7 @@ import {
   ArrowRight,
   Plus,
   Lock,
+  KeyRound,
   ExternalLink,
   Mail,
 } from "lucide-react";
@@ -96,8 +99,26 @@ const LiveProjectsBoard = () => {
   const [search, setSearch] = useState("");
   const [domainFilter, setDomainFilter] = useState<string>("all");
   const [open, setOpen] = useState(false);
+  const [codeOpen, setCodeOpen] = useState(false);
+  const [codeInput, setCodeInput] = useState("");
   const [form, setForm] = useState({ ...emptyForm });
   const [errors, setErrors] = useState<Record<string, string>>({});
+  const { data: hasAccess } = useLiveProjectAccess();
+  const redeemCode = useRedeemProjectCode();
+
+  const handleRedeem = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!user) {
+      navigate("/auth?redirect=/live-projects");
+      return;
+    }
+    redeemCode.mutate(codeInput.trim(), {
+      onSuccess: () => {
+        setCodeInput("");
+        setCodeOpen(false);
+      },
+    });
+  };
 
   // Bot protection: hidden honeypot + minimum dwell time on the form
   const [honeypot, setHoneypot] = useState("");
@@ -113,9 +134,9 @@ const LiveProjectsBoard = () => {
       if (!matchesDomain) return false;
       if (!q) return true;
       const haystack = [
-        p.title,
+        p.title || "",
         p.summary,
-        p.company_name,
+        p.company_name || "",
         p.domain,
         p.engagement_type,
         p.location || "",
@@ -126,6 +147,7 @@ const LiveProjectsBoard = () => {
       return haystack.includes(q);
     });
   }, [projects, search, domainFilter]);
+
 
   const handleOpenChange = (next: boolean) => {
     if (next && !user) {
@@ -458,7 +480,64 @@ const LiveProjectsBoard = () => {
                     Find Teammates
                   </Button>
                 </div>
+
+                {/* Project code gate — 5-second clarity, one click to unlock */}
+                <Dialog open={codeOpen} onOpenChange={setCodeOpen}>
+                  {user && !hasAccess && (
+                    <div className="mt-[1.618rem] flex flex-col gap-3 rounded-2xl border border-accent/30 bg-accent/5 p-[1rem] sm:flex-row sm:items-center sm:justify-between">
+                      <p className="flex items-start gap-2 text-sm text-muted-foreground">
+                        <Lock className="mt-0.5 h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
+                        <span>
+                          <span className="font-bold text-foreground">Project details are locked.</span>{" "}
+                          Enter the Project code you received after enrolling in a program to unlock company
+                          details and apply.
+                        </span>
+                      </p>
+                      <DialogTrigger asChild>
+                        <Button className="cta-primary shrink-0 rounded-xl">
+                          <KeyRound className="mr-2 h-4 w-4" aria-hidden="true" />
+                          Enter Project Code
+                        </Button>
+                      </DialogTrigger>
+                    </div>
+                  )}
+                  <DialogContent className="sm:max-w-md">
+                    <DialogHeader>
+                      <DialogTitle>Enter your Project code</DialogTitle>
+                      <DialogDescription>
+                        Book My Mentor shares this code with you once you enrol in a program. It unlocks Live
+                        Project applications only.
+                      </DialogDescription>
+                    </DialogHeader>
+                    <form onSubmit={handleRedeem} className="space-y-4" noValidate>
+                      <div>
+                        <Label htmlFor="project_code">Project code *</Label>
+                        <Input
+                          id="project_code"
+                          value={codeInput}
+                          onChange={(e) => setCodeInput(e.target.value.toUpperCase())}
+                          maxLength={32}
+                          autoComplete="off"
+                          className="tracking-widest"
+                          placeholder="XXXXXXXX"
+                        />
+                      </div>
+                      <Button
+                        type="submit"
+                        size="lg"
+                        className="cta-primary w-full rounded-xl"
+                        disabled={redeemCode.isPending || codeInput.trim().length < 4}
+                      >
+                        {redeemCode.isPending ? "Checking…" : "Unlock Live Projects"}
+                      </Button>
+                      <p className="text-center text-xs text-muted-foreground">
+                        Don't have a code? Enrol in a program to receive one.
+                      </p>
+                    </form>
+                  </DialogContent>
+                </Dialog>
               </div>
+
 
               <div className="rounded-2xl border border-border bg-background p-[1.618rem]">
                 <h2 className="mb-3 text-base font-bold text-foreground">How it works</h2>
@@ -540,10 +619,19 @@ const LiveProjectsBoard = () => {
                       <Badge variant="secondary" className="text-xs font-semibold">{p.domain}</Badge>
                       <span className="text-xs text-muted-foreground">{p.engagement_type}</span>
                     </div>
-                    <h3 className="mb-1 text-base font-bold leading-snug text-foreground">{p.title}</h3>
+                    <h3 className="mb-1 text-base font-bold leading-snug text-foreground">
+                      {p.unlocked && p.title ? (
+                        p.title
+                      ) : (
+                        <span className="flex items-center gap-1.5 text-muted-foreground">
+                          <Lock className="h-3.5 w-3.5" aria-hidden="true" />
+                          Project title locked
+                        </span>
+                      )}
+                    </h3>
                     <p className="mb-3 flex items-center gap-1.5 text-sm font-medium text-primary">
                       <Building2 className="h-3.5 w-3.5" aria-hidden="true" />
-                      {p.company_name}
+                      {p.unlocked && p.company_name ? p.company_name : "Company revealed with Project code"}
                     </p>
                     <p className="mb-4 line-clamp-4 text-sm leading-relaxed text-muted-foreground">{p.summary}</p>
 
@@ -579,7 +667,25 @@ const LiveProjectsBoard = () => {
                     )}
 
                     <div className="mt-auto">
-                      {user ? (
+                      {!user ? (
+                        <Button
+                          variant="outline"
+                          className="w-full rounded-xl border-2 border-primary/30 text-primary hover:bg-primary/10"
+                          onClick={() => navigate("/auth?redirect=/live-projects")}
+                        >
+                          <Lock className="mr-2 h-3.5 w-3.5" aria-hidden="true" />
+                          Sign in to Apply
+                        </Button>
+                      ) : !p.unlocked ? (
+                        <Button
+                          variant="outline"
+                          className="w-full rounded-xl border-2 border-accent/40 text-accent hover:bg-accent/10"
+                          onClick={() => setCodeOpen(true)}
+                        >
+                          <KeyRound className="mr-2 h-3.5 w-3.5" aria-hidden="true" />
+                          Unlock &amp; Apply with Project Code
+                        </Button>
+                      ) : (
                         <div className="flex flex-col gap-2">
                           {p.apply_url ? (
                             <Button asChild className="cta-primary w-full rounded-xl">
@@ -598,20 +704,12 @@ const LiveProjectsBoard = () => {
                             Contact: {p.contact_person}
                           </p>
                         </div>
-                      ) : (
-                        <Button
-                          variant="outline"
-                          className="w-full rounded-xl border-2 border-primary/30 text-primary hover:bg-primary/10"
-                          onClick={() => navigate("/auth?redirect=/live-projects")}
-                        >
-                          <Lock className="mr-2 h-3.5 w-3.5" aria-hidden="true" />
-                          Sign in to Apply
-                        </Button>
                       )}
                     </div>
                   </CardContent>
                 </Card>
               ))}
+
             </div>
           )}
 
