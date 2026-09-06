@@ -45,6 +45,7 @@ import {
   ArrowRight,
   Plus,
   Lock,
+  KeyRound,
   ExternalLink,
   Mail,
 } from "lucide-react";
