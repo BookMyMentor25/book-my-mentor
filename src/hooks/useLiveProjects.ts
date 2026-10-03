@@ -36,6 +36,7 @@ export interface LiveProject {
   stipend: string | null;
   apply_url: string | null;
   location: string | null;
+  interview_required: boolean;
   created_at: string;
   unlocked: boolean;
 }
@@ -55,10 +56,11 @@ export interface LiveProjectInput {
   stipend?: string;
   apply_url?: string;
   location?: string;
+  interview_required?: boolean;
 }
 
 const PUBLIC_COLUMNS =
-  "id, submitted_by, company_name, company_website, contact_person, contact_email, title, summary, domain, engagement_type, duration, skills, openings, stipend, apply_url, location, status, views_count, created_at, updated_at";
+  "id, submitted_by, company_name, company_website, contact_person, contact_email, title, summary, domain, engagement_type, duration, skills, openings, stipend, apply_url, location, interview_required, status, views_count, created_at, updated_at";
 
 /** Published projects with sensitive fields masked server-side until a Project code is applied. */
 export const useLiveProjects = () =>

@@ -88,6 +88,7 @@ const emptyForm: Record<string, string> = {
   apply_url: "",
   openings: "1",
   skills: "",
+  interview_required: "no",
 };
 
 const LiveProjectsBoard = () => {
@@ -201,6 +202,7 @@ const LiveProjectsBoard = () => {
         stipend: v.stipend || undefined,
         apply_url: v.apply_url || undefined,
         openings: v.openings,
+        interview_required: form.interview_required === "yes",
         skills: (v.skills || "")
           .split(",")
           .map((s) => s.trim())
@@ -261,7 +263,7 @@ const LiveProjectsBoard = () => {
                     <DialogTrigger asChild>
                       <Button size="lg" className="cta-primary w-full rounded-xl px-8 sm:w-auto">
                         <Plus className="mr-2 h-4 w-4" aria-hidden="true" />
-                        Post a Live Project
+                        Post a Live Project — Free
                       </Button>
                     </DialogTrigger>
                     <DialogContent className="max-h-[85vh] overflow-y-auto sm:max-w-2xl">
@@ -446,6 +448,17 @@ const LiveProjectsBoard = () => {
                         </div>
 
                         <div>
+                          <Label>Candidate selection</Label>
+                          <Select value={form.interview_required} onValueChange={(v) => setField("interview_required", v)}>
+                            <SelectTrigger><SelectValue /></SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="no">No interview — candidates start directly</SelectItem>
+                              <SelectItem value="yes">Interview required to shortlist</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+
+                        <div>
                           <Label htmlFor="apply_url">Application link</Label>
                           <Input
                             id="apply_url"
@@ -519,7 +532,7 @@ const LiveProjectsBoard = () => {
                           maxLength={32}
                           autoComplete="off"
                           className="tracking-widest"
-                          placeholder="XXXXXXXX"
+                          placeholder="LP-XXXX-XXXX"
                         />
                       </div>
                       <Button
@@ -531,7 +544,7 @@ const LiveProjectsBoard = () => {
                         {redeemCode.isPending ? "Checking…" : "Unlock Live Projects"}
                       </Button>
                       <p className="text-center text-xs text-muted-foreground">
-                        Don't have a code? Enrol in a program to receive one.
+                        Don't have a code? <a href="/live-projects/subscribe" className="font-semibold text-primary underline">Get the Live Projects plan</a>
                       </p>
                     </form>
                   </DialogContent>
