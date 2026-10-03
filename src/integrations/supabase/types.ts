@@ -733,6 +733,38 @@ export type Database = {
         }
         Relationships: []
       }
+      live_project_access_codes: {
+        Row: {
+          code: string
+          created_at: string
+          id: string
+          subscription_id: string
+          user_id: string
+        }
+        Insert: {
+          code: string
+          created_at?: string
+          id?: string
+          subscription_id: string
+          user_id: string
+        }
+        Update: {
+          code?: string
+          created_at?: string
+          id?: string
+          subscription_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "live_project_access_codes_subscription_id_fkey"
+            columns: ["subscription_id"]
+            isOneToOne: false
+            referencedRelation: "live_project_subscriptions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       live_project_code_unlocks: {
         Row: {
           code: string
@@ -775,6 +807,60 @@ export type Database = {
           created_at?: string
           is_active?: boolean
           note?: string | null
+        }
+        Relationships: []
+      }
+      live_project_subscriptions: {
+        Row: {
+          admin_note: string | null
+          amount: number
+          created_at: string
+          email: string
+          expires_at: string | null
+          full_name: string
+          id: string
+          motivation: string | null
+          payment_reference: string | null
+          phone: string
+          preferred_domain: string | null
+          starts_at: string | null
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          admin_note?: string | null
+          amount?: number
+          created_at?: string
+          email: string
+          expires_at?: string | null
+          full_name: string
+          id?: string
+          motivation?: string | null
+          payment_reference?: string | null
+          phone: string
+          preferred_domain?: string | null
+          starts_at?: string | null
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          admin_note?: string | null
+          amount?: number
+          created_at?: string
+          email?: string
+          expires_at?: string | null
+          full_name?: string
+          id?: string
+          motivation?: string | null
+          payment_reference?: string | null
+          phone?: string
+          preferred_domain?: string | null
+          starts_at?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string
         }
         Relationships: []
       }
@@ -864,6 +950,7 @@ export type Database = {
           duration: string | null
           engagement_type: string
           id: string
+          interview_required: boolean
           location: string | null
           openings: number
           skills: string[]
@@ -886,6 +973,7 @@ export type Database = {
           duration?: string | null
           engagement_type?: string
           id?: string
+          interview_required?: boolean
           location?: string | null
           openings?: number
           skills?: string[]
@@ -908,6 +996,7 @@ export type Database = {
           duration?: string | null
           engagement_type?: string
           id?: string
+          interview_required?: boolean
           location?: string | null
           openings?: number
           skills?: string[]
@@ -1343,6 +1432,7 @@ export type Database = {
           duration: string
           engagement_type: string
           id: string
+          interview_required: boolean
           location: string
           openings: number
           skills: string[]
