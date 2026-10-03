@@ -473,11 +473,11 @@ const LiveProjectsBoard = () => {
                   <Button
                     size="lg"
                     variant="outline"
-                    className="w-full rounded-xl border-2 border-primary/30 px-8 text-primary hover:bg-primary/10 sm:w-auto"
-                    onClick={() => navigate("/find-teammates")}
+                    className="w-full rounded-xl border-2 border-accent/50 px-8 text-accent hover:bg-accent/10 sm:w-auto"
+                    onClick={() => navigate("/live-projects/subscribe")}
                   >
-                    <Users className="mr-2 h-4 w-4" aria-hidden="true" />
-                    Find Teammates
+                    <KeyRound className="mr-2 h-4 w-4" aria-hidden="true" />
+                    Get Live Projects Plan — ₹2,999
                   </Button>
                 </div>
 
@@ -489,29 +489,29 @@ const LiveProjectsBoard = () => {
                         <Lock className="mt-0.5 h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
                         <span>
                           <span className="font-bold text-foreground">Project details are locked.</span>{" "}
-                          Enter the Project code you received after enrolling in a program to unlock company
-                          details and apply.
+                          Subscribe to the Live Projects plan, then enter the personal Project Accessible Code
+                          shared by our team to unlock company details and apply.
                         </span>
                       </p>
                       <DialogTrigger asChild>
                         <Button className="cta-primary shrink-0 rounded-xl">
                           <KeyRound className="mr-2 h-4 w-4" aria-hidden="true" />
-                          Enter Project Code
+                          Enter Access Code
                         </Button>
                       </DialogTrigger>
                     </div>
                   )}
                   <DialogContent className="sm:max-w-md">
                     <DialogHeader>
-                      <DialogTitle>Enter your Project code</DialogTitle>
+                      <DialogTitle>Enter your Project Accessible Code</DialogTitle>
                       <DialogDescription>
-                        Book My Mentor shares this code with you once you enrol in a program. It unlocks Live
-                        Project applications only.
+                        Each member gets one personal code after their Live Projects subscription is confirmed.
+                        It works only for your account.
                       </DialogDescription>
                     </DialogHeader>
                     <form onSubmit={handleRedeem} className="space-y-4" noValidate>
                       <div>
-                        <Label htmlFor="project_code">Project code *</Label>
+                        <Label htmlFor="project_code">Project Accessible Code *</Label>
                         <Input
                           id="project_code"
                           value={codeInput}
@@ -653,6 +653,10 @@ const LiveProjectsBoard = () => {
                       )}
                       <li className="flex items-center gap-1.5">
                         <Users className="h-3.5 w-3.5" aria-hidden="true" /> {p.openings} opening{p.openings > 1 ? "s" : ""}
+                      </li>
+                      <li className="flex items-center gap-1.5 font-semibold text-accent">
+                        <ShieldCheck className="h-3.5 w-3.5" aria-hidden="true" />
+                        {p.interview_required ? "Interview required for selection" : "No interview — direct start"}
                       </li>
                     </ul>
 
