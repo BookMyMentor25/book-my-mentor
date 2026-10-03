@@ -88,6 +88,7 @@ const emptyForm: Record<string, string> = {
   apply_url: "",
   openings: "1",
   skills: "",
+  interview_required: "no",
 };
 
 const LiveProjectsBoard = () => {
@@ -201,6 +202,7 @@ const LiveProjectsBoard = () => {
         stipend: v.stipend || undefined,
         apply_url: v.apply_url || undefined,
         openings: v.openings,
+        interview_required: form.interview_required === "yes",
         skills: (v.skills || "")
           .split(",")
           .map((s) => s.trim())
@@ -261,7 +263,7 @@ const LiveProjectsBoard = () => {
                     <DialogTrigger asChild>
                       <Button size="lg" className="cta-primary w-full rounded-xl px-8 sm:w-auto">
                         <Plus className="mr-2 h-4 w-4" aria-hidden="true" />
-                        Post a Live Project
+                        Post a Live Project — Free
                       </Button>
                     </DialogTrigger>
                     <DialogContent className="max-h-[85vh] overflow-y-auto sm:max-w-2xl">
@@ -446,6 +448,17 @@ const LiveProjectsBoard = () => {
                         </div>
 
                         <div>
+                          <Label>Candidate selection</Label>
+                          <Select value={form.interview_required} onValueChange={(v) => setField("interview_required", v)}>
+                            <SelectTrigger><SelectValue /></SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="no">No interview — candidates start directly</SelectItem>
+                              <SelectItem value="yes">Interview required to shortlist</SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+
+                        <div>
                           <Label htmlFor="apply_url">Application link</Label>
                           <Input
                             id="apply_url"
@@ -473,11 +486,11 @@ const LiveProjectsBoard = () => {
                   <Button
                     size="lg"
                     variant="outline"
-                    className="w-full rounded-xl border-2 border-primary/30 px-8 text-primary hover:bg-primary/10 sm:w-auto"
-                    onClick={() => navigate("/find-teammates")}
+                    className="w-full rounded-xl border-2 border-accent/50 px-8 text-accent hover:bg-accent/10 sm:w-auto"
+                    onClick={() => navigate("/live-projects/subscribe")}
                   >
-                    <Users className="mr-2 h-4 w-4" aria-hidden="true" />
-                    Find Teammates
+                    <KeyRound className="mr-2 h-4 w-4" aria-hidden="true" />
+                    Get Live Projects Plan — ₹2,999
                   </Button>
                 </div>
 
@@ -489,29 +502,29 @@ const LiveProjectsBoard = () => {
                         <Lock className="mt-0.5 h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
                         <span>
                           <span className="font-bold text-foreground">Project details are locked.</span>{" "}
-                          Enter the Project code you received after enrolling in a program to unlock company
-                          details and apply.
+                          Subscribe to the Live Projects plan, then enter the personal Project Accessible Code
+                          shared by our team to unlock company details and apply.
                         </span>
                       </p>
                       <DialogTrigger asChild>
                         <Button className="cta-primary shrink-0 rounded-xl">
                           <KeyRound className="mr-2 h-4 w-4" aria-hidden="true" />
-                          Enter Project Code
+                          Enter Access Code
                         </Button>
                       </DialogTrigger>
                     </div>
                   )}
                   <DialogContent className="sm:max-w-md">
                     <DialogHeader>
-                      <DialogTitle>Enter your Project code</DialogTitle>
+                      <DialogTitle>Enter your Project Accessible Code</DialogTitle>
                       <DialogDescription>
-                        Book My Mentor shares this code with you once you enrol in a program. It unlocks Live
-                        Project applications only.
+                        Each member gets one personal code after their Live Projects subscription is confirmed.
+                        It works only for your account.
                       </DialogDescription>
                     </DialogHeader>
                     <form onSubmit={handleRedeem} className="space-y-4" noValidate>
                       <div>
-                        <Label htmlFor="project_code">Project code *</Label>
+                        <Label htmlFor="project_code">Project Accessible Code *</Label>
                         <Input
                           id="project_code"
                           value={codeInput}
@@ -519,7 +532,7 @@ const LiveProjectsBoard = () => {
                           maxLength={32}
                           autoComplete="off"
                           className="tracking-widest"
-                          placeholder="XXXXXXXX"
+                          placeholder="LP-XXXX-XXXX"
                         />
                       </div>
                       <Button
@@ -531,7 +544,7 @@ const LiveProjectsBoard = () => {
                         {redeemCode.isPending ? "Checking…" : "Unlock Live Projects"}
                       </Button>
                       <p className="text-center text-xs text-muted-foreground">
-                        Don't have a code? Enrol in a program to receive one.
+                        Don't have a code? <a href="/live-projects/subscribe" className="font-semibold text-primary underline">Get the Live Projects plan</a>
                       </p>
                     </form>
                   </DialogContent>
@@ -653,6 +666,10 @@ const LiveProjectsBoard = () => {
                       )}
                       <li className="flex items-center gap-1.5">
                         <Users className="h-3.5 w-3.5" aria-hidden="true" /> {p.openings} opening{p.openings > 1 ? "s" : ""}
+                      </li>
+                      <li className="flex items-center gap-1.5 font-semibold text-accent">
+                        <ShieldCheck className="h-3.5 w-3.5" aria-hidden="true" />
+                        {p.interview_required ? "Interview required for selection" : "No interview — direct start"}
                       </li>
                     </ul>
 

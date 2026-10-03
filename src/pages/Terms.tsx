@@ -13,12 +13,12 @@ import {
   ShieldCheck,
   CheckCircle2,
   List,
-  ChevronRight,
-} from "lucide-react";
+  ChevronRight, Rocket } from "lucide-react";
 
 const sections = [
   { id: "courses-terms", label: "Courses Terms", icon: GraduationCap },
   { id: "jobs-terms", label: "Jobs & Internships Terms", icon: Briefcase },
+  { id: "live-projects-terms", label: "Live Projects Terms", icon: Rocket },
 ];
 
 const Terms = () => {
@@ -95,6 +95,18 @@ const Terms = () => {
     },
   ];
 
+  const LiveClauses = [
+    { title: "1. Eligibility & Order Review", text: "Only registered members with a verified email and 10-digit mobile number can order the Live Projects subscription. Placing an order does not confirm enrolment. Our team first checks Live Project slot availability and then contacts you by email." },
+    { title: "2. Price & Payment", text: "The Live Projects subscription costs Rs 2,999 (regular price Rs 9,999). Payment details are shared by email by the Book My Mentor team only after slots are confirmed. Never pay to any account not shared from support@bookmymentor.com or info@bookmymentor.com." },
+    { title: "3. Validity", text: "The subscription is valid for 3 months from the date your payment is confirmed and the plan is activated. Unused time does not carry forward." },
+    { title: "4. Project Accessible Code", text: "Each registered email receives one unique, system-generated Project Accessible Code, shared with you by our team after activation. The code works only on your own account and must not be shared. Sharing or misuse leads to cancellation without refund." },
+    { title: "5. What is Included", text: "Opportunity to work on available Live Projects, an Offer Letter on selection, a Live Project Completion Certificate on successful completion, and CV Pointers Approval for your resume." },
+    { title: "6. Company Selection & Interviews", text: "Some companies select candidates through interviews. If you are not shortlisted, you may choose another company's Live Project where an interview is not mandatory. Book My Mentor does not guarantee selection by any specific company." },
+    { title: "7. Posting Live Projects", text: "Companies, startups and admins can post Live Projects free of charge. Posters must provide genuine, accurate details. Fake, misleading or spam listings are removed and the account may be blocked." },
+    { title: "8. Conduct & Confidentiality", text: "Candidates must respect company confidentiality, deadlines and instructions. Any project data, code or documents belong to the posting company unless agreed otherwise in writing." },
+    { title: "9. Refunds", text: "Once your Project Accessible Code is shared, the subscription is non-refundable. If slots cannot be confirmed, no payment is collected. For any issue write to info@bookmymentor.com." },
+  ];
+
   const JobClauses = [
     {
       title: "1. Subscription Details",
@@ -135,7 +147,7 @@ const Terms = () => {
       <Header />
       <SEOHead
         title="Terms & Conditions | Book My Mentor"
-        description="Read the Terms & Conditions for Book My Mentor courses and Jobs & Internships subscription before checkout."
+        description="Read the Terms & Conditions for Book My Mentor courses, Jobs & Internships and Live Projects subscriptions before checkout."
       />
 
       <main className="flex-1 container mx-auto px-4 py-[2.618rem] max-w-6xl">
@@ -267,6 +279,31 @@ const Terms = () => {
                             )}
                           </p>
                         </div>
+                      </div>
+                    </div>
+                  ))}
+                </CardContent>
+              </Card>
+            </div>
+
+            {/* Live Projects Terms */}
+            <div id="live-projects-terms" className="scroll-mt-[100px]">
+              <Card className="border border-border shadow-sm overflow-hidden">
+                <CardHeader className="bg-gradient-to-r from-accent/[0.08] to-transparent border-b border-border/60 pb-[1.2rem] pt-[1.5rem]">
+                  <CardTitle className="flex items-center gap-3 text-[1.618rem] md:text-[2rem]">
+                    <div className="w-10 h-10 rounded-xl bg-accent/10 flex items-center justify-center">
+                      <Rocket className="w-5 h-5 text-accent" />
+                    </div>
+                    Live Projects Subscription — Terms & Conditions
+                  </CardTitle>
+                </CardHeader>
+                <CardContent className="p-[1.5rem] md:p-[2rem] space-y-[1.2rem]">
+                  {LiveClauses.map((clause) => (
+                    <div key={clause.title} className="flex items-start gap-3">
+                      <CheckCircle2 className="w-5 h-5 text-accent mt-0.5 flex-shrink-0" />
+                      <div>
+                        <h3 className="font-semibold text-foreground mb-1 text-[1.05rem]">{clause.title}</h3>
+                        <p className="text-sm leading-[1.7] text-muted-foreground">{clause.text}</p>
                       </div>
                     </div>
                   ))}
