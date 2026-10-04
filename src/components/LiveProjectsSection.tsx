@@ -39,8 +39,8 @@ const steps = [
   },
   {
     icon: FileBadge,
-    title: "3. Ship a portfolio proof",
-    copy: "Walk away with a documented live project, certificate and interview-ready story recruiters trust.",
+    title: "3. Get certified",
+    copy: "Offer Letter, Live Project Completion Certificate and CV Pointers Approval — ₹2,999 for 3 months (was ₹9,999).",
   },
 ];
 
@@ -123,10 +123,10 @@ const LiveProjectsSection = () => {
               <Button
                 size="lg"
                 className="cta-primary w-full sm:w-auto rounded-xl px-8"
-                onClick={() => navigate("/live-projects")}
-                aria-label="Browse live projects posted by companies and startups"
+                onClick={() => navigate("/live-projects/subscribe")}
+                aria-label="Get the Live Projects subscription plan"
               >
-                Browse Live Projects
+                Get Live Projects Plan — ₹2,999
                 <ArrowRight className="ml-2 h-4 w-4" aria-hidden="true" />
               </Button>
               <Button
@@ -134,9 +134,9 @@ const LiveProjectsSection = () => {
                 variant="outline"
                 className="w-full sm:w-auto rounded-xl px-8 border-2 border-primary/30 text-primary hover:bg-primary/10"
                 onClick={() => navigate("/live-projects")}
-                aria-label="Post a live project as a company or startup"
+                aria-label="Post a live project as a company or startup for free"
               >
-                Post a Live Project
+                Post a Live Project — Free
               </Button>
             </div>
             {totalOpenProjects > 0 && (
