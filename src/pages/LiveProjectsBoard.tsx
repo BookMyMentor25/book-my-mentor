@@ -34,6 +34,7 @@ import {
   useLiveProjectAccess,
   useLiveProjects,
   useRedeemProjectCode,
+  type LiveProject,
 } from "@/hooks/useLiveProjects";
 import {
   Building2,
@@ -50,6 +51,9 @@ import {
   KeyRound,
   ExternalLink,
   Mail,
+  CheckCircle2,
+  Globe2,
+  Eye,
 } from "lucide-react";
 
 const projectSchema = z.object({
@@ -102,6 +106,7 @@ const LiveProjectsBoard = () => {
   const [open, setOpen] = useState(false);
   const [codeOpen, setCodeOpen] = useState(false);
   const [codeInput, setCodeInput] = useState("");
+  const [selectedProject, setSelectedProject] = useState<LiveProject | null>(null);
   const [form, setForm] = useState({ ...emptyForm });
   const [errors, setErrors] = useState<Record<string, string>>({});
   const { data: hasAccess } = useLiveProjectAccess();
@@ -225,7 +230,7 @@ const LiveProjectsBoard = () => {
     itemListElement: (projects || []).slice(0, 20).map((p, i) => ({
       "@type": "ListItem",
       position: i + 1,
-      name: p.title,
+      name: p.unlocked && p.title ? p.title : `${p.domain} Live Project`,
       description: p.summary.slice(0, 200),
     })),
   };
@@ -233,9 +238,9 @@ const LiveProjectsBoard = () => {
   return (
     <div className="min-h-screen bg-background">
       <SEOHead
-        title="Live Projects for Students | Company Live Project Board"
-        description="Browse real live projects posted by companies and startups in SaaS, EdTech, Fintech, E-Commerce and Healthcare. Companies can post a live project free."
-        keywords="live projects for students, industry live project, live project internship, post a live project, startup live project, SaaS live project, fintech live project"
+        title="Live Projects for Students & Freshers | Book My Mentor"
+        description="Explore real industry Live Projects for students and freshers across SaaS, EdTech, Fintech, E-Commerce and Healthcare, with secure access and direct applications."
+        keywords="live projects for students, live projects for freshers, industry live project, live project internship, real world projects, startup live project, SaaS live project, fintech live project"
         canonicalUrl="https://bookmymentor.com/live-projects"
         structuredData={structuredData}
       />
@@ -514,6 +519,17 @@ const LiveProjectsBoard = () => {
                       </DialogTrigger>
                     </div>
                   )}
+                  {user && hasAccess && (
+                    <div className="mt-[1.618rem] flex items-start gap-3 rounded-lg border border-primary/30 bg-primary/5 p-[1rem]" role="status">
+                      <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-primary" aria-hidden="true" />
+                      <div>
+                        <p className="text-sm font-bold text-foreground">Live Project access unlocked</p>
+                        <p className="text-xs leading-relaxed text-muted-foreground">
+                          Open any project to read its complete brief, company information, contact details and application method.
+                        </p>
+                      </div>
+                    </div>
+                  )}
                   <DialogContent className="sm:max-w-md">
                     <DialogHeader>
                       <DialogTitle>Enter your Project Accessible Code</DialogTitle>
@@ -575,15 +591,20 @@ const LiveProjectsBoard = () => {
 
         {/* Board */}
         <section className="container mx-auto px-4 py-[2.618rem]" aria-labelledby="board-heading">
-          <div className="mb-[1.618rem] flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <h2 id="board-heading" className="text-xl font-bold text-foreground">
-              Open Live Projects{filtered.length ? ` (${filtered.length})` : ""}
-            </h2>
-            <div className="flex flex-col gap-3 sm:flex-row">
-              <div className="relative">
+          <div className="mb-[1.618rem] grid gap-3 md:grid-cols-[1fr_auto] md:items-end">
+            <div>
+              <h2 id="board-heading" className="text-xl font-bold text-foreground">
+                Open Live Projects{filtered.length ? ` (${filtered.length})` : ""}
+              </h2>
+              <p className="mt-1 text-sm text-muted-foreground">
+                {hasAccess ? "Select View complete details to review the full brief before applying." : "Search public project summaries, then unlock protected details with your personal code."}
+              </p>
+            </div>
+            <div className="grid gap-3 sm:grid-cols-[minmax(0,18rem)_12rem]">
+              <div className="relative min-w-0">
                 <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" aria-hidden="true" />
                 <Input
-                  className="pl-9 sm:w-72"
+                  className="w-full pl-9"
                   placeholder="Search projects, skills, companies"
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
@@ -591,7 +612,7 @@ const LiveProjectsBoard = () => {
                 />
               </div>
               <Select value={domainFilter} onValueChange={setDomainFilter}>
-                <SelectTrigger className="sm:w-48" aria-label="Filter by domain">
+                <SelectTrigger className="w-full" aria-label="Filter by domain">
                   <SelectValue placeholder="All domains" />
                 </SelectTrigger>
                 <SelectContent>
@@ -624,9 +645,9 @@ const LiveProjectsBoard = () => {
               </CardContent>
             </Card>
           ) : (
-            <div className="grid gap-[1rem] sm:grid-cols-2 lg:grid-cols-3">
+            <div className="grid items-stretch gap-[1rem] md:grid-cols-2 xl:grid-cols-3">
               {filtered.map((p) => (
-                <Card key={p.id} className="group flex flex-col border-border/70 transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-lg">
+                <Card key={p.id} className="group flex min-w-0 flex-col rounded-lg border-border/70 transition-all duration-300 hover:-translate-y-0.5 hover:border-primary/40 hover:shadow-lg">
                   <CardContent className="flex flex-1 flex-col p-[1.618rem]">
                     <div className="mb-3 flex items-center justify-between gap-2">
                       <Badge variant="secondary" className="text-xs font-semibold">{p.domain}</Badge>
@@ -703,23 +724,28 @@ const LiveProjectsBoard = () => {
                           Unlock &amp; Apply with Project Code
                         </Button>
                       ) : (
-                        <div className="flex flex-col gap-2">
+                        <div className="grid gap-2">
+                          <Button
+                            variant="outline"
+                            className="w-full rounded-lg border-primary/30 text-primary hover:bg-primary/10"
+                            onClick={() => setSelectedProject(p)}
+                          >
+                            <Eye className="mr-2 h-4 w-4" aria-hidden="true" />
+                            View complete details
+                          </Button>
                           {p.apply_url ? (
-                            <Button asChild className="cta-primary w-full rounded-xl">
+                            <Button asChild className="cta-primary w-full rounded-lg">
                               <a href={p.apply_url} target="_blank" rel="noopener noreferrer">
                                 Apply Now <ExternalLink className="ml-2 h-3.5 w-3.5" aria-hidden="true" />
                               </a>
                             </Button>
                           ) : (
-                            <Button asChild className="cta-primary w-full rounded-xl">
+                            <Button asChild className="cta-primary w-full rounded-lg">
                               <a href={`mailto:${p.contact_email}?subject=${encodeURIComponent(`Application: ${p.title}`)}`}>
                                 Apply via Email <Mail className="ml-2 h-3.5 w-3.5" aria-hidden="true" />
                               </a>
                             </Button>
                           )}
-                          <p className="text-center text-[11px] text-muted-foreground">
-                            Contact: {p.contact_person}
-                          </p>
                         </div>
                       )}
                     </div>
@@ -729,6 +755,78 @@ const LiveProjectsBoard = () => {
 
             </div>
           )}
+
+          <Dialog open={!!selectedProject} onOpenChange={(next) => !next && setSelectedProject(null)}>
+            <DialogContent className="max-h-[90vh] overflow-y-auto sm:max-w-3xl">
+              {selectedProject?.unlocked && (
+                <>
+                  <DialogHeader className="pr-6 text-left">
+                    <div className="mb-2 flex flex-wrap gap-2">
+                      <Badge variant="secondary">{selectedProject.domain}</Badge>
+                      <Badge className="bg-primary text-primary-foreground">
+                        <CheckCircle2 className="mr-1 h-3.5 w-3.5" aria-hidden="true" /> Access unlocked
+                      </Badge>
+                    </div>
+                    <DialogTitle className="text-xl leading-snug md:text-2xl">
+                      {selectedProject.title || "Project title not provided"}
+                    </DialogTitle>
+                    <DialogDescription className="text-sm">
+                      {selectedProject.company_name || "Company name not provided"} · {selectedProject.engagement_type}
+                    </DialogDescription>
+                  </DialogHeader>
+
+                  <div className="grid gap-[1.618rem] lg:grid-cols-[1.618fr_1fr]">
+                    <div className="min-w-0">
+                      <h3 className="mb-2 text-base font-bold text-foreground">Complete project brief</h3>
+                      <p className="whitespace-pre-line break-words text-sm leading-7 text-muted-foreground">
+                        {selectedProject.summary}
+                      </p>
+
+                      {selectedProject.skills.length > 0 && (
+                        <div className="mt-[1.618rem]">
+                          <h3 className="mb-2 text-base font-bold text-foreground">Skills</h3>
+                          <div className="flex flex-wrap gap-2">
+                            {selectedProject.skills.map((skill) => (
+                              <Badge key={skill} variant="secondary" className="font-medium">{skill}</Badge>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    <aside className="h-fit rounded-lg border border-border bg-secondary/50 p-[1rem]" aria-label="Project information">
+                      <h3 className="mb-3 text-base font-bold text-foreground">Project information</h3>
+                      <dl className="space-y-3 text-sm">
+                        <div><dt className="text-xs text-muted-foreground">Company / startup</dt><dd className="break-words font-semibold text-foreground">{selectedProject.company_name || "Not provided"}</dd></div>
+                        {selectedProject.company_website && (
+                          <div><dt className="text-xs text-muted-foreground">Website</dt><dd><a className="inline-flex max-w-full items-center gap-1 break-all font-semibold text-primary underline-offset-4 hover:underline" href={selectedProject.company_website} target="_blank" rel="noopener noreferrer"><Globe2 className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />{selectedProject.company_website.replace(/^https?:\/\//, "")}</a></dd></div>
+                        )}
+                        <div><dt className="text-xs text-muted-foreground">Contact person</dt><dd className="break-words font-semibold text-foreground">{selectedProject.contact_person || "Not provided"}</dd></div>
+                        <div><dt className="text-xs text-muted-foreground">Contact email</dt><dd className="break-all"><a className="font-semibold text-primary underline-offset-4 hover:underline" href={`mailto:${selectedProject.contact_email}`}>{selectedProject.contact_email || "Not provided"}</a></dd></div>
+                        {selectedProject.duration && <div><dt className="text-xs text-muted-foreground">Duration</dt><dd className="font-semibold text-foreground">{selectedProject.duration}</dd></div>}
+                        {selectedProject.location && <div><dt className="text-xs text-muted-foreground">Location</dt><dd className="font-semibold text-foreground">{selectedProject.location}</dd></div>}
+                        {selectedProject.stipend && <div><dt className="text-xs text-muted-foreground">Stipend / budget</dt><dd className="font-semibold text-foreground">{selectedProject.stipend}</dd></div>}
+                        <div><dt className="text-xs text-muted-foreground">Openings</dt><dd className="font-semibold text-foreground">{selectedProject.openings}</dd></div>
+                        <div><dt className="text-xs text-muted-foreground">Selection</dt><dd className="font-semibold text-foreground">{selectedProject.interview_required ? "Interview required" : "No interview — direct start"}</dd></div>
+                      </dl>
+                    </aside>
+                  </div>
+
+                  <div className="sticky bottom-0 -mx-6 -mb-6 border-t border-border bg-background/95 px-6 py-4 backdrop-blur-sm">
+                    {selectedProject.apply_url ? (
+                      <Button asChild size="lg" className="cta-primary w-full rounded-lg">
+                        <a href={selectedProject.apply_url} target="_blank" rel="noopener noreferrer">Apply for this Live Project <ExternalLink className="ml-2 h-4 w-4" aria-hidden="true" /></a>
+                      </Button>
+                    ) : (
+                      <Button asChild size="lg" className="cta-primary w-full rounded-lg">
+                        <a href={`mailto:${selectedProject.contact_email}?subject=${encodeURIComponent(`Application: ${selectedProject.title}`)}`}>Apply via Email <Mail className="ml-2 h-4 w-4" aria-hidden="true" /></a>
+                      </Button>
+                    )}
+                  </div>
+                </>
+              )}
+            </DialogContent>
+          </Dialog>
 
           <div className="mt-[2.618rem] rounded-2xl border border-border bg-secondary/50 p-[1.618rem] text-center">
             <h2 className="mb-2 text-lg font-bold text-foreground">Want mentor guidance on your Live Project?</h2>

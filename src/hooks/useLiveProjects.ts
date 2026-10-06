@@ -109,12 +109,14 @@ export const useRedeemProjectCode = () => {
       if (!row?.success) throw new Error(row?.message || "Invalid Project code.");
       return row;
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["live-project-access"] });
-      queryClient.invalidateQueries({ queryKey: ["live-projects"] });
+    onSuccess: async () => {
+      await Promise.all([
+        queryClient.refetchQueries({ queryKey: ["live-project-access"] }),
+        queryClient.refetchQueries({ queryKey: ["live-projects"] }),
+      ]);
       toast({
         title: "Project code applied",
-        description: "Full project details are now unlocked. You can apply right away.",
+        description: "Every available project detail is now unlocked. You can review the full brief and apply.",
       });
     },
     onError: (error: Error) => {
