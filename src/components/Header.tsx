@@ -97,34 +97,27 @@ const Header = () => {
             </Button>
           </div>
 
-          {/* Mobile: Visible Jobs CTA + Business Toolkit CTA + Menu Button */}
+          {/* Mobile: keep the primary Live Projects journey visible */}
           <div className="lg:hidden flex items-center gap-1.5">
             <a 
-              href="/jobs"
-              className="flex items-center gap-1 bg-primary text-primary-foreground px-2.5 py-1.5 rounded-full text-xs font-semibold shadow-md hover:shadow-lg transition-all animate-pulse-subtle"
+              href="/live-projects"
+              className="flex min-h-11 items-center gap-1.5 rounded-lg bg-primary px-3 py-2 text-xs font-semibold text-primary-foreground shadow-md transition-all hover:shadow-lg"
             >
-              <Briefcase className="w-3 h-3" aria-hidden="true" />
-              <span>Jobs</span>
-              <span className="text-[8px] bg-white/25 px-1 py-0.5 rounded-full">New</span>
+              <Rocket className="h-4 w-4" aria-hidden="true" />
+              <span>Live Projects</span>
             </a>
-            <a 
-              href="/ai-tools"
-              className="flex items-center gap-1 bg-gradient-to-r from-primary to-accent text-primary-foreground px-2.5 py-1.5 rounded-full text-xs font-medium shadow-md hover:shadow-lg transition-all"
-            >
-              <Sparkles className="w-3 h-3" aria-hidden="true" />
-              <span className="hidden sm:inline">Toolkit</span>
-              <span className="sm:hidden">AI</span>
-              <span className="text-[8px] bg-white/20 px-1 py-0.5 rounded-full">Free</span>
-            </a>
-            <button 
-              className="p-2 hover:bg-secondary rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-primary/50" 
+            <Button
+              type="button"
+              variant="ghost"
+              size="icon"
+              className="min-h-11 min-w-11 rounded-lg"
               onClick={toggleMenu}
               aria-expanded={isMenuOpen}
               aria-controls="mobile-menu"
               aria-label={isMenuOpen ? "Close menu" : "Open menu"}
             >
               {isMenuOpen ? <X size={24} aria-hidden="true" /> : <Menu size={24} aria-hidden="true" />}
-            </button>
+            </Button>
           </div>
         </div>
 
