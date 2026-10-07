@@ -58,7 +58,6 @@ const Index = () => {
             alt="Professional online mentorship - Learn Product Management, Lean Startup and Project Management" 
             className="w-full h-full object-cover scale-105 animate-[scaleIn_1.5s_ease-out_forwards]"
             loading="eager"
-            fetchpriority="high"
             width={1920}
             height={1080}
           />
