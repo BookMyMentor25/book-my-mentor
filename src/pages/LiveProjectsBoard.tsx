@@ -654,8 +654,8 @@ const LiveProjectsBoard = () => {
                       <span className="text-xs text-muted-foreground">{p.engagement_type}</span>
                     </div>
                     <h3 className="mb-1 text-base font-bold leading-snug text-foreground">
-                      {p.unlocked && p.title ? (
-                        p.title
+                      {p.unlocked ? (
+                        p.title || "Project title not provided"
                       ) : (
                         <span className="flex items-center gap-1.5 text-muted-foreground">
                           <Lock className="h-3.5 w-3.5" aria-hidden="true" />
@@ -665,7 +665,7 @@ const LiveProjectsBoard = () => {
                     </h3>
                     <p className="mb-3 flex items-center gap-1.5 text-sm font-medium text-primary">
                       <Building2 className="h-3.5 w-3.5" aria-hidden="true" />
-                      {p.unlocked && p.company_name ? p.company_name : "Company revealed with Project code"}
+                      {p.unlocked ? p.company_name || "Company name not provided" : "Company revealed with Project code"}
                     </p>
                     <p className="mb-4 line-clamp-4 text-sm leading-relaxed text-muted-foreground">{p.summary}</p>
 
@@ -739,11 +739,15 @@ const LiveProjectsBoard = () => {
                                 Apply Now <ExternalLink className="ml-2 h-3.5 w-3.5" aria-hidden="true" />
                               </a>
                             </Button>
-                          ) : (
+                          ) : p.contact_email ? (
                             <Button asChild className="cta-primary w-full rounded-lg">
                               <a href={`mailto:${p.contact_email}?subject=${encodeURIComponent(`Application: ${p.title}`)}`}>
                                 Apply via Email <Mail className="ml-2 h-3.5 w-3.5" aria-hidden="true" />
                               </a>
+                            </Button>
+                          ) : (
+                            <Button className="w-full rounded-lg" disabled>
+                              Application details unavailable
                             </Button>
                           )}
                         </div>
@@ -802,7 +806,7 @@ const LiveProjectsBoard = () => {
                           <div><dt className="text-xs text-muted-foreground">Website</dt><dd><a className="inline-flex max-w-full items-center gap-1 break-all font-semibold text-primary underline-offset-4 hover:underline" href={selectedProject.company_website} target="_blank" rel="noopener noreferrer"><Globe2 className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />{selectedProject.company_website.replace(/^https?:\/\//, "")}</a></dd></div>
                         )}
                         <div><dt className="text-xs text-muted-foreground">Contact person</dt><dd className="break-words font-semibold text-foreground">{selectedProject.contact_person || "Not provided"}</dd></div>
-                        <div><dt className="text-xs text-muted-foreground">Contact email</dt><dd className="break-all"><a className="font-semibold text-primary underline-offset-4 hover:underline" href={`mailto:${selectedProject.contact_email}`}>{selectedProject.contact_email || "Not provided"}</a></dd></div>
+                        <div><dt className="text-xs text-muted-foreground">Contact email</dt><dd className="break-all">{selectedProject.contact_email ? <a className="font-semibold text-primary underline-offset-4 hover:underline" href={`mailto:${selectedProject.contact_email}`}>{selectedProject.contact_email}</a> : <span className="font-semibold text-foreground">Not provided</span>}</dd></div>
                         {selectedProject.duration && <div><dt className="text-xs text-muted-foreground">Duration</dt><dd className="font-semibold text-foreground">{selectedProject.duration}</dd></div>}
                         {selectedProject.location && <div><dt className="text-xs text-muted-foreground">Location</dt><dd className="font-semibold text-foreground">{selectedProject.location}</dd></div>}
                         {selectedProject.stipend && <div><dt className="text-xs text-muted-foreground">Stipend / budget</dt><dd className="font-semibold text-foreground">{selectedProject.stipend}</dd></div>}
@@ -817,10 +821,12 @@ const LiveProjectsBoard = () => {
                       <Button asChild size="lg" className="cta-primary w-full rounded-lg">
                         <a href={selectedProject.apply_url} target="_blank" rel="noopener noreferrer">Apply for this Live Project <ExternalLink className="ml-2 h-4 w-4" aria-hidden="true" /></a>
                       </Button>
-                    ) : (
+                    ) : selectedProject.contact_email ? (
                       <Button asChild size="lg" className="cta-primary w-full rounded-lg">
                         <a href={`mailto:${selectedProject.contact_email}?subject=${encodeURIComponent(`Application: ${selectedProject.title}`)}`}>Apply via Email <Mail className="ml-2 h-4 w-4" aria-hidden="true" /></a>
                       </Button>
+                    ) : (
+                      <Button size="lg" className="w-full rounded-lg" disabled>Application details unavailable</Button>
                     )}
                   </div>
                 </>
