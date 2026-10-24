@@ -78,7 +78,7 @@ const CoursesSection = () => {
       <section className="py-20 bg-gray-50" id="courses">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-800 mb-4">Our Courses & Tools</h2>
+            <h2 className="text-4xl font-bold text-gray-800 mb-4">Trending Skillsets & Live Project Programs</h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Choose from our expertly designed courses and free AI-powered business tools
             </p>
@@ -102,7 +102,7 @@ const CoursesSection = () => {
       <section className="py-20 bg-gray-50" id="courses">
         <div className="container mx-auto px-4">
           <div className="text-center">
-            <h2 className="text-4xl font-bold text-gray-800 mb-4">Our Courses & Tools</h2>
+            <h2 className="text-4xl font-bold text-gray-800 mb-4">Trending Skillsets & Live Project Programs</h2>
             <p className="text-red-600">Failed to load courses. Please try again later.</p>
           </div>
         </div>
