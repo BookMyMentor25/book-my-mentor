@@ -78,7 +78,7 @@ const CoursesSection = () => {
       <section className="py-20 bg-gray-50" id="courses">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-800 mb-4">Our Courses & Tools</h2>
+            <h2 className="text-4xl font-bold text-gray-800 mb-4">Trending Skillsets & Live Project Programs</h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Choose from our expertly designed courses and free AI-powered business tools
             </p>
@@ -102,7 +102,7 @@ const CoursesSection = () => {
       <section className="py-20 bg-gray-50" id="courses">
         <div className="container mx-auto px-4">
           <div className="text-center">
-            <h2 className="text-4xl font-bold text-gray-800 mb-4">Our Courses & Tools</h2>
+            <h2 className="text-4xl font-bold text-gray-800 mb-4">Trending Skillsets & Live Project Programs</h2>
             <p className="text-red-600">Failed to load courses. Please try again later.</p>
           </div>
         </div>
@@ -114,9 +114,13 @@ const CoursesSection = () => {
     <section className="py-20 bg-gray-50" id="courses">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-gray-800 mb-4">Live Project Programs & Tools</h2>
+          <span className="inline-flex items-center gap-2 bg-accent/10 text-accent-dark dark:text-accent-light px-4 py-1.5 rounded-full text-sm font-semibold mb-4">
+            <Sparkles className="h-4 w-4" aria-hidden="true" />
+            Trending Now — Most In-Demand Skills
+          </span>
+          <h2 className="text-4xl font-bold text-gray-800 mb-4">Trending Skillsets & Live Project Programs</h2>
           <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Every program includes hands-on live projects, 1:1 mentorship and free AI-powered business tools to accelerate your career growth
+            Master the skills employers are hiring for right now — every program includes hands-on live projects, 1:1 mentorship and free AI-powered business tools to accelerate your career growth
           </p>
         </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">
