@@ -55,19 +55,22 @@ const Header = () => {
               <a
                 key={item.label}
                 href={item.href}
-                className={`whitespace-nowrap text-sm font-medium px-2.5 py-1.5 rounded-full transition-all focus:outline-none focus:ring-2 focus:ring-primary/50 ${
+                className={`group whitespace-nowrap text-sm font-medium px-2.5 py-1.5 rounded-full transition-all duration-200 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-primary/50 ${
                   item.onlyXl ? "hidden xl:inline-flex" : "inline-flex"
                 } items-center gap-1.5 ${
                   item.isHighlighted
                     ? "bg-gradient-to-r from-primary to-accent text-primary-foreground shadow-md hover:shadow-lg hover:scale-[1.04]"
-                    : item.isNew
-                    ? "text-foreground/80 hover:text-primary hover:bg-secondary"
                     : "text-foreground/80 hover:text-primary hover:bg-secondary"
                 }`}
               >
-                {item.isHighlighted && <item.icon className="w-4 h-4" aria-hidden="true" />}
+                <item.icon
+                  className={`w-4 h-4 transition-transform duration-200 ${
+                    item.isHighlighted ? "" : "text-primary/70 group-hover:text-accent group-hover:scale-110"
+                  }`}
+                  aria-hidden="true"
+                />
                 <span>{item.shortLabel ?? item.label}</span>
-                {item.isNew && <span className="text-[10px] font-semibold bg-primary text-primary-foreground px-1.5 py-0.5 rounded-full">New</span>}
+                {item.isNew && <span className="text-[10px] font-semibold bg-accent text-accent-foreground px-1.5 py-0.5 rounded-full">New</span>}
                 {item.isHighlighted && item.shortLabel && <span className="text-[10px] font-semibold bg-white/20 px-1.5 py-0.5 rounded-full">Free</span>}
               </a>
             ))}
@@ -112,15 +115,15 @@ const Header = () => {
             </a>
             <Button
               type="button"
-              variant="ghost"
-              size="icon"
-              className="min-h-11 min-w-11 rounded-lg"
+              size="sm"
+              className="min-h-11 rounded-full bg-gradient-to-r from-primary to-primary-dark text-primary-foreground shadow-md hover:shadow-lg hover:scale-[1.03] px-4"
               onClick={toggleMenu}
               aria-expanded={isMenuOpen}
               aria-controls="mobile-menu"
               aria-label={isMenuOpen ? "Close menu" : "Open menu"}
             >
-              {isMenuOpen ? <X size={24} aria-hidden="true" /> : <Menu size={24} aria-hidden="true" />}
+              {isMenuOpen ? <X size={18} aria-hidden="true" /> : <Menu size={18} aria-hidden="true" />}
+              <span className="font-semibold">{isMenuOpen ? "Close" : "Menu"}</span>
             </Button>
           </div>
         </div>
