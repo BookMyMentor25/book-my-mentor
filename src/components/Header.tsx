@@ -50,13 +50,13 @@ const Header = () => {
           </a>
 
           {/* Desktop Navigation - Click 2: Section */}
-          <div className="hidden xl:flex items-center justify-end gap-1.5">
+          <div className="hidden xl:flex items-center justify-end gap-1">
             {navItems.map((item) => (
               <a
                 key={item.label}
                 href={item.href}
-                className={`group whitespace-nowrap text-sm font-medium px-2.5 py-1.5 rounded-full transition-all duration-200 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-primary/50 ${
-                  item.onlyXl ? "hidden xl:inline-flex" : "inline-flex"
+                className={`group whitespace-nowrap text-sm font-medium px-2 py-1.5 rounded-full transition-all duration-200 hover:-translate-y-0.5 focus:outline-none focus:ring-2 focus:ring-primary/50 ${
+                  item.onlyXl ? "hidden min-[1440px]:inline-flex" : "inline-flex"
                 } items-center gap-1.5 ${
                   item.isHighlighted
                     ? "bg-gradient-to-r from-primary to-accent text-primary-foreground shadow-md hover:shadow-lg hover:scale-[1.04]"
@@ -148,7 +148,9 @@ const Header = () => {
                   }`}
                   onClick={() => setIsMenuOpen(false)}
                 >
-                  <item.icon className="w-5 h-5" aria-hidden="true" />
+                  <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${item.isHighlighted ? "bg-white/20" : "bg-secondary"}`}>
+                    <item.icon className="w-5 h-5" aria-hidden="true" />
+                  </span>
                   {item.label}
                   {item.isHighlighted && <span className="text-[10px] bg-white/20 px-2 py-0.5 rounded-full ml-auto">Free</span>}
                   {item.isNew && <span className="text-[10px] bg-primary text-primary-foreground px-2 py-0.5 rounded-full ml-auto">New</span>}
