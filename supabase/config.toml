@@ -38,3 +38,6 @@ verify_jwt = false
 
 [functions.notify-job-broadcast]
 verify_jwt = false
+
+[functions.notify-lp-activation]
+verify_jwt = false
