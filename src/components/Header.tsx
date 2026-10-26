@@ -148,7 +148,9 @@ const Header = () => {
                   }`}
                   onClick={() => setIsMenuOpen(false)}
                 >
-                  <item.icon className="w-5 h-5" aria-hidden="true" />
+                  <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${item.isHighlighted ? "bg-white/20" : "bg-secondary"}`}>
+                    <item.icon className="w-5 h-5" aria-hidden="true" />
+                  </span>
                   {item.label}
                   {item.isHighlighted && <span className="text-[10px] bg-white/20 px-2 py-0.5 rounded-full ml-auto">Free</span>}
                   {item.isNew && <span className="text-[10px] bg-primary text-primary-foreground px-2 py-0.5 rounded-full ml-auto">New</span>}
