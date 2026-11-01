@@ -96,6 +96,17 @@ export const useUpdateLPSubscription = () => {
     mutationFn: async ({ id, ...patch }: { id: string; status?: LPStatus; payment_reference?: string; admin_note?: string }) => {
       const { error } = await db.from("live_project_subscriptions").update(patch).eq("id", id);
       if (error) throw error;
+      // When the admin confirms payment and activates the plan, email the member
+      // their payment acknowledgment with their unique Project Accessible Code.
+      if (patch.status === "active") {
+        const { error: notifyError } = await supabase.functions
+          .invoke("notify-lp-activation", { body: { subscription_id: id } })
+          .then(
+            (res) => ({ error: res.error ?? null }),
+            (e: Error) => ({ error: e }),
+          );
+        if (notifyError) throw new Error(`Activated, but the acknowledgment email could not be sent: ${notifyError.message}`);
+      }
     },
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["admin-lp-subscriptions"] });
