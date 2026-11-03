@@ -814,7 +814,9 @@ export type Database = {
         Row: {
           admin_note: string | null
           amount: number
+          coupon_applied: string | null
           created_at: string
+          discount_amount: number
           email: string
           expires_at: string | null
           full_name: string
@@ -831,7 +833,9 @@ export type Database = {
         Insert: {
           admin_note?: string | null
           amount?: number
+          coupon_applied?: string | null
           created_at?: string
+          discount_amount?: number
           email: string
           expires_at?: string | null
           full_name: string
@@ -848,7 +852,9 @@ export type Database = {
         Update: {
           admin_note?: string | null
           amount?: number
+          coupon_applied?: string | null
           created_at?: string
+          discount_amount?: number
           email?: string
           expires_at?: string | null
           full_name?: string

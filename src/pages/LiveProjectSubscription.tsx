@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
 import Header from "@/components/Header";
@@ -16,7 +17,7 @@ import { toast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
 import { LIVE_PROJECT_DOMAINS } from "@/hooks/useLiveProjects";
 import { LP_MRP, LP_PRICE, useCreateLPSubscription, useMyLPSubscription } from "@/hooks/useLiveProjectSubscription";
-import { Briefcase, FileBadge, FileCheck2, BadgeCheck, ShieldCheck, Clock, CheckCircle2, KeyRound } from "lucide-react";
+import { Briefcase, FileBadge, FileCheck2, BadgeCheck, ShieldCheck, Clock, CheckCircle2, KeyRound, TicketPercent } from "lucide-react";
 
 const schema = z.object({
   full_name: z.string().trim().min(2, "Enter your full name").max(100),
@@ -53,10 +54,51 @@ const LiveProjectSubscription = () => {
   const [agree, setAgree] = useState(false);
   const [honeypot, setHoneypot] = useState("");
   const startedAt = useRef(Date.now());
+  const [couponCode, setCouponCode] = useState("");
+  const [applied, setApplied] = useState<{ code: string; discountPercent: number; discountFixed: number; discount: number } | null>(null);
+  const [couponLoading, setCouponLoading] = useState(false);
 
   const active = sub && sub.status === "active" && sub.expires_at && new Date(sub.expires_at) > new Date();
   const open = sub && (sub.status === "pending_review" || sub.status === "awaiting_payment" || active);
   const set = (k: string, v: string) => setForm((p) => ({ ...p, [k]: v }));
+
+  const applyCoupon = async () => {
+    const code = couponCode.trim();
+    if (!code) return;
+    setCouponLoading(true);
+    try {
+      const { data, error } = await supabase.rpc("validate_coupon", { input_code: code });
+      if (error) throw error;
+      const result = (data as any)?.[0];
+      if (!result?.is_valid) {
+        toast({ title: "Invalid coupon", description: result?.error_message || "This coupon code is not valid.", variant: "destructive" });
+        return;
+      }
+      const { data: meta } = await supabase.from("coupons").select("applies_to").ilike("coupon_code", code).maybeSingle();
+      if ((meta as any)?.applies_to && (meta as any).applies_to !== "live_project_subscription") {
+        toast({ title: "Not applicable", description: "This coupon is not valid for the Live Projects plan.", variant: "destructive" });
+        return;
+      }
+      const discount = Math.min(LP_PRICE, Math.round(((result.discount_percent || 0) / 100) * LP_PRICE) + (result.discount_amount || 0));
+      if (discount <= 0) {
+        toast({ title: "No discount", description: "This coupon does not offer a discount on this plan.", variant: "destructive" });
+        return;
+      }
+      setApplied({ code: code.toUpperCase(), discountPercent: result.discount_percent || 0, discountFixed: result.discount_amount || 0, discount });
+      toast({ title: "Coupon applied", description: `You save ₹${discount.toLocaleString("en-IN")} on the Live Projects plan.` });
+    } catch (e: any) {
+      toast({ title: "Could not apply coupon", description: e.message, variant: "destructive" });
+    } finally {
+      setCouponLoading(false);
+    }
+  };
+
+  const removeCoupon = () => {
+    setApplied(null);
+    setCouponCode("");
+  };
+
+  const payable = LP_PRICE - (applied?.discount || 0);
 
   const submit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -79,7 +121,7 @@ const LiveProjectSubscription = () => {
     }
     setErrors({});
     const v = parsed.data;
-    create.mutate({ full_name: v.full_name, email: v.email, phone: v.phone, preferred_domain: v.preferred_domain || undefined, motivation: v.motivation || undefined });
+    create.mutate({ full_name: v.full_name, email: v.email, phone: v.phone, preferred_domain: v.preferred_domain || undefined, motivation: v.motivation || undefined, coupon_applied: applied?.code });
   };
 
   return (

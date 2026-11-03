@@ -17,6 +17,8 @@ export interface LPSubscription {
   preferred_domain: string | null;
   motivation: string | null;
   amount: number;
+  coupon_applied: string | null;
+  discount_amount: number;
   status: LPStatus;
   payment_reference: string | null;
   admin_note: string | null;
@@ -54,11 +56,11 @@ export const useCreateLPSubscription = () => {
   const { user } = useAuth();
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: async (input: { full_name: string; email: string; phone: string; preferred_domain?: string; motivation?: string }) => {
+    mutationFn: async (input: { full_name: string; email: string; phone: string; preferred_domain?: string; motivation?: string; coupon_applied?: string }) => {
       if (!user?.id) throw new Error("Please sign in first.");
       const { data, error } = await db
         .from("live_project_subscriptions")
-        .insert({ ...input, user_id: user.id })
+        .insert({ ...input, user_id: user.id, coupon_applied: input.coupon_applied || null })
         .select("*")
         .single();
       if (error) throw error;
