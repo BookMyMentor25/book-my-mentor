@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { supabase } from "@/integrations/supabase/client";
 import { Link, useNavigate } from "react-router-dom";
 import { z } from "zod";
 import Header from "@/components/Header";
@@ -16,7 +17,7 @@ import { toast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
 import { LIVE_PROJECT_DOMAINS } from "@/hooks/useLiveProjects";
 import { LP_MRP, LP_PRICE, useCreateLPSubscription, useMyLPSubscription } from "@/hooks/useLiveProjectSubscription";
-import { Briefcase, FileBadge, FileCheck2, BadgeCheck, ShieldCheck, Clock, CheckCircle2, KeyRound } from "lucide-react";
+import { Briefcase, FileBadge, FileCheck2, BadgeCheck, ShieldCheck, Clock, CheckCircle2, KeyRound, TicketPercent } from "lucide-react";
 
 const schema = z.object({
   full_name: z.string().trim().min(2, "Enter your full name").max(100),
