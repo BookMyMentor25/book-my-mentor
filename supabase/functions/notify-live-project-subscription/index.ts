@@ -25,16 +25,19 @@ Deno.serve(async (req) => {
     const RESEND = Deno.env.get("RESEND_API_KEY");
     if (!RESEND) throw new Error("RESEND_API_KEY not set");
     const at = new Date(sub.created_at).toLocaleString("en-IN", { timeZone: "Asia/Kolkata" });
+    const payable = sub.amount ?? 2999;
+    const saved = payable < 2999 ? 2999 - payable : 0;
 
     const adminHtml = `<div style="font-family:sans-serif;max-width:600px;margin:0 auto;padding:24px">
       <h2>New Live Projects subscription order</h2>
-      <p>Please check Live Project slot availability. If slots are available, email payment details (₹2,999) to the member. Share the Project Accessible Code only after payment is confirmed.</p>
+      <p>Please check Live Project slot availability. If slots are available, email payment details for the amount below to the member. Share the Project Accessible Code only after payment is confirmed.</p>
       <div style="background:#f8f9fa;border:1px solid #e2e8f0;border-radius:8px;padding:20px">
         <p><strong>Name:</strong> ${esc(sub.full_name)}</p>
         <p><strong>Email:</strong> ${esc(sub.email)}</p>
         <p><strong>Phone:</strong> ${esc(sub.phone)}</p>
         <p><strong>Preferred domain:</strong> ${esc(sub.preferred_domain || "-")}</p>
         <p><strong>Motivation:</strong> ${esc(sub.motivation || "-")}</p>
+        <p style="font-size:18px"><strong>Amount payable:</strong> ₹${payable.toLocaleString("en-IN")}${saved ? ` (coupon ${esc(sub.coupon_applied || "")} applied — saved ₹${saved.toLocaleString("en-IN")})` : ""}</p>
         <p><strong>Ordered at:</strong> ${esc(at)}</p>
         <p style="font-size:18px"><strong>Project Accessible Code:</strong> <code>${esc(code?.code || "-")}</code></p>
       </div>

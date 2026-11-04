@@ -43,6 +43,7 @@ const LiveProjectSubscriptionManagement = () => {
                 <th className="p-2">Customer</th>
                 <th className="p-2">Email / Phone</th>
                 <th className="p-2">Domain</th>
+                <th className="p-2">Amount / Coupon</th>
                 <th className="p-2">Ordered</th>
                 <th className="p-2">Status</th>
                 <th className="p-2">Access Code</th>
@@ -55,6 +56,12 @@ const LiveProjectSubscriptionManagement = () => {
                   <td className="p-2 font-medium">{s.full_name}</td>
                   <td className="p-2">{s.email}<br /><span className="text-muted-foreground">{s.phone}</span></td>
                   <td className="p-2">{s.preferred_domain || "Any"}</td>
+                  <td className="p-2">
+                    <span className="font-semibold">₹{(s.amount ?? 0).toLocaleString("en-IN")}</span>
+                    {s.coupon_applied && (
+                      <div className="mt-1 text-xs text-primary">Coupon {s.coupon_applied} · − ₹{(s.discount_amount ?? 0).toLocaleString("en-IN")}</div>
+                    )}
+                  </td>
                   <td className="p-2">{format(new Date(s.created_at), "dd MMM yyyy")}</td>
                   <td className="p-2">
                     <Badge variant={s.status === "active" ? "default" : "secondary"}>{label[s.status]}</Badge>
