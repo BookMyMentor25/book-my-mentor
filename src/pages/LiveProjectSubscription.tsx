@@ -190,6 +190,9 @@ const LiveProjectSubscription = () => {
                       <h2 className="text-lg font-bold">{statusText[sub!.status].label}</h2>
                     </div>
                     <p className="mb-4 text-sm text-muted-foreground">{statusText[sub!.status].copy}</p>
+                    {!active && sub!.amount < LP_PRICE && (
+                      <p className="mb-4 text-sm font-semibold text-primary">Amount payable: ₹{sub!.amount.toLocaleString("en-IN")} (coupon {sub!.coupon_applied})</p>
+                    )}
                     {active && (
                       <p className="mb-4 text-xs text-muted-foreground">Valid until {new Date(sub!.expires_at!).toLocaleDateString("en-IN")}</p>
                     )}
@@ -231,6 +234,40 @@ const LiveProjectSubscription = () => {
                     <div>
                       <Label htmlFor="motivation">Why do you want a Live Project?</Label>
                       <Textarea id="motivation" rows={3} maxLength={600} value={form.motivation} onChange={(e) => set("motivation", e.target.value)} />
+                    </div>
+                    <div>
+                      <Label htmlFor="coupon">Coupon / Referral code</Label>
+                      {applied ? (
+                        <div className="flex items-center justify-between rounded-xl border border-primary/30 bg-primary/5 px-3 py-2">
+                          <span className="inline-flex items-center gap-2 text-sm font-bold text-primary"><TicketPercent className="h-4 w-4" />{applied.code} applied</span>
+                          <button type="button" onClick={removeCoupon} className="text-xs font-semibold text-muted-foreground underline">Remove</button>
+                        </div>
+                      ) : (
+                        <div className="flex gap-2">
+                          <Input id="coupon" value={couponCode} maxLength={32} placeholder="Enter code" className="uppercase placeholder:normal-case" onChange={(e) => setCouponCode(e.target.value.toUpperCase())} />
+                          <Button type="button" variant="outline" className="shrink-0 rounded-xl" disabled={couponLoading || !couponCode.trim()} onClick={applyCoupon}>
+                            {couponLoading ? "Checking…" : "Apply"}
+                          </Button>
+                        </div>
+                      )}
+                    </div>
+                    <div className="rounded-xl border border-border bg-secondary/50 p-3 text-sm">
+                      <div className="flex justify-between">
+                        <span className="text-muted-foreground">Plan price · 3 months</span>
+                        <span className={applied ? "text-muted-foreground line-through" : "font-bold text-foreground"}>₹{LP_PRICE.toLocaleString("en-IN")}</span>
+                      </div>
+                      {applied && (
+                        <>
+                          <div className="mt-1 flex justify-between text-primary">
+                            <span>Coupon {applied.code}</span>
+                            <span className="font-semibold">− ₹{applied.discount.toLocaleString("en-IN")}</span>
+                          </div>
+                          <div className="mt-1 flex justify-between border-t border-border pt-1 font-bold text-foreground">
+                            <span>Amount payable</span>
+                            <span>₹{payable.toLocaleString("en-IN")}</span>
+                          </div>
+                        </>
+                      )}
                     </div>
                     <label className="flex items-start gap-2 text-xs text-muted-foreground">
                       <Checkbox checked={agree} onCheckedChange={(c) => setAgree(!!c)} className="mt-0.5" />
