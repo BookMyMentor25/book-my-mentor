@@ -45,7 +45,7 @@ Deno.serve(async (req) => {
 
     const userHtml = `<div style="font-family:sans-serif;max-width:600px;margin:0 auto;padding:24px">
       <h2>Hi ${esc(sub.full_name)},</h2>
-      <p>Thanks for ordering the Book My Mentor Live Projects plan (₹2,999, valid 3 months).</p>
+      <p>Thanks for ordering the Book My Mentor Live Projects plan (₹${payable.toLocaleString("en-IN")}${saved ? ` after applying coupon ${esc(sub.coupon_applied || "")}` : ""}, valid 3 months).</p>
       <p>Our team is checking Live Project slot availability. If a slot is available, we'll email you payment details to confirm your enrolment. Do not pay anyone until you receive that email from us.</p>
       <p style="font-size:13px;color:#888">Questions? Write to info@bookmymentor.com.</p></div>`;
 
