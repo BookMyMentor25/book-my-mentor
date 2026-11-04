@@ -45,7 +45,6 @@ const Header = () => {
               className="h-10 sm:h-11 lg:h-12 w-auto shrink-0"
               width="144"
               height="48"
-              fetchPriority="high"
             />
           </a>
 

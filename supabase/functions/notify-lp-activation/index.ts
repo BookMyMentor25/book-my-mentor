@@ -41,6 +41,9 @@ Deno.serve(async (req) => {
     const RESEND = Deno.env.get("RESEND_API_KEY");
     if (!RESEND) throw new Error("RESEND_API_KEY not set");
 
+    const payable = (sub.amount ?? 2999).toLocaleString("en-IN");
+    const saved = (sub.amount ?? 2999) < 2999 ? 2999 - (sub.amount ?? 2999) : 0;
+
     const startDate = sub.starts_at ? new Date(sub.starts_at).toLocaleDateString("en-IN", { day: "numeric", month: "long", year: "numeric", timeZone: "Asia/Kolkata" }) : "today";
     const boardUrl = "https://bookmymentor.com/live-projects";
 
@@ -77,7 +80,7 @@ Deno.serve(async (req) => {
         <!-- Body: neutral 30% -->
         <tr><td class="px" style="padding:16px 40px 0;">
           <p style="margin:0 0 14px;font-size:15px;line-height:1.618;color:${TEXT};">
-            We've received your payment of <strong>₹2,999</strong> for the Live Projects plan. Your membership started on <strong>${startDate}</strong> and is valid for <strong>3 months</strong>.
+            We've received your payment of <strong>₹${payable}</strong>${saved ? ` (coupon ${esc(sub.coupon_applied || "")} applied — you saved ₹${saved.toLocaleString("en-IN")})` : ""} for the Live Projects plan. Your membership started on <strong>${startDate}</strong> and is valid for <strong>3 months</strong>.
           </p>
           <p style="margin:0 0 20px;font-size:15px;line-height:1.618;color:${TEXT};">
             You can now register for the Live Projects on our board and start applying. <strong>Project Orientation details will be conveyed to you soon</strong> on this email.
