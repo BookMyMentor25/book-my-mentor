@@ -1,69 +1,73 @@
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { X, Gift, Copy, Check } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
 
-import { useState, useEffect } from "react";
-import { X, Gift } from "lucide-react";
-import { Button } from "@/components/ui/button";
+const CODE = "NEWUSER10";
+const KEY = "bmm-newuser10-dismissed";
 
+/** Slim, dismissible welcome offer shown only to signed-out visitors. */
 const CouponBanner = () => {
-  const [isVisible, setIsVisible] = useState(false);
+  const { user, loading } = useAuth();
+  const [hidden, setHidden] = useState(true);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
-    // Check if user has seen the coupon before
-    const hasSeenCoupon = localStorage.getItem('bmm-coupon-seen');
-    if (!hasSeenCoupon) {
-      setIsVisible(true);
-    }
+    setHidden(sessionStorage.getItem(KEY) === "1");
   }, []);
 
-  const handleClose = () => {
-    setIsVisible(false);
-    localStorage.setItem('bmm-coupon-seen', 'true');
+  if (loading || user || hidden) return null;
+
+  const close = () => {
+    sessionStorage.setItem(KEY, "1");
+    setHidden(true);
   };
 
-  const handleCopyCoupon = () => {
-    navigator.clipboard.writeText('Unstop30');
-    // Could add a toast here if needed
+  const copy = async () => {
+    try {
+      await navigator.clipboard.writeText(CODE);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      /* clipboard unavailable */
+    }
   };
-
-  // Banner is currently hidden
-  return null;
 
   return (
-    <div className="fixed top-0 left-0 right-0 bg-gradient-to-r from-accent to-accent-light text-white py-3 px-4 z-50 shadow-lg border-b-2 border-accent-light">
-      <div className="container mx-auto flex flex-col sm:flex-row items-center justify-between gap-3">
-        <div className="flex items-center gap-3 text-center sm:text-left">
-          <div className="bg-white/20 p-2 rounded-lg backdrop-blur-sm">
-            <Gift size={20} className="text-white" />
-          </div>
-          <div className="space-y-1">
-            <div className="font-bold text-base sm:text-lg">🎉 Special Offer: ₹3000 OFF</div>
-            <div className="text-sm">
-              <span className="opacity-90">Use code: </span>
-              <span className="bg-white text-accent px-3 py-1 rounded-full font-bold shadow-md">
-                Unstop30
-              </span>
-            </div>
-          </div>
-        </div>
-        <div className="flex items-center gap-2">
-          <Button
-            onClick={handleCopyCoupon}
-            size="sm"
-            className="bg-white text-accent hover:bg-white/90 font-semibold shadow-md hover:shadow-lg transition-all"
-          >
-            Copy Code
-          </Button>
-          <Button
-            onClick={handleClose}
-            variant="ghost"
-            size="sm"
-            className="text-white hover:bg-white/20 p-2"
-            aria-label="Close banner"
-          >
-            <X size={18} />
-          </Button>
-        </div>
+    <aside
+      aria-label="New user offer"
+      className="relative border-b border-accent/30 bg-gradient-to-r from-accent/10 via-background to-primary/10 animate-fade-in"
+    >
+      <div className="container mx-auto flex flex-wrap items-center justify-center gap-x-3 gap-y-2 px-10 py-2.5 text-center text-sm">
+        <span className="inline-flex items-center gap-2 font-medium text-foreground">
+          <Gift className="h-4 w-4 shrink-0 text-accent" aria-hidden="true" />
+          New here? Get <strong className="text-accent">10% off</strong> your first enrolment
+        </span>
+        <button
+          type="button"
+          onClick={copy}
+          className="inline-flex items-center gap-1.5 rounded-full border border-dashed border-accent bg-background px-3 py-0.5 font-mono text-xs font-bold tracking-wider text-accent transition-colors hover:bg-accent/10"
+          aria-label={`Copy coupon code ${CODE}`}
+        >
+          {CODE}
+          {copied ? <Check className="h-3.5 w-3.5" /> : <Copy className="h-3.5 w-3.5" />}
+        </button>
+        <Link
+          to="/auth"
+          className="rounded-full bg-accent px-3.5 py-1 text-xs font-semibold text-accent-foreground shadow-sm transition-transform hover:-translate-y-0.5"
+        >
+          Sign up & save
+        </Link>
       </div>
-    </div>
+      <button
+        type="button"
+        onClick={close}
+        aria-label="Dismiss offer"
+        className="absolute right-2 top-1/2 -translate-y-1/2 rounded-full p-1.5 text-muted-foreground transition-colors hover:bg-muted hover:text-foreground"
+      >
+        <X className="h-4 w-4" />
+      </button>
+    </aside>
   );
 };
 

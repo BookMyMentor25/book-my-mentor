@@ -67,6 +67,11 @@ const LiveProjectSubscription = () => {
     if (!code) return;
     setCouponLoading(true);
     try {
+      const { data: allowed } = await supabase.from("lp_coupon_allowlist" as any).select("coupon_code").eq("coupon_code", code.toUpperCase()).maybeSingle();
+      if (!allowed) {
+        toast({ title: "Not applicable", description: "Only NEWUSER10 and ELITE30 can be used on the Live Projects plan.", variant: "destructive" });
+        return;
+      }
       const { data, error } = await supabase.rpc("validate_coupon", { input_code: code });
       if (error) throw error;
       const result = (data as any)?.[0];

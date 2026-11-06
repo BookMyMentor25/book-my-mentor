@@ -551,6 +551,62 @@ export type Database = {
           },
         ]
       }
+      job_broadcast_recipients: {
+        Row: {
+          attempts: number
+          broadcast_id: number
+          created_at: string
+          email: string
+          full_name: string | null
+          id: number
+          last_error: string | null
+          lease_until: string | null
+          sent_at: string | null
+          ses_message_id: string | null
+          status: string
+          updated_at: string
+          user_id: string | null
+        }
+        Insert: {
+          attempts?: number
+          broadcast_id: number
+          created_at?: string
+          email: string
+          full_name?: string | null
+          id?: number
+          last_error?: string | null
+          lease_until?: string | null
+          sent_at?: string | null
+          ses_message_id?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Update: {
+          attempts?: number
+          broadcast_id?: number
+          created_at?: string
+          email?: string
+          full_name?: string | null
+          id?: number
+          last_error?: string | null
+          lease_until?: string | null
+          sent_at?: string | null
+          ses_message_id?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "job_broadcast_recipients_broadcast_id_fkey"
+            columns: ["broadcast_id"]
+            isOneToOne: false
+            referencedRelation: "job_broadcasts"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       job_broadcast_state: {
         Row: {
           cycle_count: number
@@ -571,6 +627,39 @@ export type Database = {
           id?: number
           last_user_created_at?: string | null
           last_user_id?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      job_broadcasts: {
+        Row: {
+          created_at: string
+          failed_count: number
+          id: number
+          job_id: string
+          sent_count: number
+          status: string
+          total_recipients: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          failed_count?: number
+          id?: number
+          job_id: string
+          sent_count?: number
+          status?: string
+          total_recipients?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          failed_count?: number
+          id?: number
+          job_id?: string
+          sent_count?: number
+          status?: string
+          total_recipients?: number
           updated_at?: string
         }
         Relationships: []
@@ -1016,6 +1105,21 @@ export type Database = {
         }
         Relationships: []
       }
+      lp_coupon_allowlist: {
+        Row: {
+          coupon_code: string
+          created_at: string
+        }
+        Insert: {
+          coupon_code: string
+          created_at?: string
+        }
+        Update: {
+          coupon_code?: string
+          created_at?: string
+        }
+        Relationships: []
+      }
       orders: {
         Row: {
           address: string | null
@@ -1422,6 +1526,30 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      claim_job_broadcast_recipients: {
+        Args: { p_broadcast_id: number; p_limit?: number }
+        Returns: {
+          attempts: number
+          broadcast_id: number
+          created_at: string
+          email: string
+          full_name: string | null
+          id: number
+          last_error: string | null
+          lease_until: string | null
+          sent_at: string | null
+          ses_message_id: string | null
+          status: string
+          updated_at: string
+          user_id: string | null
+        }[]
+        SetofOptions: {
+          from: "*"
+          to: "job_broadcast_recipients"
+          isOneToOne: false
+          isSetofReturn: true
+        }
+      }
       generate_invoice_number: { Args: never; Returns: string }
       has_live_project_access: { Args: { _user_id: string }; Returns: boolean }
       is_admin: { Args: { user_uuid: string }; Returns: boolean }
