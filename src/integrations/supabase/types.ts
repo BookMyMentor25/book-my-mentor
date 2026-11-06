@@ -1105,6 +1105,21 @@ export type Database = {
         }
         Relationships: []
       }
+      lp_coupon_allowlist: {
+        Row: {
+          coupon_code: string
+          created_at: string
+        }
+        Insert: {
+          coupon_code: string
+          created_at?: string
+        }
+        Update: {
+          coupon_code?: string
+          created_at?: string
+        }
+        Relationships: []
+      }
       orders: {
         Row: {
           address: string | null
