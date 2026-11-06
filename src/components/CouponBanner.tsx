@@ -8,7 +8,7 @@ const KEY = "bmm-newuser10-dismissed";
 
 /** Slim, dismissible welcome offer shown only to signed-out visitors. */
 const CouponBanner = () => {
-  const { user, loading } = useAuth() as { user: unknown; loading?: boolean };
+  const { user, loading } = useAuth();
   const [hidden, setHidden] = useState(true);
   const [copied, setCopied] = useState(false);
 
