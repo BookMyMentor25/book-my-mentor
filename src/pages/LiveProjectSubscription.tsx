@@ -69,30 +69,30 @@ const LiveProjectSubscription = () => {
     try {
       const { data: allowed } = await supabase.from("lp_coupon_allowlist" as any).select("coupon_code").eq("coupon_code", code.toUpperCase()).maybeSingle();
       if (!allowed) {
-        toast({ title: "Not applicable", description: "Only NEWUSER10 and ELITE30 can be used on the Live Projects plan.", variant: "destructive" });
+        toast({ title: "Not applicable", description: "This code is not applicable to the Live Projects plan.", variant: "destructive" });
         return;
       }
       const { data, error } = await supabase.rpc("validate_coupon", { input_code: code });
       if (error) throw error;
       const result = (data as any)?.[0];
       if (!result?.is_valid) {
-        toast({ title: "Invalid coupon", description: result?.error_message || "This coupon code is not valid.", variant: "destructive" });
+        toast({ title: "Not applicable", description: "This code is not applicable to the Live Projects plan.", variant: "destructive" });
         return;
       }
       const { data: meta } = await supabase.from("coupons").select("applies_to").ilike("coupon_code", code).maybeSingle();
       if ((meta as any)?.applies_to && (meta as any).applies_to !== "live_project_subscription") {
-        toast({ title: "Not applicable", description: "This coupon is not valid for the Live Projects plan.", variant: "destructive" });
+        toast({ title: "Not applicable", description: "This code is not applicable to the Live Projects plan.", variant: "destructive" });
         return;
       }
       const discount = Math.min(LP_PRICE, Math.round(((result.discount_percent || 0) / 100) * LP_PRICE) + (result.discount_amount || 0));
       if (discount <= 0) {
-        toast({ title: "No discount", description: "This coupon does not offer a discount on this plan.", variant: "destructive" });
+        toast({ title: "Not applicable", description: "This code is not applicable to the Live Projects plan.", variant: "destructive" });
         return;
       }
       setApplied({ code: code.toUpperCase(), discountPercent: result.discount_percent || 0, discountFixed: result.discount_amount || 0, discount });
       toast({ title: "Coupon applied", description: `You save ₹${discount.toLocaleString("en-IN")} on the Live Projects plan.` });
     } catch (e: any) {
-      toast({ title: "Could not apply coupon", description: e.message, variant: "destructive" });
+      toast({ title: "Not applicable", description: "This code is not applicable to the Live Projects plan.", variant: "destructive" });
     } finally {
       setCouponLoading(false);
     }
