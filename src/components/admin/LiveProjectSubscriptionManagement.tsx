@@ -2,7 +2,7 @@ import { format } from "date-fns";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { useAdminLPSubscriptions, useUpdateLPSubscription, type LPStatus } from "@/hooks/useLiveProjectSubscription";
+import { useAdminLPSubscriptions, useResendLPActivationEmail, useUpdateLPSubscription, type LPStatus } from "@/hooks/useLiveProjectSubscription";
 import { toast } from "@/hooks/use-toast";
 import { Copy } from "lucide-react";
 
@@ -17,6 +17,7 @@ const label: Record<LPStatus, string> = {
 const LiveProjectSubscriptionManagement = () => {
   const { data, isLoading } = useAdminLPSubscriptions();
   const update = useUpdateLPSubscription();
+  const resendEmail = useResendLPActivationEmail();
 
   const copy = (code: string) => {
     navigator.clipboard.writeText(code);
@@ -89,7 +90,10 @@ const LiveProjectSubscriptionManagement = () => {
                         </>
                       )}
                       {s.status === "active" && (
-                        <Button size="sm" variant="outline" onClick={() => update.mutate({ id: s.id, status: "expired" })}>Expire</Button>
+                        <>
+                          <Button size="sm" variant="outline" disabled={resendEmail.isPending} onClick={() => resendEmail.mutate(s.id)}>Resend acknowledgment</Button>
+                          <Button size="sm" variant="outline" onClick={() => update.mutate({ id: s.id, status: "expired" })}>Expire</Button>
+                        </>
                       )}
                     </div>
                   </td>

@@ -117,3 +117,18 @@ export const useUpdateLPSubscription = () => {
     onError: (e: Error) => toast({ title: "Update failed", description: e.message, variant: "destructive" }),
   });
 };
+
+export const useResendLPActivationEmail = () => {
+  return useMutation({
+    mutationFn: async (subscriptionId: string) => {
+      const { data, error } = await supabase.functions.invoke("notify-lp-activation", {
+        body: { subscription_id: subscriptionId },
+      });
+      if (error) throw new Error(error.message || "Could not send the acknowledgment email.");
+      if (!data?.success) throw new Error(data?.error || "Could not send the acknowledgment email.");
+      return data;
+    },
+    onSuccess: () => toast({ title: "Acknowledgment email sent" }),
+    onError: (error: Error) => toast({ title: "Email could not be sent", description: error.message, variant: "destructive" }),
+  });
+};

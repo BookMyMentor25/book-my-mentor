@@ -30,13 +30,18 @@ Deno.serve(async (req) => {
     const id = typeof body.subscription_id === "string" && /^[0-9a-f-]{36}$/i.test(body.subscription_id) ? body.subscription_id : null;
     if (!id) return json({ error: "Invalid subscription_id" }, 400);
 
-    const { data: sub } = await admin.from("live_project_subscriptions").select("*").eq("id", id).maybeSingle();
+    const { data: sub, error: subscriptionError } = await admin.from("live_project_subscriptions").select("*").eq("id", id).maybeSingle();
+    if (subscriptionError) throw new Error("Could not load the subscription.");
     if (!sub) return json({ error: "Not found" }, 404);
     if (sub.status !== "active") return json({ error: "Subscription is not active" }, 400);
 
     const { data: codeRow } = await admin.from("live_project_access_codes").select("code").eq("user_id", sub.user_id).maybeSingle();
     const code = codeRow?.code || "";
     if (!code) return json({ error: "No Project Accessible Code found for this member" }, 400);
+
+    const { data: authUser, error: authUserError } = await admin.auth.admin.getUserById(sub.user_id);
+    const recipientEmail = authUser.user?.email;
+    if (authUserError || !recipientEmail) return json({ error: "Could not find the member's registered email." }, 400);
 
     const RESEND = Deno.env.get("RESEND_API_KEY");
     if (!RESEND) throw new Error("RESEND_API_KEY not set");
@@ -92,7 +97,7 @@ Deno.serve(async (req) => {
             <tr><td style="padding:20px;text-align:center;">
               <div style="font-size:12px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:${MUTED};margin-bottom:8px;">Your Project Accessible Code</div>
               <div class="code" style="font-size:26px;font-weight:800;letter-spacing:3px;color:${PRIMARY};font-family:'Courier New',monospace;">${esc(code)}</div>
-              <div style="font-size:12px;color:${MUTED};margin-top:10px;line-height:1.5;">Works only on your own registered account (${esc(sub.email)}). Please keep it private — sharing or misuse leads to cancellation without refund.</div>
+              <div style="font-size:12px;color:${MUTED};margin-top:10px;line-height:1.5;">Works only on your own registered account (${esc(recipientEmail)}). Please keep it private — sharing or misuse leads to cancellation without refund.</div>
             </td></tr>
           </table>
         </td></tr>
@@ -131,14 +136,19 @@ Deno.serve(async (req) => {
       body: JSON.stringify({
         from: "Book My Mentor <support@bookmymentor.com>",
         reply_to: "info@bookmymentor.com",
-        to: [sub.email],
+        to: [recipientEmail],
         subject: "Payment received — Your Live Projects plan is active",
         html,
       }),
     });
-    if (!send.ok) throw new Error(`Resend error: ${await send.text()}`);
+    if (!send.ok) {
+      console.error("notify-lp-activation email provider rejected the message", { status: send.status, subscription_id: id });
+      return json({ error: "The acknowledgment email could not be delivered. Please try again." }, 502);
+    }
 
-    return json({ success: true, code });
+    const providerResult = await send.json().catch(() => ({}));
+    console.log("notify-lp-activation email sent", { subscription_id: id, email_id: providerResult.id ?? null });
+    return json({ success: true });
   } catch (e) {
     console.error(e);
     return json({ error: (e as Error).message }, 500);
